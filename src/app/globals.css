@@ -7,6 +7,17 @@
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-votopurple-50: oklch(92.86% 0.059 322.51);
+  --color-votopurple-100: oklch(86.39% 0.118 323.18);
+  --color-votopurple-200: oklch(75.02% 0.23 323.64);
+  --color-votopurple-300: oklch(68.12% 0.302 323.41);
+  --color-votopurple-400: oklch(60.28% 0.285 322.81);
+  --color-votopurple-500: oklch(44.62% 0.211 322.48);
+  --color-votopurple-600: oklch(38.62% 0.182 323.07);
+  --color-votopurple-700: oklch(31.71% 0.15 323.28);
+  --color-votopurple-800: oklch(24.11% 0.114 323.59);
+  --color-votopurple-900: oklch(16.15% 0.076 324.41);
+  --color-votopurple-950: oklch(11.58% 0.054 326.35);
 }
 
 :root {
