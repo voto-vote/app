@@ -68,8 +68,8 @@ export default function PollInterface() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-votopurple-50 to-white dark:from-votopurple-950 dark:to-background">
-      <div className="min-h-screen max-w-md mx-auto flex flex-col justify-between gap-6 p-4">
+    <div className="min-h-svh bg-gradient-to-b from-votopurple-50 to-white dark:from-votopurple-950 dark:to-background">
+      <div className="min-h-svh max-w-md mx-auto flex flex-col justify-between gap-6 p-4">
         {/* Header */}
         <div className="space-y-4">
           {/* Navigation */}

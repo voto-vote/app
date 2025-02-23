@@ -3,10 +3,10 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 export default function ShareDrawer() {
   return (
@@ -31,40 +31,43 @@ export default function ShareDrawer() {
         </svg>
       </DrawerTrigger>
       <DrawerContent>
-        <DrawerHeader></DrawerHeader>
-        <div className="space-y-4 text-center p-4">
-          <div className="relative mx-auto w-fit">
-            <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-purple-600 to-purple-400 opacity-75 blur" />
-            <div className="relative rounded-lg border-2 border-purple-200/20 bg-white p-4">
-              <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/grafik-tAvwjugWL8YpxJLTeSOmDuOLgRZcG9.png"
-                alt="QR Code"
-                className="h-48 w-48"
-              />
-              <div className="mt-2 font-mono text-sm font-medium text-purple-700">
-                #29DH27L
+        <DrawerHeader>
+          <DialogTitle className="sr-only">Teilen</DialogTitle>
+        </DrawerHeader>
+        <div className="p-4 flex flex-col gap-4">
+          <div className="space-y-4 text-center p-4">
+            <div className="relative mx-auto w-fit">
+              <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-purple-600 to-purple-400 opacity-75 blur" />
+              <div className="relative rounded-lg border-2 border-purple-200/20 bg-white p-4">
+                <img
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/grafik-tAvwjugWL8YpxJLTeSOmDuOLgRZcG9.png"
+                  alt="QR Code"
+                  className="h-48 w-48"
+                />
+                <div className="mt-2 font-mono text-sm font-medium text-purple-700">
+                  #29DH27L
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <h2 className="text-lg font-semibold">
-              Dein persönlicher VOTO Code
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              Deine Bewertungen sind die nächsten 3 Monate über den obigen Code
-              abrufbar. Du kannst jederzeit weitermachen, wo du aufgehört hast
-              oder Dir Dein Ergebnis erneut ansehen. Dein persönlicher Code ist
-              jederzeit über das QR Code Symbol oben rechts einsehbar.
-            </p>
+            <div className="space-y-2">
+              <h2 className="text-lg font-semibold">
+                Dein persönlicher VOTO Code
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Deine Bewertungen sind die nächsten 3 Monate über den obigen
+                Code abrufbar. Du kannst jederzeit weitermachen, wo du aufgehört
+                hast oder Dir Dein Ergebnis erneut ansehen. Dein persönlicher
+                Code ist jederzeit über den Teilen-Button unten rechts
+                einsehbar.
+              </p>
+            </div>
           </div>
-        </div>
-        <DrawerFooter>
-          <Button>Submit</Button>
-          <DrawerClose>
-            <Button variant="outline">Cancel</Button>
+          <Button>Teilen</Button>
+          <DrawerClose asChild>
+            <Button variant="ghost">Schließen</Button>
           </DrawerClose>
-        </DrawerFooter>
+        </div>
       </DrawerContent>
     </Drawer>
   );

@@ -28,7 +28,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#fbdbff"></meta>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased fixed inset-0`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased fixed inset-0 max-w-screen`}
       >
         {children}
       </body>
