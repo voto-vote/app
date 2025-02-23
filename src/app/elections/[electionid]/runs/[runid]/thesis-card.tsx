@@ -50,7 +50,7 @@ export default function ThesisCard({
               }}
               className={`w-16 h-16 rounded-lg font-medium transition-all transform hover:scale-105 ${
                 rating === value
-                  ? "bg-votopurple-600 text-white shadow-lg scale-105"
+                  ? "bg-votopurple-500 text-white shadow-lg scale-105"
                   : "bg-votopurple-50 text-votopurple-900 hover:bg-votopurple-100 dark:bg-votopurple-900/50 dark:text-votopurple-100 dark:hover:bg-votopurple-800/70"
               }`}
             >
@@ -67,7 +67,7 @@ export default function ThesisCard({
       {/* Action */}
       <Button
         variant="link"
-        className="w-full text-votopurple-600 dark:text-votopurple-400"
+        className="w-full text-votopurple-500 dark:text-votopurple-400"
         onClick={() => onSkip()}
       >
         Überspringen
