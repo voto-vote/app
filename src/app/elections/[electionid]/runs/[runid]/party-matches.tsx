@@ -24,10 +24,7 @@ export default function PartyMatches({ parties }: PartyMatchesProps) {
   return (
     <Card className="gap-3 p-3 bg-white/50 backdrop-blur-sm dark:bg-gray-950/50">
       <div className="flex items-center gap-2">
-        <Badge
-          variant="destructive"
-          className="bg-purple-600 hover:bg-purple-700 h-5 text-xs px-1.5"
-        >
+        <Badge className="bg-votopurple-500 hover:bg-votopurple-700 h-5 text-xs px-1.5">
           LIVE
         </Badge>
         <h3 className="text-xs font-medium text-gray-600 dark:text-gray-300">
