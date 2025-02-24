@@ -7,8 +7,20 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Image from "next/image";
 
 export default function ShareDrawer() {
+  function share() {
+    if (navigator.share) {
+      navigator.share({
+        title: "VOTO",
+        text: "Bewerte die Wahlprogramme und finde heraus, welche Partei am besten zu dir passt.",
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      });
+    }
+  }
+
   return (
     <Drawer>
       <DrawerTrigger className="fixed bottom-6 right-6 rounded-full bg-votopurple-500 text-white p-3">
@@ -34,23 +46,22 @@ export default function ShareDrawer() {
         <DrawerHeader>
           <DialogTitle className="sr-only">Teilen</DialogTitle>
         </DrawerHeader>
-        <div className="p-4 flex flex-col gap-4">
-          <div className="space-y-4 text-center p-4">
-            <div className="relative mx-auto w-fit">
-              <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-purple-600 to-purple-400 opacity-75 blur" />
-              <div className="relative rounded-lg border-2 border-purple-200/20 bg-white p-4">
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/grafik-tAvwjugWL8YpxJLTeSOmDuOLgRZcG9.png"
-                  alt="QR Code"
-                  className="h-48 w-48"
-                />
-                <div className="mt-2 font-mono text-sm font-medium text-purple-700">
-                  #29DH27L
-                </div>
+        <ScrollArea className="max-h-[calc(100svh-12rem)]">
+          <div className="p-4 flex flex-col gap-4">
+            <div className="border-8 rounded-xl border-votopurple-500 mx-auto flex flex-col">
+              <Image
+                src="/qr-code.svg"
+                width={128}
+                height={128}
+                alt="QR Code"
+                className="rounded-xl"
+              />
+              <div className="font-mono text-xl font-extrabold border-t-8 border-votopurple-500 text-center py-1">
+                #29DH27L
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 text-center">
               <h2 className="text-lg font-semibold">
                 Dein persönlicher VOTO Code
               </h2>
@@ -62,12 +73,13 @@ export default function ShareDrawer() {
                 einsehbar.
               </p>
             </div>
+
+            <Button onClick={share}>Teilen</Button>
+            <DrawerClose asChild>
+              <Button variant="ghost">Schließen</Button>
+            </DrawerClose>
           </div>
-          <Button>Teilen</Button>
-          <DrawerClose asChild>
-            <Button variant="ghost">Schließen</Button>
-          </DrawerClose>
-        </div>
+        </ScrollArea>
       </DrawerContent>
     </Drawer>
   );
