@@ -1,11 +1,12 @@
-import { Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronDown, ChevronUp, Info, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ThesisCardProps {
   category: string;
   thesis: string;
+  additionalInformation?: string;
   onRate: (value: number) => void;
   onSkip: () => void;
 }
@@ -13,65 +14,67 @@ interface ThesisCardProps {
 export default function ThesisCard({
   category,
   thesis,
-  onRate,
-  onSkip,
+  additionalInformation = "",
 }: ThesisCardProps) {
-  const [rating, setRating] = useState<number | null>(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <Card className="p-6 m-4 gap-2">
-      <div className="space-y-4">
-        <div className="flex items-start justify-between">
-          <h2 className="text-xl font-semibold text-votopurple-900 dark:text-votopurple-100">
-            {category}
-          </h2>
+    <Card className="p-6 m-4 gap-2 border-none bg-zinc-100 overflow-auto">
+      <div className="flex items-start justify-between">
+        <h2 className="text-gray-600 dark:text-gray-300 leading-relaxed">
+          {category}
+        </h2>
+        <button
+          onClick={() => setIsBookmarked(!isBookmarked)}
+          className="text-votopurple-500 hover:text-votopurple-600 dark:hover:text-votopurple-300 transition-colors"
+        >
+          <Star className={isBookmarked ? "fill-current" : ""} />
+        </button>
+      </div>
+      <p className="text-2xl font-bold text-votopurple-900 dark:text-votopurple-100">
+        {thesis}
+      </p>
+      {additionalInformation && (
+        <div>
           <button
-            onClick={() => setIsBookmarked(!isBookmarked)}
-            className="text-votopurple-500 hover:text-votopurple-600 dark:hover:text-votopurple-300 transition-colors"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center text-votopurple-500 mt-4 focus:outline-none focus:ring-2 focus:ring-votopurple-100 focus:ring-offset-2 rounded-md"
           >
-            <Star className={isBookmarked ? "fill-current" : ""} />
+            <Info className="h-5 w-5 mr-2" />
+            <span>Weitere Informationen</span>
+            {isExpanded ? (
+              <ChevronUp className="h-5 w-5 ml-1" />
+            ) : (
+              <ChevronDown className="h-5 w-5 ml-1" />
+            )}
           </button>
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  height: 0,
+                  marginTop: 0,
+                }}
+                animate={{
+                  opacity: 1,
+                  height: "auto",
+                  marginTop: 16,
+                }}
+                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="p-4 bg-votopurple-50/50 rounded-lg text-sm text-gray-700 space-y-2">
+                  {additionalInformation.split("\n").map((line, index) => (
+                    <p key={index}>{line}</p>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-          {thesis}
-        </p>
-      </div>
-
-      {/* Rating System */}
-      <div className="space-y-4 mt-10">
-        <div className="flex justify-between gap-2">
-          {[1, 2, 3, 4, 5].map((value) => (
-            <button
-              key={value}
-              onClick={() => {
-                setRating(value);
-                onRate(value);
-              }}
-              className={`w-16 h-16 rounded-lg font-medium transition-all transform hover:scale-105 ${
-                rating === value
-                  ? "bg-votopurple-500 text-white shadow-lg scale-105"
-                  : "bg-votopurple-50 text-votopurple-900 hover:bg-votopurple-100 dark:bg-votopurple-900/50 dark:text-votopurple-100 dark:hover:bg-votopurple-800/70"
-              }`}
-            >
-              {value}
-            </button>
-          ))}
-        </div>
-        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 px-2">
-          <span>keine Zustimmung</span>
-          <span>volle Zustimmung</span>
-        </div>
-      </div>
-
-      {/* Action */}
-      <Button
-        variant="link"
-        className="w-full text-votopurple-500 dark:text-votopurple-400"
-        onClick={() => onSkip()}
-      >
-        Überspringen
-      </Button>
+      )}
     </Card>
   );
 }

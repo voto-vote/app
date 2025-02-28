@@ -4,13 +4,17 @@ import {
   DrawerClose,
   DrawerContent,
   DrawerHeader,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
 
-export default function ShareDrawer() {
+interface ShareDrawerProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
+
+export default function ShareDrawer({ open, setOpen }: ShareDrawerProps) {
   function share() {
     if (navigator.share) {
       navigator.share({
@@ -22,33 +26,14 @@ export default function ShareDrawer() {
   }
 
   return (
-    <Drawer>
-      <DrawerTrigger className="fixed bottom-6 right-6 rounded-full bg-votopurple-500 text-white p-3">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <circle cx="18" cy="5" r="3" />
-          <circle cx="6" cy="12" r="3" />
-          <circle cx="18" cy="19" r="3" />
-          <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
-          <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" />
-        </svg>
-      </DrawerTrigger>
+    <Drawer open={open} onOpenChange={setOpen}>
       <DrawerContent>
         <DrawerHeader>
           <DialogTitle className="sr-only">Teilen</DialogTitle>
         </DrawerHeader>
         <ScrollArea className="max-h-[calc(100svh-12rem)]">
           <div className="p-4 flex flex-col gap-4">
-            <div className="border-8 rounded-xl border-votopurple-500 mx-auto flex flex-col">
+            <div className="border-[6px] rounded-xl border-votopurple-500 mx-auto flex flex-col">
               <Image
                 src="/qr-code.svg"
                 width={128}
@@ -56,7 +41,7 @@ export default function ShareDrawer() {
                 alt="QR Code"
                 className="rounded-xl"
               />
-              <div className="font-mono text-xl font-extrabold border-t-8 border-votopurple-500 text-center py-1">
+              <div className="font-mono text-xl font-extrabold border-t-[6px] border-votopurple-500 text-center py-1">
                 #29DH27L
               </div>
             </div>
@@ -69,7 +54,7 @@ export default function ShareDrawer() {
                 Deine Bewertungen sind die nächsten 3 Monate über den obigen
                 Code abrufbar. Du kannst jederzeit weitermachen, wo du aufgehört
                 hast oder Dir Dein Ergebnis erneut ansehen. Dein persönlicher
-                Code ist jederzeit über den Teilen-Button unten rechts
+                Code ist jederzeit über das QR Code Symbol oben rechts
                 einsehbar.
               </p>
             </div>

@@ -9,6 +9,8 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import PartyMatches from "./party-matches";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, Menu, QrCode } from "lucide-react";
 import ShareDrawer from "./share-drawer";
 
 export default function PollInterface() {
@@ -41,6 +43,9 @@ export default function PollInterface() {
       color: "#009ee3",
     },
   ]);
+  const [liveMatchesVisible, setLiveMatchesVisible] = React.useState(true);
+  const [ratings, setRatings] = React.useState<number[]>([]);
+  const [shareDrawerVisible, setShareDrawerVisible] = React.useState(false);
 
   React.useEffect(() => {
     if (!api) {
@@ -68,89 +73,88 @@ export default function PollInterface() {
   }
 
   return (
-    <div className="min-h-svh bg-gradient-to-b from-votopurple-50 to-white dark:from-votopurple-950 dark:to-background">
-      <div className="min-h-svh max-w-md mx-auto flex flex-col justify-between gap-6 p-4">
-        {/* Header */}
-        <div className="space-y-4">
-          {/* Navigation */}
-          <div className="flex items-center justify-between gap-4">
-            <button className="text-votopurple-600 dark:text-votopurple-400 hover:opacity-80 transition-opacity">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <h1 className="text-lg font-medium truncate flex-1">
-              Musterstadt Gemeinderat
+    <div className="min-h-svh max-h-svh max-w-md mx-auto flex flex-col justify-between gap-6 bg-votopurple-50/5">
+      {/* Header */}
+      <header>
+        {/* Navigation Bar */}
+        <div className="bg-votopurple-500 text-white px-4 py-2 grid grid-cols-[4rem_auto_4rem] items-center">
+          <ChevronLeft className="h-6 w-6" />
+          <div className="text-center">
+            <h1>
+              <span className="font-bold">02. MÄRZ</span> 2025
             </h1>
-            <div className="flex items-center gap-4">
-              <button className="text-votopurple-600 dark:text-votopurple-400 hover:opacity-80 transition-opacity">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
+            <p className="text-sm -mt-[0.125rem]">Musterstadt Gemeinderat</p>
           </div>
-          {/* Party Matches */}
-          <PartyMatches parties={parties} />
+          <div className="flex gap-4">
+            <QrCode
+              className="h-6 w-6"
+              onClick={() => setShareDrawerVisible(!shareDrawerVisible)}
+            />
+            <Menu className="h-6 w-6" />
+          </div>
         </div>
 
-        {/* Main Content */}
-        <Carousel setApi={setApi} className="-mx-4" opts={{ align: "center" }}>
-          <CarouselContent>
-            <CarouselItem>
-              <ThesisCard
-                category="Familienpolitik"
-                thesis="In den Volksschulen soll das Familienbild Vater-Mutter-Kind nicht vorrangig vermittelt werden."
-                onRate={goToNext}
-                onSkip={goToNext}
-              />
-            </CarouselItem>
-            <CarouselItem>
-              <ThesisCard
-                category="Klimaschutz"
-                thesis="Deutschland soll Vorbild beim Klimaschutz sein, auch wenn andere Länder nicht mitmachen."
-                onRate={goToNext}
-                onSkip={goToNext}
-              />
-            </CarouselItem>
-            <CarouselItem>
-              <ThesisCard
-                category="Wirtschaft"
-                thesis="Im Burgenland sollen keine weiteren interkommunalen Businessparks auf unbebauten Flächen errichtet werden."
-                onRate={goToNext}
-                onSkip={goToNext}
-              />
-            </CarouselItem>
-          </CarouselContent>
-        </Carousel>
+        {/* Party bars */}
+        <PartyMatches
+          parties={parties}
+          liveMatchesVisible={liveMatchesVisible}
+        />
 
+        {/* Live indicator */}
+        <div
+          className={`flex justify-center transition-all duration-300 ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
+        >
+          <button
+            onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
+            className="px-6 py-1 bg-white border-2 border-votopurple-500 rounded-full text-votopurple-500 font-bold transition-colors hover:bg-votopurple-50 focus:outline-none focus:ring-2 focus:ring-votopurple-100 focus:ring-offset-2"
+          >
+            LIVE
+          </button>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <Carousel setApi={setApi} opts={{ align: "center" }}>
+        <CarouselContent>
+          <CarouselItem>
+            <ThesisCard
+              category="Familienpolitik"
+              thesis="In den Volksschulen soll das Familienbild Vater-Mutter-Kind nicht vorrangig vermittelt werden."
+              additionalInformation={
+                "Die These behandelt, ob das traditionelle Familienbild (Vater-Mutter-Kind) in Volksschulen vorrangig vermittelt werden sollte.\nIn der heutigen Gesellschaft existieren verschiedene Familienformen: Alleinerziehende, Patchwork-Familien und Regenbogenfamilien. Die Debatte bewegt sich zwischen der Wertschätzung traditioneller Familienmodelle und der Anerkennung gesellschaftlicher Vielfalt im Bildungsbereich."
+              }
+              onRate={goToNext}
+              onSkip={goToNext}
+            />
+          </CarouselItem>
+          <CarouselItem>
+            <ThesisCard
+              category="Klimaschutz"
+              thesis="Deutschland soll Vorbild beim Klimaschutz sein, auch wenn andere Länder nicht mitmachen."
+              onRate={goToNext}
+              onSkip={goToNext}
+            />
+          </CarouselItem>
+          <CarouselItem>
+            <ThesisCard
+              category="Wirtschaft"
+              thesis="Im Burgenland sollen keine weiteren interkommunalen Businessparks auf unbebauten Flächen errichtet werden."
+              onRate={goToNext}
+              onSkip={goToNext}
+            />
+          </CarouselItem>
+        </CarouselContent>
+      </Carousel>
+
+      {/* Footer */}
+      <div className="space-y-2 p-4">
         {/* Progress */}
         <div className="space-y-2 p-2">
           <div className="flex justify-center gap-1">
             {Array.from({ length: count }).map((_, i) => (
               <div
                 key={i}
-                className={`w-2 h-2 rounded-full transition ${i === current - 1 ? "bg-votopurple-600" : "bg-votopurple-200 dark:bg-votopurple-800"}`}
+                className={`w-2 h-2 rounded-full transition ${i === current - 1 ? "bg-votopurple-500" : "bg-zinc-300 dark:bg-votopurple-800"}`}
               />
             ))}
           </div>
@@ -158,8 +162,46 @@ export default function PollInterface() {
             {current} / {count}
           </p>
         </div>
+
+        {/* Rating System */}
+        <div className="space-y-2 mt-4">
+          <div className="flex justify-between gap-2">
+            {[1, 2, 3, 4, 5].map((value) => (
+              <button
+                key={value}
+                onClick={() => {
+                  const newRatings = [...ratings];
+                  newRatings[current] = value;
+                  setRatings(newRatings);
+                  goToNext();
+                }}
+                className={`w-16 h-16 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
+                  ratings[current] === value
+                    ? "bg-votopurple-500 text-white shadow-lg scale-105"
+                    : "bg-zinc-100 text-votopurple-500 hover:bg-zinc-200 dark:bg-votopurple-900/50 dark:text-votopurple-100 dark:hover:bg-votopurple-800/70"
+                }`}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
+          <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 px-2">
+            <span>keine Zustimmung</span>
+            <span>volle Zustimmung</span>
+          </div>
+        </div>
+
+        {/* Action */}
+        <Button
+          variant="link"
+          className="w-full text-votopurple-500 dark:text-votopurple-400"
+          onClick={goToNext}
+        >
+          Überspringen
+        </Button>
       </div>
-      <ShareDrawer />
+
+      <ShareDrawer open={shareDrawerVisible} setOpen={setShareDrawerVisible} />
     </div>
   );
 }
