@@ -147,7 +147,7 @@ export default function PollInterface() {
       </Carousel>
 
       {/* Footer */}
-      <div className="shrink-0 space-y-2 p-4">
+      <div className="shrink-0 space-y-2 px-4 pb-4">
         {/* Progress */}
         <div className="space-y-2 p-2">
           <div className="flex justify-center gap-1">
