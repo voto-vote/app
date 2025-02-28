@@ -73,7 +73,7 @@ export default function PollInterface() {
   }
 
   return (
-    <div className="min-h-svh max-h-svh max-w-md mx-auto flex flex-col justify-between gap-6 bg-votopurple-50/5">
+    <div className="min-h-svh max-h-svh max-w-md mx-auto flex flex-col justify-between bg-votopurple-50/5">
       {/* Header */}
       <header>
         {/* Navigation Bar */}

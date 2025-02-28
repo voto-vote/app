@@ -20,7 +20,7 @@ export default function ThesisCard({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <Card className="p-6 m-4 gap-2 border-none bg-zinc-100 overflow-auto">
+    <Card className="p-6 m-4 gap-2 border-none bg-zinc-100 overflow-auto max-h-[40svh]">
       <div className="flex items-start justify-between">
         <h2 className="text-gray-600 dark:text-gray-300 leading-relaxed">
           {category}
