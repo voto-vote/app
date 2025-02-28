@@ -25,10 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="theme-color" content="#fbdbff"></meta>
+        <meta name="theme-color" content="#860196"></meta>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased fixed inset-0 max-w-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased fixed overflow-hidden max-w-screen`}
       >
         {children}
       </body>
