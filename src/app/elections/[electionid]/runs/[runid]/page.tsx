@@ -75,7 +75,7 @@ export default function PollInterface() {
   return (
     <div className="min-h-svh max-h-svh max-w-md mx-auto flex flex-col justify-between bg-votopurple-50/5">
       {/* Header */}
-      <header>
+      <header className="shrink-0">
         {/* Navigation Bar */}
         <div className="bg-votopurple-500 text-white px-4 py-2 grid grid-cols-[4rem_auto_4rem] items-center">
           <ChevronLeft className="h-6 w-6" />
@@ -114,7 +114,7 @@ export default function PollInterface() {
       </header>
 
       {/* Main Content */}
-      <Carousel setApi={setApi} opts={{ align: "center" }}>
+      <Carousel setApi={setApi} className="overflow-auto">
         <CarouselContent>
           <CarouselItem>
             <ThesisCard
@@ -147,7 +147,7 @@ export default function PollInterface() {
       </Carousel>
 
       {/* Footer */}
-      <div className="space-y-2 p-4">
+      <div className="shrink-0 space-y-2 p-4">
         {/* Progress */}
         <div className="space-y-2 p-2">
           <div className="flex justify-center gap-1">
