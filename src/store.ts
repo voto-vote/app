@@ -13,6 +13,7 @@ type Election = {
   location: string;
   date: Date;
   theses: Thesis[];
+  thesesPerBreak: number;
 };
 
 type StoreState = {
@@ -60,4 +61,5 @@ setElection({
         "Im Burgenland sollen keine weiteren interkommunalen Businessparks auf unbebauten Flächen errichtet werden.",
     },
   ],
+  thesesPerBreak: 2,
 });
