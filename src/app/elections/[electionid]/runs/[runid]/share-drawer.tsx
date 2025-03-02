@@ -7,20 +7,46 @@ import {
 } from "@/components/ui/drawer";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import Image from "next/image";
+import { create } from "zustand";
+import QRCode from "qrcode";
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "next/navigation";
 
-interface ShareDrawerProps {
+interface ShareDrawerState {
   open: boolean;
-  setOpen: (open: boolean) => void;
 }
 
-export default function ShareDrawer({ open, setOpen }: ShareDrawerProps) {
+type ShareDrawerActions = {
+  setOpen: (open: boolean) => void;
+  toggleOpen: () => void;
+};
+
+type ShareDrawerStore = ShareDrawerState & ShareDrawerActions;
+
+export const useShareDrawerStore = create<ShareDrawerStore>((set) => ({
+  open: false,
+  setOpen: (open) => set({ open }),
+  toggleOpen: () => set((state) => ({ open: !state.open })),
+}));
+
+export default function ShareDrawer() {
+  const { open, setOpen } = useShareDrawerStore();
+
+  const params = useParams<{ electionid: string; runid: string }>();
+  const [url, setUrl] = useState<string>();
+
+  useEffect(() => {
+    setUrl(
+      `${window.location.origin}/elections/${params.electionid}/runs/${params.runid}/result`
+    );
+  }, [params.electionid, params.runid]);
+
   function share() {
     if (navigator.share) {
       navigator.share({
         title: "VOTO",
         text: "Bewerte die Wahlprogramme und finde heraus, welche Partei am besten zu dir passt.",
-        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        url,
       });
     }
   }
@@ -33,18 +59,14 @@ export default function ShareDrawer({ open, setOpen }: ShareDrawerProps) {
         </DrawerHeader>
         <ScrollArea className="max-h-[calc(100svh-12rem)]">
           <div className="p-4 flex flex-col gap-4">
-            <div className="border-[6px] rounded-xl border-votopurple-500 mx-auto flex flex-col">
-              <Image
-                src="/qr-code.svg"
-                width={128}
-                height={128}
-                alt="QR Code"
-                className="rounded-xl"
-              />
-              <div className="font-mono text-xl font-extrabold border-t-[6px] border-votopurple-500 text-center py-1">
-                #29DH27L
+            {url && params.runid && (
+              <div className="border-[6px] rounded-xl border-votopurple-500 mx-auto flex flex-col">
+                <QRCodeCanvas url={url} />
+                <div className="font-mono text-xl font-extrabold border-t-[6px] border-votopurple-500 text-center py-1">
+                  #{params.runid.toUpperCase()}
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="space-y-2 text-center">
               <h2 className="text-lg font-semibold">
@@ -68,4 +90,17 @@ export default function ShareDrawer({ open, setOpen }: ShareDrawerProps) {
       </DrawerContent>
     </Drawer>
   );
+}
+
+function QRCodeCanvas({ url }: { url: string }) {
+  const canvas = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (!canvas.current) return;
+    QRCode.toCanvas(canvas.current, url, {
+      width: 128,
+    });
+  }, [url]);
+
+  return <canvas ref={canvas} className="rounded-xl"></canvas>;
 }
