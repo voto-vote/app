@@ -2,9 +2,7 @@
 
 import { useStore } from "@/store";
 import { ChevronLeft, Menu, QrCode } from "lucide-react";
-import ShareDrawer, {
-  useShareDrawerStore,
-} from "./elections/[electionid]/runs/[runid]/share-drawer";
+import ShareDrawer, { useShareDrawerStore } from "./share-drawer";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 

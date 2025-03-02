@@ -11,6 +11,7 @@ import {
 import PartyMatches from "./party-matches";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
+import BreakDrawer from "./break-drawer";
 
 export default function PollInterface() {
   const [api, setApi] = useState<CarouselApi>();
@@ -44,6 +45,9 @@ export default function PollInterface() {
   ]);
   const [liveMatchesVisible, setLiveMatchesVisible] = useState(true);
   const [ratings, setRatings] = useState<number[]>([]);
+  const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
+
+  const { election } = useStore();
 
   useEffect(() => {
     if (!api) {
@@ -58,22 +62,33 @@ export default function PollInterface() {
     });
   }, [api]);
 
-  function goToNext() {
-    if (current < count) {
-      api?.scrollTo(current);
-    }
-    setParties(
-      parties.map((party) => {
-        party.matchPercentage = Math.floor(Math.random() * 100);
-        return party;
-      })
-    );
-  }
-
-  const { election } = useStore();
-
   if (!election) {
     return null;
+  }
+
+  function goToNext(skipIntermediate = false) {
+    // The timeout makes it possible to highlight the selected rating button before continuing
+    setTimeout(() => {
+      if (
+        !skipIntermediate &&
+        current % (election?.thesesPerBreak ?? -1) === 0
+      ) {
+        setBreakDrawerOpen(true);
+        return;
+      }
+
+      if (current < count) {
+        setCurrent((c) => c + 1);
+        api?.scrollTo(current);
+      }
+
+      setParties((p) =>
+        p.map((party) => {
+          party.matchPercentage = Math.floor(Math.random() * 100);
+          return party;
+        })
+      );
+    }, 200);
   }
 
   return (
@@ -111,8 +126,8 @@ export default function PollInterface() {
                 category={thesis.category}
                 thesis={thesis.thesis}
                 additionalInformation={thesis.additionalInformation}
-                onRate={goToNext}
-                onSkip={goToNext}
+                onRate={() => goToNext()}
+                onSkip={() => goToNext()}
               />
             </CarouselItem>
           ))}
@@ -168,11 +183,27 @@ export default function PollInterface() {
         <Button
           variant="link"
           className="w-full text-votopurple-500 dark:text-votopurple-400"
-          onClick={goToNext}
+          onClick={() => goToNext()}
         >
           Überspringen
         </Button>
       </div>
+      <BreakDrawer
+        onContinue={() => {
+          setBreakDrawerOpen(false);
+          goToNext(true);
+        }}
+        onSkipToResults={() => {
+          setBreakDrawerOpen(false);
+        }}
+        currentQuestion={current}
+        totalQuestions={count}
+        open={breakDrawerOpen}
+        onOpenChange={(o) => {
+          setBreakDrawerOpen(o);
+          goToNext(true);
+        }}
+      />
     </div>
   );
 }
