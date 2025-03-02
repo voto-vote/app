@@ -20,8 +20,8 @@ export default function ThesisCard({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="h-full flex flex-col justify-center">
-      <Card className="p-6 m-4 gap-2 border-none bg-zinc-100">
+    <div className="h-[100cqh] flex flex-col justify-center">
+      <Card className="p-6 m-4 gap-2 border-none bg-zinc-100 overflow-auto">
         <div className="flex items-start justify-between">
           <h2 className="text-gray-600 dark:text-gray-300 leading-relaxed">
             {category}
@@ -40,7 +40,7 @@ export default function ThesisCard({
           <div>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center text-votopurple-500 mt-4 focus:outline-none focus:ring-2 focus:ring-votopurple-100 focus:ring-offset-2 rounded-md"
+              className="flex items-center text-votopurple-500 mt-4 rounded-md"
             >
               <Info className="h-5 w-5 mr-2" />
               <span>Weitere Informationen</span>

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { useEffect, useState } from "react";
 import ThesisCard from "./thesis-card";
 import {
   Carousel,
@@ -10,14 +10,13 @@ import {
 } from "@/components/ui/carousel";
 import PartyMatches from "./party-matches";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Menu, QrCode } from "lucide-react";
-import ShareDrawer from "./share-drawer";
+import { useStore } from "@/store";
 
 export default function PollInterface() {
-  const [api, setApi] = React.useState<CarouselApi>();
-  const [current, setCurrent] = React.useState(0);
-  const [count, setCount] = React.useState(0);
-  const [parties, setParties] = React.useState([
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+  const [parties, setParties] = useState([
     {
       id: "spd",
       name: "SPD",
@@ -43,11 +42,10 @@ export default function PollInterface() {
       color: "#009ee3",
     },
   ]);
-  const [liveMatchesVisible, setLiveMatchesVisible] = React.useState(true);
-  const [ratings, setRatings] = React.useState<number[]>([]);
-  const [shareDrawerVisible, setShareDrawerVisible] = React.useState(false);
+  const [liveMatchesVisible, setLiveMatchesVisible] = useState(true);
+  const [ratings, setRatings] = useState<number[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!api) {
       return;
     }
@@ -72,29 +70,16 @@ export default function PollInterface() {
     );
   }
 
-  return (
-    <div className="min-h-svh max-h-svh max-w-md mx-auto flex flex-col justify-between bg-votopurple-50/5">
-      {/* Header */}
-      <header className="shrink-0">
-        {/* Navigation Bar */}
-        <div className="bg-votopurple-500 text-white px-4 py-2 grid grid-cols-[4rem_auto_4rem] items-center">
-          <ChevronLeft className="h-6 w-6" />
-          <div className="text-center">
-            <h1>
-              <span className="font-bold">02. MÄRZ</span> 2025
-            </h1>
-            <p className="text-sm -mt-[0.125rem]">Musterstadt Gemeinderat</p>
-          </div>
-          <div className="flex gap-4">
-            <QrCode
-              className="h-6 w-6"
-              onClick={() => setShareDrawerVisible(!shareDrawerVisible)}
-            />
-            <Menu className="h-6 w-6" />
-          </div>
-        </div>
+  const { election } = useStore();
 
-        {/* Party bars */}
+  if (!election) {
+    return null;
+  }
+
+  return (
+    <div className="h-full max-h-full flex flex-col justify-between bg-votopurple-50/5">
+      {/* Live party matches */}
+      <div className="shrink-0">
         <PartyMatches
           parties={parties}
           liveMatchesVisible={liveMatchesVisible}
@@ -106,50 +91,38 @@ export default function PollInterface() {
         >
           <button
             onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
-            className="px-6 py-1 bg-white border-2 border-votopurple-500 rounded-full text-votopurple-500 font-bold transition-colors hover:bg-votopurple-50 focus:outline-none focus:ring-2 focus:ring-votopurple-100 focus:ring-offset-2"
+            className="px-6 py-1 bg-white border-2 border-votopurple-500 rounded-full text-votopurple-500 font-bold transition-colors hover:bg-votopurple-50"
           >
             LIVE
           </button>
         </div>
-      </header>
+      </div>
 
       {/* Main Content */}
-      <Carousel setApi={setApi} className="overflow-auto">
+      <Carousel
+        setApi={setApi}
+        className="grow"
+        style={{ containerType: "size" }}
+      >
         <CarouselContent>
-          <CarouselItem>
-            <ThesisCard
-              category="Familienpolitik"
-              thesis="In den Volksschulen soll das Familienbild Vater-Mutter-Kind nicht vorrangig vermittelt werden."
-              additionalInformation={
-                "Die These behandelt, ob das traditionelle Familienbild (Vater-Mutter-Kind) in Volksschulen vorrangig vermittelt werden sollte.\nIn der heutigen Gesellschaft existieren verschiedene Familienformen: Alleinerziehende, Patchwork-Familien und Regenbogenfamilien. Die Debatte bewegt sich zwischen der Wertschätzung traditioneller Familienmodelle und der Anerkennung gesellschaftlicher Vielfalt im Bildungsbereich."
-              }
-              onRate={goToNext}
-              onSkip={goToNext}
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <ThesisCard
-              category="Klimaschutz"
-              thesis="Deutschland soll Vorbild beim Klimaschutz sein, auch wenn andere Länder nicht mitmachen."
-              onRate={goToNext}
-              onSkip={goToNext}
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <ThesisCard
-              category="Wirtschaft"
-              thesis="Im Burgenland sollen keine weiteren interkommunalen Businessparks auf unbebauten Flächen errichtet werden."
-              onRate={goToNext}
-              onSkip={goToNext}
-            />
-          </CarouselItem>
+          {election.theses.map((thesis) => (
+            <CarouselItem key={thesis.id}>
+              <ThesisCard
+                category={thesis.category}
+                thesis={thesis.thesis}
+                additionalInformation={thesis.additionalInformation}
+                onRate={goToNext}
+                onSkip={goToNext}
+              />
+            </CarouselItem>
+          ))}
         </CarouselContent>
       </Carousel>
 
       {/* Footer */}
       <div className="shrink-0 space-y-2 px-4 pb-4">
         {/* Progress */}
-        <div className="space-y-2 p-2">
+        <div className="space-y-2">
           <div className="flex justify-center gap-1">
             {Array.from({ length: count }).map((_, i) => (
               <div
@@ -200,8 +173,6 @@ export default function PollInterface() {
           Überspringen
         </Button>
       </div>
-
-      <ShareDrawer open={shareDrawerVisible} setOpen={setShareDrawerVisible} />
     </div>
   );
 }
