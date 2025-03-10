@@ -59,11 +59,12 @@ export default function Home() {
   );
 
   return (
-    <div className="h-svh overflow-y-auto">
+    <div>
       <motion.div
         key="timelineheader"
         initial={{ y: 10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.2 }}
         className="m-8"
       >
         <Image
@@ -80,7 +81,7 @@ export default function Home() {
           key={index}
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.2 + index * 0.2 }}
+          transition={{ duration: 0.2, delay: 0.2 + index * 0.2 }}
           className="m-4 relative"
         >
           <div className="flex gap-4">
@@ -89,7 +90,7 @@ export default function Home() {
               <div className="font-bold -mt-1">{date.split(",")[1]}</div>
               <div className="text-sm">{date.split(",")[2]}</div>
             </div>
-            <div className="grow">
+            <div className="grow flex flex-col gap-4">
               {(elections ?? []).map((election, index) => (
                 <div key={index}>
                   <div className="text-xl">{election.type}</div>
@@ -101,8 +102,11 @@ export default function Home() {
                     alt={election.region}
                     height={200}
                     width={200}
-                    className="rounded-lg w-full mt-2"
+                    className="rounded-t-lg w-full mt-2"
                   />
+                  <button className="bg-votopurple-500 text-white px-4 py-2 rounded-b-lg font-semibold w-full">
+                    VOTO öffnen
+                  </button>
                 </div>
               ))}
             </div>
