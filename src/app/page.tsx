@@ -85,17 +85,26 @@ export default function Home() {
           className="m-4 relative"
         >
           <div className="flex gap-4">
-            <div className="flex flex-col text-center leading-none sticky top-0">
-              <div className="font-bold text-2xl">{date.split(",")[0]}</div>
-              <div className="font-bold -mt-1">{date.split(",")[1]}</div>
-              <div className="text-sm">{date.split(",")[2]}</div>
+            <div className="flex flex-col gap-2">
+              <div className="h-fit flex flex-col text-center leading-none sticky top-0 bg-white">
+                <div className="font-bold text-2xl">{date.split(",")[0]}</div>
+                <div className="font-bold -mt-1">{date.split(",")[1]}</div>
+                <div className="text-sm">{date.split(",")[2]}</div>
+              </div>
+              <div className="grow flex flex-col items-center">
+                <div className="bg-black size-[0.375rem] rounded-full"></div>
+                <div className="grow bg-black w-0.5"></div>
+                <div className="bg-black size-[0.375rem] rounded-full"></div>
+              </div>
             </div>
             <div className="grow flex flex-col gap-4">
               {(elections ?? []).map((election, index) => (
                 <div key={index}>
-                  <div className="text-xl">{election.type}</div>
-                  <div className="text-xl font-bold -mt-1.5">
-                    {election.region}
+                  <div className="sticky top-0 bg-white">
+                    <div className="text-xl">{election.type}</div>
+                    <div className="text-xl font-bold -mt-1.5">
+                      {election.region}
+                    </div>
                   </div>
                   <Image
                     src={election.image}
