@@ -1,17 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "./(header)/header";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter();
 
 export const metadata: Metadata = {
   title: "Voto",
@@ -29,10 +21,10 @@ export default function RootLayout({
         <meta name="theme-color" content="#860196"></meta>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-hidden flex flex-col`}
+        className={`${inter.className} h-full antialiased overflow-hidden flex flex-col`}
       >
         <Header />
-        <div className="grow">{children}</div>
+        <div className="grow overflow-y-scroll">{children}</div>
       </body>
     </html>
   );
