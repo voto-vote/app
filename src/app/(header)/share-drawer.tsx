@@ -6,32 +6,16 @@ import {
   DrawerHeader,
 } from "@/components/ui/drawer";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { create } from "zustand";
 import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 
-interface ShareDrawerState {
+interface ShareDrawerProps {
   open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-type ShareDrawerActions = {
-  setOpen: (open: boolean) => void;
-  toggleOpen: () => void;
-};
-
-type ShareDrawerStore = ShareDrawerState & ShareDrawerActions;
-
-export const useShareDrawerStore = create<ShareDrawerStore>((set) => ({
-  open: false,
-  setOpen: (open) => set({ open }),
-  toggleOpen: () => set((state) => ({ open: !state.open })),
-}));
-
-export default function ShareDrawer() {
-  const { open, setOpen } = useShareDrawerStore();
-
+export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
   const params = useParams<{ electionid: string; runid: string }>();
   const [url, setUrl] = useState<string>();
 
@@ -52,12 +36,12 @@ export default function ShareDrawer() {
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent>
-        <DrawerHeader>
-          <DialogTitle className="sr-only">Teilen</DialogTitle>
-        </DrawerHeader>
-        <ScrollArea className="max-h-[calc(100svh-12rem)]">
+        <div className="mx-auto w-full max-w-sm">
+          <DrawerHeader className="sr-only">
+            <DialogTitle>Teilen</DialogTitle>
+          </DrawerHeader>
           <div className="p-4 flex flex-col gap-4">
             {url && params.runid && (
               <div className="border-[6px] rounded-xl border-votopurple-500 mx-auto flex flex-col">
@@ -86,7 +70,7 @@ export default function ShareDrawer() {
               <Button variant="ghost">Schließen</Button>
             </DrawerClose>
           </div>
-        </ScrollArea>
+        </div>
       </DrawerContent>
     </Drawer>
   );

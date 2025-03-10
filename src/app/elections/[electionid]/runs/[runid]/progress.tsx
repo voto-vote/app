@@ -122,7 +122,7 @@ export default function Progress({ total, current, onChange }: ProgressProps) {
   ]);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <div
         ref={progressDotsRef}
         className="flex justify-center gap-1 -mx-4 py-2 touch-none"
