@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Home() {
   const elections = Object.groupBy(
@@ -60,7 +59,7 @@ export default function Home() {
   );
 
   return (
-    <ScrollArea className="h-svh">
+    <div className="h-svh overflow-y-auto">
       <motion.div
         key="timelineheader"
         initial={{ y: 10, opacity: 0 }}
@@ -86,11 +85,9 @@ export default function Home() {
         >
           <div className="flex gap-4">
             <div className="flex flex-col text-center leading-none sticky top-0">
-              <div className="font-bold">{date.split(",")[1]}</div>
-              <div className="font-bold text-2xl -mt-1">
-                {date.split(",")[0]}
-              </div>
-              <div className="text-sm -mt-1.5">{date.split(",")[2]}</div>
+              <div className="font-bold text-2xl">{date.split(",")[0]}</div>
+              <div className="font-bold -mt-1">{date.split(",")[1]}</div>
+              <div className="text-sm">{date.split(",")[2]}</div>
             </div>
             <div className="grow">
               {(elections ?? []).map((election, index) => (
@@ -112,6 +109,6 @@ export default function Home() {
           </div>
         </motion.div>
       ))}
-    </ScrollArea>
+    </div>
   );
 }
