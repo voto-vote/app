@@ -9,7 +9,10 @@ import { useState } from "react";
 import NavigationSheet from "./navigation-sheet";
 
 export default function Header() {
-  const { runid } = useParams<{ runid: string }>();
+  const { electionid, runid } = useParams<{
+    electionid: string;
+    runid: string;
+  }>();
   const { election } = useStore();
   const [shareDrawerOpen, setShareDrawerOpen] = useState(false);
   const [navigationSheetOpen, setNavigationSheetOpen] = useState(false);
@@ -22,24 +25,26 @@ export default function Header() {
           <ChevronLeft className="size-6" onClick={() => router.back()} />
         </button>
       </div>
-      {election && runid /*TODO remove runid if real data is present*/ && (
-        <div className="text-center">
-          <h1>
-            <FormattedDate date={election.date} locale="de" />
-          </h1>
-          <p className="text-sm -mt-[0.25rem]">
-            {election.location} {election.name}
-          </p>
-        </div>
-      )}
+      {election &&
+        electionid /*TODO remove electionid if real data is present*/ && (
+          <div className="text-center">
+            <h1>
+              <FormattedDate date={election.date} locale="de" />
+            </h1>
+            <p className="text-sm -mt-[0.25rem]">
+              {election.location} {election.name}
+            </p>
+          </div>
+        )}
       {
-        /*!election*/ !runid /*TODO remove runid if real data is present*/ && (
+        /*!election*/ !electionid /*TODO remove electionid if real data is present*/ && (
           <Image
             src="/logo-dark.svg"
             alt="Voto"
             className="justify-self-center h-6 my-2"
             width={55}
             height={24}
+            priority
           />
         )
       }

@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const elections = Object.groupBy(
     [
       {
+        id: "1",
         day: "19",
         month: "JAN",
         year: "2025",
@@ -15,6 +17,7 @@ export default function Home() {
         image: "/regions/burgenland.jpg",
       },
       {
+        id: "2",
         day: "24",
         month: "NOV",
         year: "2024",
@@ -23,6 +26,7 @@ export default function Home() {
         image: "/regions/steiermark.jpg",
       },
       {
+        id: "3",
         day: "13",
         month: "OCT",
         year: "2024",
@@ -31,6 +35,7 @@ export default function Home() {
         image: "/regions/vorarlberg.jpg",
       },
       {
+        id: "4",
         day: "13",
         month: "OCT",
         year: "2024",
@@ -39,6 +44,7 @@ export default function Home() {
         image: "/regions/vorarlberg.jpg",
       },
       {
+        id: "5",
         day: "13",
         month: "OCT",
         year: "2024",
@@ -47,6 +53,7 @@ export default function Home() {
         image: "/regions/vorarlberg.jpg",
       },
       {
+        id: "6",
         day: "13",
         month: "OCT",
         year: "2024",
@@ -57,6 +64,7 @@ export default function Home() {
     ],
     ({ day, month, year }) => day + "," + month + "," + year
   );
+  const router = useRouter();
 
   return (
     <div>
@@ -73,9 +81,11 @@ export default function Home() {
           height={219}
           width={500}
           className="w-1/2 mx-auto mb-4"
+          priority
         />
         <h2 className="text-center text-lg font-bold">Wählen einfach machen</h2>
       </motion.div>
+
       {Object.entries(elections).map(([date, elections], index) => (
         <motion.div
           key={index}
@@ -112,8 +122,12 @@ export default function Home() {
                     height={200}
                     width={200}
                     className="rounded-t-lg w-full mt-2"
+                    priority={index < 2}
                   />
-                  <button className="bg-votopurple-500 text-white px-4 py-2 rounded-b-lg font-semibold w-full">
+                  <button
+                    className="bg-votopurple-500 text-white px-4 py-2 rounded-b-lg font-semibold w-full"
+                    onClick={() => router.push(`/elections/${election.id}`)}
+                  >
                     VOTO öffnen
                   </button>
                 </div>
