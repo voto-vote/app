@@ -12,6 +12,8 @@ type Election = {
   name: string;
   location: string;
   date: Date;
+  image: string;
+  locales: string[];
   theses: Thesis[];
   thesesPerBreak: number;
 };
@@ -39,6 +41,8 @@ setElection({
   name: "Gemeinderat",
   location: "Musterstadt",
   date: new Date(2025, 2, 2),
+  image: "/regions/burgenland.jpg",
+  locales: ["de", "de-DE-simple", "en"],
   theses: [
     {
       id: "1",
