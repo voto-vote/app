@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from 'next/font/local'
 import "./globals.css";
 import Header from "./(header)/header";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = localFont({
+  src: './inter.ttf',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Voto",
