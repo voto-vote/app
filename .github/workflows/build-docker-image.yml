@@ -1,14 +1,14 @@
-name: Build Docker Image
+name: 🐋 Build Docker Image
 
 permissions:
   contents: read
   packages: write
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - "main"
-  workflow_dispatch:
 
 jobs:
   build:
@@ -42,6 +42,4 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ steps.package-version.outputs.current-version}}
-          cut-off: 5m
-          account: user
           token: ${{ secrets.GITHUB_TOKEN }}
