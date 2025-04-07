@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
 import BreakDrawer from "./break-drawer";
 import Progress from "./progress";
+import { useBackButton } from "@/contexts/BackButtonContext";
 
 export default function PollInterface() {
   const { election } = useStore();
@@ -49,6 +50,15 @@ export default function PollInterface() {
   const [liveMatchesVisible, setLiveMatchesVisible] = useState(true);
   const [ratings, setRatings] = useState<number[]>([]);
   const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
+  const { setBackPath } = useBackButton();
+
+  useEffect(() => {
+    if (election?.id) {
+      setBackPath(`/elections/${election?.id}`);
+    } else {
+      setBackPath("/");
+    }
+  }, [election?.id, setBackPath]);
 
   useEffect(() => {
     if (!api) {
@@ -91,7 +101,7 @@ export default function PollInterface() {
   }
 
   return (
-    <div className="h-full max-h-full flex flex-col justify-between bg-votopurple-50/5">
+    <div className="h-full max-h-full flex flex-col justify-between bg-votopurple/[2%]">
       {/* Live party matches */}
       <div className="shrink-0">
         <PartyMatches
@@ -103,12 +113,14 @@ export default function PollInterface() {
         <div
           className={`flex justify-center transition-all duration-300 ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
         >
-          <button
-            onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
-            className="px-6 py-1 bg-white border-2 border-votopurple-500 rounded-full text-votopurple-500 font-bold transition-colors hover:bg-votopurple-50"
-          >
-            LIVE
-          </button>
+          <div className="bg-white rounded-full">
+            <button
+              onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
+              className="px-6 py-1 border-2 border-primary rounded-full text-primary font-bold transition-colors hover:bg-votopurple/5"
+            >
+              LIVE
+            </button>
+          </div>
         </div>
       </div>
 
@@ -156,8 +168,8 @@ export default function PollInterface() {
                 }}
                 className={`w-16 h-16 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
                   ratings[current] === value
-                    ? "bg-votopurple-500 text-white shadow-lg scale-105"
-                    : "bg-zinc-100 text-votopurple-500 hover:bg-zinc-200 dark:bg-votopurple-900/50 dark:text-votopurple-100 dark:hover:bg-votopurple-800/70"
+                    ? "bg-primary text-white shadow-lg scale-105"
+                    : "bg-zinc-100 text-primary hover:bg-zinc-200"
                 }`}
               >
                 {value}
@@ -173,7 +185,7 @@ export default function PollInterface() {
         {/* Action */}
         <Button
           variant="link"
-          className="w-full text-votopurple-500 dark:text-votopurple-400"
+          className="w-full text-primary"
           onClick={() => goTo(current + 1)}
         >
           Überspringen

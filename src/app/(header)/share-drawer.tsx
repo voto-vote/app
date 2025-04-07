@@ -44,9 +44,9 @@ export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
           </DrawerHeader>
           <div className="p-4 flex flex-col gap-4">
             {url && params.runid && (
-              <div className="border-[6px] rounded-xl border-votopurple-500 mx-auto flex flex-col">
+              <div className="border-[6px] rounded-xl border-primary mx-auto flex flex-col">
                 <QRCodeCanvas url={url} />
-                <div className="font-mono text-xl font-extrabold border-t-[6px] border-votopurple-500 text-center py-1">
+                <div className="font-mono text-xl font-extrabold border-t-[6px] border-primary text-center py-1">
                   #{params.runid.toUpperCase()}
                 </div>
               </div>

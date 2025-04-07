@@ -28,19 +28,17 @@ export default function ThesisCard({
           </h2>
           <button
             onClick={() => setIsBookmarked(!isBookmarked)}
-            className="text-votopurple-500 hover:text-votopurple-600 dark:hover:text-votopurple-300 transition-colors"
+            className="text-primary hover:brightness-80 transition"
           >
             <Star className={isBookmarked ? "fill-current" : ""} />
           </button>
         </div>
-        <p className="text-2xl font-bold text-votopurple-900 dark:text-votopurple-100">
-          {thesis}
-        </p>
+        <p className="text-2xl font-bold">{thesis}</p>
         {additionalInformation && (
           <div>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center text-votopurple-500 mt-4 rounded-md"
+              className="flex items-center text-primary mt-4 rounded-md"
             >
               <Info className="h-5 w-5 mr-2" />
               <span>Weitere Informationen</span>
@@ -66,7 +64,7 @@ export default function ThesisCard({
                   exit={{ opacity: 0, height: 0, marginTop: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="p-4 bg-votopurple-50/50 rounded-lg text-sm text-gray-700 space-y-2">
+                  <div className="p-4 rounded-lg text-sm text-gray-700 space-y-2">
                     {additionalInformation.split("\n").map((line, index) => (
                       <p key={index}>{line}</p>
                     ))}

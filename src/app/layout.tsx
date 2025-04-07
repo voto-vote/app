@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import localFont from 'next/font/local'
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./(header)/header";
+import { BackButtonProvider } from "@/contexts/BackButtonContext";
 
 const inter = localFont({
-  src: './inter.ttf',
-  display: 'swap',
-})
+  src: "./inter.ttf",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Voto",
@@ -26,8 +27,10 @@ export default function RootLayout({
       <body
         className={`${inter.className} h-full antialiased overflow-hidden flex flex-col`}
       >
-        <Header />
-        <div className="grow overflow-y-scroll">{children}</div>
+        <BackButtonProvider>
+          <Header />
+          <div className="grow overflow-y-scroll">{children}</div>
+        </BackButtonProvider>
       </body>
     </html>
   );

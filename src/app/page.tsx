@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
   const elections = Object.groupBy(
@@ -64,7 +64,6 @@ export default function Home() {
     ],
     ({ day, month, year }) => day + "," + month + "," + year
   );
-  const router = useRouter();
 
   return (
     <div>
@@ -116,20 +115,19 @@ export default function Home() {
                       {election.region}
                     </div>
                   </div>
-                  <Image
-                    src={election.image}
-                    alt={election.region}
-                    height={200}
-                    width={200}
-                    className="rounded-t-lg w-full mt-2"
-                    priority={index < 2}
-                  />
-                  <button
-                    className="bg-votopurple-500 text-white px-4 py-2 rounded-b-lg font-semibold w-full"
-                    onClick={() => router.push(`/elections/${election.id}`)}
-                  >
-                    VOTO öffnen
-                  </button>
+                  <Link href={`/elections/${election.id}`}>
+                    <Image
+                      src={election.image}
+                      alt={election.region}
+                      height={200}
+                      width={200}
+                      className="rounded-t-lg w-full mt-2"
+                      priority={index < 2}
+                    />
+                    <div className="bg-primary text-white text-center px-4 py-2 rounded-b-lg font-semibold w-full">
+                      VOTO öffnen
+                    </div>
+                  </Link>
                 </div>
               ))}
             </div>
