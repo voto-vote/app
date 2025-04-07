@@ -143,7 +143,7 @@ export default function Progress({ total, current, onChange }: ProgressProps) {
           // dotindexprecise = round(dotindex)
           <div
             key={i}
-            className={`size-2 rounded-full transition ${Math.round(Math.abs(translateX - ((total - 1) * 12) / 2) / 12) === i ? "bg-votopurple-500" : "bg-zinc-300 dark:bg-votopurple-800"}`}
+            className={`size-2 rounded-full transition ${Math.round(Math.abs(translateX - ((total - 1) * 12) / 2) / 12) === i ? "bg-primary" : "bg-zinc-300 dark:bg-primary/50"}`}
           />
         ))}
       </div>

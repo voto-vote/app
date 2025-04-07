@@ -7,6 +7,8 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import NavigationSheet from "./navigation-sheet";
+import { useBackButton } from "@/contexts/BackButtonContext";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Header() {
   const { electionid, runid } = useParams<{
@@ -17,47 +19,82 @@ export default function Header() {
   const [shareDrawerOpen, setShareDrawerOpen] = useState(false);
   const [navigationSheetOpen, setNavigationSheetOpen] = useState(false);
   const router = useRouter();
+  const { backPath } = useBackButton();
 
   return (
-    <header className="bg-votopurple-500 text-white p-2 grid grid-cols-[4rem_auto_4rem] items-center">
+    <header className="bg-votopurple text-white p-2 grid grid-cols-[4rem_auto_4rem] items-center overflow-hidden min-h-14">
       <div className="justify-self-start">
-        <button className="p-2 rounded-full hover:bg-votopurple-600 transition-colors">
-          <ChevronLeft className="size-6" onClick={() => router.back()} />
+        <button className="p-2 rounded-full hover:bg-primary/50 transition-colors">
+          <ChevronLeft
+            className="size-6"
+            onClick={() => (backPath ? router.push(backPath) : router.back())}
+          />
         </button>
       </div>
-      {election &&
-        electionid /*TODO remove electionid if real data is present*/ && (
-          <div className="text-center">
-            <h1>
-              <FormattedDate date={election.date} locale="de" />
-            </h1>
-            <p className="text-sm -mt-[0.25rem]">
-              {election.location} {election.name}
-            </p>
-          </div>
-        )}
-      {
-        /*!election*/ !electionid /*TODO remove electionid if real data is present*/ && (
-          <Image
-            src="/logo-dark.svg"
-            alt="Voto"
-            className="justify-self-center h-6 my-2"
-            width={55}
-            height={24}
-            priority
-          />
-        )
-      }
+      <div className="relative h-full">
+        <AnimatePresence mode="sync">
+          {election &&
+            electionid /*TODO remove electionid if real data is present*/ && (
+              <motion.div
+                key="election-info"
+                className="absolute inset-0 text-center mt-1"
+                initial={{ y: 50 }}
+                animate={{ y: 0 }}
+                exit={{ y: 50 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <div className="-mt-[0.25rem]">
+                  <FormattedDate date={election.date} locale="de" />
+                </div>
+                <p className="text-xs -mt-[0.25rem]">
+                  {election.location} {election.name}
+                </p>
+              </motion.div>
+            )}
+          {
+            /*!election*/ !electionid /*TODO remove electionid if real data is present*/ && (
+              <motion.div
+                key="logo"
+                className="absolute top-0 bottom-0 left-1/2 -translate-x-[50%]"
+                initial={{ y: -50 }}
+                animate={{ y: 0 }}
+                exit={{ y: -50 }}
+                transition={{
+                  duration: 0.5,
+                  transition: { ease: "easeOut" },
+                }}
+              >
+                <Image
+                  src="/logo-dark.svg"
+                  alt="Voto"
+                  className="h-6 my-2"
+                  width={55}
+                  height={24}
+                  priority
+                />
+              </motion.div>
+            )
+          }
+        </AnimatePresence>
+      </div>
       <div className="flex gap-1 justify-self-end">
-        {runid && (
-          <button className="p-2 rounded-full hover:bg-votopurple-600 transition-colors">
-            <QrCode
-              className="size-6"
-              onClick={() => setShareDrawerOpen(true)}
-            />
-          </button>
-        )}
-        <button className="p-2 rounded-full hover:bg-votopurple-600 transition-colors">
+        <AnimatePresence mode="wait">
+          {runid && (
+            <motion.button
+              className="p-2 rounded-full hover:bg-primary/50 transition-colors"
+              initial={{ y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <QrCode
+                className="size-6"
+                onClick={() => setShareDrawerOpen(true)}
+              />
+            </motion.button>
+          )}
+        </AnimatePresence>
+        <button className="p-2 rounded-full hover:bg-primary/50 transition-colors">
           <Menu
             className="size-6"
             onClick={() => setNavigationSheetOpen(true)}
@@ -87,7 +124,7 @@ function FormattedDate({
   // Get the individual parts of the date
   const formatter = new Intl.DateTimeFormat(locale, {
     year: "numeric",
-    month: "long",
+    month: "2-digit",
     day: "2-digit",
   });
 
@@ -98,10 +135,7 @@ function FormattedDate({
     <span>
       {parts.map((part, index) => {
         return (
-          <span
-            key={index}
-            className={`${part.type !== "year" ? "font-bold" : ""} ${part.type === "month" ? "uppercase" : ""}`}
-          >
+          <span key={index} className="font-bold uppercase text-xs">
             {part.value}
           </span>
         );
