@@ -101,7 +101,7 @@ export default function PollInterface() {
   }
 
   return (
-    <div className="h-full max-h-full flex flex-col justify-between bg-votopurple/[2%]">
+    <div className="h-full max-h-full flex flex-col justify-between">
       {/* Live party matches */}
       <div className="shrink-0">
         <PartyMatches
