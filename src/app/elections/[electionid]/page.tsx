@@ -131,7 +131,7 @@ export default function Home() {
         </motion.div>
 
         {/* Language Selection */}
-        <motion.div className="place-self-center" variants={itemVariants}>
+        <motion.div className="self-center" variants={itemVariants}>
           Sprache:
         </motion.div>
         <motion.div variants={itemVariants}>
@@ -168,7 +168,7 @@ export default function Home() {
             <Button
               size={"lg"}
               className="w-full text-lg transition"
-              onClick={() => router.push(`/elections/${election.id}/runs/1`)}
+              onClick={() => router.push(`/elections/${election.id}/intro`)}
             >
               Start
             </Button>
