@@ -1,7 +1,5 @@
+import { connection } from "next/server";
 import { z } from "zod";
-
-export const apiBaseUrl =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.voto.vote/v2";
 
 export const ElectionSchema = z.object({
   id: z.string(),
@@ -12,6 +10,12 @@ export const ElectionSchema = z.object({
 });
 export type Election = z.infer<typeof ElectionSchema>;
 export async function getElections(): Promise<Election[]> {
+  // Because the elections can change, do not prerender this function
+  await connection();
+
+  const apiBaseUrl =
+    process.env.VOTO_APP_API_BASE_URL || "https://api.voto.vote/v2";
+
   const res = await fetch(`${apiBaseUrl}/elections`);
 
   if (!res.ok) {
