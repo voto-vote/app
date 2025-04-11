@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       new URL("https://app.voto.vote/**"),
       new URL("https://app.voto.dev/**"),
+      new URL("https://votoprod.appspot.com.storage.googleapis.com/**"),
     ],
   },
 };

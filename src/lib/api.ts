@@ -34,15 +34,20 @@ export async function getElectionSummaries(): Promise<ElectionSummary[]> {
   }
 }
 
-export const ElectionSurveySchema = z.object({
-  enabled: z.boolean(),
-  endpoint: z.string().url(),
-  frequency: z.number(),
-  title: z.string(),
-  description: z.string(),
-  yes: z.string(),
-  no: z.string(),
-});
+export const ElectionSurveySchema = z.union([
+  z.object({
+    enabled: z.literal(false),
+  }),
+  z.object({
+    enabled: z.literal(true),
+    endpoint: z.string().url(),
+    frequency: z.number(),
+    title: z.string(),
+    description: z.string(),
+    yes: z.string(),
+    no: z.string(),
+  }),
+]);
 export const ElectionSchema = z.object({
   id: z.string(),
   date: z.string().date(),
@@ -60,13 +65,21 @@ export const ElectionSchema = z.object({
     })
   ),
   launchDate: z.string().date(),
-  status: z.enum(["draft", "published", "archived"]), // TODO
+  status: z.enum([
+    "created",
+    "in-progress",
+    "ready-to-launch",
+    "live",
+    "deactivated",
+  ]),
   private: z.boolean(),
-  intro: z.object({
-    image: z.string().url(),
-    title: z.string(),
-    description: z.string(),
-  }),
+  intro: z.array(
+    z.object({
+      image: z.string().url(),
+      title: z.string(),
+      description: z.string(),
+    })
+  ),
   matchFields: z.array(
     z.object({
       type: z.enum(["district", "description", "list", "website"]),
@@ -89,7 +102,7 @@ export const ElectionSchema = z.object({
     logo: z.string().url(),
     primary: z.string(),
   }),
-  faq: z.array(
+  faqs: z.array(
     z.object({
       question: z.string(),
       answer: z.string(),
