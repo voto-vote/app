@@ -1,7 +1,7 @@
 import { getElectionSummaries } from "@/lib/api";
 import ElectionList from "@/app/(elections)/election-list";
 
-export default async function Home() {
+export default async function ElectionListPage() {
   const electionSummaries = await getElectionSummaries();
 
   return <ElectionList electionSummaries={electionSummaries} />;
