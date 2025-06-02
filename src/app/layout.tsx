@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./(header)/header";
-import { BackButtonProvider } from "@/contexts/BackButtonContext";
+import { ElectionStoreManager } from "@/components/election-store-manager";
 
 const inter = localFont({
   src: "./inter.ttf",
@@ -27,10 +27,9 @@ export default function RootLayout({
       <body
         className={`${inter.className} h-full antialiased overflow-hidden flex flex-col`}
       >
-        <BackButtonProvider>
-          <Header />
-          <div className="grow overflow-y-scroll">{children}</div>
-        </BackButtonProvider>
+        <ElectionStoreManager />
+        <Header />
+        <div className="grow overflow-y-scroll">{children}</div>
       </body>
     </html>
   );

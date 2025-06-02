@@ -1,7 +1,9 @@
+"use server";
+
 import { connection } from "next/server";
 import { z } from "zod";
 
-export const ElectionSummarySchema = z.object({
+const ElectionSummarySchema = z.object({
   id: z.string(),
   date: z.string().date(),
   title: z.string(),
@@ -9,14 +11,14 @@ export const ElectionSummarySchema = z.object({
   image: z.string().url(),
 });
 export type ElectionSummary = z.infer<typeof ElectionSummarySchema>;
-export async function getElectionSummaries(): Promise<ElectionSummary[]> {
+export async function fetchElectionSummaries(): Promise<ElectionSummary[]> {
   // Because the elections can change, do not prerender this function
   await connection();
 
   const apiBaseUrl =
     process.env.VOTO_APP_API_BASE_URL || "https://api.voto.vote/v2";
 
-  const res = await fetch(`${apiBaseUrl}/elections`);
+  const res = await fetch(`${apiBaseUrl}/elections`, { cache: "force-cache" });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch elections: ${res.status}`);
@@ -34,7 +36,7 @@ export async function getElectionSummaries(): Promise<ElectionSummary[]> {
   }
 }
 
-export const ElectionSurveySchema = z.union([
+const ElectionSurveySchema = z.union([
   z.object({
     enabled: z.literal(false),
   }),
@@ -48,7 +50,7 @@ export const ElectionSurveySchema = z.union([
     no: z.string(),
   }),
 ]);
-export const ElectionSchema = z.object({
+const ElectionSchema = z.object({
   id: z.string(),
   date: z.string().date(),
   title: z.string(),
@@ -111,14 +113,16 @@ export const ElectionSchema = z.object({
   disableLiveVotes: z.boolean(),
 });
 export type Election = z.infer<typeof ElectionSchema>;
-export async function getElection(id: string): Promise<Election> {
+export async function fetchElection(id: string): Promise<Election> {
   // Because the elections can change, do not prerender this function
   await connection();
 
   const apiBaseUrl =
     process.env.VOTO_APP_API_BASE_URL || "https://api.voto.vote/v2";
 
-  const res = await fetch(`${apiBaseUrl}/elections/${id}`);
+  const res = await fetch(`${apiBaseUrl}/elections/${id}`, {
+    cache: "force-cache",
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch elections: ${res.status}`);

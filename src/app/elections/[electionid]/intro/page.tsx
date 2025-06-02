@@ -7,15 +7,15 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useBackButton } from "@/contexts/BackButtonContext";
 import { useStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useBackButtonStore } from "@/stores/back-button-store";
 
 export default function Intro() {
   const { election } = useStore();
-  const { setBackPath } = useBackButton();
+  const setBackPath = useBackButtonStore((state) => state.setBackPath);
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [api, setApi] = useState<CarouselApi>();

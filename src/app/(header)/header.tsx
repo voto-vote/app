@@ -1,28 +1,27 @@
 "use client";
 
-import { useStore } from "@/store";
 import { ChevronLeft, Menu, QrCode } from "lucide-react";
 import ShareDrawer from "./share-drawer";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import NavigationSheet from "./navigation-sheet";
-import { useBackButton } from "@/contexts/BackButtonContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import Link from "next/link";
+import { useBackButtonStore } from "@/stores/back-button-store";
+import { useElectionStore } from "@/stores/election-store";
 
 export default function Header() {
-  const { electionid, runid } = useParams<{
-    electionid: string;
+  const { runid } = useParams<{
     runid: string;
   }>();
-  const { election } = useStore();
+  const backPath = useBackButtonStore((state) => state.backPath);
   const [shareDrawerOpen, setShareDrawerOpen] = useState(false);
   const [navigationSheetOpen, setNavigationSheetOpen] = useState(false);
   const router = useRouter();
-  const { backPath } = useBackButton();
   const isDesktop = useBreakpoint("md");
+  const election = useElectionStore((state) => state.election);
 
   return (
     <header className="bg-votopurple text-white">
@@ -37,10 +36,10 @@ export default function Header() {
         </div>
         {isDesktop && (
           <div
-            className={`relative h-full flex items-center ${electionid ? "justify-between" : "justify-center"}`}
+            className={`relative h-full flex items-center ${election ? "justify-between" : "justify-center"}`}
           >
             <AnimatePresence mode="popLayout">
-              {election && electionid && (
+              {election && (
                 <motion.div
                   key="election-info"
                   initial={{ opacity: 0, x: -20, width: "0" }}
@@ -49,26 +48,26 @@ export default function Header() {
                   transition={{ duration: 0.5 }}
                 >
                   <Link
-                    href={`/elections/${electionid}`}
+                    href={`/elections/${election.id}`}
                     className="flex gap-8 items-center"
                   >
                     <div>
                       <div className="font-bold text-lg leading-none">
-                        {election.date.toLocaleDateString(undefined, {
+                        {new Date(election.date).toLocaleDateString(undefined, {
                           day: "2-digit",
                           month: "2-digit",
                         })}
                       </div>
                       <div className="text-sm leading-none">
-                        {election.date.getFullYear()}
+                        {new Date(election.date).getFullYear()}
                       </div>
                     </div>
                     <div>
                       <div className="font-bold text-lg leading-none">
-                        {election.location}
+                        {election.title}
                       </div>
                       <div className="text-sm leading-none">
-                        {election.name}
+                        {election.subtitle}
                       </div>
                     </div>
                   </Link>
@@ -101,52 +100,53 @@ export default function Header() {
             className={`relative h-full flex items-center justify-center transition-all`}
           >
             <AnimatePresence mode="sync">
-              {election &&
-                electionid /*TODO remove electionid if real data is present*/ && (
-                  <motion.div
-                    key="election-info"
-                    className="absolute inset-0 text-center mt-1"
-                    initial={{ y: 50 }}
-                    animate={{ y: 0 }}
-                    exit={{ y: 50 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                  >
-                    <Link href={`/elections/${electionid}`}>
-                      <div className="-mt-[0.25rem]">
-                        <FormattedDate date={election.date} locale="de" />
-                      </div>
-                      <p className="text-xs -mt-[0.25rem]">
-                        {election.location} {election.name}
-                      </p>
-                    </Link>
-                  </motion.div>
-                )}
-              {
-                /*!election*/ !electionid /*TODO remove electionid if real data is present*/ && (
-                  <motion.div
-                    key="logo"
-                    className="absolute top-0 bottom-0 left-1/2 -translate-x-[50%]"
-                    initial={{ y: -50 }}
-                    animate={{ y: 0 }}
-                    exit={{ y: -50 }}
-                    transition={{
-                      duration: 0.5,
-                      transition: { ease: "easeOut" },
-                    }}
-                  >
-                    <Link href="/">
-                      <Image
-                        src="/logo-dark.svg"
-                        alt="Voto"
-                        className="h-6 my-2"
-                        width={55}
-                        height={24}
-                        priority
-                      />
-                    </Link>
-                  </motion.div>
-                )
-              }
+              {election && (
+                <motion.div
+                  key="election-info"
+                  className="absolute inset-0 text-center mt-1"
+                  initial={{ y: 50 }}
+                  animate={{ y: 0 }}
+                  exit={{ y: 50 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                  <Link href={`/elections/${election.id}`}>
+                    <div className="-mt-[0.25rem] font-bold text-xs">
+                      {new Date(election.date).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      })}
+                    </div>
+                    <p className="text-xs -mt-[0.25rem]">
+                      {election.title} {election.subtitle}
+                    </p>
+                  </Link>
+                </motion.div>
+              )}
+              {!election && (
+                <motion.div
+                  key="logo"
+                  className="absolute top-0 bottom-0 left-1/2 -translate-x-[50%]"
+                  initial={{ y: -50 }}
+                  animate={{ y: 0 }}
+                  exit={{ y: -50 }}
+                  transition={{
+                    duration: 0.5,
+                    transition: { ease: "easeOut" },
+                  }}
+                >
+                  <Link href="/">
+                    <Image
+                      src="/logo-dark.svg"
+                      alt="Voto"
+                      className="h-6 my-2"
+                      width={55}
+                      height={24}
+                      priority
+                    />
+                  </Link>
+                </motion.div>
+              )}
             </AnimatePresence>
           </div>
         )}
@@ -181,39 +181,5 @@ export default function Header() {
         onOpenChange={setNavigationSheetOpen}
       />
     </header>
-  );
-}
-
-function FormattedDate({
-  date,
-  locale = "en-US",
-}: {
-  date: string | Date;
-  locale?: string;
-}) {
-  if (!date) return null;
-
-  const dateObj = new Date(date);
-
-  // Get the individual parts of the date
-  const formatter = new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-
-  const parts = formatter.formatToParts(dateObj);
-
-  // Create JSX elements with bold formatting for day and month and uppercase for month
-  return (
-    <span>
-      {parts.map((part, index) => {
-        return (
-          <span key={index} className="font-bold uppercase text-xs">
-            {part.value}
-          </span>
-        );
-      })}
-    </span>
   );
 }
