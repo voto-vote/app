@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useStore } from "@/store";
 import BreakDrawer from "./break-drawer";
 import Progress from "./progress";
-import { useBackButton } from "@/contexts/BackButtonContext";
+import { useBackButtonStore } from "@/stores/back-button-store";
 
 export default function PollInterface() {
   const { election } = useStore();
@@ -50,7 +50,7 @@ export default function PollInterface() {
   const [liveMatchesVisible, setLiveMatchesVisible] = useState(true);
   const [ratings, setRatings] = useState<number[]>([]);
   const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
-  const { setBackPath } = useBackButton();
+  const setBackPath = useBackButtonStore((state) => state.setBackPath);
 
   useEffect(() => {
     if (election?.id) {
