@@ -1,6 +1,6 @@
 "use client";
 
-import type { ElectionSummary } from "@/lib/api";
+import type { ElectionSummary } from "@/actions/election-actions";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
