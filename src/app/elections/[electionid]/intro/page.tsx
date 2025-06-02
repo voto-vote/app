@@ -3,14 +3,14 @@
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
-  CarouselApi,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
 import { useStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useBackButtonStore } from "@/stores/back-button-store";
 
 export default function Intro() {
@@ -104,126 +104,134 @@ export default function Intro() {
     api?.scrollTo(currentPage + 1);
   }
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { type: "spring", stiffness: 300, damping: 24 },
-    },
-  };
-
-  const videoVariants = {
-    hidden: { scale: 0.8, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 20,
-        duration: 0.5,
-      },
-    },
-  };
-
   return (
-    <div className="h-full max-h-full flex flex-col justify-between">
-      {/* Tutorial */}
+    <div className="container mx-auto flex flex-col h-full max-h-full bg-gradient-to-b from-background to-background/80">
+      {/* Carousel */}
       <Carousel
         setApi={setApi}
-        className="grow"
-        style={{ containerType: "size" }}
+        className="flex-1 overflow-y-auto"
+        opts={{
+          loop: false,
+          align: "center",
+        }}
       >
-        <CarouselContent>
-          {pages.map((page, index) => (
-            <CarouselItem key={index}>
-              <motion.div
-                className="space-y-4 text-xl my-4 p-4"
-                initial="hidden"
-                animate="visible"
-                variants={containerVariants}
-              >
+        <CarouselContent className="h-full">
+          <AnimatePresence mode="wait">
+            {pages.map((page, index) => (
+              <CarouselItem key={index} className="h-full">
                 <motion.div
-                  className="rounded-lg overflow-hidden aspect-square w-3/4 grid place-items-center mx-auto bg-white"
-                  variants={videoVariants}
+                  className="flex flex-col h-full p-4 md:p-8 space-y-4 md:space-y-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <video autoPlay muted loop playsInline preload="none">
-                    <source src={page.animation} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+                  {/* Video Container */}
+                  <motion.div
+                    className="relative w-full max-w-60 mx-auto aspect-square rounded-2xl overflow-hidden bg-white shadow-lg"
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 20,
+                      delay: 0.2,
+                    }}
+                  >
+                    <video
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="none"
+                      className="w-full h-full object-cover"
+                    >
+                      <source src={page.animation} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </motion.div>
+
+                  {/* Content */}
+                  <div className="flex-1 flex flex-col justify-center space-y-3 md:space-y-4 max-w-2xl mx-auto px-2">
+                    <motion.h1
+                      className="text-2xl md:text-3xl font-bold text-center"
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.3, duration: 0.5 }}
+                    >
+                      {page.title}
+                    </motion.h1>
+
+                    <motion.div
+                      className="text-base md:text-lg text-muted-foreground text-center"
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.4, duration: 0.5 }}
+                    >
+                      {page.description}
+                    </motion.div>
+                  </div>
                 </motion.div>
-                <motion.h1 className="font-bold mt-6" variants={itemVariants}>
-                  {page.title}
-                </motion.h1>
-                <motion.div variants={itemVariants}>
-                  {page.description}
-                </motion.div>
-              </motion.div>
-            </CarouselItem>
-          ))}
+              </CarouselItem>
+            ))}
+          </AnimatePresence>
         </CarouselContent>
       </Carousel>
 
       {/* Footer */}
       <motion.div
-        className="shrink-0 space-y-2 p-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        className="p-4 md:p-8 space-y-4 border-t border-border/30 bg-background/80 backdrop-blur-sm"
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
       >
-        <div className="flex justify-center gap-3 mb-3">
+        {/* Progress Indicators */}
+        <div className="flex justify-center gap-1 mb-4">
           {pages.map((_, index) => (
-            <motion.div
+            <motion.button
               key={index}
-              className={`rounded-full size-3 transition`}
-              initial={false}
-              animate={{
-                scale: currentPage === index ? 1.2 : 1,
-                backgroundColor:
-                  currentPage === index ? "var(--primary)" : "#d4d4d8",
-              }}
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              className="relative p-1 focus:outline-none"
               onClick={() => api?.scrollTo(index)}
-            ></motion.div>
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.div
+                className={`size-2.5 md:size-3 rounded-full transition-colors ${currentPage === index ? "bg-primary" : "bg-zinc-300 hover:bg-primary/75"}`}
+                initial={false}
+                animate={{
+                  scale: currentPage === index ? 1.1 : 1,
+                }}
+              />
+            </motion.button>
           ))}
         </div>
 
-        {/* Primary Action */}
-        <motion.div whileTap={{ scale: 0.98 }}>
-          <Button size="lg" className="w-full text-lg" onClick={goToNextPage}>
-            Weiter
-          </Button>
-        </motion.div>
+        {/* Actions */}
+        <div className="flex flex-col space-y-3 max-w-md mx-auto">
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Button
+              size="lg"
+              className="w-full text-base font-medium"
+              onClick={goToNextPage}
+            >
+              Weiter
+            </Button>
+          </motion.div>
 
-        {/* Secondary Action */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <Button
-            variant="link"
-            className="w-full text-primary"
-            onClick={() => router.push(`/elections/${election.id}/runs/1`)}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
           >
-            VOTO starten
-          </Button>
-        </motion.div>
+            <Button
+              variant="ghost"
+              className="w-full text-primary hover:text-primary/80 text-sm"
+              onClick={() => router.push(`/elections/${election.id}/runs/1`)}
+            >
+              VOTO starten
+            </Button>
+          </motion.div>
+        </div>
       </motion.div>
     </div>
   );

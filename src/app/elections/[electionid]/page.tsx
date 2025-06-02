@@ -82,7 +82,7 @@ export default function Election() {
         <div className="grid grid-cols-[minmax(0,_1fr)_minmax(0,_3fr)] md:grid-cols-12 gap-4 md:gap-6 lg:gap-8">
           {/* Date and Title */}
           <motion.div
-            className="flex flex-col leading-tight mr-6 md:col-span-2"
+            className="flex flex-col leading-tight md:col-span-2 lg:col-span-1"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{
               opacity: 1,
@@ -105,7 +105,7 @@ export default function Election() {
           </motion.div>
 
           <motion.div
-            className="flex flex-col leading-tight justify-center md:col-span-6"
+            className="flex flex-col leading-tight justify-center md:col-span-5 lg:col-span-6"
             variants={itemVariants}
           >
             <div className="text-xl md:text-2xl font-bold">
@@ -116,12 +116,18 @@ export default function Election() {
 
           {/* Language Selection */}
           <motion.div
-            className="self-center md:col-span-4 md:text-lg flex gap-4 items-center"
+            className="self-center md:col-span-2 lg:col-span-1"
             variants={itemVariants}
           >
-            Sprache:
+            <div className="md:text-lg">Sprache:</div>
+          </motion.div>
+
+          <motion.div
+            className="self-center md:col-span-3 lg:col-span-4 md:text-lg flex gap-4 items-center"
+            variants={itemVariants}
+          >
             <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger>
                 <SelectValue placeholder="Deutsch" />
               </SelectTrigger>
               <SelectContent>
@@ -136,7 +142,7 @@ export default function Election() {
 
           {/* Start Button */}
           <motion.div
-            className="col-span-2 md:col-span-4 md:col-start-9"
+            className="col-span-2 md:col-span-5 md:col-start-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{
               opacity: 1,

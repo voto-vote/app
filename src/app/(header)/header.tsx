@@ -97,27 +97,27 @@ export default function Header() {
         )}
         {!isDesktop && (
           <div
-            className={`relative h-full flex items-center justify-center transition-all`}
+            className={`h-full flex items-center justify-center transition-all`}
           >
-            <AnimatePresence mode="sync">
+            <AnimatePresence mode="wait">
               {election && (
                 <motion.div
                   key="election-info"
-                  className="absolute inset-0 text-center mt-1"
+                  className="grid place-items-center text-center"
                   initial={{ y: 50 }}
                   animate={{ y: 0 }}
                   exit={{ y: 50 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
                 >
                   <Link href={`/elections/${election.id}`}>
-                    <div className="-mt-[0.25rem] font-bold text-xs">
+                    <div className="font-bold text-xs leading-none">
                       {new Date(election.date).toLocaleDateString(undefined, {
                         year: "numeric",
                         month: "2-digit",
                         day: "2-digit",
                       })}
                     </div>
-                    <p className="text-xs -mt-[0.25rem]">
+                    <p className="text-xs leading-none">
                       {election.title} {election.subtitle}
                     </p>
                   </Link>
@@ -126,7 +126,7 @@ export default function Header() {
               {!election && (
                 <motion.div
                   key="logo"
-                  className="absolute top-0 bottom-0 left-1/2 -translate-x-[50%]"
+                  className="grid place-items-center"
                   initial={{ y: -50 }}
                   animate={{ y: 0 }}
                   exit={{ y: -50 }}
@@ -139,7 +139,7 @@ export default function Header() {
                     <Image
                       src="/logo-dark.svg"
                       alt="Voto"
-                      className="h-6 my-2"
+                      className="h-6"
                       width={55}
                       height={24}
                       priority
