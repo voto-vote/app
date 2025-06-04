@@ -1,4 +1,13 @@
-import { useEffect, useRef, useState, MouseEvent, TouchEvent } from "react";
+"use client";
+
+import { useBreakpoint } from "@/hooks/use-breakpoint";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+  type TouchEvent,
+} from "react";
 
 interface ProgressProps {
   total: number;
@@ -11,8 +20,9 @@ export default function Progress({ total, current, onChange }: ProgressProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const progressDotsRef = useRef<HTMLDivElement>(null);
+  const isDesktop = useBreakpoint("md");
 
-  const dotWidth = 10; // Width of a dot in pixels
+  const dotWidth = isDesktop ? 12 : 10; // Width of a dot in pixels
   const dotSpacing = 6; // Spacing between dots in pixels
 
   // Calculate min and max translateX values (from the center of the progress dots)
@@ -153,7 +163,16 @@ export default function Progress({ total, current, onChange }: ProgressProps) {
               width: `${dotWidth}px`,
               height: `${dotWidth}px`,
             }}
-            className={`rounded-full transition ${Math.round(Math.abs(translateX - ((total - 1) * (dotWidth + dotSpacing)) / 2) / (dotWidth + dotSpacing)) === i ? "bg-primary" : "bg-zinc-300 dark:bg-primary/50"}`}
+            className={`rounded-full transition ${
+              Math.round(
+                Math.abs(
+                  translateX - ((total - 1) * (dotWidth + dotSpacing)) / 2
+                ) /
+                  (dotWidth + dotSpacing)
+              ) === i
+                ? "bg-primary scale-110"
+                : "bg-zinc-300 dark:bg-primary/50"
+            }`}
           />
         ))}
       </div>
