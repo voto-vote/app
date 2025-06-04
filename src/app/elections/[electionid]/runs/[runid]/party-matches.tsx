@@ -25,7 +25,11 @@ export default function PartyMatches({
 
   return (
     <div
-      className={`grid grid-cols-4 gap-2 transition-all duration-300 ease-in-out overflow-hidden ${liveMatchesVisible ? "p-4 pt-2 border-b opacity-100 max-h-24" : "opacity-0 max-h-0 p-0 border-b-0"}`}
+      className={`grid grid-cols-4 gap-2 transition-all duration-300 ease-in-out overflow-hidden md:max-w-3xl md:mx-auto ${
+        liveMatchesVisible
+          ? "p-4 pt-2 border-b opacity-100 max-h-24"
+          : "opacity-0 max-h-0 p-0 border-b-0"
+      }`}
     >
       {topParties.map((party) => (
         <motion.div key={party.id} className="space-y-1" layout>

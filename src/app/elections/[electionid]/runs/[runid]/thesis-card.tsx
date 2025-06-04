@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronDown, ChevronUp, Info, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
@@ -21,7 +23,7 @@ export default function ThesisCard({
 
   return (
     <div className="h-[100cqh] flex flex-col justify-center">
-      <Card className="p-6 m-4 gap-2 border-none bg-zinc-100 overflow-auto">
+      <Card className="p-6 m-4 gap-2 border-none bg-zinc-100 overflow-auto md:max-w-3xl md:mx-auto md:shadow-md">
         <div className="flex items-start justify-between">
           <h2 className="text-gray-600 dark:text-gray-300 leading-relaxed">
             {category}
@@ -64,7 +66,7 @@ export default function ThesisCard({
                   exit={{ opacity: 0, height: 0, marginTop: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="p-4 rounded-lg text-sm text-gray-700 space-y-2">
+                  <div className="p-2 rounded-lg text-sm text-gray-700 space-y-2">
                     {additionalInformation.split("\n").map((line, index) => (
                       <p key={index}>{line}</p>
                     ))}

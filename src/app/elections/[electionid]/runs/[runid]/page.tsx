@@ -101,7 +101,7 @@ export default function PollInterface() {
   }
 
   return (
-    <div className="h-full max-h-full flex flex-col justify-between">
+    <div className="h-full max-h-full flex flex-col justify-between max-w-4xl mx-auto">
       {/* Live party matches */}
       <div className="shrink-0">
         <PartyMatches
@@ -111,7 +111,7 @@ export default function PollInterface() {
 
         {/* Live indicator */}
         <div
-          className={`flex justify-center transition-all duration-300 ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
+          className={`fixed left-1/2 -translate-x-1/2 z-10 transition-all duration-300 ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
         >
           <div className="bg-white rounded-full">
             <button
@@ -155,7 +155,7 @@ export default function PollInterface() {
         />
 
         {/* Rating System */}
-        <div className="space-y-2 mt-4">
+        <div className="space-y-2 mt-4 md:max-w-lg md:mx-auto">
           <div className="flex justify-between gap-2">
             {[1, 2, 3, 4, 5].map((value) => (
               <button
@@ -166,7 +166,7 @@ export default function PollInterface() {
                   setRatings(newRatings);
                   goTo(current + 1);
                 }}
-                className={`w-16 h-16 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
+                className={`size-16 md:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
                   ratings[current] === value
                     ? "bg-primary text-white shadow-lg scale-105"
                     : "bg-zinc-100 text-primary hover:bg-zinc-200"
