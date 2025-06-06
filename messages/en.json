@@ -1,0 +1,41 @@
+{
+  "Metadata": {
+    "title": "VOTO - Voting made easy",
+    "description": "Evaluate the election manifestos and find out which party suits you best."
+  },
+  "ShareDrawer": {
+    "systemModalDescription": "Evaluate the election manifestos and find out which party suits you best.",
+    "screenReaderDrawerTitle": "Share",
+    "title": "Your personal VOTO code",
+    "description": "Your ratings can be accessed for the next 3 months using the code above. You can continue where you left off at any time or view your results again. Your personal code is always accessible via the QR code icon in the top right corner.",
+    "shareButton": "Share",
+    "closeButton": "Close"
+  },
+  "Elections": {
+    "tagline": "Voting made easy",
+    "openElectionsButton": "Open VOTO"
+  },
+  "Election": {
+    "languageSelector": "Language:",
+    "placeholderLanguageSelect": "Select language",
+    "startVotoButton": "Start VOTO",
+    "informationsTitle": "Informations",
+    "sponsorsTitle": "Cooperation partners & sponsors"
+  },
+  "Intro": {
+    "nextButton": "Next",
+    "startVotoButton": "Start VOTO"
+  },
+  "PollInterface": {
+    "liveMatchesToggle": "LIVE",
+    "ratingSystemFullAgreement": "full agreement",
+    "ratingSystemExplanation": "no agreement",
+    "continueButton": "Skip"
+  },
+  "ThesisCard": {
+    "moreInfos": "Additional informations"
+  },
+  "BreakDrawer": {
+    "title": "Stopover"
+  }
+}
