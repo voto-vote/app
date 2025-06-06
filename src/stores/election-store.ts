@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Election } from "@/actions/election-actions";
+import { Election } from "@/schemas/election";
 
 type State = {
   election: Election | undefined;
