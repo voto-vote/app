@@ -3,9 +3,10 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
+  DrawerTitle,
 } from "@/components/ui/drawer";
-import { DialogTitle } from "@radix-ui/react-dialog";
 import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
@@ -42,7 +43,10 @@ export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader className="sr-only">
-            <DialogTitle>{t("screenReaderDrawerTitle")}</DialogTitle>
+            <DrawerTitle>{t("screenReaderDrawerTitle")}</DrawerTitle>
+            <DrawerDescription className="sr-only">
+              {t("title")}
+            </DrawerDescription>
           </DrawerHeader>
           <div className="p-4 flex flex-col gap-4">
             {url && params.runid && (
