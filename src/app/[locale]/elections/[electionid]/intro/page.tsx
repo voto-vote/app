@@ -73,7 +73,7 @@ export default function Intro() {
         }}
       >
         <CarouselContent className="h-full">
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             {election.intro.map((intro, index) => (
               <CarouselItem key={index} className="h-full">
                 <motion.div

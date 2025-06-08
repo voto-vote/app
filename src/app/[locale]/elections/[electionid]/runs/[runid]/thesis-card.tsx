@@ -6,6 +6,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Thesis } from "@/schemas/thesis";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
 
 interface ThesisCardProps {
   thesis: Thesis;
@@ -26,26 +27,29 @@ export default function ThesisCard({ thesis }: ThesisCardProps) {
           </h2>
           <button
             onClick={() => setIsBookmarked(!isBookmarked)}
-            className="text-primary hover:brightness-80 transition"
+            className="text-primary hover:brightness-80 transition-all"
           >
-            <Star className={isBookmarked ? "fill-current" : ""} />
+            <Star
+              className={`duration-150 ${isBookmarked ? "fill-current" : "fill-transparent hover:fill-current/25"}`}
+            />
           </button>
         </div>
         <p className="text-2xl font-bold">{thesis.text}</p>
         {thesis.additionalInfos && (
           <div>
-            <button
+            <Button
+              variant={"ghost"}
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center text-primary mt-4 rounded-md"
+              className="text-primary hover:text-primary hover:bg-accent-foreground/5 transition-colors -ml-3"
             >
-              <Info className="h-5 w-5 mr-2" />
-              <span>{t("moreInfos")}</span>
+              <Info className="size-5" />
+              {t("moreInfos")}
               {isExpanded ? (
-                <ChevronUp className="h-5 w-5 ml-1" />
+                <ChevronUp className="size-5" />
               ) : (
-                <ChevronDown className="h-5 w-5 ml-1" />
+                <ChevronDown className="size-5" />
               )}
-            </button>
+            </Button>
             <AnimatePresence>
               {isExpanded && (
                 <motion.div
