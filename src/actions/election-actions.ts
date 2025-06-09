@@ -28,8 +28,13 @@ export async function fetchElectionSummaries(): Promise<ElectionSummary[]> {
   if (result.success) {
     return result.data;
   } else {
-    console.error("API response validation failed:", result.error.errors);
-    throw new Error(`Invalid API response format: ${result.error.message}`);
+    console.error(
+      "Election Summaries API response validation failed:",
+      result.error.message
+    );
+    throw new Error(
+      `Invalid Election Summaries API response format: ${result.error.message}`
+    );
   }
 }
 
@@ -55,8 +60,13 @@ export async function fetchElection(id: string): Promise<Election> {
   if (result.success) {
     return result.data;
   } else {
-    console.error("API response validation failed:", result.error.errors);
-    throw new Error(`Invalid API response format: ${result.error.message}`);
+    console.error(
+      "Election API response validation failed:",
+      result.error.message
+    );
+    throw new Error(
+      `Invalid Election API response format: ${result.error.message}`
+    );
   }
 }
 
@@ -88,7 +98,12 @@ export async function fetchTheses(
   if (result.success) {
     return result.data;
   } else {
-    console.error("API response validation failed:", result.error.errors);
-    throw new Error(`Invalid API response format: ${result.error.message}`);
+    console.error(
+      "Theses API response validation failed:",
+      result.error.message
+    );
+    throw new Error(
+      `Invalid Theses API response format: ${result.error.message}`
+    );
   }
 }

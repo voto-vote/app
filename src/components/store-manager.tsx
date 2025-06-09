@@ -20,8 +20,12 @@ export function ElectionStoreManager() {
       const isElectionsRoute = pathname.startsWith("/elections/");
 
       if (isElectionsRoute && electionid) {
-        const election = await fetchElection(electionid);
-        const theses = await fetchTheses(electionid, locale);
+        const electionPromise = fetchElection(electionid);
+        const thesesPromise = fetchTheses(electionid, locale);
+        const [election, theses] = await Promise.all([
+          electionPromise,
+          thesesPromise,
+        ]);
         setElection(election);
         setTheses(theses);
       } else {
