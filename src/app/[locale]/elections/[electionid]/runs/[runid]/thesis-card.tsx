@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Thesis } from "@/schemas/thesis";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import Markdown from "@/components/markdown";
+import ThesisText from "@/app/[locale]/elections/[electionid]/runs/[runid]/thesis-text";
 
 interface ThesisCardProps {
   thesis: Thesis;
@@ -34,7 +36,7 @@ export default function ThesisCard({ thesis }: ThesisCardProps) {
             />
           </button>
         </div>
-        <p className="text-2xl font-bold">{thesis.text}</p>
+        <ThesisText thesis={thesis} />
         {thesis.additionalInfos && (
           <div>
             <Button
@@ -67,9 +69,7 @@ export default function ThesisCard({ thesis }: ThesisCardProps) {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="p-2 rounded-lg text-sm text-gray-700 space-y-2">
-                    {thesis.additionalInfos.split("\n").map((line, index) => (
-                      <p key={index}>{line}</p>
-                    ))}
+                    <Markdown content={thesis.additionalInfos} />
                   </div>
                 </motion.div>
               )}
