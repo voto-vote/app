@@ -88,7 +88,7 @@ export default function PollInterface() {
 
     // The timeout makes it possible to highlight the selected rating button before continuing
     setTimeout(() => {
-      if (!skipBreak && index % (theses!.length / 2) === 0) {
+      if (!skipBreak && index % Math.round(theses!.length / 2) === 0) {
         setBreakDrawerOpen(true);
         return;
       }
