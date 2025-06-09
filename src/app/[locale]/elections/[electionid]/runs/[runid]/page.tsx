@@ -133,67 +133,69 @@ export default function PollInterface() {
       )}
 
       {/* Main Content */}
-      <Carousel
-        setApi={setApi}
-        className="grow"
-        style={{ containerType: "size" }}
-      >
-        <CarouselContent>
-          {theses.map((thesis) => (
-            <CarouselItem key={thesis.id}>
-              <ThesisCard thesis={thesis} />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
-
-      {/* Footer */}
-      <div className="shrink-0 space-y-2 px-4 pb-4">
-        {/* Progress */}
-        <Progress
-          current={current}
-          total={count}
-          onChange={(p) => goTo(p, true)}
-        />
-
-        {/* Rating System */}
-        <div className="space-y-2 mt-4 md:max-w-lg md:mx-auto">
-          <div className="flex justify-between gap-2">
-            {[1, 2, 3, 4, 5]
-              .slice(0, election.algorithm.decisions)
-              .map((value) => (
-                <button
-                  key={value}
-                  onClick={() => {
-                    const newRatings = [...ratings];
-                    newRatings[current] = value;
-                    setRatings(newRatings);
-                    goTo(current + 1);
-                  }}
-                  className={`size-16 md:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
-                    ratings[current] === value
-                      ? "bg-primary text-white shadow-lg scale-105"
-                      : "bg-zinc-100 text-primary hover:bg-zinc-200"
-                  }`}
-                >
-                  {value}
-                </button>
-              ))}
-          </div>
-          <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 px-2">
-            <span>{t("ratingSystemExplanation")}</span>
-            <span>{t("ratingSystemFullAgreement")}</span>
-          </div>
-        </div>
-
-        {/* Action */}
-        <Button
-          variant="link"
-          className="w-full text-primary"
-          onClick={() => goTo(current + 1)}
+      <div className="grow flex flex-col">
+        <Carousel
+          setApi={setApi}
+          className="grow md:grow-0 md:h-1/2"
+          style={{ containerType: "size" }}
         >
-          {t("continueButton")}
-        </Button>
+          <CarouselContent>
+            {theses.map((thesis) => (
+              <CarouselItem key={thesis.id}>
+                <ThesisCard thesis={thesis} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+
+        {/* Footer */}
+        <div className="shrink-0 space-y-2 px-4 pb-4">
+          {/* Progress */}
+          <Progress
+            current={current}
+            total={count}
+            onChange={(p) => goTo(p, true)}
+          />
+
+          {/* Rating System */}
+          <div className="space-y-2 mt-4 md:max-w-lg md:mx-auto">
+            <div className="flex justify-between gap-2">
+              {[1, 2, 3, 4, 5]
+                .slice(0, election.algorithm.decisions)
+                .map((value) => (
+                  <button
+                    key={value}
+                    onClick={() => {
+                      const newRatings = [...ratings];
+                      newRatings[current] = value;
+                      setRatings(newRatings);
+                      goTo(current + 1);
+                    }}
+                    className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
+                      ratings[current] === value
+                        ? "bg-primary text-white shadow-lg scale-105"
+                        : "bg-zinc-100 text-primary hover:bg-zinc-200"
+                    }`}
+                  >
+                    {value}
+                  </button>
+                ))}
+            </div>
+            <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 px-2">
+              <span>{t("ratingSystemExplanation")}</span>
+              <span>{t("ratingSystemFullAgreement")}</span>
+            </div>
+          </div>
+
+          {/* Action */}
+          <Button
+            variant="link"
+            className="w-full text-primary"
+            onClick={() => goTo(current + 1)}
+          >
+            {t("continueButton")}
+          </Button>
+        </div>
       </div>
       <BreakDrawer
         onContinue={() => {
