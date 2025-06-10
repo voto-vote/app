@@ -150,11 +150,13 @@ export default function Election() {
                 <SelectValue placeholder={t("placeholderLanguageSelect")} />
               </SelectTrigger>
               <SelectContent>
-                {routing.locales.map((locale) => (
-                  <SelectItem key={locale} value={locale}>
-                    {translateLocale(locale, locale)}
-                  </SelectItem>
-                ))}
+                {routing.locales
+                  .filter((l) => election.locales.includes(l))
+                  .map((locale) => (
+                    <SelectItem key={locale} value={locale}>
+                      {translateLocale(locale, locale)}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </motion.div>

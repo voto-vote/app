@@ -12,14 +12,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { useThesesStore } from "@/stores/theses-store";
 import { useElectionStore } from "@/stores/election-store";
 import Markdown from "@/components/markdown";
 import Image from "next/image";
 
 export default function Intro() {
   const { election } = useElectionStore();
-  const { theses } = useThesesStore();
   const { setBackPath } = useBackButtonStore();
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(0);
@@ -48,15 +46,15 @@ export default function Intro() {
 
   useEffect(() => {
     if (election?.intro.length === 0) {
-      router.push(`/elections/${election?.id}/runs/1`);
+      router.push(`/elections/${election?.id}/theses`);
     }
   }, [election?.id, election?.intro.length, router]);
 
-  if (!election || !theses) return null;
+  if (!election) return null;
 
   function goToNextPage() {
     if (currentPage >= election!.intro.length - 1) {
-      return router.push(`/elections/${election?.id}/runs/1`);
+      return router.push(`/elections/${election?.id}/theses`);
     }
     api?.scrollTo(currentPage + 1);
   }
@@ -180,7 +178,7 @@ export default function Intro() {
             <Button
               variant="ghost"
               className="w-full text-primary hover:text-primary/80 text-sm"
-              onClick={() => router.push(`/elections/${election.id}/runs/1`)}
+              onClick={() => router.push(`/elections/${election.id}/theses`)}
             >
               {t("startVotoButton")}
             </Button>
