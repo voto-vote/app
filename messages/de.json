@@ -5,7 +5,7 @@
   },
   "ShareDrawer": {
     "systemModalDescription": "Bewerte die Wahlprogramme und finde heraus, welche Partei am besten zu dir passt.",
-    "screenReaderDrawerTitle": "Teilen",
+    "screenReaderTitle": "Teilen",
     "title": "Dein persönlicher VOTO Code",
     "description": "Deine Bewertungen sind die nächsten 3 Monate über den obigen Code abrufbar. Du kannst jederzeit weitermachen, wo du aufgehört hast oder Dir Dein Ergebnis erneut ansehen. Dein persönlicher Code ist jederzeit über das QR Code Symbol oben rechts einsehbar.",
     "shareButton": "Teilen",
@@ -36,6 +36,12 @@
     "moreInfos": "Weitere Informationen"
   },
   "BreakDrawer": {
-    "title": "Zwischenstopp"
+    "title": "Zwischenstopp",
+    "skipToResults": "Abkürzung zum Ergebnis",
+    "continue": "Weiter",
+    "titleSkip": "Schneller zum Ergebnis",
+    "titleContinue": "Weitermachen",
+    "descriptionSkip": "Du hast {completedTheses, plural, =1 {# Aussage} other {# Aussagen}} erledigt und kannst nun direkt zum Ergebnis springen, wobei das Ergebnis weniger genau sein wird.",
+    "descriptionContinue": "Um die Berechnung zu verbessern, kannst du {remainingTheses, plural, =1 {# weitere These} other {# weitere Thesen}} beantworten. Dein Ergebnis wird genauer und Du weißt über noch mehr Themen Bescheid."
   }
 }

@@ -3,27 +3,24 @@
 import { ChevronLeft, Menu, QrCode } from "lucide-react";
 import ShareDrawer from "./share-drawer";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { useState } from "react";
 import NavigationSheet from "./navigation-sheet";
 import { AnimatePresence, motion } from "framer-motion";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import { useElectionStore } from "@/stores/election-store";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 
 export default function Header() {
-  const { runid } = useParams<{
-    runid: string;
-  }>();
-  const backPath = useBackButtonStore((state) => state.backPath);
+  const { backPath } = useBackButtonStore();
   const [shareDrawerOpen, setShareDrawerOpen] = useState(false);
   const [navigationSheetOpen, setNavigationSheetOpen] = useState(false);
   const router = useRouter();
   const isDesktop = useBreakpoint("md");
-  const election = useElectionStore((state) => state.election);
+  const { election } = useElectionStore();
   const locale = useLocale();
+  const pathname = usePathname();
 
   return (
     <header className="bg-votopurple text-white">
@@ -156,7 +153,7 @@ export default function Header() {
         )}
         <div className="flex gap-1 justify-self-end">
           <AnimatePresence mode="wait">
-            {runid && (
+            {pathname.match(/\/elections\/.+?\/results.*/) && (
               <motion.button
                 className="p-2 rounded-full hover:bg-primary/50 transition-colors"
                 initial={{ y: -10, opacity: 0 }}

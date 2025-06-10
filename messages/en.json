@@ -5,7 +5,7 @@
   },
   "ShareDrawer": {
     "systemModalDescription": "Evaluate the election manifestos and find out which party suits you best.",
-    "screenReaderDrawerTitle": "Share",
+    "screenReaderTitle": "Share",
     "title": "Your personal VOTO code",
     "description": "Your ratings can be accessed for the next 3 months using the code above. You can continue where you left off at any time or view your results again. Your personal code is always accessible via the QR code icon in the top right corner.",
     "shareButton": "Share",
@@ -36,6 +36,12 @@
     "moreInfos": "Additional informations"
   },
   "BreakDrawer": {
-    "title": "Stopover"
+    "title": "Stopover",
+    "skipToResults": "Skip to results",
+    "continue": "Continue",
+    "titleSkip": "Faster to the result",
+    "titleContinue": "Continue",
+    "descriptionSkip": "You have completed {completedTheses, plural, =1 {# statement} other {# statements}} and can now jump directly to the result, although the result may be less accurate.",
+    "descriptionContinue": "To improve the calculation, you can answer {remainingTheses, plural, =1 {# more thesis} other {# more theses}}. Your result will be more accurate and you'll learn more about different topics."
   }
 }

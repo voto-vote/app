@@ -8,7 +8,7 @@ import { Thesis } from "@/schemas/thesis";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Markdown from "@/components/markdown";
-import ThesisText from "@/app/[locale]/elections/[electionid]/runs/[runid]/thesis-text";
+import ThesisText from "@/app/[locale]/elections/[electionid]/theses/thesis-text";
 
 interface ThesisCardProps {
   thesis: Thesis;
