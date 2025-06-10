@@ -23,7 +23,7 @@ import { useRatingsStore } from "@/stores/ratings-store";
 export default function ThesesPage() {
   const { election } = useElectionStore();
   const { theses } = useThesesStore();
-  const { ratings, setRating } = useRatingsStore();
+  const { ratings, setRating, stars, setStar } = useRatingsStore();
   const [api, setApi] = useState<CarouselApi>();
   const [currentThesisIndex, setCurrentThesisIndex] = useState(0);
   const count = theses?.length ?? 0;
@@ -144,7 +144,11 @@ export default function ThesesPage() {
           <CarouselContent>
             {theses.map((thesis) => (
               <CarouselItem key={thesis.id}>
-                <ThesisCard thesis={thesis} />
+                <ThesisCard
+                  thesis={thesis}
+                  starred={stars.includes(thesis.id)}
+                  onStarredChange={(s) => setStar(thesis.id, s)}
+                />
               </CarouselItem>
             ))}
           </CarouselContent>

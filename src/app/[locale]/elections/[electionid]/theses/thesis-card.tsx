@@ -12,11 +12,15 @@ import ThesisText from "@/app/[locale]/elections/[electionid]/theses/thesis-text
 
 interface ThesisCardProps {
   thesis: Thesis;
+  starred: boolean;
+  onStarredChange: (starred: boolean) => void;
 }
 
-// TODO explanations for the thesis
-export default function ThesisCard({ thesis }: ThesisCardProps) {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+export default function ThesisCard({
+  thesis,
+  starred,
+  onStarredChange,
+}: ThesisCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const t = useTranslations("ThesisCard");
 
@@ -28,11 +32,11 @@ export default function ThesisCard({ thesis }: ThesisCardProps) {
             {thesis.category}
           </h2>
           <button
-            onClick={() => setIsBookmarked(!isBookmarked)}
+            onClick={() => onStarredChange(!starred)}
             className="text-primary hover:brightness-80 transition-all"
           >
             <Star
-              className={`duration-150 ${isBookmarked ? "fill-current" : "fill-transparent hover:fill-current/25"}`}
+              className={`duration-150 ${starred ? "fill-current" : "fill-transparent hover:fill-current/25"}`}
             />
           </button>
         </div>

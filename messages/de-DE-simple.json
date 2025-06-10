@@ -1,0 +1,47 @@
+{
+  "Metadata": {
+    "title": "VOTO - Wählen leicht gemacht",
+    "description": "Bewerte die Parteien und finde heraus, welche am besten zu dir passt."
+  },
+  "ShareDrawer": {
+    "systemModalDescription": "Bewerte die Parteien und finde heraus, welche am besten zu dir passt.",
+    "screenReaderTitle": "Teilen",
+    "title": "Dein VOTO-Code",
+    "description": "Mit dem Code oben kannst du deine Bewertungen 3 Monate lang speichern. Du kannst später weitermachen oder dir dein Ergebnis noch einmal anschauen. Klicke oben rechts auf das QR-Code-Symbol, um deinen Code zu sehen.",
+    "shareButton": "Teilen",
+    "closeButton": "Schließen"
+  },
+  "Elections": {
+    "tagline": "Wählen leicht gemacht",
+    "openElectionsButton": "VOTO starten"
+  },
+  "Election": {
+    "languageSelector": "Sprache:",
+    "placeholderLanguageSelect": "Sprache auswählen",
+    "startVotoButton": "VOTO starten",
+    "informationsTitle": "Infos",
+    "sponsorsTitle": "Partner & Unterstützer"
+  },
+  "Intro": {
+    "nextButton": "Weiter",
+    "startVotoButton": "VOTO starten"
+  },
+  "PollInterface": {
+    "liveMatchesToggle": "LIVE",
+    "ratingSystemFullAgreement": "stimme voll zu",
+    "ratingSystemExplanation": "stimme gar nicht zu",
+    "continueButton": "Überspringen"
+  },
+  "ThesisCard": {
+    "moreInfos": "Mehr Infos"
+  },
+  "BreakDrawer": {
+    "title": "Pause",
+    "skipToResults": "Direkt zum Ergebnis",
+    "continue": "Weiter",
+    "titleSkip": "Schneller zum Ergebnis",
+    "titleContinue": "Weitermachen",
+    "descriptionSkip": "Du hast {completedTheses, plural, =1 {# Aussage} other {# Aussagen}} beantwortet. Du kannst jetzt zum Ergebnis springen, aber es wird dann ungenauer sein.",
+    "descriptionContinue": "Wenn du noch {remainingTheses, plural, =1 {# Aussage} other {# Aussagen}} beantwortest, wird dein Ergebnis genauer und du bekommst mehr Infos."
+  }
+}

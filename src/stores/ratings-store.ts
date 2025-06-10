@@ -4,17 +4,20 @@ import { Thesis } from "@/schemas/thesis";
 
 type State = {
   ratings: Record<Thesis["id"], number>;
+  stars: Array<Thesis["id"]>;
 };
 
 type Action = {
   setRating: (thesisId: Thesis["id"], rating: number) => void;
-  clearRatings: () => void;
+  setStar: (thesisId: Thesis["id"], star: boolean) => void;
+  clear: () => void;
 };
 
 export const useRatingsStore = create<State & Action>()(
   persist(
     (set) => ({
       ratings: {},
+      stars: [],
       setRating: (thesisId, rating) =>
         set((state) => ({
           ratings: {
@@ -22,7 +25,18 @@ export const useRatingsStore = create<State & Action>()(
             [thesisId]: rating,
           },
         })),
-      clearRatings: () => set({ ratings: {} }),
+      setStar: (thesisId, star) =>
+        set((state) => {
+          const alreadyStarred = state.stars.includes(thesisId);
+          if (alreadyStarred && !star) {
+            return { stars: state.stars.filter((id) => id !== thesisId) };
+          }
+          if (!alreadyStarred && star) {
+            return { stars: [...state.stars, thesisId] };
+          }
+          return { stars: state.stars };
+        }),
+      clear: () => set({ ratings: {}, stars: [] }),
     }),
     { name: "voto-ratings", storage: createJSONStorage(() => localStorage) }
   )
