@@ -19,6 +19,7 @@ import { ChevronsUpDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useRatingsStore } from "@/stores/ratings-store";
+import { motion } from "framer-motion";
 
 export default function ThesesPage() {
   const { election } = useElectionStore();
@@ -111,7 +112,12 @@ export default function ThesesPage() {
     <div className="h-full max-h-full flex flex-col justify-between max-w-4xl mx-auto">
       {/* Live party matches */}
       {!election.disableLiveVotes && (
-        <div className="shrink-0">
+        <motion.div
+          className="shrink-0"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
+        >
           <PartyMatches
             parties={parties}
             liveMatchesVisible={liveMatchesVisible}
@@ -119,23 +125,31 @@ export default function ThesesPage() {
 
           {/* Live indicator */}
           <div
-            className={`fixed left-1/2 -translate-x-1/2 z-10 transition-all duration-300 ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
+            className={`fixed left-1/2 -translate-x-1/2 z-10 transition-all duration-300 shadow bg-white rounded-full ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
           >
-            <div className="bg-white rounded-full">
-              <button
-                onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
-                className="px-3 py-1 border-2 border-primary rounded-full text-primary font-bold transition-colors hover:bg-votopurple/5 flex items-center gap-1"
+            <button
+              onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
+              className="px-3 py-1 border-2 border-primary rounded-full text-primary font-bold transition hover:bg-votopurple/5 hover:scale-105 flex items-center gap-1"
+            >
+              <motion.div
+                animate={{ rotate: liveMatchesVisible ? 0 : 180 }}
+                transition={{ duration: 0.3 }}
               >
                 <ChevronsUpDown className="size-4" />
-                {t("liveMatchesToggle")}
-              </button>
-            </div>
+              </motion.div>
+              {t("liveMatchesToggle")}
+            </button>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* Main Content */}
-      <div className="grow flex flex-col">
+      <motion.div
+        className="grow flex flex-col"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.4 }}
+      >
         <Carousel
           setApi={setApi}
           className="grow md:grow-0 md:h-1/2"
@@ -155,7 +169,12 @@ export default function ThesesPage() {
         </Carousel>
 
         {/* Footer */}
-        <div className="shrink-0 space-y-2 px-4 pb-4">
+        <motion.div
+          className="shrink-0 space-y-2 px-4 pb-4"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.4 }}
+        >
           {/* Progress */}
           <Progress
             current={currentThesisIndex}
@@ -192,15 +211,21 @@ export default function ThesesPage() {
           </div>
 
           {/* Action */}
-          <Button
-            variant="link"
-            className="w-full text-primary"
-            onClick={() => goTo(currentThesisIndex + 1)}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.3 }}
           >
-            {t("continueButton")}
-          </Button>
-        </div>
-      </div>
+            <Button
+              variant="link"
+              className="w-full text-primary"
+              onClick={() => goTo(currentThesisIndex + 1)}
+            >
+              {t("continueButton")}
+            </Button>
+          </motion.div>
+        </motion.div>
+      </motion.div>
       <BreakDrawer
         onContinue={() => {
           setBreakDrawerOpen(false);

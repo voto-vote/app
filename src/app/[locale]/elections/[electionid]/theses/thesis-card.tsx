@@ -36,7 +36,7 @@ export default function ThesisCard({
             className="text-primary hover:brightness-80 transition-all"
           >
             <Star
-              className={`duration-150 ${starred ? "fill-current" : "fill-transparent hover:fill-current/25"}`}
+              className={`duration-150 hover:scale-110 ${starred ? "fill-current" : "fill-transparent hover:fill-current/25"}`}
             />
           </button>
         </div>
