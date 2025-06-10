@@ -22,9 +22,9 @@ import { routing } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 
 export default function Election() {
-  const election = useElectionStore((state) => state.election);
+  const { election } = useElectionStore();
   const router = useRouter();
-  const setBackPath = useBackButtonStore((state) => state.setBackPath);
+  const { setBackPath } = useBackButtonStore();
   const locale = useLocale();
   const t = useTranslations("Election");
   const pathname = usePathname();

@@ -20,7 +20,7 @@ import Image from "next/image";
 export default function Intro() {
   const { election } = useElectionStore();
   const { theses } = useThesesStore();
-  const setBackPath = useBackButtonStore((state) => state.setBackPath);
+  const { setBackPath } = useBackButtonStore();
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [api, setApi] = useState<CarouselApi>();

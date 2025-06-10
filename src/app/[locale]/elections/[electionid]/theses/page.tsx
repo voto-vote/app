@@ -17,13 +17,15 @@ import { useElectionStore } from "@/stores/election-store";
 import { useThesesStore } from "@/stores/theses-store";
 import { ChevronsUpDown } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import { useRatingsStore } from "@/stores/ratings-store";
 
-export default function PollInterface() {
+export default function ThesesPage() {
   const { election } = useElectionStore();
   const { theses } = useThesesStore();
-
+  const { ratings, setRating } = useRatingsStore();
   const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
+  const [currentThesisIndex, setCurrentThesisIndex] = useState(0);
   const count = theses?.length ?? 0;
   const [parties, setParties] = useState([
     {
@@ -52,10 +54,10 @@ export default function PollInterface() {
     },
   ]);
   const [liveMatchesVisible, setLiveMatchesVisible] = useState(true);
-  const [ratings, setRatings] = useState<number[]>([]);
   const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
-  const setBackPath = useBackButtonStore((state) => state.setBackPath);
+  const { setBackPath } = useBackButtonStore();
   const t = useTranslations("PollInterface");
+  const router = useRouter();
 
   useEffect(() => {
     if (election?.id) {
@@ -70,10 +72,10 @@ export default function PollInterface() {
       return;
     }
 
-    setCurrent(api.selectedScrollSnap());
+    setCurrentThesisIndex(api.selectedScrollSnap());
 
     api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
+      setCurrentThesisIndex(api.selectedScrollSnap());
     });
   }, [api]);
 
@@ -83,7 +85,7 @@ export default function PollInterface() {
 
   function goTo(index: number, skipBreak = false) {
     if (index >= count) {
-      return;
+      router.push(`/elections/${election!.id}/results`);
     }
 
     // The timeout makes it possible to highlight the selected rating button before continuing
@@ -152,7 +154,7 @@ export default function PollInterface() {
         <div className="shrink-0 space-y-2 px-4 pb-4">
           {/* Progress */}
           <Progress
-            current={current}
+            current={currentThesisIndex}
             total={count}
             onChange={(p) => goTo(p, true)}
           />
@@ -166,13 +168,11 @@ export default function PollInterface() {
                   <button
                     key={value}
                     onClick={() => {
-                      const newRatings = [...ratings];
-                      newRatings[current] = value;
-                      setRatings(newRatings);
-                      goTo(current + 1);
+                      setRating(theses[currentThesisIndex].id, value);
+                      goTo(currentThesisIndex + 1);
                     }}
                     className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
-                      ratings[current] === value
+                      ratings[theses[currentThesisIndex].id] === value
                         ? "bg-primary text-white shadow-lg scale-105"
                         : "bg-zinc-100 text-primary hover:bg-zinc-200"
                     }`}
@@ -191,7 +191,7 @@ export default function PollInterface() {
           <Button
             variant="link"
             className="w-full text-primary"
-            onClick={() => goTo(current + 1)}
+            onClick={() => goTo(currentThesisIndex + 1)}
           >
             {t("continueButton")}
           </Button>
@@ -200,17 +200,18 @@ export default function PollInterface() {
       <BreakDrawer
         onContinue={() => {
           setBreakDrawerOpen(false);
-          goTo(current + 1, true);
+          goTo(currentThesisIndex + 1, true);
         }}
         onSkipToResults={() => {
           setBreakDrawerOpen(false);
+          router.push(`/elections/${election.id}/results`);
         }}
-        currentQuestion={current}
-        totalQuestions={count}
+        completedTheses={currentThesisIndex}
+        totalTheses={count}
         open={breakDrawerOpen}
         onOpenChange={(o) => {
           setBreakDrawerOpen(o);
-          goTo(current + 1, true);
+          goTo(currentThesisIndex + 1, true);
         }}
       />
     </div>
