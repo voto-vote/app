@@ -57,7 +57,7 @@ export default function ThesesPage() {
   const [liveMatchesVisible, setLiveMatchesVisible] = useState(true);
   const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
   const { setBackPath } = useBackButtonStore();
-  const t = useTranslations("PollInterface");
+  const t = useTranslations("ThesesPage");
   const router = useRouter();
 
   useEffect(() => {
@@ -160,6 +160,10 @@ export default function ThesesPage() {
               <CarouselItem key={thesis.id}>
                 <ThesisCard
                   thesis={thesis}
+                  starDisabled={
+                    election.algorithm.weightedVotesLimit !== -1 &&
+                    stars.length >= election.algorithm.weightedVotesLimit
+                  }
                   starred={stars.includes(thesis.id)}
                   onStarredChange={(s) => setStar(thesis.id, s)}
                 />

@@ -1,7 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { NextRequest } from "next/server";
-import { fetchElection } from "./actions/election-actions";
+import { fetchElection } from "./lib/election";
 import { hasLocale } from "next-intl";
 
 // If an election does not support the requested locale, we redirect to the default locale

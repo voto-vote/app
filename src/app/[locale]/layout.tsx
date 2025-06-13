@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../globals.css";
 import Header from "./(header)/header";
-import { ElectionStoreManager } from "@/components/store-manager";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
@@ -49,7 +48,6 @@ export default async function RootLayout({
         className={`${inter.className} h-full antialiased overflow-hidden flex flex-col`}
       >
         <NextIntlClientProvider>
-          <ElectionStoreManager />
           <Header />
           <div className="grow overflow-y-scroll">{children}</div>
         </NextIntlClientProvider>

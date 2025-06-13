@@ -26,14 +26,15 @@
     "nextButton": "Weiter",
     "startVotoButton": "VOTO starten"
   },
-  "PollInterface": {
+  "ThesesPage": {
     "liveMatchesToggle": "LIVE",
     "ratingSystemFullAgreement": "stimme voll zu",
     "ratingSystemExplanation": "stimme gar nicht zu",
     "continueButton": "Überspringen"
   },
   "ThesisCard": {
-    "moreInfos": "Mehr Infos"
+    "moreInfos": "Mehr Infos",
+    "starDisabledExplanation": "Du kannst keine weiteren Thesen mehr gewichten. Du kannst deine Gewichtungen später auf der Ergebnisseite ändern."
   },
   "BreakDrawer": {
     "title": "Pause",

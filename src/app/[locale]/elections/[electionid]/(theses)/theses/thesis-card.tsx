@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ChevronUp, Info, Star } from "lucide-react";
+import { ChevronDown, ChevronUp, Info, Star, StarOff } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,16 +8,23 @@ import { Thesis } from "@/schemas/thesis";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Markdown from "@/components/markdown";
-import ThesisText from "@/app/[locale]/elections/[electionid]/theses/thesis-text";
+import ThesisText from "@/app/[locale]/elections/[electionid]/(theses)/theses/thesis-text";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface ThesisCardProps {
   thesis: Thesis;
+  starDisabled: boolean;
   starred: boolean;
   onStarredChange: (starred: boolean) => void;
 }
 
 export default function ThesisCard({
   thesis,
+  starDisabled,
   starred,
   onStarredChange,
 }: ThesisCardProps) {
@@ -31,14 +38,27 @@ export default function ThesisCard({
           <h2 className="text-gray-600 dark:text-gray-300 leading-relaxed">
             {thesis.category}
           </h2>
-          <button
-            onClick={() => onStarredChange(!starred)}
-            className="text-primary hover:brightness-80 transition-all"
-          >
-            <Star
-              className={`duration-150 hover:scale-110 ${starred ? "fill-current" : "fill-transparent hover:fill-current/25"}`}
-            />
-          </button>
+          {starDisabled && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <button>
+                  <StarOff />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80" side="top">
+                <p className="text-sm text-muted-foreground">
+                  {t("starDisabledExplanation")}
+                </p>
+              </PopoverContent>
+            </Popover>
+          )}
+          {!starDisabled && (
+            <button onClick={() => onStarredChange(!starred)}>
+              <Star
+                className={`text-primary hover:brightness-80 transition-all duration-150 hover:scale-110 ${starred ? "fill-current" : "fill-transparent hover:fill-current/25"}`}
+              />
+            </button>
+          )}
         </div>
         <ThesisText thesis={thesis} />
         {thesis.additionalInfos && (
