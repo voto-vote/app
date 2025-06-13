@@ -1,4 +1,4 @@
-import { fetchElectionSummaries } from "@/actions/election-actions";
+import { fetchElectionSummaries } from "@/lib/election-summaries";
 import Elections from "@/app/[locale]/(root)/elections";
 
 export default async function ElectionListPage() {

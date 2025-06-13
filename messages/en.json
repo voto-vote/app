@@ -26,14 +26,15 @@
     "nextButton": "Next",
     "startVotoButton": "Start VOTO"
   },
-  "PollInterface": {
+  "ThesesPage": {
     "liveMatchesToggle": "LIVE",
     "ratingSystemFullAgreement": "full agreement",
     "ratingSystemExplanation": "no agreement",
     "continueButton": "Skip"
   },
   "ThesisCard": {
-    "moreInfos": "Additional informations"
+    "moreInfos": "Additional informations",
+    "starDisabledExplanation": "You cannot weight any more theses as the maximum has been reached. However, you can change your weights later on the results page."
   },
   "BreakDrawer": {
     "title": "Stopover",
