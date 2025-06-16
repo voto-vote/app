@@ -1,9 +1,9 @@
 "use client";
 
 import { Progress } from "@/components/ui/progress";
-import { mockParties } from "./page";
 import { Bookmark, ChevronRight } from "lucide-react";
 import type { CSSProperties } from "react";
+import { mockParties } from "./mock";
 
 export default function PartiesList({
   parties,

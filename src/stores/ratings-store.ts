@@ -1,42 +1,74 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { Thesis } from "@/schemas/thesis";
+import { Election } from "@/schemas/election";
+
+type ThesisRating = {
+  rating: number | null; // null means no rating given
+  favorite: boolean;
+};
+
+type ElectionRatings = {
+  [thesisId: Thesis["id"]]: ThesisRating;
+};
 
 type State = {
-  ratings: Record<Thesis["id"], number>;
-  stars: Array<Thesis["id"]>;
+  ratings: {
+    [electionId: Election["id"]]: ElectionRatings;
+  };
 };
 
 type Action = {
-  setRating: (thesisId: Thesis["id"], rating: number) => void;
-  setStar: (thesisId: Thesis["id"], star: boolean) => void;
-  clear: () => void;
+  setRating: (
+    electionId: Election["id"],
+    thesisId: Thesis["id"],
+    rating: number
+  ) => void;
+  setFavorite: (
+    electionId: Election["id"],
+    thesisId: Thesis["id"],
+    favorite: boolean
+  ) => void;
 };
 
 export const useRatingsStore = create<State & Action>()(
   persist(
     (set) => ({
       ratings: {},
-      stars: [],
-      setRating: (thesisId, rating) =>
+
+      setRating: (electionId, thesisId, rating) =>
         set((state) => ({
           ratings: {
             ...state.ratings,
-            [thesisId]: rating,
+            [electionId]: {
+              ...state.ratings[electionId],
+              [thesisId]: {
+                ...(state.ratings[electionId]?.[thesisId] ?? {
+                  favorite: false,
+                }),
+                rating,
+              },
+            },
           },
         })),
-      setStar: (thesisId, star) =>
+
+      setFavorite: (electionId, thesisId, favorite) =>
         set((state) => {
-          const alreadyStarred = state.stars.includes(thesisId);
-          if (alreadyStarred && !star) {
-            return { stars: state.stars.filter((id) => id !== thesisId) };
-          }
-          if (!alreadyStarred && star) {
-            return { stars: [...state.stars, thesisId] };
-          }
-          return { stars: state.stars };
+          return {
+            ratings: {
+              ...state.ratings,
+              [electionId]: {
+                ...state.ratings[electionId],
+                [thesisId]: {
+                  ...(state.ratings[electionId]?.[thesisId] ?? {
+                    rating: null,
+                  }),
+                  favorite: favorite,
+                },
+              },
+            },
+          };
         }),
-      clear: () => set({ ratings: {}, stars: [] }),
     }),
     { name: "voto-ratings", storage: createJSONStorage(() => localStorage) }
   )

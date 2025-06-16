@@ -12,19 +12,19 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 
-interface DialogOrDrawerProps {
+interface ResponsiveDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
   children: React.ReactNode;
 }
 
-export default function DialogOrDrawer({
+export default function ResponsiveDialog({
   open,
   onOpenChange,
   title,
   children,
-}: DialogOrDrawerProps) {
+}: ResponsiveDialogProps) {
   const isDesktop = useBreakpoint("md");
 
   if (isDesktop) {
@@ -42,7 +42,7 @@ export default function DialogOrDrawer({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="max-h-[85vh]">
+      <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
             <DrawerTitle className="text-center text-xl">{title}</DrawerTitle>

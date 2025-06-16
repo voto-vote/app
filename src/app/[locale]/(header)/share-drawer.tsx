@@ -5,7 +5,7 @@ import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import DialogOrDrawer from "@/components/dialog-or-drawer";
+import ResponsiveDialog from "@/components/responsive-dialog";
 
 interface ShareDrawerProps {
   open: boolean;
@@ -34,7 +34,7 @@ export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
   }
 
   return (
-    <DialogOrDrawer
+    <ResponsiveDialog
       open={open}
       onOpenChange={onOpenChange}
       title={t("screenReaderTitle")}
@@ -59,7 +59,7 @@ export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
           {t("closeButton")}
         </Button>
       </div>
-    </DialogOrDrawer>
+    </ResponsiveDialog>
   );
 }
 

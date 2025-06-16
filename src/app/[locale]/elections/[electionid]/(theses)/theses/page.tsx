@@ -24,7 +24,7 @@ import { motion } from "framer-motion";
 export default function ThesesPage() {
   const { election } = useElectionStore();
   const { theses } = useThesesStore();
-  const { ratings, setRating, stars, setStar } = useRatingsStore();
+  const { ratings, setRating, setFavorite } = useRatingsStore();
   const [api, setApi] = useState<CarouselApi>();
   const [currentThesisIndex, setCurrentThesisIndex] = useState(0);
   const count = theses?.length ?? 0;
@@ -162,10 +162,15 @@ export default function ThesesPage() {
                   thesis={thesis}
                   starDisabled={
                     election.algorithm.weightedVotesLimit !== -1 &&
-                    stars.length >= election.algorithm.weightedVotesLimit
+                    Object.values(ratings[election.id] ?? {}).reduce(
+                      (n, t) => (t.favorite === true ? n + 1 : n),
+                      0
+                    ) >= election.algorithm.weightedVotesLimit
                   }
-                  starred={stars.includes(thesis.id)}
-                  onStarredChange={(s) => setStar(thesis.id, s)}
+                  starred={ratings[election.id]?.[thesis.id]?.favorite}
+                  onStarredChange={(s) =>
+                    setFavorite(election.id, thesis.id, s)
+                  }
                 />
               </CarouselItem>
             ))}
@@ -195,11 +200,16 @@ export default function ThesesPage() {
                   <button
                     key={value}
                     onClick={() => {
-                      setRating(theses[currentThesisIndex].id, value);
+                      setRating(
+                        election.id,
+                        theses[currentThesisIndex].id,
+                        value
+                      );
                       goTo(currentThesisIndex + 1);
                     }}
                     className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
-                      ratings[theses[currentThesisIndex].id] === value
+                      ratings[election.id]?.[theses[currentThesisIndex].id]
+                        ?.rating === value
                         ? "bg-primary text-white shadow-lg scale-105"
                         : "bg-zinc-100 text-primary hover:bg-zinc-200"
                     }`}
