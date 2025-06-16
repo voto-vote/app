@@ -3,7 +3,7 @@
 import { Progress } from "@/components/ui/progress";
 import { Bookmark, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { mockCandidates } from "./page";
+import { mockCandidates } from "./mock";
 
 export default function CandidatesList({
   candidates,

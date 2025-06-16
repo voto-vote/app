@@ -1,4 +1,4 @@
-import DialogOrDrawer from "@/components/dialog-or-drawer";
+import ResponsiveDialog from "@/components/responsive-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronDown, X } from "lucide-react";
@@ -20,7 +20,7 @@ interface FilterProps {
 
 export default function Filter({ open, onOpenChange }: FilterProps) {
   return (
-    <DialogOrDrawer open={open} onOpenChange={onOpenChange} title="Filter">
+    <ResponsiveDialog open={open} onOpenChange={onOpenChange} title="Filter">
       <div className="flex flex-wrap gap-2 mb-4">
         <Button
           size="sm"
@@ -55,7 +55,7 @@ export default function Filter({ open, onOpenChange }: FilterProps) {
           &#10005; Alle zurücksetzen
         </Button>
       </div>
-    </DialogOrDrawer>
+    </ResponsiveDialog>
   );
 }
 

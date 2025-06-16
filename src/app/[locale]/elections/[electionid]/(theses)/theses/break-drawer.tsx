@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
-import DialogOrDrawer from "@/components/dialog-or-drawer";
+import ResponsiveDialog from "@/components/responsive-dialog";
 
 interface BreakDrawerProps {
   completedTheses: number;
@@ -25,7 +25,11 @@ export default function BreakDrawer({
   const t = useTranslations("BreakDrawer");
 
   return (
-    <DialogOrDrawer open={open} onOpenChange={onOpenChange} title={t("title")}>
+    <ResponsiveDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title={t("title")}
+    >
       <div className="pb-8 md:p-4 space-y-6 md:space-y-10">
         <div>
           <h3 className="font-semibold mb-2 text-lg">{t("titleSkip")}</h3>
@@ -50,6 +54,6 @@ export default function BreakDrawer({
           {t("continue")}
         </Button>
       </div>
-    </DialogOrDrawer>
+    </ResponsiveDialog>
   );
 }
