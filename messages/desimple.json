@@ -38,7 +38,7 @@
   },
   "BreakDrawer": {
     "title": "Pause",
-    "skipToResults": "Direkt zum Ergebnis",
+    "skipToResult": "Direkt zum Ergebnis",
     "continue": "Weiter",
     "titleSkip": "Schneller zum Ergebnis",
     "titleContinue": "Weitermachen",

@@ -64,7 +64,7 @@ export default function Intro() {
       {/* Carousel */}
       <Carousel
         setApi={setApi}
-        className="flex-1 overflow-y-auto"
+        className="flex-1 overflow-y-auto md:pt-16"
         opts={{
           loop: false,
           align: "center",
@@ -166,7 +166,9 @@ export default function Intro() {
               className="w-full text-base font-medium"
               onClick={goToNextPage}
             >
-              {t("nextButton")}
+              {currentPage >= election.intro.length - 1
+                ? t("startVotoButton")
+                : t("nextButton")}
             </Button>
           </motion.div>
 
@@ -177,7 +179,7 @@ export default function Intro() {
           >
             <Button
               variant="ghost"
-              className="w-full text-primary hover:text-primary/80 text-sm"
+              className={`w-full text-primary hover:text-primary/80 text-sm ${currentPage >= election.intro.length - 1 ? "opacity-0" : ""}`}
               onClick={() => router.push(`/elections/${election.id}/theses`)}
             >
               {t("startVotoButton")}

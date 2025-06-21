@@ -153,7 +153,7 @@ export default function Header() {
         )}
         <div className="flex gap-1 justify-self-end">
           <AnimatePresence mode="wait">
-            {pathname.match(/\/elections\/.+?\/results.*/) && (
+            {pathname.match(/\/elections\/.+?\/result.*/) && (
               <motion.button
                 className="p-2 rounded-full hover:bg-primary/50 transition-colors"
                 initial={{ y: -10, opacity: 0 }}

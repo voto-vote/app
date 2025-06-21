@@ -8,7 +8,7 @@ interface BreakDrawerProps {
   completedTheses: number;
   totalTheses: number;
   onContinue: () => void;
-  onSkipToResults: () => void;
+  onSkipToResult: () => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -17,7 +17,7 @@ export default function BreakDrawer({
   completedTheses,
   totalTheses,
   onContinue,
-  onSkipToResults,
+  onSkipToResult,
   open,
   onOpenChange,
 }: BreakDrawerProps) {
@@ -38,8 +38,8 @@ export default function BreakDrawer({
               completedTheses: completedTheses,
             })}
           </p>
-          <Button variant={"link"} className="p-0" onClick={onSkipToResults}>
-            {t("skipToResults")}
+          <Button variant={"link"} className="p-0" onClick={onSkipToResult}>
+            {t("skipToResult")}
           </Button>
         </div>
         <div>

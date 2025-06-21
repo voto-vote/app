@@ -11,14 +11,16 @@ import CandidatesList from "./candiates-list";
 import PartiesList from "./parties-list";
 import Filter from "./filter";
 import { mockCandidates, mockParties } from "./mock";
+import { useRatingsStore } from "@/stores/ratings-store";
 
-export default function ResultsPage() {
+export default function ResultsList() {
   const [tab, setTab] = useState<"candidates" | "parties">("candidates");
   const [bookmarkList, setBookmarkList] = useState(["1", "3", "cdu", "spd"]);
   const [filterOpen, setFilterOpen] = useState(false);
   //const t = useTranslations("ResultsPage");
   const { election } = useElectionStore();
   const { setBackPath } = useBackButtonStore();
+  const { ratings } = useRatingsStore();
 
   useEffect(() => {
     if (election?.id) {
@@ -30,9 +32,6 @@ export default function ResultsPage() {
 
   if (!election) return null;
 
-  // For demonstration, we use mock data and mock translation keys.
-  // In production, fetch and translate real data.
-
   return (
     <div className="container mx-auto max-w-3xl p-2 pb-14">
       <div className="space-y-8">
@@ -43,8 +42,13 @@ export default function ResultsPage() {
           transition={{ duration: 0.5 }}
         >
           <p className="text-sm max-w-1/2">
-            Auf Basis Deiner 30 beantworteten Thesen zur Wahl des Gemeinderats
-            Musterstadt 2025
+            Auf Basis Deiner{" "}
+            {Object.values(ratings[election.id] ?? {}).reduce(
+              (n, r) => (r.rating ? n + 1 : n),
+              0
+            )}{" "}
+            beantworteten Thesen zur Wahl {election.title} {election.subtitle}{" "}
+            {new Date(election.date).getFullYear()}
           </p>
         </motion.div>
 
