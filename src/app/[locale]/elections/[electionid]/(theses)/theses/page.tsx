@@ -32,29 +32,30 @@ export default function ThesesPage() {
     {
       id: "spd",
       name: "SPD",
-      matchPercentage: 85,
+      matchPercentage: 0,
       color: "#E3000F",
     },
     {
       id: "gruene",
       name: "Die Grünen",
-      matchPercentage: 78,
+      matchPercentage: 0,
       color: "#46962b",
     },
     {
       id: "linke",
       name: "Die Linke",
-      matchPercentage: 65,
+      matchPercentage: 0,
       color: "#BE3075",
     },
     {
       id: "mannheimer",
       name: "Mannheimer Liste",
-      matchPercentage: 45,
+      matchPercentage: 0,
       color: "#009ee3",
     },
   ]);
-  const [liveMatchesVisible, setLiveMatchesVisible] = useState(true);
+  const [liveMatchesAvailable, setLiveMatchesAvailable] = useState(false);
+  const [liveMatchesVisible, setLiveMatchesVisible] = useState(false);
   const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
   const { setBackPath } = useBackButtonStore();
   const t = useTranslations("ThesesPage");
@@ -98,13 +99,20 @@ export default function ThesesPage() {
 
       api?.scrollTo(index);
 
-      // TODO remove simulated party match updates
+      const previousLiveMatchesAvailable = liveMatchesAvailable;
+
+      // TODO calculate party match updates
       setParties((p) =>
         p.map((party) => {
           party.matchPercentage = Math.floor(Math.random() * 100);
           return party;
         })
       );
+      setLiveMatchesAvailable(true);
+
+      if (!previousLiveMatchesAvailable) {
+        setLiveMatchesVisible(true);
+      }
     }, 200);
   }
 
@@ -128,6 +136,7 @@ export default function ThesesPage() {
             className={`fixed left-1/2 -translate-x-1/2 z-10 transition-all duration-300 shadow bg-white rounded-full ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
           >
             <button
+              disabled={!liveMatchesAvailable}
               onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
               className="px-3 py-1 border-2 border-primary rounded-full text-primary font-bold transition hover:bg-votopurple/5 hover:scale-105 flex items-center gap-1"
             >

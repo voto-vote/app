@@ -7,7 +7,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { useElectionStore } from "@/stores/election-store";
 import { useBackButtonStore } from "@/stores/back-button-store";
-import CandidatesList from "./candiates-list";
+import CandidatesList from "./candidates-list";
 import PartiesList from "./parties-list";
 import Filter from "./filter";
 import { mockCandidates, mockParties } from "./mock";
