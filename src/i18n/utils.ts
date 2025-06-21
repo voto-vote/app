@@ -1,8 +1,8 @@
 export function translateLocale(code: string, locale: string | undefined) {
-  // convert de-DE-simple to Deutsch (Deutschland, Einfach)
-  if (code.endsWith("-simple")) {
+  // convert desimple to Deutsch (Einfach)
+  if (code.endsWith("simple")) {
     // translate with out the -simple
-    const localeWithoutDialect = code.replace("-simple", "");
+    const localeWithoutDialect = code.replace("simple", "");
     const language =
       new Intl.DisplayNames(locale, { type: "language" }).of(
         localeWithoutDialect

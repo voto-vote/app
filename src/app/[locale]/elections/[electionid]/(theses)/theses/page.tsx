@@ -86,7 +86,7 @@ export default function ThesesPage() {
 
   function goTo(index: number, skipBreak = false) {
     if (index >= count) {
-      router.push(`/elections/${election!.id}/results`);
+      router.push(`/elections/${election!.id}/result`);
     }
 
     // The timeout makes it possible to highlight the selected rating button before continuing
@@ -245,9 +245,9 @@ export default function ThesesPage() {
           setBreakDrawerOpen(false);
           goTo(currentThesisIndex + 1, true);
         }}
-        onSkipToResults={() => {
+        onSkipToResult={() => {
           setBreakDrawerOpen(false);
-          router.push(`/elections/${election.id}/results`);
+          router.push(`/elections/${election.id}/result`);
         }}
         completedTheses={currentThesisIndex}
         totalTheses={count}
