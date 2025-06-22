@@ -39,7 +39,7 @@ export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
       onOpenChange={onOpenChange}
       title={t("screenReaderTitle")}
     >
-      <div className="p-4 flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
         {url && params.runid && (
           <div className="border-[6px] rounded-xl border-primary mx-auto flex flex-col">
             <QRCodeCanvas url={url} />

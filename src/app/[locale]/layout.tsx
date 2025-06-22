@@ -6,6 +6,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import { NavigationEvents } from "@/components/navigation-events";
 
 const inter = localFont({
   src: "../inter.ttf",
@@ -40,7 +41,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className="h-full">
+    <html lang={locale} className="h-full">
       <head>
         <meta name="theme-color" content="#860196"></meta>
       </head>
@@ -48,6 +49,7 @@ export default async function RootLayout({
         className={`${inter.className} h-full antialiased overflow-hidden flex flex-col`}
       >
         <NextIntlClientProvider>
+          <NavigationEvents />
           <Header />
           <div className="grow overflow-y-scroll">{children}</div>
         </NextIntlClientProvider>

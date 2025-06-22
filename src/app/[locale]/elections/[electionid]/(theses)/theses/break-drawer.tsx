@@ -30,7 +30,7 @@ export default function BreakDrawer({
       onOpenChange={onOpenChange}
       title={t("title")}
     >
-      <div className="pb-8 md:p-4 space-y-6 md:space-y-10">
+      <div className="space-y-6 md:space-y-10">
         <div>
           <h3 className="font-semibold mb-2 text-lg">{t("titleSkip")}</h3>
           <p className="text-sm">

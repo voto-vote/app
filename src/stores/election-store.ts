@@ -6,7 +6,7 @@ type State = {
 };
 
 type Action = {
-  setElection: (election: State["election"]) => void;
+  setElection: (election: NonNullable<State["election"]>) => void;
   clearElection: () => void;
 };
 
