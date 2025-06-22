@@ -6,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-votopurple: oklch(44.62% 0.211 322.48);
+  --color-brand: oklch(44.62% 0.211 322.48);
 }
 
 :root {
@@ -16,7 +16,9 @@
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.53 0.24 331.12);
+  --primary: oklch(
+    from var(--color-brand) calc(l + 0.0838) calc(c + 0.029) calc(h + 8.64)
+  );
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);

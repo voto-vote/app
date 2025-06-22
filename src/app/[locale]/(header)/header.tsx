@@ -23,7 +23,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="bg-votopurple text-white">
+    <header className="bg-brand text-white">
       <div className="container mx-auto max-w-screen-xl p-2 grid grid-cols-[6rem_auto_6rem] items-center overflow-hidden min-h-14">
         <div className="justify-self-start">
           <button className="p-2 rounded-full hover:bg-primary/50 transition-colors">

@@ -42,8 +42,8 @@ function TabTrigger({
   return (
     <TabsTrigger
       value={value}
-      className={`text-xl transition-all data-[state=active]:shadow-none h-full rounded-none text-votopurple
-            ${value === currentValue ? "font-bold" : "text-votopurple/70"}`}
+      className={`text-xl transition-all data-[state=active]:shadow-none h-full rounded-none text-primary
+            ${value === currentValue ? "font-bold" : "text-primary/70"}`}
       style={
         value !== currentValue
           ? {
