@@ -133,7 +133,7 @@ export default function Header() {
                   exit={{ y: -50 }}
                   transition={{
                     duration: 0.5,
-                    transition: { ease: "easeOut" },
+                    ease: "easeOut",
                   }}
                 >
                   <Link href="/">

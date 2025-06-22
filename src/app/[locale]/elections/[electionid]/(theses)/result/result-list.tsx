@@ -91,6 +91,9 @@ export default function ResultsList() {
               parties={mockParties}
               bookmarkList={bookmarkList}
               setBookmarkList={setBookmarkList}
+              onPartyClick={(id) =>
+                router.push(`/elections/${election.id}/result/parties/${id}`)
+              }
             />
           )}
         </div>

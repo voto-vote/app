@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  allowedDevOrigins: [
+    "10.*.*.*",
+    "172.*.*.*",
+    "192.168.*.*",
+    "[fd00:*]",
+    "localhost",
+  ],
 };
 
 const withNextIntl = createNextIntlPlugin();

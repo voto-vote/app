@@ -2,12 +2,14 @@ import { useBreakpoint } from "@/hooks/use-breakpoint";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
@@ -33,6 +35,7 @@ export default function ResponsiveDialog({
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="text-center text-xl">{title}</DialogTitle>
+            <DialogDescription className="sr-only">{title}</DialogDescription>
           </DialogHeader>
           {children}
         </DialogContent>
@@ -46,8 +49,9 @@ export default function ResponsiveDialog({
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
             <DrawerTitle className="text-center text-xl">{title}</DrawerTitle>
+            <DrawerDescription className="sr-only">{title}</DrawerDescription>
           </DrawerHeader>
-          {children}
+          <div className="p-4">{children}</div>
         </div>
       </DrawerContent>
     </Drawer>

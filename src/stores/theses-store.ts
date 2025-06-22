@@ -5,15 +5,20 @@ type Theses = Array<Thesis>;
 
 type State = {
   theses: Theses | undefined;
+  electionId: string | undefined;
 };
 
 type Action = {
-  setTheses: (theses: State["theses"]) => void;
+  setTheses: (
+    theses: NonNullable<State["theses"]>,
+    electionId: NonNullable<State["electionId"]>
+  ) => void;
   clearTheses: () => void;
 };
 
 export const useThesesStore = create<State & Action>((set) => ({
   theses: undefined,
-  setTheses: (theses) => set({ theses }),
-  clearTheses: () => set({ theses: undefined }),
+  electionId: undefined,
+  setTheses: (theses, electionId) => set({ theses, electionId }),
+  clearTheses: () => set({ theses: undefined, electionId: undefined }),
 }));
