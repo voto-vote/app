@@ -18,7 +18,7 @@ interface FilterProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export default function Filter({ open, onOpenChange }: FilterProps) {
+export default function FilterDialog({ open, onOpenChange }: FilterProps) {
   return (
     <ResponsiveDialog open={open} onOpenChange={onOpenChange} title="Filter">
       <div className="flex flex-wrap gap-2 mb-4">
@@ -32,7 +32,7 @@ export default function Filter({ open, onOpenChange }: FilterProps) {
         {mockActiveFilters.map((f, i) => (
           <span
             key={i}
-            className="bg-votopurple/10 text-votopurple px-3 py-1 rounded-full text-xs flex items-center gap-1"
+            className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs flex items-center gap-1"
           >
             {f.label}
             <X className="size-3" />
@@ -48,9 +48,7 @@ export default function Filter({ open, onOpenChange }: FilterProps) {
       <DropdownInput label="Politikbereich" />
       <DropdownInput label="These" />
       <div className="flex gap-2 mt-4">
-        <Button className="grow bg-votopurple text-white hover:bg-votopurple/90">
-          Filter (6)
-        </Button>
+        <Button className="grow">Filter (6)</Button>
         <Button variant="secondary" className="grow">
           &#10005; Alle zurücksetzen
         </Button>

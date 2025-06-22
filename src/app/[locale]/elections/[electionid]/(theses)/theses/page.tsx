@@ -138,7 +138,7 @@ export default function ThesesPage() {
             <button
               disabled={!liveMatchesAvailable}
               onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
-              className="px-3 py-1 border-2 border-primary rounded-full text-primary font-bold transition hover:bg-votopurple/5 hover:scale-105 flex items-center gap-1"
+              className="px-3 py-1 border-2 border-primary rounded-full text-primary font-bold transition hover:bg-current/5 hover:scale-105 flex items-center gap-1"
             >
               <motion.div
                 animate={{ rotate: liveMatchesVisible ? 0 : 180 }}

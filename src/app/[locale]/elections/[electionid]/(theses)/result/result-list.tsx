@@ -9,9 +9,10 @@ import { useElectionStore } from "@/stores/election-store";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import CandidatesList from "./candidates-list";
 import PartiesList from "./parties-list";
-import Filter from "./filter";
+import FilterDialog from "./filter-dialog";
 import { mockCandidates, mockParties } from "./mock";
 import { useRatingsStore } from "@/stores/ratings-store";
+import { useRouter } from "@/i18n/navigation";
 
 export default function ResultsList() {
   const [tab, setTab] = useState<"candidates" | "parties">("candidates");
@@ -21,6 +22,7 @@ export default function ResultsList() {
   const { election } = useElectionStore();
   const { setBackPath } = useBackButtonStore();
   const { ratings } = useRatingsStore();
+  const router = useRouter();
 
   useEffect(() => {
     if (election?.id) {
@@ -58,14 +60,14 @@ export default function ResultsList() {
             <TabsTrigger
               value="candidates"
               className={`text-lg transition-all
-                ${tab === "candidates" ? "text-votopurple font-semibold" : "text-votopurple/70"}`}
+                ${tab === "candidates" ? "text-primary font-semibold" : "text-primary/70"}`}
             >
               Kandidierende
             </TabsTrigger>
             <TabsTrigger
               value="parties"
               className={`text-lg transition-all
-                ${tab === "parties" ? "text-votopurple font-semibold" : "text-votopurple/70"}`}
+                ${tab === "parties" ? "text-primary font-semibold" : "text-primary/70"}`}
             >
               Parteien
             </TabsTrigger>
@@ -79,6 +81,9 @@ export default function ResultsList() {
               candidates={mockCandidates}
               bookmarkList={bookmarkList}
               setBookmarkList={setBookmarkList}
+              onCandidateClick={(id) =>
+                router.push(`/elections/${election.id}/result/candidates/${id}`)
+              }
             />
           )}
           {tab === "parties" && (
@@ -96,18 +101,18 @@ export default function ResultsList() {
         <div className="container mx-auto max-w-3xl flex items-center justify-between py-2">
           <Button
             variant="ghost"
-            className="text-votopurple text-base"
+            className="text-primary text-base"
             onClick={() => setFilterOpen(true)}
           >
             Filter
           </Button>
-          <Button variant="ghost" className="text-votopurple text-base">
+          <Button variant="ghost" className="text-primary text-base">
             Merkliste ({bookmarkList.length})
           </Button>
         </div>
       </div>
 
-      <Filter open={filterOpen} onOpenChange={setFilterOpen}></Filter>
+      <FilterDialog open={filterOpen} onOpenChange={setFilterOpen} />
     </div>
   );
 }
