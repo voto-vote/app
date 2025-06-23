@@ -29,7 +29,7 @@ export async function fetchTheses(
   const result = await ThesisSchema.array().safeParseAsync(data);
 
   if (result.success) {
-    return shuffle(result.data);
+    return result.data;
   } else {
     console.error(
       "Theses API response validation failed:",
@@ -39,21 +39,4 @@ export async function fetchTheses(
       `Invalid Theses API response format: ${result.error.message}`
     );
   }
-}
-
-function shuffle<T>(array: Array<T>): Array<T> {
-  let currentIndex = array.length;
-  const newArray = [...array];
-
-  while (currentIndex != 0) {
-    const randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    [newArray[currentIndex], newArray[randomIndex]] = [
-      newArray[randomIndex],
-      newArray[currentIndex],
-    ];
-  }
-
-  return newArray;
 }

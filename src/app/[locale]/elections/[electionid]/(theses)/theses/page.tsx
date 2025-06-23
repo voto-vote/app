@@ -119,7 +119,7 @@ export default function ThesesPage() {
   return (
     <div className="h-full max-h-full flex flex-col justify-between max-w-4xl mx-auto">
       {/* Live party matches */}
-      {!election.disableLiveVotes && (
+      {!election.disableLiveVotes && liveMatchesAvailable && (
         <motion.div
           className="shrink-0"
           initial={{ y: -20, opacity: 0 }}
@@ -136,7 +136,6 @@ export default function ThesesPage() {
             className={`fixed left-1/2 -translate-x-1/2 z-10 transition-all duration-300 shadow bg-white rounded-full ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
           >
             <button
-              disabled={!liveMatchesAvailable}
               onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
               className="px-3 py-1 border-2 border-primary rounded-full text-primary font-bold transition hover:bg-current/5 hover:scale-105 flex items-center gap-1"
             >
@@ -198,9 +197,12 @@ export default function ThesesPage() {
         >
           {/* Progress */}
           <Progress
-            current={currentThesisIndex}
-            total={count}
-            onChange={(p) => goTo(p, true)}
+            theses={theses}
+            ratings={ratings[election.id] ?? {}}
+            current={theses[currentThesisIndex].id}
+            onChange={(id) =>
+              goTo(theses.findIndex((t) => t.id === id) ?? 0, true)
+            }
           />
 
           {/* Rating System */}

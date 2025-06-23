@@ -99,7 +99,7 @@ export default function Header() {
                       key={logoUrl}
                       src={logoUrl}
                       alt="logo"
-                      className="absolute inset-0 size-full object-contain brightness-0 invert"
+                      className={`absolute inset-0 size-full object-contain brightness-0 invert transition-all duration-[500ms] ${election ? "object-right" : "object-center"}`}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
