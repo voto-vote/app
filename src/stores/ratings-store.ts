@@ -2,19 +2,11 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { Thesis } from "@/schemas/thesis";
 import { Election } from "@/schemas/election";
-
-type ThesisRating = {
-  rating: number | null; // null means no rating given
-  favorite: boolean;
-};
-
-type ElectionRatings = {
-  [thesisId: Thesis["id"]]: ThesisRating;
-};
+import { Ratings } from "@/schemas/ratings";
 
 type State = {
   ratings: {
-    [electionId: Election["id"]]: ElectionRatings;
+    [electionId: Election["id"]]: Ratings;
   };
 };
 

@@ -231,7 +231,7 @@ export default function Election() {
                   href={sponsor.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="md:max-w-[250px]"
+                  className="md:max-w-[350px]"
                 >
                   <Image
                     src={sponsor.image || "/placeholder.svg"}
