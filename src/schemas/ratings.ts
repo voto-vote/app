@@ -1,7 +1,7 @@
 import { type Thesis } from "./thesis";
 
 export type Rating = {
-  rating: number | null; // null means no rating given
+  rating: number | undefined; // undefined means no rating given yet, -1 means skipped
   favorite: boolean;
 };
 

@@ -3,46 +3,45 @@
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { Ratings } from "@/schemas/ratings";
 import { Thesis } from "@/schemas/thesis";
+import { Circle, Star } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface ProgressProps {
   theses: Thesis[];
   ratings: Ratings;
-  current: string;
-  onChange: (current: string) => void;
+  currentId: string;
+  onCurrentIdChange: (id: string) => void;
 }
 
 export default function Progress({
   theses,
   ratings,
-  current,
-  onChange,
+  currentId,
+  onCurrentIdChange,
 }: ProgressProps) {
   const [translateX, setTranslateX] = useState(0);
   const progressDotsRef = useRef<HTMLDivElement>(null);
   const isDesktop = useBreakpoint("md");
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const total = theses.length;
-  const dotWidth = isDesktop ? 12 : 10; // Width of a dot in pixels
+  const dotWidth = isDesktop ? 22 : 20; // Width of a dot in pixels
   const dotSpacing = 6; // Spacing between dots in pixels
 
-  // Calculate min and max translateX values (from the center of the progress dots)
-  // lastIndex = total - 1
-  // middleIndex = lastIndex / 2
-  // minTranslateX = -middleIndex * (width of a dot + dot spacing)
-  const minTranslateX = -((total - 1) / 2) * (dotWidth + dotSpacing);
-  // maxTranslateX = middleIndex * (width of a dot + dot spacing)
-  const maxTranslateX = ((total - 1) / 2) * (dotWidth + dotSpacing);
+  // Set the current index based on the currentId
+  useEffect(() => {
+    const index = theses.findIndex((t) => t.id === currentId);
+    setCurrentIndex(index);
+  }, [currentId, theses]);
 
   // Watch for changes in current values and apply the translation
   useEffect(() => {
-    const currentIndex = theses.findIndex((t) => t.id === current);
     // Center the progress dots
     // lastIndex = total - 1
     // middleIndex = lastIndex / 2
     // translationX = middleIndex - currentIndex * (width of a dot + dot spacing)
     setTranslateX(((total - 1) / 2 - currentIndex) * (dotWidth + dotSpacing));
-  }, [total, current, dotWidth, theses]);
+  }, [total, currentId, dotWidth, theses, currentIndex]);
 
   return (
     <div className="overflow-hidden">
@@ -55,33 +54,46 @@ export default function Progress({
           transition: "transform 0.3s",
         }}
       >
-        {theses.map((t) => (
-          // lastIndex = total - 1
-          // width of the dots (only the width that can be moved around) = lastIndex * (width of a dot + dot spacing)
-          // center the dots = width of the dots / 2
-          // aligned scale (converts translationX from -24..24 to 0..48) = abs(translationX - center of the dots)
-          // dotindex (converts pixel translation to index) = aligned scale / 12
-          // dotindexprecise = round(dotindex)
-          <div
-            key={t.id}
-            style={{
-              width: `${dotWidth}px`,
-              height: `${dotWidth}px`,
-              lineHeight: `${dotWidth}px`,
-            }}
-            onClick={() => onChange(t.id)}
-            className={`rounded-full transition font-bold text-xs text-center align-middle cursor-pointer ${
-              t.id === current
-                ? "bg-primary text-primary-foreground scale-110"
-                : "bg-accent text-accent-foreground hover:scale-110 hover:bg-primary/80 hover:text-primary-foreground"
-            }`}
-          >
-            {ratings[t.id]?.rating}
-          </div>
-        ))}
+        {theses.map((t) => {
+          const rating = ratings[t.id] || {
+            rating: undefined,
+            favorite: false,
+          };
+          return (
+            <div
+              key={t.id}
+              style={{
+                width: `${dotWidth}px`,
+                height: `${dotWidth}px`,
+                lineHeight: `${dotWidth}px`,
+              }}
+              onClick={() =>
+                rating.rating !== undefined && onCurrentIdChange(t.id)
+              }
+              className={`relative font-semibold text-xs text-center align-middle transition ${rating.rating !== undefined ? "text-primary hover:scale-125 cursor-pointer" : "text-accent"} ${t.id === currentId ? "scale-125 [&>svg]:stroke-primary" : ""}`}
+            >
+              {rating.favorite ? (
+                <Star
+                  className="absolute inset-0 fill-current"
+                  size={dotWidth}
+                />
+              ) : (
+                <Circle
+                  className="m-[1px] absolute inset-0 fill-current"
+                  size={dotWidth - 2}
+                />
+              )}
+              <span className="relative text-primary-foreground">
+                {rating.rating === undefined && ""}
+                {rating.rating === -1 && "-"}
+                {(rating.rating ?? -1) >= 0 && rating.rating}
+              </span>
+            </div>
+          );
+        })}
       </div>
       <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-        {current + 1} / {total}
+        {currentIndex + 1} / {total}
       </p>
     </div>
   );
