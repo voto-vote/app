@@ -163,6 +163,9 @@ export default function ThesesPage() {
           setApi={setApi}
           className="grow md:grow-0 md:h-1/2"
           style={{ containerType: "size" }}
+          opts={{
+            watchDrag: false,
+          }}
         >
           <CarouselContent>
             {theses.map((thesis) => (

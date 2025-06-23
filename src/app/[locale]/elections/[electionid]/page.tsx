@@ -100,7 +100,7 @@ export default function Election() {
       </motion.div>
 
       <div className="p-4 md:p-8">
-        <div className="grid grid-cols-[minmax(0,_1fr)_minmax(0,_3fr)] md:grid-cols-12 gap-4 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-[minmax(0,_1fr)_minmax(0,_3fr)] md:grid-cols-12 gap-4">
           {/* Date and Title */}
           <motion.div
             className="flex flex-col leading-tight md:col-span-2 lg:col-span-1"

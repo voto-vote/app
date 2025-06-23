@@ -3,7 +3,7 @@
 import { ChevronLeft, Menu, QrCode } from "lucide-react";
 import ShareDrawer from "./share-drawer";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavigationSheet from "./navigation-sheet";
 import { AnimatePresence, motion } from "framer-motion";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
@@ -19,11 +19,22 @@ export default function Header() {
   const router = useRouter();
   const isDesktop = useBreakpoint("md");
   const { election } = useElectionStore();
+  const [logoUrl, setLogoUrl] = useState(
+    election?.theming?.logo ?? "/logo-white.svg"
+  );
   const locale = useLocale();
   const pathname = usePathname();
 
+  useEffect(() => {
+    if (election?.theming?.logo) {
+      setLogoUrl(election.theming.logo);
+    } else {
+      setLogoUrl("/logo-white.svg");
+    }
+  }, [election?.theming?.logo]);
+
   return (
-    <header className="bg-brand text-white">
+    <header className="bg-brand text-white transition-colors duration-[500ms]">
       <div className="container mx-auto max-w-screen-xl p-2 grid grid-cols-[6rem_auto_6rem] items-center overflow-hidden min-h-14">
         <div className="justify-self-start">
           <button className="p-2 rounded-full hover:bg-primary/50 transition-colors">
@@ -75,22 +86,26 @@ export default function Header() {
                 </motion.div>
               )}
               <motion.div
-                key="logo"
+                key="logo-container"
                 layout
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               >
-                <Link href="/">
-                  <Image
-                    src="/logo-dark.svg"
-                    className="h-6"
-                    alt="Voto"
-                    width={55}
-                    height={24}
-                    priority
-                  />
+                <Link href="/" className="block h-6 w-32 relative">
+                  <AnimatePresence mode="sync">
+                    <motion.img
+                      key={logoUrl}
+                      src={logoUrl}
+                      alt="logo"
+                      className="absolute inset-0 size-full object-contain brightness-0 invert"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                    />
+                  </AnimatePresence>
                 </Link>
               </motion.div>
             </AnimatePresence>
@@ -126,7 +141,7 @@ export default function Header() {
               )}
               {!election && (
                 <motion.div
-                  key="logo"
+                  key="logo-container"
                   className="grid place-items-center"
                   initial={{ y: -50 }}
                   animate={{ y: 0 }}
@@ -138,7 +153,7 @@ export default function Header() {
                 >
                   <Link href="/">
                     <Image
-                      src="/logo-dark.svg"
+                      src="/logo-white.svg"
                       alt="Voto"
                       className="h-6"
                       width={55}
