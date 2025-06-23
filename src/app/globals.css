@@ -6,7 +6,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-brand: oklch(44.62% 0.211 322.48);
+  --color-brand-voto: oklch(44.62% 0.211 322.48);
+  --color-brand: var(--color-brand-voto);
 }
 
 :root {
