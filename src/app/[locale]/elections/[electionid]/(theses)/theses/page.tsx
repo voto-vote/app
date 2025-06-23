@@ -199,8 +199,8 @@ export default function ThesesPage() {
           <Progress
             theses={theses}
             ratings={ratings[election.id] ?? {}}
-            current={theses[currentThesisIndex].id}
-            onChange={(id) =>
+            currentId={theses[currentThesisIndex].id}
+            onCurrentIdChange={(id) =>
               goTo(theses.findIndex((t) => t.id === id) ?? 0, true)
             }
           />
@@ -247,7 +247,10 @@ export default function ThesesPage() {
             <Button
               variant="link"
               className="w-full text-primary"
-              onClick={() => goTo(currentThesisIndex + 1)}
+              onClick={() => {
+                setRating(election.id, theses[currentThesisIndex].id, -1);
+                goTo(currentThesisIndex + 1);
+              }}
             >
               {t("continueButton")}
             </Button>
@@ -261,6 +264,13 @@ export default function ThesesPage() {
         }}
         onSkipToResult={() => {
           setBreakDrawerOpen(false);
+          // Mark all missed theses as skipped
+          for (let i = 0; i < theses.length; i++) {
+            console.log(ratings[election.id]?.[theses[i].id]?.rating);
+            if (ratings[election.id]?.[theses[i].id]?.rating === undefined) {
+              setRating(election.id, theses[i].id, -1);
+            }
+          }
           router.push(`/elections/${election.id}/result`);
         }}
         completedTheses={currentThesisIndex}
