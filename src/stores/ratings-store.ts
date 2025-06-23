@@ -53,7 +53,7 @@ export const useRatingsStore = create<State & Action>()(
                 ...state.ratings[electionId],
                 [thesisId]: {
                   ...(state.ratings[electionId]?.[thesisId] ?? {
-                    rating: null,
+                    rating: undefined,
                   }),
                   favorite: favorite,
                 },
