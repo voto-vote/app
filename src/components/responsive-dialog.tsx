@@ -32,12 +32,12 @@ export default function ResponsiveDialog({
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent>
+        <DialogContent className="max-h-[80vh] flex flex-col">
           <DialogHeader>
             <DialogTitle className="text-center text-xl">{title}</DialogTitle>
             <DialogDescription className="sr-only">{title}</DialogDescription>
           </DialogHeader>
-          {children}
+          <div className="overflow-y-auto">{children}</div>
         </DialogContent>
       </Dialog>
     );
@@ -45,14 +45,12 @@ export default function ResponsiveDialog({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
-          <DrawerHeader>
-            <DrawerTitle className="text-center text-xl">{title}</DrawerTitle>
-            <DrawerDescription className="sr-only">{title}</DrawerDescription>
-          </DrawerHeader>
-          <div className="p-4">{children}</div>
-        </div>
+      <DrawerContent className="max-h-[80vh]">
+        <DrawerHeader>
+          <DrawerTitle className="text-center text-xl">{title}</DrawerTitle>
+          <DrawerDescription className="sr-only">{title}</DrawerDescription>
+        </DrawerHeader>
+        <div className="overflow-y-auto p-4">{children}</div>
       </DrawerContent>
     </Drawer>
   );
