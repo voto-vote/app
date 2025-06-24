@@ -81,6 +81,19 @@ export default function ThesesPage() {
     });
   }, [api]);
 
+  useEffect(() => {
+    const electionRatings = ratings[election?.id ?? ""] ?? {};
+    const hasRatings = Object.values(electionRatings).some(
+      (r) => r.rating !== undefined
+    );
+    const previousLiveMatchesAvailable = liveMatchesAvailable;
+
+    setLiveMatchesAvailable(hasRatings);
+    if (hasRatings && !previousLiveMatchesAvailable) {
+      setLiveMatchesVisible(true);
+    }
+  }, [ratings, election?.id, liveMatchesAvailable]);
+
   if (!election || !theses) {
     return null;
   }
@@ -99,8 +112,6 @@ export default function ThesesPage() {
 
       api?.scrollTo(index);
 
-      const previousLiveMatchesAvailable = liveMatchesAvailable;
-
       // TODO calculate party match updates
       setParties((p) =>
         p.map((party) => {
@@ -108,11 +119,6 @@ export default function ThesesPage() {
           return party;
         })
       );
-      setLiveMatchesAvailable(true);
-
-      if (!previousLiveMatchesAvailable) {
-        setLiveMatchesVisible(true);
-      }
     }, 200);
   }
 
