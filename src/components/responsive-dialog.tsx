@@ -13,12 +13,14 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import { cn } from "@/lib/utils";
 
 interface ResponsiveDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
   children: React.ReactNode;
+  className?: string;
 }
 
 export default function ResponsiveDialog({
@@ -26,6 +28,7 @@ export default function ResponsiveDialog({
   onOpenChange,
   title,
   children,
+  className = "",
 }: ResponsiveDialogProps) {
   const isDesktop = useBreakpoint("md");
 
@@ -37,7 +40,7 @@ export default function ResponsiveDialog({
             <DialogTitle className="text-center text-xl">{title}</DialogTitle>
             <DialogDescription className="sr-only">{title}</DialogDescription>
           </DialogHeader>
-          <div className="overflow-y-auto">{children}</div>
+          <div className={cn("overflow-y-auto", className)}>{children}</div>
         </DialogContent>
       </Dialog>
     );
@@ -50,7 +53,7 @@ export default function ResponsiveDialog({
           <DrawerTitle className="text-center text-xl">{title}</DrawerTitle>
           <DrawerDescription className="sr-only">{title}</DrawerDescription>
         </DrawerHeader>
-        <div className="overflow-y-auto p-4">{children}</div>
+        <div className={cn("overflow-y-auto p-4", className)}>{children}</div>
       </DrawerContent>
     </Drawer>
   );
