@@ -1,6 +1,14 @@
 import ResponsiveDialog from "@/components/responsive-dialog";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { ChevronDown, X } from "lucide-react";
 import { useState } from "react";
 
@@ -20,57 +28,119 @@ interface FilterProps {
 
 export default function FilterDialog({ open, onOpenChange }: FilterProps) {
   return (
-    <ResponsiveDialog open={open} onOpenChange={onOpenChange} title="Filter">
-      <div className="flex flex-wrap gap-2 mb-4">
-        <Button
-          size="sm"
-          variant="secondary"
-          className="rounded-full text-xs px-3 py-1"
-        >
-          &#10005; Alle zurücksetzen
-        </Button>
+    <ResponsiveDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Filter"
+      className="space-y-2"
+    >
+      <div className="flex flex-wrap gap-2 mb-6">
+        <Badge className="rounded-full" variant="secondary">
+          Alle zurücksetzen
+          <button
+            onClick={() => {}}
+            className="transition-colors hover:bg-accent-foreground/10 rounded-full p-0.5"
+          ></button>
+        </Badge>
+
         {mockActiveFilters.map((f, i) => (
-          <span
-            key={i}
-            className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs flex items-center gap-1"
-          >
-            {f.label}
-            <X className="size-3" />
-          </span>
+          <FilterPill label={f.label} key={i} />
         ))}
       </div>
-      <Input placeholder="Nach Kandidierenden suchen..." className="mb-2" />
-      <DropdownInput label="Partei" />
-      <DropdownInput label="Liste" />
-      <DropdownInput label="Region" />
-      <DropdownInput label="Alter" />
-      <DropdownInput label="Geschlecht" />
-      <DropdownInput label="Politikbereich" />
-      <DropdownInput label="These" />
+      <Input placeholder="Nach Kandidierenden suchen..." />
+
+      <DropdownInput
+        label="Patei"
+        items={["SPD", "Bündnis 90 / Die Grünen", "Die Linke"]}
+        className="mt-4"
+      />
+      <DropdownInput label="Liste" items={["Die Staditsten"]} />
+      <DropdownInput label="Region" items={["S-West"]} />
+
+      <DropdownInput label="Alter" items={[]} className="mt-4" />
+      <DropdownInput label="Geschlecht" items={[]} />
+
+      <div className="text-xs text-muted-foreground mt-3 mb-1">
+        Politiker/Parteien, die besonderen Wert auf diese Politikbereiche legen:
+      </div>
+      <DropdownInput label="Politikbereich" items={[]} />
+
+      <div className="text-xs text-muted-foreground mt-3 mb-1">
+        Politiker/Parteien, welche folgende Thesen wie ich beantwortet haben:
+      </div>
+      <DropdownInput label="These" items={[]} />
+
       <div className="flex gap-2 mt-4">
-        <Button className="grow">Filter (6)</Button>
-        <Button variant="secondary" className="grow">
-          &#10005; Alle zurücksetzen
+        <Button className="flex-auto">Filter (6)</Button>
+        <Button className="flex-auto" variant="secondary">
+          Alle zurücksetzen
         </Button>
       </div>
     </ResponsiveDialog>
   );
 }
 
-// DropdownInput Component
-function DropdownInput({ label }: { label: string }) {
-  const [, setOpen] = useState(false);
+function FilterPill({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick?: () => void;
+}) {
   return (
-    <div className="relative mb-2">
+    <Badge className="rounded-full">
+      {label}
       <button
-        className="w-full flex items-center justify-between border rounded-lg px-3 py-2 bg-zinc-50"
-        onClick={() => setOpen((o) => !o)}
-        type="button"
+        onClick={onClick}
+        className="transition-colors hover:bg-accent-foreground/10 rounded-full p-0.5"
       >
-        <span className="text-zinc-600">{label}</span>
-        <ChevronDown className="size-4 text-zinc-500" />
+        <X className="size-3" />
       </button>
-      {/* Add dropdown menu here if needed */}
-    </div>
+    </Badge>
+  );
+}
+
+// DropdownInput Component
+function DropdownInput({
+  label,
+  items,
+  className,
+}: {
+  label: string;
+  items: string[];
+  className?: string;
+}) {
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          className={cn(
+            "w-full text-left px-3 py-1 font-[400] justify-between",
+            className
+          )}
+        >
+          {`${label} (${checkedItems.length})`}
+          <ChevronDown className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" align="start">
+        {items.map((item, i) => (
+          <DropdownMenuCheckboxItem
+            key={i}
+            checked={checkedItems.includes(item)}
+            onCheckedChange={(checked) => {
+              setCheckedItems((prev) =>
+                checked ? [...prev, item] : prev.filter((i) => i !== item)
+              );
+            }}
+            onSelect={(e) => e.preventDefault()}
+          >
+            {item}
+          </DropdownMenuCheckboxItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

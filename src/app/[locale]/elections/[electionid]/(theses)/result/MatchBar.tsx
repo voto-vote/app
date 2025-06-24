@@ -19,7 +19,7 @@ export default function MatchBar({
         style={color ? ({ "--primary": color } as CSSProperties) : {}}
       />
       <div
-        className="absolute inset-y-0 text-primary-foreground text-sm font-semibold leading-none pr-0.5"
+        className="absolute inset-y-0 text-primary-foreground text-sm font-semibold pr-0.5 flex items-center"
         style={{ right: 100 - value + "%" }}
       >
         {value}%
