@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import MatchBar from "../../MatchBar";
+import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
 import { Bookmark, ChevronDown, CircleQuestionMark } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import {

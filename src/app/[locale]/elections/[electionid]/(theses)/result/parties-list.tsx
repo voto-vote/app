@@ -2,7 +2,7 @@
 
 import { Bookmark, ChevronRight } from "lucide-react";
 import { mockParties } from "./mock";
-import MatchBar from "./MatchBar";
+import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
 
 export default function PartiesList({
   parties,
