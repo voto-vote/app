@@ -44,5 +44,11 @@
     "titleContinue": "Continue",
     "descriptionSkip": "You have completed {completedTheses, plural, =1 {# statement} other {# statements}} and can now jump directly to the result, although the result may be less accurate.",
     "descriptionContinue": "To improve the calculation, you can answer {remainingTheses, plural, =1 {# more thesis} other {# more theses}}. Your result will be more accurate and you'll learn more about different topics."
+  },
+  "CandidateOrPartyPage": {
+    "sortedByCategories": "Sorted by categories.",
+    "sortedByYourVoto": "Sorted by your VOTO.",
+    "useVOTOSort": "Use your VOTO for sorting instead",
+    "useCategoriesSort": "Use categories for sorting instead"
   }
 }
