@@ -50,7 +50,7 @@ export default function ResultsList() {
               0
             )}{" "}
             beantworteten Thesen zur Wahl {election.title} {election.subtitle}{" "}
-            {new Date(election.date).getFullYear()}
+            {new Date(election.electionDate).getFullYear()}
           </p>
         </motion.div>
 

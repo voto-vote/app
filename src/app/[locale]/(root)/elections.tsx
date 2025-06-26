@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import { ElectionSummary } from "@/schemas/election-summary";
+import { ElectionSummary } from "@/types/election-summary";
 import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
@@ -16,7 +16,7 @@ export default function Elections({
 
   const groupedElectionSummaries = Object.groupBy(
     electionSummaries,
-    ({ date }) => date
+    (e) => e.electionDate
   );
 
   return (

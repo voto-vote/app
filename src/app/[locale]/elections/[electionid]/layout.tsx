@@ -1,9 +1,9 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useElectionStore } from "@/stores/election-store";
-import { fetchElection } from "@/lib/election";
+import { getElection } from "@/actions/election-action";
 
 export default function ElectionLayout({
   children,
@@ -14,7 +14,7 @@ export default function ElectionLayout({
   const { setElection, clearElection } = useElectionStore();
 
   useEffect(() => {
-    fetchElection(electionid).then((election) => {
+    getElection(electionid).then((election) => {
       setElection(election);
     });
 
@@ -23,5 +23,7 @@ export default function ElectionLayout({
     };
   }, [clearElection, electionid, setElection]);
 
-  return children;
+  return <Suspense fallback={<div>Loading election data...</div>}>
+    {children}
+  </Suspense>;
 }

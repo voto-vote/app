@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { Thesis } from "@/schemas/thesis";
-import { Election } from "@/schemas/election";
-import { Ratings } from "@/schemas/ratings";
+import { Election } from "@/types/election";
+import { Ratings } from "@/types/ratings";
 
 type State = {
   ratings: {

@@ -1,8 +1,8 @@
-import { fetchElectionSummaries } from "@/lib/election-summaries";
 import Elections from "@/app/[locale]/(root)/elections";
+import { getElectionSummaries } from "@/actions/election-summaries-actions";
 
 export default async function ElectionListPage() {
-  const electionSummaries = await fetchElectionSummaries();
+  const electionSummaries = await getElectionSummaries();
 
   return <Elections electionSummaries={electionSummaries} />;
 }

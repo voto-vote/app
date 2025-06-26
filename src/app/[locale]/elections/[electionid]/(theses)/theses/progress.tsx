@@ -6,7 +6,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
-import { Ratings } from "@/schemas/ratings";
+import { Ratings } from "@/types/ratings";
 import { Thesis } from "@/schemas/thesis";
 import { Circle, Star } from "lucide-react";
 import { useEffect, useState } from "react";

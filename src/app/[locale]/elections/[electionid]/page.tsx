@@ -71,7 +71,7 @@ export default function Election() {
     },
   };
 
-  const electionDate = new Date(election.date);
+  const electionDate = new Date(election.electionDate);
 
   return (
     <motion.div
