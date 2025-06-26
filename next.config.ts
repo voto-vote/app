@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
     "[fd00:*]",
     "localhost",
   ],
+  experimental: {
+    dynamicIO: true
+  }
 };
 
 const withNextIntl = createNextIntlPlugin();

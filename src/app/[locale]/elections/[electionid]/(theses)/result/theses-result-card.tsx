@@ -9,8 +9,8 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Markdown from "@/components/markdown";
 import ThesisText from "@/app/[locale]/elections/[electionid]/(theses)/theses/thesis-text";
-import { Rating } from "@/schemas/ratings";
-import { Election } from "@/schemas/election";
+import { Rating } from "@/types/ratings";
+import { Election } from "@/types/election";
 import { isLightColor } from "@/lib/color-utils";
 
 interface ThesisCardProps {

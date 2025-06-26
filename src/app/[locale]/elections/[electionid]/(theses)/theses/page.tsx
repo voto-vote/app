@@ -82,7 +82,7 @@ export default function ThesesPage() {
   }, [api]);
 
   useEffect(() => {
-    const electionRatings = ratings[election?.id ?? ""] ?? {};
+    const electionRatings = ratings[election?.id ?? -1] ?? {};
     const hasRatings = Object.values(electionRatings).some(
       (r) => r.rating !== undefined
     );

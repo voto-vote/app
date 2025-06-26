@@ -1,8 +1,8 @@
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { NextRequest } from "next/server";
-import { fetchElection } from "./lib/election";
 import { hasLocale } from "next-intl";
+import { getElection } from "./actions/election-action";
 
 // If an election does not support the requested locale, we redirect to the default locale
 export default async function middleware(request: NextRequest) {
@@ -12,7 +12,7 @@ export default async function middleware(request: NextRequest) {
   const electionsPathIndex = segments.indexOf("elections");
   if (electionsPathIndex !== -1 && electionsPathIndex < segments.length - 1) {
     const electionId = segments[electionsPathIndex + 1];
-    const election = await fetchElection(electionId);
+    const election = await getElection(electionId);
     // Intersection of the static locales and the election's locales
     const supportedLocales = routing.locales.filter((l) =>
       election.locales.includes(l)

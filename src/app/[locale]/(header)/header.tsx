@@ -63,13 +63,13 @@ export default function Header() {
                   >
                     <div>
                       <div className="font-bold text-lg leading-none">
-                        {new Date(election.date).toLocaleDateString(locale, {
+                        {new Date(election.electionDate).toLocaleDateString(locale, {
                           day: "2-digit",
                           month: "2-digit",
                         })}
                       </div>
                       <div className="text-sm leading-none">
-                        {new Date(election.date).toLocaleDateString(locale, {
+                        {new Date(election.electionDate).toLocaleDateString(locale, {
                           year: "numeric",
                         })}
                       </div>
@@ -127,7 +127,7 @@ export default function Header() {
                 >
                   <Link href={`/elections/${election.id}`}>
                     <div className="font-bold text-xs leading-none">
-                      {new Date(election.date).toLocaleDateString(locale, {
+                      {new Date(election.electionDate).toLocaleDateString(locale, {
                         year: "numeric",
                         month: "2-digit",
                         day: "2-digit",
