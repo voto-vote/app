@@ -13,16 +13,16 @@ import { Button } from "@/components/ui/button";
 import BreakDrawer from "./break-drawer";
 import Progress from "./progress";
 import { useBackButtonStore } from "@/stores/back-button-store";
-import { useElectionStore } from "@/stores/election-store";
 import { useThesesStore } from "@/stores/theses-store";
 import { ChevronsUpDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { motion } from "framer-motion";
+import { useElection } from "@/contexts/election-context";
 
 export default function ThesesPage() {
-  const { election } = useElectionStore();
+  const { election } = useElection();
   const { theses } = useThesesStore();
   const { ratings, setRating, setFavorite } = useRatingsStore();
   const [api, setApi] = useState<CarouselApi>();
@@ -94,7 +94,7 @@ export default function ThesesPage() {
     }
   }, [ratings, election?.id, liveMatchesAvailable]);
 
-  if (!election || !theses) {
+  if (!theses) {
     return null;
   }
 

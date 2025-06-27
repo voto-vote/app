@@ -14,15 +14,15 @@ import { translateLocale } from "@/i18n/utils";
 import { motion, type Variants } from "framer-motion";
 import Markdown from "@/components/markdown";
 import { useBackButtonStore } from "@/stores/back-button-store";
-import { useElectionStore } from "@/stores/election-store";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import { useTranslations } from "use-intl";
 import { routing } from "@/i18n/routing";
 import { useParams } from "next/navigation";
+import { useElection } from "@/contexts/election-context";
 
 export default function Election() {
-  const { election } = useElectionStore();
+  const { election } = useElection();
   const router = useRouter();
   const { setBackPath } = useBackButtonStore();
   const locale = useLocale();
@@ -33,8 +33,6 @@ export default function Election() {
   useEffect(() => {
     setBackPath("/");
   }, [setBackPath]);
-
-  if (!election) return null;
 
   function changeLanguage(newLocale: string) {
     router.replace(

@@ -1,29 +1,21 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import { Suspense, useEffect } from "react";
-import { useElectionStore } from "@/stores/election-store";
 import { getElection } from "@/actions/election-action";
+import { ElectionProvider } from "@/contexts/election-context";
+import ElectionChangeHandler from "./election-change-handler";
 
-export default function ElectionLayout({
+export default async function ElectionLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
-  const { electionid } = useParams<{ electionid: string }>();
-  const { setElection, clearElection } = useElectionStore();
+  params: Promise<{ electionid: string }>;
+}) {
+  const { electionid } = await params;
+  const election = await getElection(electionid);
 
-  useEffect(() => {
-    getElection(electionid).then((election) => {
-      setElection(election);
-    });
-
-    return () => {
-      clearElection();
-    };
-  }, [clearElection, electionid, setElection]);
-
-  return <Suspense fallback={<div>Loading election data...</div>}>
-    {children}
-  </Suspense>;
+  return (
+    <ElectionProvider election={election}>
+      <ElectionChangeHandler election={election} />
+      {children}
+    </ElectionProvider>
+  );
 }

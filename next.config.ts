@@ -19,8 +19,8 @@ const nextConfig: NextConfig = {
     "localhost",
   ],
   experimental: {
-    dynamicIO: true
-  }
+    nodeMiddleware: true,
+  },
 };
 
 const withNextIntl = createNextIntlPlugin();

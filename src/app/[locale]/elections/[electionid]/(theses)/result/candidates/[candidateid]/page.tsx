@@ -9,7 +9,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useElectionStore } from "@/stores/election-store";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import ThesisResultCard from "@/app/[locale]/elections/[electionid]/(theses)/result/theses-result-card";
 import { useThesesStore } from "@/stores/theses-store";
@@ -22,6 +21,7 @@ import {
 import { useTranslations } from "next-intl";
 import { Thesis } from "@/schemas/thesis";
 import { useRatingsStore } from "@/stores/ratings-store";
+import { useElection } from "@/contexts/election-context";
 
 export default function CandidatePage() {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -34,7 +34,7 @@ export default function CandidatePage() {
   const [thesesSorting, setThesesSorting] = useState<"random" | "category">(
     "category"
   );
-  const { election } = useElectionStore();
+  const { election } = useElection();
   const { theses } = useThesesStore();
   const { ratings } = useRatingsStore();
   const { setBackPath } = useBackButtonStore();
@@ -79,7 +79,7 @@ export default function CandidatePage() {
     }
   }, [theses, thesesSorting]);
 
-  if (!election || !theses) {
+  if (!theses) {
     return null;
   }
 
