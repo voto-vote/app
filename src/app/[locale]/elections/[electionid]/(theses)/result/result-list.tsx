@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 //import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import { useElectionStore } from "@/stores/election-store";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import CandidatesList from "./candidates-list";
 import PartiesList from "./parties-list";
@@ -13,13 +12,14 @@ import FilterDialog from "./filter-dialog";
 import { mockCandidates, mockParties } from "./mock";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { useRouter } from "@/i18n/navigation";
+import { useElection } from "@/contexts/election-context";
 
 export default function ResultsList() {
   const [tab, setTab] = useState<"candidates" | "parties">("candidates");
   const [bookmarkList, setBookmarkList] = useState(["1", "3", "cdu", "spd"]);
   const [filterOpen, setFilterOpen] = useState(false);
   //const t = useTranslations("ResultsPage");
-  const { election } = useElectionStore();
+  const { election } = useElection();
   const { setBackPath } = useBackButtonStore();
   const { ratings } = useRatingsStore();
   const router = useRouter();
@@ -31,8 +31,6 @@ export default function ResultsList() {
       setBackPath("/");
     }
   }, [election?.id, setBackPath]);
-
-  if (!election) return null;
 
   return (
     <div className="container mx-auto max-w-3xl p-2 pb-14">

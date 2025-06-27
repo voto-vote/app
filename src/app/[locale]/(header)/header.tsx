@@ -8,9 +8,9 @@ import NavigationSheet from "./navigation-sheet";
 import { AnimatePresence, motion } from "framer-motion";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { useBackButtonStore } from "@/stores/back-button-store";
-import { useElectionStore } from "@/stores/election-store";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
+import { useHeader } from "@/contexts/header-context";
 
 export default function Header() {
   const { backPath } = useBackButtonStore();
@@ -18,20 +18,20 @@ export default function Header() {
   const [navigationSheetOpen, setNavigationSheetOpen] = useState(false);
   const router = useRouter();
   const isDesktop = useBreakpoint("md");
-  const { election } = useElectionStore();
+  const { headerDetails } = useHeader();
   const [logoUrl, setLogoUrl] = useState(
-    election?.theming?.logo ?? "/logo-white.svg"
+    headerDetails?.logo ?? "/logo-white.svg"
   );
   const locale = useLocale();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (election?.theming?.logo) {
-      setLogoUrl(election.theming.logo);
+    if (headerDetails?.logo) {
+      setLogoUrl(headerDetails.logo);
     } else {
       setLogoUrl("/logo-white.svg");
     }
-  }, [election?.theming?.logo]);
+  }, [headerDetails?.logo]);
 
   return (
     <header className="bg-brand text-white transition-colors duration-[500ms]">
@@ -46,10 +46,10 @@ export default function Header() {
         </div>
         {isDesktop && (
           <div
-            className={`relative h-full flex items-center ${election ? "justify-between" : "justify-center"}`}
+            className={`relative h-full flex items-center ${headerDetails ? "justify-between" : "justify-center"}`}
           >
             <AnimatePresence mode="popLayout">
-              {election && (
+              {headerDetails && (
                 <motion.div
                   key="election-info"
                   initial={{ opacity: 0, x: -20, width: "0" }}
@@ -58,28 +58,32 @@ export default function Header() {
                   transition={{ duration: 0.5 }}
                 >
                   <Link
-                    href={`/elections/${election.id}`}
+                    href={`/elections/${headerDetails.electionId}`}
                     className="flex gap-8 items-center"
                   >
                     <div>
                       <div className="font-bold text-lg leading-none">
-                        {new Date(election.electionDate).toLocaleDateString(locale, {
+                        {new Date(
+                          headerDetails.electionDate
+                        ).toLocaleDateString(locale, {
                           day: "2-digit",
                           month: "2-digit",
                         })}
                       </div>
                       <div className="text-sm leading-none">
-                        {new Date(election.electionDate).toLocaleDateString(locale, {
+                        {new Date(
+                          headerDetails.electionDate
+                        ).toLocaleDateString(locale, {
                           year: "numeric",
                         })}
                       </div>
                     </div>
                     <div>
                       <div className="font-bold text-lg leading-none">
-                        {election.title}
+                        {headerDetails.title}
                       </div>
                       <div className="text-sm leading-none">
-                        {election.subtitle}
+                        {headerDetails.subtitle}
                       </div>
                     </div>
                   </Link>
@@ -99,7 +103,7 @@ export default function Header() {
                       key={logoUrl}
                       src={logoUrl}
                       alt="logo"
-                      className={`absolute inset-0 size-full object-contain brightness-0 invert transition-all duration-[500ms] ${election ? "object-right" : "object-center"}`}
+                      className={`absolute inset-0 size-full object-contain brightness-0 invert transition-all duration-[500ms] ${headerDetails ? "object-right" : "object-center"}`}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -116,7 +120,7 @@ export default function Header() {
             className={`h-full flex items-center justify-center transition-all`}
           >
             <AnimatePresence mode="wait">
-              {election && (
+              {headerDetails && (
                 <motion.div
                   key="election-info"
                   className="grid place-items-center text-center"
@@ -125,21 +129,24 @@ export default function Header() {
                   exit={{ y: 50 }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
                 >
-                  <Link href={`/elections/${election.id}`}>
+                  <Link href={`/elections/${headerDetails.electionId}`}>
                     <div className="font-bold text-xs leading-none">
-                      {new Date(election.electionDate).toLocaleDateString(locale, {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                      })}
+                      {new Date(headerDetails.electionDate).toLocaleDateString(
+                        locale,
+                        {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        }
+                      )}
                     </div>
                     <p className="text-xs leading-none">
-                      {election.title} {election.subtitle}
+                      {headerDetails.title} {headerDetails.subtitle}
                     </p>
                   </Link>
                 </motion.div>
               )}
-              {!election && (
+              {!headerDetails && (
                 <motion.div
                   key="logo-container"
                   className="grid place-items-center"

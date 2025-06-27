@@ -6,7 +6,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import Theming from "./theming";
+import { HeaderProvider } from "@/contexts/header-context";
 
 const inter = localFont({
   src: "../inter.ttf",
@@ -25,11 +25,6 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
   };
-}
-
-// TODO remove that once dynamicIO is stable
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
 }
 
 export default async function RootLayout({
@@ -54,9 +49,10 @@ export default async function RootLayout({
         className={`${inter.className} h-full antialiased overflow-hidden flex flex-col`}
       >
         <NextIntlClientProvider>
-          <Theming />
-          <Header />
-          <div className="grow overflow-y-scroll">{children}</div>
+          <HeaderProvider>
+            <Header />
+            <div className="grow overflow-y-scroll">{children}</div>
+          </HeaderProvider>
         </NextIntlClientProvider>
       </body>
     </html>
