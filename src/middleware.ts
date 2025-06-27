@@ -4,6 +4,8 @@ import { NextRequest } from "next/server";
 import { hasLocale } from "next-intl";
 import { getElection } from "./actions/election-action";
 
+export const runtime = "nodejs";
+
 // If an election does not support the requested locale, we redirect to the default locale
 export default async function middleware(request: NextRequest) {
   const [, locale, ...segments] = request.nextUrl.pathname.split("/");

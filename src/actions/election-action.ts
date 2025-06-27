@@ -26,7 +26,7 @@ export async function getElection(id: string): Promise<Election> {
     .where(and(eq(elections.status, 2), eq(instances.id, parseInt(id))));
 
   const configurationPromise = fetch(
-    `https://votoprod.appspot.com.storage.googleapis.com/configuration/${id}/configuration.json`
+    `https://votodev.appspot.com.storage.googleapis.com/configuration/${id}/configuration.json`
   ).then((r) => r.json());
 
   // TODO remove just for testing purposes
@@ -45,7 +45,11 @@ export async function getElection(id: string): Promise<Election> {
     electionDate: i.electionDate ?? "1970-01-01",
     title: i.title,
     subtitle: i.subtitle,
-    image: configuration?.introduction?.background ?? "",
+    image:
+      configuration?.introduction?.background?.replace(
+        "voto://",
+        "https://votodev.appspot.com.storage.googleapis.com/"
+      ) ?? "",
     locales: availableLanguages.map((l) => l.languageCode),
     defaultLocale: "de", //TODO
     description: i.description,
@@ -64,7 +68,7 @@ export async function getElection(id: string): Promise<Election> {
     survey: { beforeTheses: false, afterTheses: false }, //TODO
     theming: {
       logo: "/logo-white.svg",
-      primary: "oklch(44.7038% 0.24 331,12)",
+      primary: "oklch(44.7038% 0.24 331.12)",
     }, //TODO
     faqs: [], //TODO
     disableLiveVotes: false, //TODO
