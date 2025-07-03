@@ -43,6 +43,7 @@ export async function getElectionSummaries(
                 "https://votoprod.appspot.com.storage.googleapis.com/"
               ) ?? "",
           };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           // Ignore elections where configuration is not found or JSON is invalid
           return null;
