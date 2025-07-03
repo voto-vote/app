@@ -23,23 +23,37 @@ export async function getElectionSummaries(
     .offset(offset)
     .limit(limit);
 
-  const electionSummaries: ElectionSummary[] = await Promise.all(
-    instance.map((d) => {
-      return fetch(
-        `https://votodev.appspot.com.storage.googleapis.com/configuration/${d.id}/configuration.json`
-      )
-        .then((r) => r.json())
-        .then((c) => ({
-          ...d,
-          electionDate: d.electionDate ?? "1970-01-01",
-          image:
-            c?.introduction?.background?.replace(
-              "voto://",
-              "https://votodev.appspot.com.storage.googleapis.com/"
-            ) ?? "",
-        }));
-    })
-  );
+  const electionSummaries: ElectionSummary[] = (
+    await Promise.allSettled(
+      instance.map(async (d) => {
+        try {
+          const response = await fetch(
+            `https://votoprod.appspot.com.storage.googleapis.com/configuration/${d.id}/configuration.json`
+          );
+
+          const text = await response.text();
+          const config = JSON.parse(text);
+
+          return {
+            ...d,
+            electionDate: d.electionDate ?? "1970-01-01",
+            image:
+              config?.introduction?.background?.replace(
+                "voto://",
+                "https://votoprod.appspot.com.storage.googleapis.com/"
+              ) ?? "",
+          };
+        } catch (error) {
+          // Ignore elections where configuration is not found or JSON is invalid
+          return null;
+        }
+      })
+    )
+  )
+    .filter((result): result is PromiseFulfilledResult<ElectionSummary> => 
+      result.status === 'fulfilled' && result.value !== null
+    )
+    .map(result => result.value);
 
   return electionSummaries;
 }

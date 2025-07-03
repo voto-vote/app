@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { HeaderProvider } from "@/contexts/header-context";
+import Spinner from "../../components/ui/spinner";
 
 const inter = localFont({
   src: "../inter.ttf",
@@ -51,6 +52,7 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <HeaderProvider>
             <Header />
+            <Spinner />
             <div className="grow overflow-y-scroll">{children}</div>
           </HeaderProvider>
         </NextIntlClientProvider>
