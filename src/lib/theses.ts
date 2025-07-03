@@ -11,10 +11,10 @@ export async function fetchTheses(
   await connection();
 
   const apiBaseUrl =
-    process.env.VOTO_APP_API_BASE_URL || "https://api.voto.vote/v2";
+    process.env.VOTO_APP_API_BASE_URL || "https://api.voto.vote";
 
   const res = await fetch(
-    `${apiBaseUrl}/elections/${id}/theses?locale=${locale}`,
+    `${apiBaseUrl}/applications/${id}/theses?locale=${locale}`,
     {
       cache: "force-cache",
     }

@@ -26,7 +26,7 @@ export async function getElection(id: string): Promise<Election> {
     .where(and(eq(elections.status, 2), eq(instances.id, parseInt(id))));
 
   const configurationPromise = fetch(
-    `https://votodev.appspot.com.storage.googleapis.com/configuration/${id}/configuration.json`
+    `https://votoprod.appspot.com.storage.googleapis.com/configuration/${id}/configuration.json`
   ).then((r) => r.json());
 
   // TODO remove just for testing purposes
@@ -48,7 +48,7 @@ export async function getElection(id: string): Promise<Election> {
     image:
       configuration?.introduction?.background?.replace(
         "voto://",
-        "https://votodev.appspot.com.storage.googleapis.com/"
+        "https://votoprod.appspot.com.storage.googleapis.com/"
       ) ?? "",
     locales: availableLanguages.map((l) => l.languageCode),
     defaultLocale: "de", //TODO

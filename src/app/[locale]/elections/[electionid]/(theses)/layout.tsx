@@ -3,9 +3,9 @@
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { useThesesStore } from "@/stores/theses-store";
-import { fetchTheses } from "@/lib/theses";
 import { useLocale } from "next-intl";
 import { useRandomStore } from "@/stores/random-store";
+import { getTheses } from "@/actions/theses-action";
 
 export default function ElectionLayout({
   children,
@@ -19,11 +19,10 @@ export default function ElectionLayout({
 
   useEffect(() => {
     const random = createSeededRandom(seed);
-    fetchTheses(electionid, locale).then((theses) => {
+    getTheses(Number(electionid),locale).then((theses) => {
       const shuffledTheses = shuffle(theses, random);
       setTheses(shuffledTheses, electionid);
     });
-
     return () => {
       clearTheses();
     };
