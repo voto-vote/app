@@ -24,11 +24,11 @@ export async function getElectionSummaries(
     .limit(limit);
 
   const electionSummaries: ElectionSummary[] = (
-    await Promise.allSettled(
+    (await Promise.all(
       instance.map(async (d) => {
         try {
           const response = await fetch(
-            `https://votoprod.appspot.com.storage.googleapis.com/configuration/${d.id}/configuration.json`
+            `https://votodev.appspot.com.storage.googleapis.com/configuration/${d.id}/configuration.json`
           );
 
           const text = await response.text();
@@ -40,21 +40,18 @@ export async function getElectionSummaries(
             image:
               config?.introduction?.background?.replace(
                 "voto://",
-                "https://votoprod.appspot.com.storage.googleapis.com/"
+                "https://votodev.appspot.com.storage.googleapis.com/"
               ) ?? "",
           };
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           // Ignore elections where configuration is not found or JSON is invalid
+          console.warn(`Skipping election instance ${d.id}:`, error);
           return null;
         }
       })
-    )
-  )
-    .filter((result): result is PromiseFulfilledResult<ElectionSummary> => 
-      result.status === 'fulfilled' && result.value !== null
-    )
-    .map(result => result.value);
+    )).filter((d) => d !== null)
+  );
 
   return electionSummaries;
 }
