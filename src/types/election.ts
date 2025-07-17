@@ -7,7 +7,6 @@ export type Election = {
   locales: string[];
   defaultLocale: string;
   description: string;
-  sponsors: Sponsor[];
   launchDate: string;
   status: Status;
   private: boolean;
@@ -18,12 +17,6 @@ export type Election = {
   theming: Theming;
   faqs: FAQ[];
   disableLiveVotes: boolean;
-};
-
-export type Sponsor = {
-  name: string;
-  url: string;
-  image: string;
 };
 
 export type Status =
