@@ -19,16 +19,16 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { useTranslations } from "next-intl";
-import { Thesis } from "@/schemas/thesis";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { useElection } from "@/contexts/election-context";
+import { type Theses } from "@/types/theses";
 
 export default function CandidatePage() {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isAboutMeExpanded, setIsAboutMeExpanded] = useState(false);
   const [aboutMeHeight, setAboutMeHeight] = useState(0);
   const aboutMeRef = useRef<HTMLDivElement>(null);
-  const [sortedTheses, setSortedTheses] = useState<Thesis[]>([]);
+  const [sortedTheses, setSortedTheses] = useState<Theses>([]);
   const [api, setApi] = useState<CarouselApi>();
   const [, setCurrentThesisIndex] = useState(0);
   const [thesesSorting, setThesesSorting] = useState<"random" | "category">(
