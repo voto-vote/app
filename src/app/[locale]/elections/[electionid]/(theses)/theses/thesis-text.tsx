@@ -6,7 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Thesis } from "@/schemas/thesis";
+import { type Thesis } from "@/types/theses";
 
 export default function ThesisText({ thesis }: { thesis: Thesis }) {
   // Sort explanations by startOffset

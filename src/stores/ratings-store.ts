@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { Thesis } from "@/schemas/thesis";
+import { type Thesis } from "@/types/theses";
 import { Election } from "@/types/election";
 import { Ratings } from "@/types/ratings";
 

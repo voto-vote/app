@@ -7,12 +7,12 @@ import {
 } from "@/components/ui/tooltip";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { Ratings } from "@/types/ratings";
-import { Thesis } from "@/schemas/thesis";
+import { type Theses } from "@/types/theses";
 import { Circle, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface ProgressProps {
-  theses: Thesis[];
+  theses: Theses;
   ratings: Ratings;
   currentId: string;
   onCurrentIdChange: (id: string) => void;

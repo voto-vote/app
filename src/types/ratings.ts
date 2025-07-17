@@ -1,4 +1,4 @@
-import { type Thesis } from "../schemas/thesis";
+import { type Thesis } from "@/types/theses";
 
 export type Rating = {
   rating: number | undefined; // undefined means no rating given yet, -1 means skipped

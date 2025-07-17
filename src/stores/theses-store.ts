@@ -1,7 +1,5 @@
 import { create } from "zustand";
-import { Thesis } from "@/schemas/thesis";
-
-type Theses = Array<Thesis>;
+import { type Theses } from "@/types/theses";
 
 type State = {
   theses: Theses | undefined;
