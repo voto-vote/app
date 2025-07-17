@@ -28,7 +28,7 @@ export type Sponsor = {
 
 export type Status =
   | "created"
-  | "in-progress"
+  | "in-preparation"
   | "ready-to-launch"
   | "live"
   | "deactivated";
@@ -49,7 +49,7 @@ export type MatchField = {
 export type Algorithm = {
   decisions: number;
   matchType: "candidates" | "parties" | "candidates-and-parties";
-  weightedVotesLimit: number;
+  weightedVotesLimit: number | false;
   matrix: number[][];
 };
 

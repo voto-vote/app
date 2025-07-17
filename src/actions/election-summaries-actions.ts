@@ -9,6 +9,13 @@ export async function getElectionSummaries(
   limit: number = 100,
   offset: number = 0
 ): Promise<ElectionSummary[]> {
+  const objectStorageUrl = process.env.OBJECT_STORAGE_URL;
+  if (!objectStorageUrl) {
+    throw new Error(
+      "OBJECT_STORAGE_URL is not defined in the environment variables."
+    );
+  }
+
   const instance = await db
     .select({
       id: instances.id,
@@ -24,34 +31,35 @@ export async function getElectionSummaries(
     .limit(limit);
 
   const electionSummaries: ElectionSummary[] = (
-    (await Promise.all(
-      instance.map(async (d) => {
+    await Promise.all(
+      instance.map(async (i) => {
         try {
-          const response = await fetch(
-            `https://votodev.appspot.com.storage.googleapis.com/configuration/${d.id}/configuration.json`
+          const configurationUrl = objectStorageUrl.replace(
+            "{id}",
+            i.id.toString()
           );
+          const response = await fetch(configurationUrl);
 
           const text = await response.text();
           const config = JSON.parse(text);
 
           return {
-            ...d,
-            electionDate: d.electionDate ?? "1970-01-01",
+            ...i,
+            electionDate: i.electionDate ?? "1970-01-01",
             image:
               config?.introduction?.background?.replace(
                 "voto://",
                 "https://votodev.appspot.com.storage.googleapis.com/"
               ) ?? "",
           };
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           // Ignore elections where configuration is not found or JSON is invalid
-          console.warn(`Skipping election instance ${d.id}:`, error);
+          console.warn(`Skipping election instance ${i.id}:`, error);
           return null;
         }
       })
-    )).filter((d) => d !== null)
-  );
+    )
+  ).filter((d) => d !== null);
 
   return electionSummaries;
 }

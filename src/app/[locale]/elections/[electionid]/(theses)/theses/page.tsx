@@ -101,6 +101,7 @@ export default function ThesesPage() {
   function goTo(index: number, skipBreak = false) {
     if (index >= count) {
       router.push(`/elections/${election!.id}/result`);
+      return;
     }
 
     // The timeout makes it possible to highlight the selected rating button before continuing
@@ -178,7 +179,7 @@ export default function ThesesPage() {
                 <ThesisCard
                   thesis={thesis}
                   starDisabled={
-                    election.algorithm.weightedVotesLimit !== -1 &&
+                    election.algorithm.weightedVotesLimit !== false &&
                     Object.values(ratings[election.id] ?? {}).reduce(
                       (n, t) => (t.favorite === true ? n + 1 : n),
                       0
