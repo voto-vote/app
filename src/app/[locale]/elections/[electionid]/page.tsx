@@ -193,54 +193,7 @@ export default function Election() {
             className="col-span-2 md:col-span-12 mt-6 md:mt-12"
             variants={itemVariants}
           >
-            <div className="font-bold text-xl md:text-2xl mb-2">
-              {t("informationsTitle")}
-            </div>
-            <div className="md:text-lg">
-              <Markdown content={election.description} />
-            </div>
-          </motion.div>
-
-          {/* Sponsors */}
-          <motion.div
-            className="col-span-2 md:col-span-12 mt-6 md:mt-12"
-            variants={itemVariants}
-          >
-            <div className="font-bold text-xl md:text-2xl mb-2">
-              {t("sponsorsTitle")}
-            </div>
-            <div className="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-4 md:gap-8 mt-4">
-              {election.sponsors.map((sponsor, i) => (
-                <motion.a
-                  key={i}
-                  custom={0}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      delay: 0.5 + i * 0.1,
-                      duration: 0.5,
-                      ease: "easeOut",
-                    },
-                  }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  href={sponsor.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="md:max-w-[350px]"
-                >
-                  <Image
-                    src={sponsor.image || "/placeholder.svg"}
-                    alt={sponsor.name}
-                    width={1000}
-                    height={1000}
-                    className="w-full"
-                  />
-                </motion.a>
-              ))}
-            </div>
+            <Markdown content={election.description} className="prose-sm" />
           </motion.div>
         </div>
       </div>

@@ -7,8 +7,9 @@ import {
   statements,
   statementTranslations,
 } from "@/db/schema";
-import { Election, Intro, Sponsor, Status } from "@/types/election";
+import { Election, Intro, Status } from "@/types/election";
 import { eq, and, count } from "drizzle-orm";
+import { getTranslations } from "next-intl/server";
 
 export async function getElection(id: string): Promise<Election> {
   const objectStorageUrl = process.env.OBJECT_STORAGE_URL;
@@ -70,8 +71,10 @@ export async function getElection(id: string): Promise<Election> {
       ) ?? "",
     locales: availableLanguages.map((l) => l.languageCode),
     defaultLocale: "de", //TODO
-    description: i.description,
-    sponsors: convertSponsors(configuration),
+    description: await convertDescription(
+      i.description,
+      configuration?.sponsors ?? []
+    ),
     launchDate: i.launchDate,
     status: convertStatus(i.status),
     private: false, //TODO
@@ -115,13 +118,33 @@ function convertStatus(status: number): Status {
   }
 }
 
-function convertSponsors(sponsors: unknown): Sponsor[] {
-  if (!Array.isArray(sponsors)) return [];
-  return sponsors.map((s) => ({
+async function convertDescription(
+  description: string,
+  sponsors: unknown
+): Promise<string> {
+  const s = (Array.isArray(sponsors) ? sponsors : []).map((s) => ({
     name: s.name,
     url: s.href,
     image: s.image,
   }));
+
+  const t = await getTranslations();
+
+  let result = `# ${t("Election.informationsTitle")}\n\n${description}`;
+
+  if (s.length > 0) {
+    result += `\n\n## ${t("Election.sponsorsTitle")}\n\n${s
+      .map(
+        (sponsor) =>
+          `- [${sponsor.name}](${sponsor.url}) ![${sponsor.name}](${sponsor.image.replace(
+            "voto://",
+            "https://votodev.appspot.com.storage.googleapis.com/"
+          )})`
+      )
+      .join("\n")}`;
+  }
+
+  return result;
 }
 
 function convertIntro(intro: unknown): Intro[] {
