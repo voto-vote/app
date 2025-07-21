@@ -38,10 +38,9 @@ export async function getElectionSummaries(
             "{id}",
             i.id.toString()
           );
+          const configurationUrlOrigin = new URL(configurationUrl).origin;
           const response = await fetch(configurationUrl);
-
-          const text = await response.text();
-          const config = JSON.parse(text);
+          const config = await response.json();
 
           return {
             ...i,
@@ -49,7 +48,7 @@ export async function getElectionSummaries(
             image:
               config?.introduction?.background?.replace(
                 "voto://",
-                "https://votodev.appspot.com.storage.googleapis.com/"
+                configurationUrlOrigin + "/"
               ) ?? "",
           };
         } catch (error) {

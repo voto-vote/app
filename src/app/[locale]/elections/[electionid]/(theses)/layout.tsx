@@ -19,10 +19,11 @@ export default function ElectionLayout({
 
   useEffect(() => {
     const random = createSeededRandom(seed);
-    getTheses(Number(electionid),locale).then((theses) => {
+    getTheses(electionid, locale).then((theses) => {
       const shuffledTheses = shuffle(theses, random);
       setTheses(shuffledTheses, electionid);
     });
+
     return () => {
       clearTheses();
     };

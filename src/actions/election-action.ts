@@ -44,10 +44,8 @@ export async function getElection(id: string): Promise<Election> {
     .where(and(eq(elections.status, 2), eq(instances.id, parseInt(id))));
 
   const configurationUrl = objectStorageUrl.replace("{id}", id);
+  const configurationUrlOrigin = new URL(configurationUrl).origin;
   const configurationPromise = fetch(configurationUrl).then((r) => r.json());
-
-  // TODO remove just for testing purposes
-  const delayPromise = new Promise((resolve) => setTimeout(resolve, 1000));
 
   const [availableLanguages, numberOfTheses, instance, configuration] =
     await Promise.all([
@@ -55,7 +53,6 @@ export async function getElection(id: string): Promise<Election> {
       numberOfThesesData,
       instanceData,
       configurationPromise,
-      delayPromise, // Simulate delay for testing
     ]);
 
   const i = instance[0];
@@ -67,13 +64,14 @@ export async function getElection(id: string): Promise<Election> {
     image:
       configuration?.introduction?.background?.replace(
         "voto://",
-        "https://votodev.appspot.com.storage.googleapis.com/"
+        configurationUrlOrigin + "/"
       ) ?? "",
     locales: availableLanguages.map((l) => l.languageCode),
     defaultLocale: "de", //TODO
     description: await convertDescription(
       i.description,
-      configuration?.sponsors ?? []
+      configuration?.sponsors ?? [],
+      configurationUrlOrigin
     ),
     launchDate: i.launchDate,
     status: convertStatus(i.status),
@@ -120,7 +118,8 @@ function convertStatus(status: number): Status {
 
 async function convertDescription(
   description: string,
-  sponsors: unknown
+  sponsors: unknown,
+  configurationUrlOrigin: string
 ): Promise<string> {
   const s = (Array.isArray(sponsors) ? sponsors : []).map((s) => ({
     name: s.name,
@@ -138,7 +137,7 @@ async function convertDescription(
         (sponsor) =>
           `- [${sponsor.name}](${sponsor.url}) ![${sponsor.name}](${sponsor.image.replace(
             "voto://",
-            "https://votodev.appspot.com.storage.googleapis.com/"
+            configurationUrlOrigin + "/"
           )})`
       )
       .join("\n")}`;

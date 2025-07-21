@@ -6,7 +6,7 @@ import { statements, statementTranslations } from "@/db/schema";
 import { Theses } from "@/types/theses";
 
 export async function getTheses(
-  applicationId: number,
+  instanceId: string,
   locale: string
 ): Promise<Theses> {
   const result = await db
@@ -23,7 +23,7 @@ export async function getTheses(
     .where(
       and(
         eq(statementTranslations.languageCode, locale),
-        eq(statements.instanceId, applicationId)
+        eq(statements.instanceId, Number(instanceId))
       )
     );
 
@@ -32,8 +32,9 @@ export async function getTheses(
     id: row.statementId.toString(),
     category: row.title.toString(),
     text: row.text,
-    explanations: [],
-    additionalInfos: "",
+    explanations: [], //TODO
+    additionalInfos: "", //TODO
   }));
+
   return theses;
 }
