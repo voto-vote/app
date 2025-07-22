@@ -63,7 +63,7 @@ export default function Header() {
                     className="flex gap-8 items-center"
                   >
                     <div>
-                      <div className="font-bold text-lg leading-none">
+                      <div className="font-bold text-lg leading-tight">
                         {new Date(
                           headerDetails.electionDate
                         ).toLocaleDateString(locale, {
@@ -71,7 +71,7 @@ export default function Header() {
                           month: "2-digit",
                         })}
                       </div>
-                      <div className="text-sm leading-none">
+                      <div className="text-sm leading-tight">
                         {new Date(
                           headerDetails.electionDate
                         ).toLocaleDateString(locale, {
@@ -80,10 +80,10 @@ export default function Header() {
                       </div>
                     </div>
                     <div className="overflow-hidden">
-                      <div className="font-bold text-lg leading-none truncate">
+                      <div className="font-bold text-lg leading-tight truncate">
                         {headerDetails.title}
                       </div>
-                      <div className="text-sm leading-none">
+                      <div className="text-sm leading-tight">
                         {headerDetails.subtitle}
                       </div>
                     </div>
@@ -141,7 +141,7 @@ export default function Header() {
                         }
                       )}
                     </div>
-                    <p className="text-xs leading-none line-clamp-2">
+                    <p className="text-xs leading-tight line-clamp-2">
                       {headerDetails.title} {headerDetails.subtitle}
                     </p>
                   </Link>

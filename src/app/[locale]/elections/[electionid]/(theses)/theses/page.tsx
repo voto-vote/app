@@ -223,13 +223,13 @@ export default function ThesesPage() {
                     onClick={() => {
                       setRating(
                         election.id,
-                        theses[currentThesisIndex].id,
+                        theses[currentThesisIndex]?.id,
                         value
                       );
                       goTo(currentThesisIndex + 1);
                     }}
                     className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
-                      ratings[election.id]?.[theses[currentThesisIndex].id]
+                      ratings[election.id]?.[theses[currentThesisIndex]?.id]
                         ?.rating === value
                         ? "bg-primary text-white shadow-lg scale-105"
                         : "bg-zinc-100 text-primary hover:bg-zinc-200"
@@ -255,7 +255,7 @@ export default function ThesesPage() {
               variant="link"
               className="w-full text-primary"
               onClick={() => {
-                setRating(election.id, theses[currentThesisIndex].id, -1);
+                setRating(election.id, theses[currentThesisIndex]?.id, -1);
                 goTo(currentThesisIndex + 1);
               }}
             >
