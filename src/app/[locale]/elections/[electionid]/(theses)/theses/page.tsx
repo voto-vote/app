@@ -206,7 +206,7 @@ export default function ThesesPage() {
           <Progress
             theses={theses}
             ratings={ratings[election.id] ?? {}}
-            currentId={theses[currentThesisIndex].id}
+            currentId={theses[currentThesisIndex]?.id}
             onCurrentIdChange={(id) =>
               goTo(theses.findIndex((t) => t.id === id) ?? 0, true)
             }

@@ -5,6 +5,7 @@ import { ElectionSummary } from "@/types/election-summary";
 import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Elections({
   electionSummaries,
@@ -99,10 +100,11 @@ function ElectionCard({
   index: number;
 }) {
   const t = useTranslations("Elections");
+  const [imageSrc, setImageSrc] = useState(summary.image || "/placeholder.svg");
 
   return (
-    <div className="transition-all duration-200 hover:scale-[1.02]">
-      <div className="sticky top-0 bg-background z-10 py-2">
+    <div className="transition-all duration-200 hover:scale-[1.02] flex flex-col">
+      <div className="sticky top-0 bg-background z-10 py-2 grow">
         <div className="font-bold text-xl md:text-2xl">{summary.title}</div>
         <div className="-mt-1 md:text-lg">{summary.subtitle}</div>
       </div>
@@ -111,12 +113,13 @@ function ElectionCard({
         className="block mt-2 rounded-lg overflow-hidden"
       >
         <Image
-          src={summary.image || "/placeholder.svg"}
+          src={imageSrc}
           alt={summary.subtitle}
           height={300}
           width={500}
           className="w-full aspect-[4/3] object-cover"
           priority={index < 2}
+          onError={() => setImageSrc("/placeholder.svg")}
         />
         <div className="bg-primary text-primary-foreground text-center px-4 py-2 md:py-3 font-semibold w-full hover:brightness-110 transition-all">
           {t("openElectionsButton")}

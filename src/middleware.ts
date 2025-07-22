@@ -1,14 +1,14 @@
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { NextRequest } from "next/server";
-import { hasLocale } from "next-intl";
 import { getElection } from "./actions/election-action";
 
 export const runtime = "nodejs";
 
 // If an election does not support the requested locale, we redirect to the default locale
 export default async function middleware(request: NextRequest) {
-  const [, locale, ...segments] = request.nextUrl.pathname.split("/");
+  // "" / locale / ...
+  const [, , ...segments] = request.nextUrl.pathname.split("/");
   let handleI18nRouting;
 
   const electionsPathIndex = segments.indexOf("elections");
@@ -20,17 +20,9 @@ export default async function middleware(request: NextRequest) {
       election.locales.includes(l)
     );
 
-    let defaultLocale = election.defaultLocale;
-    if (!hasLocale(supportedLocales, locale)) {
-      // If the election does not support the requested locale, redirect to the default locale
-      defaultLocale =
-        supportedLocales.find((l) => l === election.defaultLocale) ??
-        routing.defaultLocale;
-    }
-
     handleI18nRouting = createMiddleware({
       locales: supportedLocales,
-      defaultLocale: defaultLocale as typeof routing.defaultLocale,
+      defaultLocale: routing.defaultLocale,
     });
 
     if (electionsPathIndex > 0) {

@@ -40,7 +40,7 @@ export async function getElection(id: string): Promise<Election> {
       status: instances.status,
     })
     .from(instances)
-    .leftJoin(elections, eq(instances.electionId, elections.id))
+    .innerJoin(elections, eq(instances.electionId, elections.id))
     .where(and(eq(elections.status, 2), eq(instances.id, parseInt(id))));
 
   const configurationUrl = objectStorageUrl.replace("{id}", id);
@@ -56,6 +56,10 @@ export async function getElection(id: string): Promise<Election> {
     ]);
 
   const i = instance[0];
+  const locales = availableLanguages.map((l) => l.languageCode);
+  if (locales.length === 0) {
+    locales.push("de");
+  }
   const election: Election = {
     id: i.id,
     electionDate: i.electionDate ?? "1970-01-01",
@@ -66,8 +70,7 @@ export async function getElection(id: string): Promise<Election> {
         "voto://",
         configurationUrlOrigin + "/"
       ) ?? "",
-    locales: availableLanguages.map((l) => l.languageCode),
-    defaultLocale: "de", //TODO
+    locales: locales,
     description: await convertDescription(
       i.description,
       configuration?.sponsors ?? [],
@@ -135,10 +138,10 @@ async function convertDescription(
     result += `\n\n## ${t("Election.sponsorsTitle")}\n\n${s
       .map(
         (sponsor) =>
-          `- [${sponsor.name}](${sponsor.url}) ![${sponsor.name}](${sponsor.image.replace(
+          `## [${sponsor.name}](<${sponsor.url}>) ![${sponsor.name}](<${sponsor.image.replace(
             "voto://",
             configurationUrlOrigin + "/"
-          )})`
+          )}>)`
       )
       .join("\n")}`;
   }

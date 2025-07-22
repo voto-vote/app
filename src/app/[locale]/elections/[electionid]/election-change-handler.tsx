@@ -16,7 +16,7 @@ export default function ElectionChangeHandler({
       electionId: election.id,
       electionDate: election.electionDate,
       title: election.title,
-      subtitle: election.description,
+      subtitle: election.subtitle,
       logo: election.theming.logo,
     });
     setTheming(election.theming.primary);
