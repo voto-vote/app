@@ -5,7 +5,6 @@ export type Election = {
   subtitle: string;
   image: string;
   locales: string[];
-  defaultLocale: string;
   description: string;
   launchDate: string;
   status: Status;

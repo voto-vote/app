@@ -35,7 +35,7 @@ export default function Header() {
 
   return (
     <header className="bg-brand text-white transition-colors duration-[500ms]">
-      <div className="container mx-auto max-w-screen-xl p-2 grid grid-cols-[6rem_auto_6rem] items-center overflow-hidden min-h-14">
+      <div className="container mx-auto max-w-screen-xl p-2 grid grid-cols-[minmax(0,6rem)_minmax(0,auto)_minmax(0,6rem)] items-center overflow-hidden h-14">
         <div className="justify-self-start">
           <button className="p-2 rounded-full hover:bg-primary/50 transition-colors">
             <ChevronLeft
@@ -46,16 +46,17 @@ export default function Header() {
         </div>
         {isDesktop && (
           <div
-            className={`relative h-full flex items-center ${headerDetails ? "justify-between" : "justify-center"}`}
+            className={`relative size-full flex items-center ${headerDetails ? "justify-between" : "justify-center"}`}
           >
             <AnimatePresence mode="popLayout">
               {headerDetails && (
                 <motion.div
                   key="election-info"
-                  initial={{ opacity: 0, x: -20, width: "0" }}
-                  animate={{ opacity: 1, x: 0, width: "auto" }}
-                  exit={{ opacity: 0, x: -20, width: "0" }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.5 }}
+                  className="min-w-0"
                 >
                   <Link
                     href={`/elections/${headerDetails.electionId}`}
@@ -78,8 +79,8 @@ export default function Header() {
                         })}
                       </div>
                     </div>
-                    <div>
-                      <div className="font-bold text-lg leading-none">
+                    <div className="overflow-hidden">
+                      <div className="font-bold text-lg leading-none truncate">
                         {headerDetails.title}
                       </div>
                       <div className="text-sm leading-none">
@@ -140,7 +141,7 @@ export default function Header() {
                         }
                       )}
                     </div>
-                    <p className="text-xs leading-none">
+                    <p className="text-xs leading-none line-clamp-2">
                       {headerDetails.title} {headerDetails.subtitle}
                     </p>
                   </Link>

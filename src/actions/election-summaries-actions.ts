@@ -24,7 +24,7 @@ export async function getElectionSummaries(
       subtitle: instances.subtitle,
     })
     .from(instances)
-    .leftJoin(elections, eq(instances.electionId, elections.id))
+    .innerJoin(elections, eq(instances.electionId, elections.id))
     .where(eq(elections.status, 2))
     .orderBy(desc(elections.electionDate))
     .offset(offset)
@@ -53,7 +53,7 @@ export async function getElectionSummaries(
           };
         } catch (error) {
           // Ignore elections where configuration is not found or JSON is invalid
-          console.warn(`Skipping election instance ${i.id}:`, error);
+          console.warn(`Skipping election instance ${i.id}: ` + error);
           return null;
         }
       })

@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { translateLocale } from "@/i18n/utils";
 import { motion, type Variants } from "framer-motion";
 import Markdown from "@/components/markdown";
@@ -70,6 +70,9 @@ export default function Election() {
   };
 
   const electionDate = new Date(election.electionDate);
+  const [imageSrc, setImageSrc] = useState(
+    election.image || "/placeholder.svg"
+  );
 
   return (
     <motion.div
@@ -89,11 +92,12 @@ export default function Election() {
         }}
       >
         <Image
-          src={election.image}
+          src={imageSrc}
           alt="cover image"
           fill
           className="object-cover"
           priority
+          onError={() => setImageSrc("/placeholder.svg")}
         />
       </motion.div>
 
@@ -193,7 +197,10 @@ export default function Election() {
             className="col-span-2 md:col-span-12 mt-6 md:mt-12"
             variants={itemVariants}
           >
-            <Markdown content={election.description} className="prose-sm" />
+            <Markdown
+              content={election.description}
+              className="prose-sm [&_img]:max-w-xl [&_img]:w-full"
+            />
           </motion.div>
         </div>
       </div>
