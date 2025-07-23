@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import { type Theses } from "@/types/theses";
+import { Election } from "@/types/election";
 
 type State = {
   theses: Theses | undefined;
-  electionId: string | undefined;
+  electionId: Election["id"] | undefined;
 };
 
 type Action = {

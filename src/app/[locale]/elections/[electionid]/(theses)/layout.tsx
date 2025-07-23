@@ -1,33 +1,35 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { useThesesStore } from "@/stores/theses-store";
 import { useLocale } from "next-intl";
 import { useRandomStore } from "@/stores/random-store";
 import { getTheses } from "@/actions/theses-action";
+import { useElection } from "@/contexts/election-context";
 
 export default function ElectionLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { electionid } = useParams<{ electionid: string }>();
+  const { election } = useElection();
   const { setTheses, clearTheses } = useThesesStore();
   const locale = useLocale();
   const { seed } = useRandomStore();
 
   useEffect(() => {
     const random = createSeededRandom(seed);
-    getTheses(electionid, locale).then((theses) => {
-      const shuffledTheses = shuffle(theses, random);
-      setTheses(shuffledTheses, electionid);
-    });
+    getTheses(election.id, locale, election.title, election.subtitle).then(
+      (theses) => {
+        const shuffledTheses = shuffle(theses, random);
+        setTheses(shuffledTheses, election.id);
+      }
+    );
 
     return () => {
       clearTheses();
     };
-  }, [clearTheses, electionid, locale, seed, setTheses]);
+  }, [clearTheses, election, locale, seed, setTheses]);
   return children;
 }
 
