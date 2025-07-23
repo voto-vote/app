@@ -6,8 +6,10 @@ import { statements, statementTranslations } from "@/db/schema";
 import { Theses, Thesis } from "@/types/theses";
 
 export async function getTheses(
-  instanceId: string,
-  locale: string
+  instanceId: number,
+  locale: string,
+  electionTitle: string,
+  electionSubtitle: string
 ): Promise<Theses> {
   const result = await db
     .select({
@@ -23,7 +25,7 @@ export async function getTheses(
     .where(
       and(
         eq(statementTranslations.languageCode, locale),
-        eq(statements.instanceId, Number(instanceId))
+        eq(statements.instanceId, instanceId)
       )
     );
 
@@ -32,8 +34,8 @@ export async function getTheses(
   for (const row of result) {
     const { text, explanations } = await parseThesisText(
       row.text,
-      "titleTODO", // Placeholder, replace with actual title
-      "locationTODO" // Placeholder, replace with actual location
+      electionTitle,
+      electionSubtitle
     );
     theses.push({
       id: row.statementId.toString(),
@@ -50,11 +52,11 @@ export async function getTheses(
 export async function parseThesisText(
   text: string,
   electionTitle: string,
-  electionLocation: string
+  electionSubtitle: string
 ): Promise<Pick<Thesis, "text" | "explanations">> {
   text = text
     .replaceAll("{title}", electionTitle)
-    .replaceAll("{location}", electionLocation);
+    .replaceAll("{location}", electionSubtitle);
 
   const matches = text.matchAll(/\((.*?)\)\[(.*?)\]/g);
   const explanations: Thesis["explanations"] = [];
