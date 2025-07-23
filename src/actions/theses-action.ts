@@ -28,29 +28,30 @@ export async function getTheses(
     );
 
   // Transform the result into the desired format
-  const theses: Theses = result.map((row) => {
-    const { text, explanations } = parseThesisText(
+  const theses: Theses = [];
+  for (const row of result) {
+    const { text, explanations } = await parseThesisText(
       row.text,
-      "titleTODO",
-      "locationTODO"
+      "titleTODO", // Placeholder, replace with actual title
+      "locationTODO" // Placeholder, replace with actual location
     );
-    return {
+    theses.push({
       id: row.statementId.toString(),
       category: row.title.toString(),
       text,
       explanations,
-      additionalInfos: "", //TODO
-    };
-  });
+      additionalInfos: "", // Placeholder, replace with actual additional infos if needed
+    });
+  }
 
   return theses;
 }
 
-export function parseThesisText(
+export async function parseThesisText(
   text: string,
   electionTitle: string,
   electionLocation: string
-): Pick<Thesis, "text" | "explanations"> {
+): Promise<Pick<Thesis, "text" | "explanations">> {
   text = text
     .replaceAll("{title}", electionTitle)
     .replaceAll("{location}", electionLocation);
