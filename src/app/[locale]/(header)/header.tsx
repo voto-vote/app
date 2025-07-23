@@ -99,18 +99,12 @@ export default function Header() {
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               >
                 <Link href="/" className="block h-6 w-32 relative">
-                  <AnimatePresence mode="sync">
-                    <motion.img
-                      key={logoUrl}
-                      src={logoUrl}
-                      alt="logo"
-                      className={`absolute inset-0 size-full object-contain brightness-0 invert transition-all duration-[500ms] ${headerDetails ? "object-right" : "object-center"}`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.5, ease: "easeInOut" }}
-                    />
-                  </AnimatePresence>
+                  <img
+                    key={logoUrl}
+                    src={logoUrl}
+                    alt="logo"
+                    className={`absolute inset-0 size-full object-contain brightness-0 invert transition-all duration-[500ms] ${headerDetails ? "object-right" : "object-center"}`}
+                  />
                 </Link>
               </motion.div>
             </AnimatePresence>
