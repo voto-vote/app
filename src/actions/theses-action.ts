@@ -42,7 +42,7 @@ export async function getTheses(
       category: row.title.toString(),
       text,
       explanations,
-      additionalInfos: "", // Placeholder, replace with actual additional infos if needed
+      additionalInfos: "", // Not yet implemented in the DB
     });
   }
 
