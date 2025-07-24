@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Delete untagged image versions
-        uses: snok/container-retention-policy@v3
+        uses: snok/container-retention-policy@v3.0.0
         with:
           image-names: ${{ github.repository }}
           cut-off: 5 minutes ago UTC

@@ -51,6 +51,8 @@ export default function CandidatePage() {
   useEffect(() => {
     if (aboutMeRef.current) {
       setAboutMeHeight(aboutMeRef.current.scrollHeight);
+    } else { // TODO remove this after debugging
+      alert("About me section not found");
     }
   }, []);
 
@@ -139,7 +141,7 @@ export default function CandidatePage() {
             }}
           >
             <div className="col-span-4" ref={aboutMeRef}>
-              Ich möchte mich vorstellen Mein Name ist Brigitte Burn-Müllhaupt.
+              {aboutMeHeight}px TODO remove this after debugging Ich möchte mich vorstellen Mein Name ist Brigitte Burn-Müllhaupt.
               Ich bin am 03.05.1971 in Halle an der Saale geboren und
               aufgewachsen und lebe nunmehr seit 53 Jahren in eben dieser
               Stadt, zu der ich mich sehr verbunden fühle. Nach meiner
