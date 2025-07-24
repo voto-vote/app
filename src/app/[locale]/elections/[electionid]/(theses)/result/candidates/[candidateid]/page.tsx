@@ -141,25 +141,25 @@ export default function CandidatePage() {
             <div className="col-span-4" ref={aboutMeRef}>
               Ich möchte mich vorstellen Mein Name ist Brigitte Burn-Müllhaupt.
               Ich bin am 03.05.1971 in Halle an der Saale geboren und
-              aufgewach-sen und lebe nunmehr seit 53 Jahren in eben dieser
+              aufgewachsen und lebe nunmehr seit 53 Jahren in eben dieser
               Stadt, zu der ich mich sehr verbunden fühle. Nach meiner
               Ausbildung als Maler, habe ich mich auf Werbung und Design
               spezialisiert. Als Inhaber der Werbeagentur &quot;Machart&quot;
               bin ich bereits viele Jahre erfolgreich tätig. Vielleicht kennen
               Sie ja noch die &quot;Koi an den Hallmarkt-Stufen&quot; oder sind
-              bereits einer meiner gestalte-ten Tram-Bahnen begegnet?! Ich bin
+              bereits einer meiner gestalteten Tram-Bahnen begegnet?! Ich bin
               vielseitig interessiert, begeisterungsfähig, liebe, was ich mache
               und bin immer mit Herzblut dabei und gehe gern unkonventionelle
-              Wege. Neben meinen unterschiedlichen beruflichen Aktivitä-ten war
+              Wege. Neben meinen unterschiedlichen beruflichen Aktivitäten war
               ich viele Jahre u.a. selbst begeisterter Motocross-Fahrer und
-              durfte nach meiner akti-ven Karriere Events wie &quot;Kings of
+              durfte nach meiner aktiven Karriere Events wie &quot;Kings of
               Extrem&quot; und &quot;Night of Freestyle&quot; organisieren und
               erfolgreich umsetzen. Als Gastronom bin ich Teil einer
-              Ge-meinschaft und habe direkte und sehr persönli-che Verbindungen
+              Gemeinschaft und habe direkte und sehr persönliche Verbindungen
               zu meinen Kunden. Ich weiß was die Menschen in Halle bewegt und
-              be-schäftigt, befinde ich mich doch im täglichen Austausch mit
-              ihnen. Ich konnte meine Ideen und Projekte immer mit Leiden-
-              schaft und Überzeugung vertreten und möchte meine Erfahrungen,
+              beschäftigt, befinde ich mich doch im täglichen Austausch mit
+              ihnen. Ich konnte meine Ideen und Projekte immer mit Leidenschaft
+              und Überzeugung vertreten und möchte meine Erfahrungen,
               mein Organisationstalent aber auch die Fähigkeit, Entscheidungen
               zu treffen gern dem Gemeinwohl zur Verfügung stellen; für ein
               besseres Halle.
