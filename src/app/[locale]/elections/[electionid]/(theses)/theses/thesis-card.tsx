@@ -33,7 +33,7 @@ export default function ThesisCard({
 
   return (
     <div className="h-[100cqh] flex flex-col justify-center md:justify-end">
-      <Card className="p-6 m-4 gap-2 border-none bg-zinc-100 overflow-auto md:max-w-3xl md:mx-auto md:shadow-md w-full">
+      <Card className="p-6 m-4 gap-2 border-none bg-zinc-100 overflow-auto md:max-w-3xl md:mx-auto md:shadow-md md:w-full">
         <div className="flex items-start justify-between">
           <h2 className="text-gray-600 dark:text-gray-300 leading-relaxed">
             {thesis.category}
