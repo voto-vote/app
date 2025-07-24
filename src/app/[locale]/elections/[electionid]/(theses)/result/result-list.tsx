@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-//import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import { useBackButtonStore } from "@/stores/back-button-store";
 import CandidatesList from "./candidates-list";
 import PartiesList from "./parties-list";
 import FilterDialog from "./filter-dialog";
@@ -14,23 +12,13 @@ import { useRatingsStore } from "@/stores/ratings-store";
 import { useRouter } from "@/i18n/navigation";
 import { useElection } from "@/contexts/election-context";
 
-export default function ResultsList() {
+export default function ResultList() {
   const [tab, setTab] = useState<"candidates" | "parties">("candidates");
   const [bookmarkList, setBookmarkList] = useState(["1", "3", "cdu", "spd"]);
   const [filterOpen, setFilterOpen] = useState(false);
-  //const t = useTranslations("ResultsPage");
   const { election } = useElection();
-  const { setBackPath } = useBackButtonStore();
   const { ratings } = useRatingsStore();
   const router = useRouter();
-
-  useEffect(() => {
-    if (election?.id) {
-      setBackPath(`/elections/${election?.id}/theses`);
-    } else {
-      setBackPath("/");
-    }
-  }, [election?.id, setBackPath]);
 
   return (
     <div className="container mx-auto max-w-3xl p-2 pb-14">
