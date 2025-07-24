@@ -2,7 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
-import { Bookmark, ChevronDown, CircleQuestionMark } from "lucide-react";
+import {
+  Bookmark,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  CircleQuestionMark,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import {
   Popover,
@@ -30,7 +36,7 @@ export default function CandidatePage() {
   const aboutMeRef = useRef<HTMLDivElement>(null);
   const [sortedTheses, setSortedTheses] = useState<Theses>([]);
   const [api, setApi] = useState<CarouselApi>();
-  const [, setCurrentThesisIndex] = useState(0);
+  const [currentThesisIndex, setCurrentThesisIndex] = useState(0);
   const [thesesSorting, setThesesSorting] = useState<"random" | "category">(
     "category"
   );
@@ -51,10 +57,8 @@ export default function CandidatePage() {
   useEffect(() => {
     if (aboutMeRef.current) {
       setAboutMeHeight(aboutMeRef.current.scrollHeight);
-    } else { // TODO remove this after debugging
-      alert("About me section not found");
     }
-  }, []);
+  }, [aboutMeRef.current]);
 
   useEffect(() => {
     if (!api) {
@@ -141,29 +145,29 @@ export default function CandidatePage() {
             }}
           >
             <div className="col-span-4" ref={aboutMeRef}>
-              {aboutMeHeight}px TODO remove this after debugging Ich möchte mich vorstellen Mein Name ist Brigitte Burn-Müllhaupt.
+              Ich möchte mich vorstellen Mein Name ist Brigitte Burn-Müllhaupt.
               Ich bin am 03.05.1971 in Halle an der Saale geboren und
-              aufgewachsen und lebe nunmehr seit 53 Jahren in eben dieser
-              Stadt, zu der ich mich sehr verbunden fühle. Nach meiner
-              Ausbildung als Maler, habe ich mich auf Werbung und Design
-              spezialisiert. Als Inhaber der Werbeagentur &quot;Machart&quot;
-              bin ich bereits viele Jahre erfolgreich tätig. Vielleicht kennen
-              Sie ja noch die &quot;Koi an den Hallmarkt-Stufen&quot; oder sind
-              bereits einer meiner gestalteten Tram-Bahnen begegnet?! Ich bin
-              vielseitig interessiert, begeisterungsfähig, liebe, was ich mache
-              und bin immer mit Herzblut dabei und gehe gern unkonventionelle
-              Wege. Neben meinen unterschiedlichen beruflichen Aktivitäten war
-              ich viele Jahre u.a. selbst begeisterter Motocross-Fahrer und
-              durfte nach meiner aktiven Karriere Events wie &quot;Kings of
+              aufgewachsen und lebe nunmehr seit 53 Jahren in eben dieser Stadt,
+              zu der ich mich sehr verbunden fühle. Nach meiner Ausbildung als
+              Maler, habe ich mich auf Werbung und Design spezialisiert. Als
+              Inhaber der Werbeagentur &quot;Machart&quot; bin ich bereits viele
+              Jahre erfolgreich tätig. Vielleicht kennen Sie ja noch die
+              &quot;Koi an den Hallmarkt-Stufen&quot; oder sind bereits einer
+              meiner gestalteten Tram-Bahnen begegnet?! Ich bin vielseitig
+              interessiert, begeisterungsfähig, liebe, was ich mache und bin
+              immer mit Herzblut dabei und gehe gern unkonventionelle Wege.
+              Neben meinen unterschiedlichen beruflichen Aktivitäten war ich
+              viele Jahre u.a. selbst begeisterter Motocross-Fahrer und durfte
+              nach meiner aktiven Karriere Events wie &quot;Kings of
               Extrem&quot; und &quot;Night of Freestyle&quot; organisieren und
               erfolgreich umsetzen. Als Gastronom bin ich Teil einer
-              Gemeinschaft und habe direkte und sehr persönliche Verbindungen
-              zu meinen Kunden. Ich weiß was die Menschen in Halle bewegt und
+              Gemeinschaft und habe direkte und sehr persönliche Verbindungen zu
+              meinen Kunden. Ich weiß was die Menschen in Halle bewegt und
               beschäftigt, befinde ich mich doch im täglichen Austausch mit
               ihnen. Ich konnte meine Ideen und Projekte immer mit Leidenschaft
-              und Überzeugung vertreten und möchte meine Erfahrungen,
-              mein Organisationstalent aber auch die Fähigkeit, Entscheidungen
-              zu treffen gern dem Gemeinwohl zur Verfügung stellen; für ein
+              und Überzeugung vertreten und möchte meine Erfahrungen, mein
+              Organisationstalent aber auch die Fähigkeit, Entscheidungen zu
+              treffen gern dem Gemeinwohl zur Verfügung stellen; für ein
               besseres Halle.
             </div>
           </div>
@@ -244,11 +248,74 @@ export default function CandidatePage() {
                         favorite: false,
                       }
                     }
+                    participantsRatings={[
+                      {
+                        participantId: "1",
+                        participantName: "Brigitte Burn-Müllhaupt",
+                        rating: { rating: 2, favorite: false },
+                        color: "black",
+                        explanation:
+                          "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                      },
+                      {
+                        participantId: "2",
+                        participantName: "Max Mustermann",
+                        rating: { rating: 1, favorite: true },
+                        color: "red",
+                      },
+                    ]}
                   />
                 </CarouselItem>
               ))}
             </CarouselContent>
           </Carousel>
+
+          <div className="flex justify-between">
+            <Button
+              disabled={currentThesisIndex === 0}
+              onClick={() => api?.scrollPrev()}
+            >
+              <ChevronLeft />
+              These {Math.max(currentThesisIndex, 1)} / {sortedTheses.length}
+            </Button>
+
+            {thesesSorting === "category" && (
+              <div className="flex flex-col justify-center items-center gap-1">
+                <div className="text-sm text-muted-foreground">
+                  {sortedTheses[currentThesisIndex]?.category}
+                </div>
+                <div className="flex gap-1">
+                  {sortedTheses
+                    .filter(
+                      (t) =>
+                        t.category ===
+                        sortedTheses[currentThesisIndex]?.category
+                    )
+                    .map((t) => (
+                      <div
+                        key={t.id}
+                        className="rounded-full size-2 transition-colors"
+                        style={{
+                          backgroundColor:
+                            t.id === sortedTheses[currentThesisIndex]?.id
+                              ? "var(--color-primary)"
+                              : "var(--color-zinc-300)",
+                        }}
+                      ></div>
+                    ))}
+                </div>
+              </div>
+            )}
+
+            <Button
+              disabled={currentThesisIndex === sortedTheses.length - 1}
+              onClick={() => api?.scrollNext()}
+            >
+              These {Math.min(currentThesisIndex + 2, sortedTheses.length)} /{" "}
+              {sortedTheses.length}
+              <ChevronRight />
+            </Button>
+          </div>
         </div>
 
         {/* Bottom Bar */}

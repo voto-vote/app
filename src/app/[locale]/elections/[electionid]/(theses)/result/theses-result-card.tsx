@@ -2,16 +2,28 @@
 
 import { ChevronDown, ChevronUp, Info, Square, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Thesis } from "@/types/theses";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Markdown from "@/components/markdown";
 import ThesisText from "@/app/[locale]/elections/[electionid]/(theses)/theses/thesis-text";
-import { Rating } from "@/types/ratings";
-import { Election } from "@/types/election";
+import type { Rating } from "@/types/ratings";
+import type { Election } from "@/types/election";
 import { isLightColor } from "@/lib/color-utils";
+import {
+  Collapsible,
+  CollapsibleContent,
+} from "@/components/animated-collapsible";
+
+type ParticipantRating = {
+  participantId: string;
+  participantName: string;
+  rating: Rating;
+  color?: string;
+  explanation?: string;
+};
 
 interface ThesisCardProps {
   election: Election;
@@ -19,6 +31,7 @@ interface ThesisCardProps {
   thesisIndex: number;
   numberOfTheses: number;
   ownRating: Rating;
+  participantsRatings: ParticipantRating[];
 }
 
 export default function ThesisResultCard({
@@ -27,8 +40,11 @@ export default function ThesisResultCard({
   thesisIndex,
   numberOfTheses,
   ownRating,
+  participantsRatings,
 }: ThesisCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedParticipantExplanations, setExpandedParticipantExplanations] =
+    useState<Set<string>>(new Set());
   const t = useTranslations("ThesisCard");
 
   return (
@@ -83,20 +99,90 @@ export default function ThesisResultCard({
           </div>
         )}
 
-        <div className="grid grid-cols-8 gap-4 items-center mt-4">
-          <div className="col-span-3 text-right">ICH</div>
-          <div className="col-span-2">
-            <RatingVisualization
-              election={election}
-              rating={ownRating}
-              color="#ffffff"
-            />
-          </div>
-          <div className="col-span-3">
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,auto)_minmax(0,1fr)] gap-x-4 items-center mt-4">
+          <div className="justify-self-end text-lg">ICH</div>
+          <RatingVisualization election={election} rating={ownRating} />
+          <div>
             <Button variant="link" className="p-0">
               Meinung ändern
             </Button>
           </div>
+
+          {participantsRatings.map((rating, index) => {
+            const backgroundColor =
+              rating.color ??
+              window
+                .getComputedStyle(document.documentElement)
+                .getPropertyValue("--primary");
+            const foregroundColor = isLightColor(backgroundColor)
+              ? "var(--color-zinc-900)"
+              : "var(--color-zinc-100)";
+
+            return (
+              <Fragment key={index}>
+                <div
+                  className="justify-self-end text-lg rounded truncate px-2 max-w-full"
+                  style={{
+                    backgroundColor: rating.color,
+                    color: foregroundColor,
+                  }}
+                >
+                  {rating.participantName}
+                </div>
+                <RatingVisualization
+                  election={election}
+                  rating={rating.rating}
+                  backgroundColor={backgroundColor}
+                  foregroundColor={foregroundColor}
+                />
+                <div>
+                  {rating.explanation && (
+                    <Button
+                      variant="link"
+                      className="!p-0"
+                      onClick={() => {
+                        const newSet = new Set(expandedParticipantExplanations);
+                        if (
+                          expandedParticipantExplanations.has(
+                            rating.participantId
+                          )
+                        ) {
+                          newSet.delete(rating.participantId);
+                        } else {
+                          newSet.add(rating.participantId);
+                        }
+                        setExpandedParticipantExplanations(newSet);
+                      }}
+                    >
+                      Details
+                      <ChevronDown
+                        className={`size-6 transition ${expandedParticipantExplanations.has(rating.participantId) ? "rotate-180" : ""}`}
+                      />
+                    </Button>
+                  )}
+                </div>
+                {rating.explanation && (
+                  <div className="col-span-3">
+                    <Collapsible
+                      open={expandedParticipantExplanations.has(
+                        rating.participantId
+                      )}
+                    >
+                      <CollapsibleContent
+                        className="rounded"
+                        style={{
+                          backgroundColor: rating.color,
+                          color: foregroundColor,
+                        }}
+                      >
+                        <div className="mx-2 my-1">{rating.explanation}</div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </div>
+                )}
+              </Fragment>
+            );
+          })}
         </div>
       </Card>
     </div>
@@ -106,48 +192,52 @@ export default function ThesisResultCard({
 function RatingVisualization({
   election,
   rating,
-  color,
+  backgroundColor = "var(--color-primary)",
+  foregroundColor = "var(--color-primary-foreground)",
 }: {
   election: Election;
   rating: Rating;
-  color?: string;
+  backgroundColor?: string;
+  foregroundColor?: string;
 }) {
   const ratingValue = rating.rating ?? 0;
-  const resolvedColor =
-    color ??
-    window
-      .getComputedStyle(document.documentElement)
-      .getPropertyValue("--primary");
-  const resolvedForegroundColor = isLightColor(resolvedColor)
-    ? "var(--color-zinc-900)"
-    : "var(--color-zinc-100)";
 
   return (
     <div className="h-8 flex justify-between items-center">
-      {Array.from({ length: election.algorithm.decisions }, (_, i) => (
-        <div
-          key={i}
-          style={{
-            color:
-              ratingValue - 1 === i
-                ? (color ?? "var(--primary)")
-                : "var(--color-zinc-200)",
-          }}
-          className="relative size-8"
-        >
-          {rating.favorite && ratingValue - 1 === i ? (
-            <Star className="absolute inset-0 fill-current size-full" />
-          ) : (
-            <Square className="absolute inset-0 fill-current size-full" />
-          )}
+      {Array.from({ length: election.algorithm.decisions }, (_, i) => {
+        let resolvedRatingValue: string;
+        if (ratingValue === -1) {
+          resolvedRatingValue = "-";
+        } else if (ratingValue === undefined) {
+          resolvedRatingValue = "";
+        } else {
+          resolvedRatingValue = String(ratingValue);
+        }
+        return (
           <div
-            style={{ color: resolvedForegroundColor }}
-            className="relative font-semibold text-sm text-center align-middle leading-8"
+            key={i}
+            style={{
+              color:
+                ratingValue - 1 === i
+                  ? backgroundColor
+                  : "var(--color-zinc-200)",
+            }}
+            className="relative size-8"
           >
-            {ratingValue - 1 === i && i + 1}
+            {rating.favorite && ratingValue - 1 === i ? (
+              <Star className="absolute inset-0 fill-current size-full" />
+            ) : (
+              <Square className="absolute inset-0 fill-current size-full" />
+            )}
+            <div
+              style={{ color: foregroundColor }}
+              className="relative font-semibold text-sm text-center align-middle leading-8"
+            >
+              {ratingValue - 1 === i && resolvedRatingValue}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

@@ -51,7 +51,7 @@ jobs:
         uses: snok/container-retention-policy@v3.0.0
         with:
           image-names: ${{ github.repository }}
-          cut-off: 5 minutes ago UTC
+          cut-off: 5m
           tag-selection: untagged
           account: ${{ github.actor }}
           token: ${{ secrets.GITHUB_TOKEN }}
