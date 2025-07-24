@@ -1,11 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultList from "./result-list";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useElection } from "@/contexts/election-context";
+import { useBackButtonStore } from "@/stores/back-button-store";
+import ThesesList from "./theses-list";
 
 export default function ResultPage() {
+  const { election } = useElection();
+  const { setBackPath } = useBackButtonStore();
   const [tab, setTab] = useState<"result" | "theses">("result");
+
+  useEffect(() => {
+    if (election?.id) {
+      setBackPath(`/elections/${election?.id}/theses`);
+    } else {
+      setBackPath("/");
+    }
+  }, [election?.id, setBackPath]);
 
   return (
     <>
@@ -24,7 +37,7 @@ export default function ResultPage() {
       {/* Tab Content */}
       <div>
         {tab === "result" && <ResultList />}
-        {tab === "theses" && <div>TODO</div>}
+        {tab === "theses" && <ThesesList />}
       </div>
     </>
   );

@@ -45,7 +45,7 @@
     "descriptionSkip": "Du hast {completedTheses, plural, =1 {# Aussage} other {# Aussagen}} erledigt und kannst nun direkt zum Ergebnis springen, wobei das Ergebnis weniger genau sein wird.",
     "descriptionContinue": "Um die Berechnung zu verbessern, kannst du {remainingTheses, plural, =1 {# weitere These} other {# weitere Thesen}} beantworten. Dein Ergebnis wird genauer und Du weißt über noch mehr Themen Bescheid."
   },
-  "CandidateOrPartyPage": {
+  "ThesesResultCarousel": {
     "sortedByCategories": "Sortiert nach Kategorien.",
     "sortedByYourVoto": "Sortiert nach Deinem VOTO.",
     "useVOTOSort": "Sortierung Deines VOTOs stattdessen verwenden",
