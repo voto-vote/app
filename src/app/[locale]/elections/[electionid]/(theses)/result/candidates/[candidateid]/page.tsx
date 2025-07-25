@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
-import { Bookmark, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import { useThesesStore } from "@/stores/theses-store";
@@ -10,6 +10,7 @@ import { useRatingsStore } from "@/stores/ratings-store";
 import { useElection } from "@/contexts/election-context";
 import ThesesResultCarousel from "../../theses-result-carousel";
 import BottomBar from "../../bottom-bar";
+import { Bookmark } from "@/components/icons/bookmark";
 
 export default function CandidatePage() {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -54,7 +55,7 @@ export default function CandidatePage() {
               className="ml-4"
             >
               <Bookmark
-                className={`size-8 transition text-primary ${isBookmarked ? "fill-current" : "fill-transparent hover:fill-current/25"}`}
+                className={`size-8 transition stroke-1 ${isBookmarked ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
               />
             </button>
           </div>
