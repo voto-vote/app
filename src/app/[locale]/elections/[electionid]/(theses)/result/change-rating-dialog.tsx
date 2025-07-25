@@ -7,31 +7,35 @@ import {
 import { Dialog as DialogPrimitive } from "radix-ui";
 import type { Thesis } from "@/types/theses";
 import ThesisCard from "../thesis-card";
-import { useElection } from "@/contexts/election-context";
-import { useRatingsStore } from "@/stores/ratings-store";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Election } from "@/types/election";
+import { Rating, Ratings } from "@/types/ratings";
 
 interface ChangeRatingDialogProps {
+  election: Election;
+  ratings: Ratings;
   thesis: Thesis;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onRatingChange: (rating: Rating) => void;
 }
 
 export default function ChangeRatingDialog({
+  election,
+  ratings,
   thesis,
   open,
   onOpenChange,
+  onRatingChange,
 }: ChangeRatingDialogProps) {
-  const { election } = useElection();
-  const { ratings, setRating, setFavorite } = useRatingsStore();
   const t = useTranslations("ThesesPage");
   const [newRating, setNewRating] = useState<number>(
-    ratings[election.id]?.[thesis.id]?.rating ?? -1
+    ratings[thesis.id]?.rating ?? -1
   );
   const [newFavorite, setNewFavorite] = useState<boolean>(
-    ratings[election.id]?.[thesis.id]?.favorite ?? false
+    ratings[thesis.id]?.favorite ?? false
   );
 
   return (
@@ -52,7 +56,7 @@ export default function ChangeRatingDialog({
               onStarredChange={(starred) => setNewFavorite(starred)}
               starDisabled={
                 election.algorithm.weightedVotesLimit !== false &&
-                Object.values(ratings[election.id] ?? {}).reduce(
+                Object.values(ratings).reduce(
                   (n, t) => (t.favorite === true ? n + 1 : n),
                   0
                 ) >= election.algorithm.weightedVotesLimit
@@ -74,7 +78,7 @@ export default function ChangeRatingDialog({
                           ? "bg-primary text-white shadow-lg scale-105"
                           : "bg-primary/5 text-primary hover:bg-primary/10"
                       } ${
-                        ratings[election.id]?.[thesis.id]?.rating === value
+                        ratings[thesis.id]?.rating === value
                           ? "border-2 border-primary"
                           : ""
                       }`}
@@ -91,13 +95,12 @@ export default function ChangeRatingDialog({
 
             <Button
               onClick={() => {
-                setRating(election.id, thesis.id, newRating);
-                setFavorite(election.id, thesis.id, newFavorite);
+                onRatingChange({ rating: newRating, favorite: newFavorite });
                 onOpenChange(false);
               }}
             >
-              {newRating === ratings[election.id]?.[thesis.id]?.rating &&
-              newFavorite === ratings[election.id]?.[thesis.id]?.favorite
+              {newRating === ratings[thesis.id]?.rating &&
+              newFavorite === ratings[thesis.id]?.favorite
                 ? "Meinung nicht ändern"
                 : "Meinung ändern"}
             </Button>

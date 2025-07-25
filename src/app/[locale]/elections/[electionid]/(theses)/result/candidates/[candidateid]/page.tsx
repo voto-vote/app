@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
 import { Bookmark, ChevronDown } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import { useThesesStore } from "@/stores/theses-store";
 import { useRatingsStore } from "@/stores/ratings-store";
@@ -14,8 +14,8 @@ import BottomBar from "../../bottom-bar";
 export default function CandidatePage() {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isAboutMeExpanded, setIsAboutMeExpanded] = useState(false);
+  const [aboutMeRef, setAboutMeRef] = useState<HTMLDivElement | null>(null);
   const [aboutMeHeight, setAboutMeHeight] = useState(0);
-  const aboutMeRef = useRef<HTMLDivElement>(null);
   const { election } = useElection();
   const { theses } = useThesesStore();
   const { ratings, setRating, setFavorite } = useRatingsStore();
@@ -30,10 +30,10 @@ export default function CandidatePage() {
   }, [election?.id, setBackPath]);
 
   useEffect(() => {
-    if (aboutMeRef.current) {
-      setAboutMeHeight(aboutMeRef.current.scrollHeight);
+    if (aboutMeRef) {
+      setAboutMeHeight(aboutMeRef.scrollHeight);
     }
-  }, [aboutMeRef.current]);
+  }, [aboutMeRef]);
 
   if (!theses) {
     return null;
@@ -94,7 +94,7 @@ export default function CandidatePage() {
               maxHeight: isAboutMeExpanded ? `${aboutMeHeight}px` : "7.5rem",
             }}
           >
-            <div className="col-span-4" ref={aboutMeRef}>
+            <div className="col-span-4" ref={(el) => setAboutMeRef(el)}>
               Ich möchte mich vorstellen Mein Name ist Brigitte Burn-Müllhaupt.
               Ich bin am 03.05.1971 in Halle an der Saale geboren und
               aufgewachsen und lebe nunmehr seit 53 Jahren in eben dieser Stadt,
