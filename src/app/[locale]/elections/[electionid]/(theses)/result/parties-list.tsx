@@ -42,7 +42,7 @@ export default function PartiesList({
                 aria-label="Merken"
               >
                 <Bookmark
-                  className={`size-8 transition stroke-1 ${bookmarked.includes(p.id) ? "fill-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
+                  className={`size-8 transition stroke-1 ${bookmarked.includes(p.id) ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
                 />
               </button>
               <button className="cursor-pointer">

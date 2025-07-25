@@ -222,41 +222,60 @@ function RatingVisualization({
   const ratingValue = rating.rating ?? 0;
 
   return (
-    <div className="h-8 flex justify-between items-center">
-      {Array.from({ length: election.algorithm.decisions }, (_, i) => {
-        let resolvedRatingValue: string;
-        if (ratingValue === -1) {
-          resolvedRatingValue = "-";
-        } else if (ratingValue === undefined) {
-          resolvedRatingValue = "";
-        } else {
-          resolvedRatingValue = String(ratingValue);
-        }
-        return (
-          <div
-            key={i}
-            style={{
-              color:
-                ratingValue - 1 === i
-                  ? backgroundColor
-                  : "var(--color-zinc-200)",
-            }}
-            className="relative size-8"
-          >
-            {rating.favorite && ratingValue - 1 === i ? (
-              <Star className="absolute inset-0 fill-current size-full" />
-            ) : (
-              <Square className="absolute inset-0 fill-current size-full" />
-            )}
+    <div
+      className={`h-8 flex justify-between items-center ${ratingValue > 0 ? "justify-between" : "justify-center"}`}
+    >
+      {ratingValue > 0 &&
+        Array.from({ length: election.algorithm.decisions }, (_, i) => {
+          let resolvedRatingValue: string;
+          if (ratingValue === -1) {
+            resolvedRatingValue = "-";
+          } else if (ratingValue === undefined) {
+            resolvedRatingValue = "";
+          } else {
+            resolvedRatingValue = String(ratingValue);
+          }
+          return (
             <div
-              style={{ color: foregroundColor }}
-              className="relative font-semibold text-sm text-center align-middle leading-8"
+              key={i}
+              style={{
+                color:
+                  ratingValue - 1 === i
+                    ? backgroundColor
+                    : "var(--color-zinc-200)",
+              }}
+              className="relative size-8"
             >
-              {ratingValue - 1 === i && resolvedRatingValue}
+              {rating.favorite && ratingValue - 1 === i ? (
+                <Star className="absolute inset-0 fill-current size-full" />
+              ) : (
+                <Square className="absolute inset-0 fill-current size-full" />
+              )}
+              <div
+                style={{ color: foregroundColor }}
+                className="relative font-semibold text-sm text-center align-middle leading-8"
+              >
+                {ratingValue - 1 === i && resolvedRatingValue}
+              </div>
             </div>
+          );
+        })}
+      {ratingValue === -1 && (
+        <div
+          style={{
+            color: backgroundColor,
+          }}
+          className="relative size-8"
+        >
+          <Square className="absolute inset-0 fill-current size-full" />
+          <div
+            style={{ color: foregroundColor }}
+            className="relative font-semibold text-sm text-center align-middle leading-8"
+          >
+            -
           </div>
-        );
-      })}
+        </div>
+      )}
     </div>
   );
 }

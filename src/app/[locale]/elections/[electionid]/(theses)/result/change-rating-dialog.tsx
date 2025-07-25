@@ -73,7 +73,7 @@ export default function ChangeRatingDialog({
                     <button
                       key={value}
                       onClick={() => setNewRating(value)}
-                      className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
+                      className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 backdrop-blur-md ${
                         newRating === value
                           ? "bg-primary text-white shadow-lg scale-105"
                           : "bg-primary/5 text-primary hover:bg-primary/10"
@@ -94,6 +94,7 @@ export default function ChangeRatingDialog({
             </div>
 
             <Button
+              className="md:w-96 md:mx-auto"
               onClick={() => {
                 onRatingChange({ rating: newRating, favorite: newFavorite });
                 onOpenChange(false);
