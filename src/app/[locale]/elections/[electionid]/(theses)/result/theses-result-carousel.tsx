@@ -110,6 +110,7 @@ export default function ThesesResultCarousel({
             <CarouselItem key={thesis.id}>
               <ThesisResultCard
                 election={election}
+                ratings={ratings}
                 thesis={thesis}
                 thesisIndex={i}
                 numberOfTheses={sortedTheses.length}
@@ -135,6 +136,9 @@ export default function ThesesResultCarousel({
                     color: "red",
                   },
                 ]}
+                onRatingChange={(newRating) =>
+                  onRatingChange(thesis.id, newRating)
+                }
               />
             </CarouselItem>
           ))}

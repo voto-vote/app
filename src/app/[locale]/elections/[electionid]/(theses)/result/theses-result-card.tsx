@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import Markdown from "@/components/markdown";
 import ThesisText from "@/app/[locale]/elections/[electionid]/(theses)/theses/thesis-text";
-import type { Rating } from "@/types/ratings";
+import type { Rating, Ratings } from "@/types/ratings";
 import type { Election } from "@/types/election";
 import { isLightColor } from "@/lib/color-utils";
 import {
@@ -28,20 +28,24 @@ type ParticipantRating = {
 
 interface ThesisCardProps {
   election: Election;
+  ratings: Ratings;
   thesis: Thesis;
   thesisIndex: number;
   numberOfTheses: number;
   ownRating: Rating;
   participantsRatings: ParticipantRating[];
+  onRatingChange: (rating: Rating) => void;
 }
 
 export default function ThesisResultCard({
   election,
+  ratings,
   thesis,
   thesisIndex,
   numberOfTheses,
   ownRating,
   participantsRatings,
+  onRatingChange,
 }: ThesisCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [expandedParticipantExplanations, setExpandedParticipantExplanations] =
@@ -193,9 +197,12 @@ export default function ThesisResultCard({
       </Card>
 
       <ChangeRatingDialog
+        election={election}
+        ratings={ratings}
         thesis={thesis}
         open={changeRatingDialogOpen}
         onOpenChange={setChangeRatingDialogOpen}
+        onRatingChange={onRatingChange}
       />
     </div>
   );
