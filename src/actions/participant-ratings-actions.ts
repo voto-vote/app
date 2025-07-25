@@ -2,7 +2,10 @@
 
 import { db } from "@/db/drizzle";
 import { candidates, candidateVotes, parties, partyVotes } from "@/db/schema";
-import { Ratings } from "@/types/ratings";
+import { calculateResultForCandidate } from "@/lib/result-calculator";
+import { Candidate } from "@/types/candidate";
+import { Party } from "@/types/party";
+import { CandidateRatings, PartyRatings, Ratings } from "@/types/ratings";
 import { eq, and } from "drizzle-orm";
 
 type ParticipantRating = {
@@ -50,7 +53,66 @@ export async function getParticipantRatings(
     partyVotesPromise,
   ]);
 
-  const ratings: ParticipantRating = {};
+  // TODO:
+  const participantRatings: Ratings = {}
+  const matrix: number[][] = [
+    [1, 0, -1],
+    [0, 0.5, 0],
+    [-1, 0, 1]
+  ]
 
-  return ratings;
+
+  // Todo: IMprove, as its straight vibe coded. 
+  const partyRatingsMap = new Map<Party["id"], PartyRatings>();
+  partyVotesResult.forEach((vote) => {
+    if (!partyRatingsMap.has(vote.partyId)) {
+      partyRatingsMap.set(vote.partyId, {
+        partyId: vote.partyId,
+        ratings: {}
+      });
+    }
+    const partyRating = partyRatingsMap.get(vote.partyId)!;
+    partyRating.ratings[vote.statementId] = {
+      rating: vote.value,
+      favorite: false // Adjust based on your data
+    };
+  });
+
+  const candidateRatingsMap = new Map<Candidate["id"], CandidateRatings>();
+  candidateVotesResult.forEach((vote) => {
+    if (!candidateRatingsMap.has(vote.candidateId)) {
+      candidateRatingsMap.set(vote.candidateId, {
+        candidateId: vote.candidateId,
+        ratings: {}
+      });
+    }
+    const candidateRating = candidateRatingsMap.get(vote.candidateId)!;
+    candidateRating.ratings[vote.statementId] = {
+      rating: vote.value,
+      favorite: false // Adjust based on your data
+    };
+  });
+
+  // Call calculateResultForCandidate for each candidate
+  candidateRatingsMap.forEach((candidateRating: CandidateRatings) => {
+    const result = calculateResultForCandidate(
+      candidateRating, 
+      matrix, 
+      participantRatings
+    );
+    // Do something with the result
+    console.log(`Result for candidate ${candidateRating.candidateId}:`, result);
+  });
+
+  // Or if you want to collect all results:
+  const candidateResults = Array.from(candidateRatingsMap.values()).map((candidateRating) => {
+    return {
+      candidateId: candidateRating.candidateId,
+      result: calculateResultForCandidate(candidateRating, matrix, participantRatings)
+    };
+  });
+  console.log("CandidateResults: "+candidateResults)
+  // TODO: Return real type.
+  return {}
 }
+    
