@@ -18,7 +18,7 @@ export default function CandidatePage() {
   const aboutMeRef = useRef<HTMLDivElement>(null);
   const { election } = useElection();
   const { theses } = useThesesStore();
-  const { ratings } = useRatingsStore();
+  const { ratings, setRating, setFavorite } = useRatingsStore();
   const { setBackPath } = useBackButtonStore();
 
   useEffect(() => {
@@ -149,6 +149,12 @@ export default function CandidatePage() {
             election={election}
             theses={theses}
             ratings={ratings[election.id]}
+            onRatingChange={(thesisId, newRating) => {
+              if (newRating.rating !== undefined) {
+                setRating(election.id, thesisId, newRating.rating);
+              }
+              setFavorite(election.id, thesisId, newRating.favorite);
+            }}
           />
         </div>
 

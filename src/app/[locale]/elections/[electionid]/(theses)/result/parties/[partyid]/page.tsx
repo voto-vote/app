@@ -9,14 +9,13 @@ import { useThesesStore } from "@/stores/theses-store";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { useElection } from "@/contexts/election-context";
 import ThesesResultCarousel from "../../theses-result-carousel";
-import Image from "next/image";
 import BottomBar from "../../bottom-bar";
 
 export default function CandidatePage() {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const { election } = useElection();
   const { theses } = useThesesStore();
-  const { ratings } = useRatingsStore();
+  const { ratings, setRating, setFavorite } = useRatingsStore();
   const { setBackPath } = useBackButtonStore();
 
   useEffect(() => {
@@ -101,6 +100,12 @@ export default function CandidatePage() {
             election={election}
             theses={theses}
             ratings={ratings[election.id]}
+            onRatingChange={(thesisId, newRating) => {
+              if (newRating.rating !== undefined) {
+                setRating(election.id, thesisId, newRating.rating);
+              }
+              setFavorite(election.id, thesisId, newRating.favorite);
+            }}
           />
         </div>
 
