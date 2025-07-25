@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
 import { useEffect, useState } from "react";
 import { useBackButtonStore } from "@/stores/back-button-store";
@@ -8,8 +7,8 @@ import { useThesesStore } from "@/stores/theses-store";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { useElection } from "@/contexts/election-context";
 import ThesesResultCarousel from "../../theses-result-carousel";
-import BottomBar from "../../bottom-bar";
 import { Bookmark } from "@/components/icons/bookmark";
+import LegendBottomBar from "../../legend-bottom-bar";
 
 export default function CandidatePage() {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -109,10 +108,8 @@ export default function CandidatePage() {
           />
         </div>
 
-        {/* Bottom Bar */}
-        <BottomBar>
-          <Button variant="ghost">Legende</Button>
-        </BottomBar>
+        {/* Bottom Bar Legend */}
+        <LegendBottomBar election={election} />
       </div>
     </div>
   );
