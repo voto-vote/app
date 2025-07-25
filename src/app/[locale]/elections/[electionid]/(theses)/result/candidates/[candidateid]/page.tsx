@@ -9,6 +9,7 @@ import { useThesesStore } from "@/stores/theses-store";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { useElection } from "@/contexts/election-context";
 import ThesesResultCarousel from "../../theses-result-carousel";
+import BottomBar from "../../bottom-bar";
 
 export default function CandidatePage() {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -43,7 +44,7 @@ export default function CandidatePage() {
       <div className="container mx-auto max-w-3xl px-2 pb-16 space-y-8">
         {/* Header */}
         <div className="relative">
-          <div className="bg-[url(https://upload.wikimedia.org/wikipedia/commons/0/05/Bernstein_%28Burgenland%29_-_Luftaufnahme.JPG)] h-36 bg-cover bg-center"></div>
+          <div className="bg-[url(https://picsum.photos/1000/300)] h-36 bg-cover bg-center"></div>
           <div className="absolute bg-[url(https://i.pravatar.cc/300)] h-38 bg-cover bg-center aspect-square rounded-full border-4 border-background left-2 top-18"></div>
           <div className="flex items-center ml-42 p-4">
             <MatchBar value={60} className="grow" />
@@ -152,13 +153,9 @@ export default function CandidatePage() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="fixed bottom-0 left-0 right-0 backdrop-blur-md bg-accent z-10 border-t">
-          <div className="container mx-auto max-w-3xl flex items-center justify-center py-2">
-            <Button variant="ghost" className="text-primary text-base">
-              Legende
-            </Button>
-          </div>
-        </div>
+        <BottomBar>
+          <Button variant="ghost">Legende</Button>
+        </BottomBar>
       </div>
     </div>
   );

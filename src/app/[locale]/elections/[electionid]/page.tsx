@@ -83,7 +83,7 @@ export default function Election() {
     >
       {/* Main Image */}
       <motion.div
-        className="relative w-full h-[33vh] md:h-[50vh]"
+        className="relative w-full h-64 md:h-96"
         initial={{ opacity: 0, scale: 1.05 }}
         animate={{
           opacity: 1,

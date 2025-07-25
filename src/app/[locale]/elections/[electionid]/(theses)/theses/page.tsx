@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ThesisCard from "./thesis-card";
+import ThesisCard from "../thesis-card";
 import {
   Carousel,
   CarouselContent,
@@ -140,11 +140,11 @@ export default function ThesesPage() {
 
           {/* Live indicator */}
           <div
-            className={`fixed left-1/2 -translate-x-1/2 z-10 transition-all duration-300 shadow bg-white rounded-full ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
+            className={`fixed left-1/2 -translate-x-1/2 z-10 transition-all duration-300 shadow bg-white rounded-lg ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
           >
             <button
               onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
-              className="px-3 py-1 border-2 border-primary rounded-full text-primary font-bold transition hover:bg-current/5 hover:scale-105 flex items-center gap-1"
+              className="px-3 py-1 border-2 border-primary rounded-lg text-primary font-bold transition hover:bg-current/5 hover:scale-105 flex items-center gap-1"
             >
               <motion.div
                 animate={{ rotate: liveMatchesVisible ? 0 : 180 }}
@@ -176,20 +176,22 @@ export default function ThesesPage() {
           <CarouselContent>
             {theses.map((thesis) => (
               <CarouselItem key={thesis.id}>
-                <ThesisCard
-                  thesis={thesis}
-                  starDisabled={
-                    election.algorithm.weightedVotesLimit !== false &&
-                    Object.values(ratings[election.id] ?? {}).reduce(
-                      (n, t) => (t.favorite === true ? n + 1 : n),
-                      0
-                    ) >= election.algorithm.weightedVotesLimit
-                  }
-                  starred={ratings[election.id]?.[thesis.id]?.favorite}
-                  onStarredChange={(s) =>
-                    setFavorite(election.id, thesis.id, s)
-                  }
-                />
+                <div className="h-[100cqh] flex flex-col justify-center md:justify-end">
+                  <ThesisCard
+                    thesis={thesis}
+                    onStarredChange={(starred) =>
+                      setFavorite(election.id, thesis.id, starred)
+                    }
+                    starDisabled={
+                      election.algorithm.weightedVotesLimit !== false &&
+                      Object.values(ratings[election.id] ?? {}).reduce(
+                        (n, t) => (t.favorite === true ? n + 1 : n),
+                        0
+                      ) >= election.algorithm.weightedVotesLimit
+                    }
+                    starred={ratings[election.id]?.[thesis.id]?.favorite}
+                  />
+                </div>
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -232,7 +234,7 @@ export default function ThesesPage() {
                       ratings[election.id]?.[theses[currentThesisIndex]?.id]
                         ?.rating === value
                         ? "bg-primary text-white shadow-lg scale-105"
-                        : "bg-zinc-100 text-primary hover:bg-zinc-200"
+                        : "bg-primary/5 text-primary hover:bg-primary/10"
                     }`}
                   >
                     {value}

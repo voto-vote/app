@@ -1,0 +1,80 @@
+{
+  "version": "1",
+  "introduction": {
+    "background": "voto://configuration/default/background.jpg",
+    "sponsor_text": "Gefördert von:"
+  },
+  "matches": {
+    "fields": [
+      {
+        "name": "district",
+        "required": true,
+        "show": true
+      },
+      {
+        "name": "description",
+        "required": true,
+        "show": true
+      },
+      {
+        "name": "list",
+        "required": true,
+        "show": true
+      },
+      {
+        "name": "website",
+        "required": false,
+        "show": true
+      }
+    ]
+  },
+  "algorithm": {
+    "decisions": 3,
+    "calculation": 0,
+    "matchType": 2,
+    "limitWeightedVotes": false,
+    "limitFactor": 0.2,
+    "matrix": [
+      [1, 0, -1],
+      [0, 0.5, 0],
+      [-1, 0, 1]
+    ]
+  },
+  "sponsors": [],
+  "cluster": {
+    "instances": [],
+    "title": "",
+    "description": "",
+    "enabled": false
+  },
+  "survey": {
+    "enabled": false,
+    "endpoint": "",
+    "frequency": 10,
+    "title": "Umfrage",
+    "description": "Mach mit bei der Umfrage",
+    "yes": "Jetzt teilnehmen",
+    "no": "Nein"
+  },
+  "presurvey": {
+    "enabled": false,
+    "endpoint": "",
+    "frequency": 10,
+    "title": "Umfrage",
+    "description": "Mach mit bei der Umfrage",
+    "yes": "Jetzt teilnehmen",
+    "no": "Nein"
+  },
+  "abtesting": {
+    "enabled": false,
+    "percentageA": 50,
+    "percentageB": 50,
+    "features": ["live-vote"]
+  },
+  "theming": {
+    "primary": "#8C0096",
+    "secondary": "#34A1B7",
+    "logo": "https://votoprod.appspot.com.storage.googleapis.com/configuration/default/voto.svg"
+  },
+  "footer-links": [{ "text": { "en": "VOTO" }, "href": "https://voto.vote" }]
+}

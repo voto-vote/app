@@ -15,19 +15,21 @@ import { ChevronLeft, ChevronRight, CircleQuestionMark } from "lucide-react";
 import { useEffect, useState } from "react";
 import ThesisResultCard from "./theses-result-card";
 import type { Election } from "@/types/election";
-import type { Ratings } from "@/types/ratings";
+import type { Rating, Ratings } from "@/types/ratings";
 import { useTranslations } from "next-intl";
 
 interface ThesesResultCarouselProps {
   election: Election;
   theses: Theses;
   ratings: Ratings;
+  onRatingChange: (thesisId: string, newRating: Rating) => void;
 }
 
 export default function ThesesResultCarousel({
   election,
   theses,
   ratings,
+  onRatingChange,
 }: ThesesResultCarouselProps) {
   const [sortedTheses, setSortedTheses] = useState<Theses>([]);
   const [api, setApi] = useState<CarouselApi>();

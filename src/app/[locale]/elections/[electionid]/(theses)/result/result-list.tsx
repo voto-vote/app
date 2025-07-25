@@ -11,13 +11,23 @@ import { mockCandidates, mockParties } from "./mock";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { useRouter } from "@/i18n/navigation";
 import { useElection } from "@/contexts/election-context";
+import BottomBar from "./bottom-bar";
+import { useBookmarkStore } from "@/stores/bookmark-store";
 
-export default function ResultList() {
+interface ResultListProps {
+  filterBookmarked: boolean;
+  setFilterBookmarked: (value: boolean) => void;
+}
+
+export default function ResultList({
+  filterBookmarked,
+  setFilterBookmarked,
+}: ResultListProps) {
   const [tab, setTab] = useState<"candidates" | "parties">("candidates");
-  const [bookmarkList, setBookmarkList] = useState(["1", "3", "cdu", "spd"]);
   const [filterOpen, setFilterOpen] = useState(false);
   const { election } = useElection();
   const { ratings } = useRatingsStore();
+  const { bookmarks, toggleCandidate, toggleParty } = useBookmarkStore();
   const router = useRouter();
 
   return (
@@ -65,8 +75,9 @@ export default function ResultList() {
           {tab === "candidates" && (
             <CandidatesList
               candidates={mockCandidates}
-              bookmarkList={bookmarkList}
-              setBookmarkList={setBookmarkList}
+              bookmarked={bookmarks[election.id]?.candidates || []}
+              onBookmarkToggle={(id) => toggleCandidate(election.id, id)}
+              filterBookmarked={filterBookmarked}
               onCandidateClick={(id) =>
                 router.push(`/elections/${election.id}/result/candidates/${id}`)
               }
@@ -75,8 +86,9 @@ export default function ResultList() {
           {tab === "parties" && (
             <PartiesList
               parties={mockParties}
-              bookmarkList={bookmarkList}
-              setBookmarkList={setBookmarkList}
+              bookmarked={bookmarks[election.id]?.parties || []}
+              onBookmarkToggle={(id) => toggleParty(election.id, id)}
+              filterBookmarked={filterBookmarked}
               onPartyClick={(id) =>
                 router.push(`/elections/${election.id}/result/parties/${id}`)
               }
@@ -86,20 +98,25 @@ export default function ResultList() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 backdrop-blur-md bg-accent z-10 border-t">
-        <div className="container mx-auto max-w-3xl flex items-center justify-between py-2">
-          <Button
-            variant="ghost"
-            className="text-primary text-base"
-            onClick={() => setFilterOpen(true)}
-          >
-            Filter
-          </Button>
-          <Button variant="ghost" className="text-primary text-base">
-            Merkliste ({bookmarkList.length})
-          </Button>
-        </div>
-      </div>
+      <BottomBar>
+        <Button variant="ghost" onClick={() => setFilterOpen(true)}>
+          Filter
+        </Button>
+        <Button
+          variant="ghost"
+          className={
+            filterBookmarked
+              ? "!bg-primary !text-primary-foreground !hover:text-primary-foreground"
+              : ""
+          }
+          onClick={() => setFilterBookmarked(!filterBookmarked)}
+        >
+          Merkliste (
+          {(bookmarks[election.id]?.parties?.length ?? 0) +
+            (bookmarks[election.id]?.candidates?.length ?? 0)}
+          )
+        </Button>
+      </BottomBar>
 
       <FilterDialog open={filterOpen} onOpenChange={setFilterOpen} />
     </div>

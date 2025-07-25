@@ -6,11 +6,15 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useElection } from "@/contexts/election-context";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import ThesesList from "./theses-list";
+import { Bookmark } from "@/components/icons/bookmark";
+import { useBookmarkStore } from "@/stores/bookmark-store";
 
 export default function ResultPage() {
   const { election } = useElection();
+  const { bookmarks } = useBookmarkStore();
   const { setBackPath } = useBackButtonStore();
   const [tab, setTab] = useState<"result" | "theses">("result");
+  const [filterBookmarked, setFilterBookmarked] = useState(false);
 
   useEffect(() => {
     if (election?.id) {
@@ -30,13 +34,27 @@ export default function ResultPage() {
           </TabTrigger>
           <TabTrigger value="theses" currentValue={tab}>
             Thesen
+            <div className="absolute -top-2 left-[calc(50%_+_3rem)] size-12">
+              <div className="size-full relative">
+                <Bookmark className="absolute inset-0 stroke-0 fill-primary size-full" />
+                <div className="absolute inset-0 text-primary-foreground text-sm font-semibold grid place-items-center mb-2">
+                  {(bookmarks[election.id]?.parties?.length ?? 0) +
+                    (bookmarks[election.id]?.candidates?.length ?? 0)}
+                </div>
+              </div>
+            </div>
           </TabTrigger>
         </TabsList>
       </Tabs>
 
       {/* Tab Content */}
       <div>
-        {tab === "result" && <ResultList />}
+        {tab === "result" && (
+          <ResultList
+            filterBookmarked={filterBookmarked}
+            setFilterBookmarked={setFilterBookmarked}
+          />
+        )}
         {tab === "theses" && <ThesesList />}
       </div>
     </>
@@ -55,7 +73,7 @@ function TabTrigger({
   return (
     <TabsTrigger
       value={value}
-      className={`text-xl transition-all data-[state=active]:shadow-none h-full rounded-none text-primary
+      className={`text-xl transition-all data-[state=active]:shadow-none h-full rounded-none text-primary relative
             ${value === currentValue ? "font-bold" : "text-primary/70"}`}
       style={
         value !== currentValue

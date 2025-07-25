@@ -5,11 +5,13 @@ import { useElection } from "@/contexts/election-context";
 import { useRatingsStore } from "@/stores/ratings-store";
 import ThesesResultCarousel from "./theses-result-carousel";
 import { useThesesStore } from "@/stores/theses-store";
+import BottomBar from "./bottom-bar";
+import { Button } from "@/components/ui/button";
 
 export default function ThesesList() {
   const { election } = useElection();
   const { theses } = useThesesStore();
-  const { ratings } = useRatingsStore();
+  const { ratings, setRating, setFavorite } = useRatingsStore();
 
   if (!theses) {
     return null;
@@ -25,7 +27,8 @@ export default function ThesesList() {
         className="space-y-4 max-w-1/2 text-sm"
       >
         <p className="font-bold">
-          So haben Du und die Parteien / Kandidierenden deiner Merkliste geantwortet.
+          So haben Du und die Parteien / Kandidierenden deiner Merkliste
+          geantwortet.
         </p>
 
         <p>
@@ -46,8 +49,19 @@ export default function ThesesList() {
           election={election}
           theses={theses}
           ratings={ratings[election.id]}
+          onRatingChange={(thesisId, newRating) => {
+            if (newRating.rating !== undefined) {
+              setRating(election.id, thesisId, newRating.rating);
+            }
+            setFavorite(election.id, thesisId, newRating.favorite);
+          }}
         />
       </div>
+
+      {/* Bottom Bar */}
+      <BottomBar>
+        <Button variant="ghost">Legende</Button>
+      </BottomBar>
     </div>
   );
 }
