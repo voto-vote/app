@@ -5,8 +5,7 @@ import { useElection } from "@/contexts/election-context";
 import { useRatingsStore } from "@/stores/ratings-store";
 import ThesesResultCarousel from "./theses-result-carousel";
 import { useThesesStore } from "@/stores/theses-store";
-import BottomBar from "./bottom-bar";
-import { Button } from "@/components/ui/button";
+import LegendBottomBar from "./legend-bottom-bar";
 
 export default function ThesesList() {
   const { election } = useElection();
@@ -58,10 +57,8 @@ export default function ThesesList() {
         />
       </div>
 
-      {/* Bottom Bar */}
-      <BottomBar>
-        <Button variant="ghost">Legende</Button>
-      </BottomBar>
+      {/* Bottom Bar Legend */}
+      <LegendBottomBar election={election} />
     </div>
   );
 }

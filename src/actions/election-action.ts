@@ -7,7 +7,7 @@ import {
   statements,
   statementTranslations,
 } from "@/db/schema";
-import { Election, Intro, Status } from "@/types/election";
+import { Election, Status } from "@/types/election";
 import { eq, and, count } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 
@@ -79,7 +79,6 @@ export async function getElection(id: string): Promise<Election> {
     launchDate: i.launchDate,
     status: convertStatus(i.status),
     private: false, //TODO
-    intro: convertIntro(configuration),
     matchFields: [], //TODO
     algorithm: {
       decisions: configuration?.algorithm?.decisions ?? 5,
@@ -147,11 +146,6 @@ async function convertDescription(
   }
 
   return result;
-}
-
-function convertIntro(intro: unknown): Intro[] {
-  if (!Array.isArray(intro)) return [];
-  return []; //TODO
 }
 
 function convertMatchType(

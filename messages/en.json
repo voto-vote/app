@@ -24,7 +24,15 @@
   },
   "Intro": {
     "nextButton": "Next",
-    "startVotoButton": "Start VOTO"
+    "startVotoButton": "Start VOTO",
+    "introOneTitle": "Learn more about current topics and discover who suits you best!",
+    "introOneDescription": "To find out which {matchType, select, candidates {candidates} candidates_and_parties {candidates and parties} other {parties}} align with your views, you can answer up to **{numberOfTheses, plural, =1 {# statement} other {# statements}}**. The {matchType, select, candidates {candidates} candidates_and_parties {candidates and parties} other {parties}} in the election \"{electionTitle} - {electionSubtitle}\" have done so as well.",
+    "introTwoTitle": "What are you passionate about?",
+    "introTwoDescription": "If a topic is especially important to you, you can mark it with the star symbol. This statement will be **counted twice as much**.",
+    "introThreeTitle": "Made a mistake? No worries.",
+    "introThreeDescription": "Using the **timeline**, you can easily **navigate** through the statements. For the ones you've already answered, your response will appear inside the circle. Tapping on a circle takes you to the respective statement so you can re-evaluate it.",
+    "introFourTitle": "Your matches for the upcoming election.",
+    "introFourDescription": "Once you've answered enough statements, you'll see your results. Here you can find out which party and candidate you **agree with the most**. You can also get an overview of all parties/candidates and read their **explanations** for each statement."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",
@@ -50,5 +58,19 @@
     "sortedByYourVoto": "Sorted by your VOTO.",
     "useVOTOSort": "Use your VOTO for sorting instead",
     "useCategoriesSort": "Use categories for sorting instead"
+  },
+  "NavigationSheet": {
+    "title": "VOTO",
+    "subtitle": "Voting made easy",
+    "home": "Home",
+    "votoPortal": "VOTO Portal",
+    "informations": "Informations",
+    "frequentQuestions": "Frequently Asked Questions",
+    "whatIsVoto": "What is VOTO?",
+    "legal": "Legal",
+    "dataPrivacy": "Privacy Policy",
+    "imprint": "Imprint",
+    "languages": "Languages",
+    "footer": "© {year} VOTO. All rights reserved."
   }
 }
