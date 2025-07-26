@@ -4,6 +4,7 @@ export type Party = {
   instanceId: number;
   shortName: string;
   detailedName: string;
+  description: string;
   website: string;
   status: Status;
   color: string;

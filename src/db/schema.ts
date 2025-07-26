@@ -224,6 +224,7 @@ export const parties = pgTable("parties", {
 	description: text().notNull(),
 	website: text().notNull(),
 	status: integer().notNull(),
+	color: text().notNull(),
 	createdAt: timestamp("created_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).notNull(),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).default(sql`CURRENT_TIMESTAMP`).notNull(),
 	instanceId: serial("instance_id").notNull(),

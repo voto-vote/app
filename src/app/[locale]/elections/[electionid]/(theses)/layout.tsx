@@ -6,6 +6,8 @@ import { useLocale } from "next-intl";
 import { useRandomStore } from "@/stores/random-store";
 import { getTheses } from "@/actions/theses-action";
 import { useElection } from "@/contexts/election-context";
+import { getPartiesForInstance } from "@/actions/party-action";
+import { getCandidatesByInstanceAndStatus } from "@/actions/candidate-action";
 
 export default function ElectionLayout({
   children,
@@ -25,6 +27,17 @@ export default function ElectionLayout({
         setTheses(shuffledTheses, election.id);
       }
     );
+
+    getPartiesForInstance(election.id).then((parties) => {
+      // Assuming you have a store or context to set parties
+      // setParties(parties);
+    });
+
+    getCandidatesByInstanceAndStatus(election.id).then((candidates) => {
+      // Assuming you have a store or context to set candidates
+      // setCandidates(candidates);
+    });
+
 
     return () => {
       clearTheses();
