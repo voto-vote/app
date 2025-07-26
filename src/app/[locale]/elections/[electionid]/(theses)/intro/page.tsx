@@ -57,26 +57,28 @@ export default function Intro() {
   const intro = [
     {
       animation: thesesCardAnimation,
-      title: "Lerne mehr über aktuelle Themen und entdecke wer zu Dir passt!",
-      description: `Um herauszufinden, welche Parteien und Kandidierenden zu deiner Einstellung passen, kannst du bis zu **${theses.length} Thesen** beantworten. 7 / 8 Parteien und 78 / 112 Kandidierenden der Landtagswahl Burgenland haben dies ebenfalls getan.`,
+      title: t("introOneTitle"),
+      description: t("introOneDescription", {
+        matchType: election.algorithm.matchType.replaceAll("-", "_"),
+        numberOfTheses: theses.length,
+        electionTitle: election.title,
+        electionSubtitle: election.subtitle,
+      }),
     },
     {
       animation: starThesesAnimation,
-      title: "Wofür brennst du?",
-      description:
-        "Liegt dir ein Thema besonders am Herzen, kannst du dieses mit dem Stern Symbol markieren. Diese These wird **doppelt so stark bewertet**.",
+      title: t("introTwoTitle"),
+      description: t("introTwoDescription"),
     },
     {
       animation: navigateThesesAnimation,
-      title: "Vertippt? Keine Sorge.",
-      description:
-        "Über die **Timeline** kannst du schnell durch die Thesen **navigieren**. Bei von dir bereits beantworteten Thesen siehst Du Deine Antwort innerhalb des Kreises. Durch einen Tap auf einen der Kreise siehst du eine Vorschau der These. Durch einen zweiten Tap navigierst Du zur jeweiligen These, um sie erneut zu bewerten.",
+      title: t("introThreeTitle"),
+      description: t("introThreeDescription"),
     },
     {
       animation: resultAnimation,
-      title: "Deine Matches zur anstehenden Wahl.",
-      description:
-        "Hast du genug Thesen beantwortet siehst Du Dein Ergebnis. Hier kannst Du sehen, mit welcher Partei und welchem Kandidierenden du am meisten **übereinstimmst**. Außerdem kannst du Dir einen Überblick über alle Parteien/Kandidierenden verschaffen und dir **Begründungen** zu den einzelnen Thesen durchlesen.",
+      title: t("introFourTitle"),
+      description: t("introFourDescription"),
     },
   ];
 
