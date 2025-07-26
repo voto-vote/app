@@ -9,6 +9,7 @@ export type Candidate = {
   listPlace: number;
   website: string;
   status: Status;
+  color: string; // Color from the party
   createdAt: string;
   updatedAt: string;
 };
