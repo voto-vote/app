@@ -13,8 +13,13 @@ import { useBackButtonStore } from "@/stores/back-button-store";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import Markdown from "@/components/markdown";
-import Image from "next/image";
 import { useElection } from "@/contexts/election-context";
+import { Election } from "@/types/election";
+import { useThesesStore } from "@/stores/theses-store";
+import Lottie from "lottie-react";
+import thesesCardAnimation from "./theses-card-animation.json";
+import starThesesAnimation from "./star-theses-animation.json";
+import navigateThesesAnimation from "./navigate-theses-animation.json";
 
 export default function Intro() {
   const { election } = useElection();
@@ -22,6 +27,7 @@ export default function Intro() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [api, setApi] = useState<CarouselApi>();
+  const { theses } = useThesesStore();
   const t = useTranslations("Intro");
 
   useEffect(() => {
@@ -44,14 +50,38 @@ export default function Intro() {
     });
   }, [api]);
 
-  useEffect(() => {
-    if (election?.intro.length === 0) {
-      router.push(`/elections/${election?.id}/theses`);
-    }
-  }, [election?.id, election?.intro.length, router]);
+  if (!theses) {
+    return null;
+  }
+
+  const intro = [
+    {
+      animation: thesesCardAnimation,
+      title: "Lerne mehr über aktuelle Themen und entdecke wer zu Dir passt!",
+      description: `Um herauszufinden, welche Parteien und Kandidierenden zu deiner Einstellung passen, kannst du bis zu **${theses.length} Thesen** beantworten. 7 / 8 Parteien und 78 / 112 Kandidierenden der Landtagswahl Burgenland haben dies ebenfalls getan.`,
+    },
+    {
+      animation: starThesesAnimation,
+      title: "Wofür brennst du?",
+      description:
+        "Liegt dir ein Thema besonders am Herzen, kannst du dieses mit dem Stern Symbol markieren. Diese These wird **doppelt so stark bewertet**.",
+    },
+    {
+      animation: navigateThesesAnimation,
+      title: "Vertippt? Keine Sorge.",
+      description:
+        "Über die **Timeline** kannst du schnell durch die Thesen **navigieren**. Bei von dir bereits beantworteten Thesen siehst Du Deine Antwort innerhalb des Kreises. Durch einen Tap auf einen der Kreise siehst du eine Vorschau der These. Durch einen zweiten Tap navigierst Du zur jeweiligen These, um sie erneut zu bewerten.",
+    },
+    {
+      animation: navigateThesesAnimation,
+      title: "Deine Matches zur anstehenden Wahl.",
+      description:
+        "Hast du genug Thesen beantwortet siehst Du Dein Ergebnis. Hier kannst Du sehen, mit welcher Partei und welchem Kandidierenden du am meisten **übereinstimmst**. Außerdem kannst du Dir einen Überblick über alle Parteien/Kandidierenden verschaffen und dir **Begründungen** zu den einzelnen Thesen durchlesen.",
+    },
+  ];
 
   function goToNextPage() {
-    if (currentPage >= election!.intro.length - 1) {
+    if (currentPage >= intro.length - 1) {
       return router.push(`/elections/${election?.id}/theses`);
     }
     api?.scrollTo(currentPage + 1);
@@ -63,7 +93,7 @@ export default function Intro() {
         {/* Carousel */}
         <Carousel
           setApi={setApi}
-          className="flex-1 overflow-y-auto md:pt-16"
+          className="flex-1 overflow-y-auto md:pt-8"
           opts={{
             loop: false,
             align: "center",
@@ -71,7 +101,7 @@ export default function Intro() {
         >
           <CarouselContent className="h-full">
             <AnimatePresence>
-              {election.intro.map((intro, index) => (
+              {intro.map((i, index) => (
                 <CarouselItem key={index} className="h-full">
                   <motion.div
                     className="flex flex-col h-full p-4 md:p-8 space-y-4 md:space-y-6"
@@ -80,9 +110,9 @@ export default function Intro() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    {/* Image Container */}
+                    {/* Video Container */}
                     <motion.div
-                      className="relative w-full max-w-60 mx-auto aspect-square rounded-2xl overflow-hidden bg-white shadow-lg"
+                      className="relative w-full max-w-60 md:max-w-72 mx-auto aspect-square rounded-2xl overflow-hidden bg-white border border-zinc-300"
                       initial={{ y: 50, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{
@@ -92,14 +122,7 @@ export default function Intro() {
                         delay: 0.2,
                       }}
                     >
-                      <Image
-                        src={intro.image}
-                        alt={intro.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                        priority={index === 0} // Load first image immediately
-                      />
+                      <Lottie animationData={i.animation} loop autoplay />
                     </motion.div>
 
                     {/* Content */}
@@ -110,7 +133,7 @@ export default function Intro() {
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.3, duration: 0.5 }}
                       >
-                        {intro.title}
+                        {i.title}
                       </motion.h1>
 
                       <motion.div
@@ -119,7 +142,7 @@ export default function Intro() {
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.4, duration: 0.5 }}
                       >
-                        <Markdown content={intro.description} />
+                        <Markdown content={i.description} />
                       </motion.div>
                     </div>
                   </motion.div>
@@ -138,7 +161,7 @@ export default function Intro() {
         >
           {/* Progress Indicators */}
           <div className="flex justify-center gap-1 mb-4">
-            {election.intro.map((_, index) => (
+            {intro.map((_, index) => (
               <motion.button
                 key={index}
                 className="relative p-1 focus:outline-none"
@@ -165,7 +188,7 @@ export default function Intro() {
                 className="w-full text-base font-medium"
                 onClick={goToNextPage}
               >
-                {currentPage >= election.intro.length - 1
+                {currentPage >= intro.length - 1
                   ? t("startVotoButton")
                   : t("nextButton")}
               </Button>
@@ -178,7 +201,7 @@ export default function Intro() {
             >
               <Button
                 variant="ghost"
-                className={`w-full text-primary hover:text-primary/80 text-sm ${currentPage >= election.intro.length - 1 ? "opacity-0" : ""}`}
+                className={`w-full text-primary hover:text-primary/80 text-sm ${currentPage >= intro.length - 1 ? "opacity-0" : ""}`}
                 onClick={() => router.push(`/elections/${election.id}/theses`)}
               >
                 {t("startVotoButton")}

@@ -54,7 +54,7 @@ export default function ThesisCard({
         {!starDisabled && (
           <button onClick={() => onStarredChange(!starred)}>
             <Star
-              className={`text-primary hover:brightness-80 transition-all duration-150 hover:scale-110 ${starred ? "fill-current" : "fill-transparent hover:fill-current/25"}`}
+              className={`size-8 transition stroke-1 hover:scale-110 ${starred ? "fill-primary stroke-primary" : "fill-muted-foreground/35 stroke-muted-foreground/25 hover:fill-muted-foreground/45"}`}
             />
           </button>
         )}
