@@ -24,7 +24,15 @@
   },
   "Intro": {
     "nextButton": "Weiter",
-    "startVotoButton": "VOTO starten"
+    "startVotoButton": "VOTO starten",
+    "introOneTitle": "Finde heraus, wer zu dir passt!",
+    "introOneDescription": "Du kannst bis zu **{numberOfTheses, plural, =1 {# These} other {# Thesen}}** beantworten. So siehst du, welche {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} bei der Wahl \"{electionTitle} - {electionSubtitle}\" gut zu dir passen. Die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} haben auch geantwortet.",
+    "introTwoTitle": "Was ist dir besonders wichtig?",
+    "introTwoDescription": "Wenn dir ein Thema sehr wichtig ist, markiere es mit einem Stern. Es zählt dann **doppelt so viel**.",
+    "introThreeTitle": "Du hast dich vertippt? Kein Problem.",
+    "introThreeDescription": "Mit der **Zeitleiste** kannst du schnell zwischen den Aussagen wechseln. Deine Antwort wird im Kreis angezeigt. Wenn du auf einen Kreis tippst, kannst du deine Antwort ändern.",
+    "introFourTitle": "Dein Ergebnis zur Wahl.",
+    "introFourDescription": "Wenn du genug Aussagen beantwortet hast, siehst du dein Ergebnis. Du erfährst, welche Partei oder welcher Kandidierende am besten zu dir passt. Du kannst dir auch alle Antworten und **Begründungen** ansehen."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",

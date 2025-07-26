@@ -24,7 +24,15 @@
   },
   "Intro": {
     "nextButton": "Weiter",
-    "startVotoButton": "VOTO starten"
+    "startVotoButton": "VOTO starten",
+    "introOneTitle": "Lerne mehr über aktuelle Themen und entdecke wer zu Dir passt!",
+    "introOneDescription": "Um herauszufinden, welche {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} zu deiner Einstellung passen, kannst du bis zu **{numberOfTheses, plural, =1 {# These} other {# Thesen}}** beantworten. Die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} der Wahl \"{electionTitle} - {electionSubtitle}\" haben dies ebenfalls getan.",
+    "introTwoTitle": "Wofür brennst du?",
+    "introTwoDescription": "Liegt dir ein Thema besonders am Herzen, kannst du dieses mit dem Stern Symbol markieren. Diese These wird **doppelt so stark bewertet**.",
+    "introThreeTitle": "Vertippt? Keine Sorge.",
+    "introThreeDescription": "Über die **Timeline** kannst du schnell durch die Thesen **navigieren**. Bei von dir bereits beantworteten Thesen siehst Du Deine Antwort innerhalb des Kreises. Durch einen Tap auf einen der Kreise navigierst Du zur jeweiligen These, um sie erneut zu bewerten.",
+    "introFourTitle": "Deine Matches zur anstehenden Wahl.",
+    "introFourDescription": "Hast du genug Thesen beantwortet siehst Du Dein Ergebnis. Hier kannst Du sehen, mit welcher Partei und welchem Kandidierenden du am meisten **übereinstimmst**. Außerdem kannst du Dir einen Überblick über alle Parteien/Kandidierenden verschaffen und dir **Begründungen** zu den einzelnen Thesen durchlesen."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",
