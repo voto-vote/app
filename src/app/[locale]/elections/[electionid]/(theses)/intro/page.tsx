@@ -14,12 +14,12 @@ import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import Markdown from "@/components/markdown";
 import { useElection } from "@/contexts/election-context";
-import { Election } from "@/types/election";
 import { useThesesStore } from "@/stores/theses-store";
 import Lottie from "lottie-react";
 import thesesCardAnimation from "./theses-card-animation.json";
 import starThesesAnimation from "./star-theses-animation.json";
 import navigateThesesAnimation from "./navigate-theses-animation.json";
+import resultAnimation from "./result-animation.json";
 
 export default function Intro() {
   const { election } = useElection();
@@ -73,7 +73,7 @@ export default function Intro() {
         "Über die **Timeline** kannst du schnell durch die Thesen **navigieren**. Bei von dir bereits beantworteten Thesen siehst Du Deine Antwort innerhalb des Kreises. Durch einen Tap auf einen der Kreise siehst du eine Vorschau der These. Durch einen zweiten Tap navigierst Du zur jeweiligen These, um sie erneut zu bewerten.",
     },
     {
-      animation: navigateThesesAnimation,
+      animation: resultAnimation,
       title: "Deine Matches zur anstehenden Wahl.",
       description:
         "Hast du genug Thesen beantwortet siehst Du Dein Ergebnis. Hier kannst Du sehen, mit welcher Partei und welchem Kandidierenden du am meisten **übereinstimmst**. Außerdem kannst du Dir einen Überblick über alle Parteien/Kandidierenden verschaffen und dir **Begründungen** zu den einzelnen Thesen durchlesen.",
