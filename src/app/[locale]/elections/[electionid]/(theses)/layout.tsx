@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import { useThesesStore } from "@/stores/theses-store";
+import { usePartiesStore } from "@/stores/party-store";
+import { useCandidatesStore } from "@/stores/candidate-store";
 import { useLocale } from "next-intl";
 import { useRandomStore } from "@/stores/random-store";
 import { getTheses } from "@/actions/theses-action";
@@ -16,6 +18,8 @@ export default function ElectionLayout({
 }>) {
   const { election } = useElection();
   const { setTheses, clearTheses } = useThesesStore();
+  const { setParties } = usePartiesStore();
+  const { setCandidates } = useCandidatesStore();
   const locale = useLocale();
   const { seed } = useRandomStore();
 
@@ -31,11 +35,13 @@ export default function ElectionLayout({
     getPartiesForInstance(election.id).then((parties) => {
       // Assuming you have a store or context to set parties
       // setParties(parties);
+      setParties(parties, election.id);
     });
 
     getCandidatesByInstanceAndStatus(election.id).then((candidates) => {
       // Assuming you have a store or context to set candidates
       // setCandidates(candidates);
+      setCandidates(candidates, election.id);
     });
 
 
@@ -83,3 +89,4 @@ function shuffle<T>(
 
   return newArray;
 }
+
