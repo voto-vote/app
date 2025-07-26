@@ -23,7 +23,7 @@ import {
   Languages,
   Shield,
 } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 
 interface NavigationSheetProps {
@@ -39,29 +39,30 @@ export default function NavigationSheet({
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
+  const t = useTranslations("NavigationSheet");
 
   const navigationItems = [
-    { label: "Start", icon: Home, href: "/" },
-    { label: "VOTO Portal", icon: Globe, href: "https://portal.voto.vote/" },
+    { label: t("home"), icon: Home, href: "/" },
+    { label: t("votoPortal"), icon: Globe, href: "https://portal.voto.vote/" },
   ];
 
   const aboutItems = [
     {
-      label: "Häufige Fragen",
+      label: t("frequentQuestions"),
       icon: HelpCircle,
       href: "https://www.voto.vote/faq",
     },
-    { label: "Was ist VOTO?", icon: Info, href: "https://www.voto.vote/" },
+    { label: t("whatIsVoto"), icon: Info, href: "https://www.voto.vote/" },
   ];
 
   const legalItems = [
     {
-      label: "Datenschutz",
+      label: t("dataPrivacy"),
       icon: Shield,
       href: "https://www.voto.vote/datenschutz",
     },
     {
-      label: "Impressum",
+      label: t("imprint"),
       icon: FileText,
       href: "https://www.voto.vote/impressum",
     },
@@ -81,8 +82,8 @@ export default function NavigationSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="gap-0">
         <SheetHeader>
-          <SheetTitle>VOTO</SheetTitle>
-          <SheetDescription>Wählen einfach machen</SheetDescription>
+          <SheetTitle>{t("title")}</SheetTitle>
+          <SheetDescription>{t("subtitle")}</SheetDescription>
         </SheetHeader>
 
         <div className="p-4 space-y-6 overflow-y-scroll">
@@ -110,7 +111,7 @@ export default function NavigationSheet({
           {/* About Section */}
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-3">
-              Information
+              {t("informations")}
             </h3>
             {aboutItems.map((item) => (
               <Button
@@ -134,7 +135,7 @@ export default function NavigationSheet({
           {/* Legal Section */}
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-3">
-              Rechtliches
+              {t("legal")}
             </h3>
             {legalItems.map((item) => (
               <Button
@@ -159,7 +160,7 @@ export default function NavigationSheet({
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-3 flex items-center">
               <Languages className="mr-2 size-4" />
-              Sprachen
+              {t("languages")}
             </h3>
             {routing.locales
               //.filter((l) => election.locales.includes(l))
@@ -186,7 +187,7 @@ export default function NavigationSheet({
         {/* Footer */}
         <SheetFooter>
           <div className="text-xs text-muted-foreground text-center">
-            © {new Date().getFullYear()} VOTO. All rights reserved.
+            {t("footer", { year: new Date().getFullYear() })}
           </div>
         </SheetFooter>
       </SheetContent>

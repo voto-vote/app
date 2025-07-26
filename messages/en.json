@@ -58,5 +58,19 @@
     "sortedByYourVoto": "Sorted by your VOTO.",
     "useVOTOSort": "Use your VOTO for sorting instead",
     "useCategoriesSort": "Use categories for sorting instead"
+  },
+  "NavigationSheet": {
+    "title": "VOTO",
+    "subtitle": "Voting made easy",
+    "home": "Home",
+    "votoPortal": "VOTO Portal",
+    "informations": "Informations",
+    "frequentQuestions": "Frequently Asked Questions",
+    "whatIsVoto": "What is VOTO?",
+    "legal": "Legal",
+    "dataPrivacy": "Privacy Policy",
+    "imprint": "Imprint",
+    "languages": "Languages",
+    "footer": "© {year} VOTO. All rights reserved."
   }
 }
