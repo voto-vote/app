@@ -258,6 +258,7 @@ export default function ThesesPage() {
               className="w-full text-primary"
               onClick={() => {
                 setRating(election.id, theses[currentThesisIndex]?.id, -1);
+                setFavorite(election.id, theses[currentThesisIndex]?.id, false);
                 goTo(currentThesisIndex + 1);
               }}
             >

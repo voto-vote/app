@@ -44,6 +44,7 @@ export default async function RootLayout({
     <html lang={locale} className="h-full">
       <head>
         <meta name="theme-color" content="#860196"></meta>
+        <meta name="apple-mobile-web-app-title" content="VOTO" />
       </head>
       <body
         className={`${inter.className} h-full antialiased overflow-hidden flex flex-col`}
