@@ -50,24 +50,22 @@ export default function ChangeRatingDialog({
         >
           <DialogTitle className="sr-only">Change Rating</DialogTitle>
 
-          <div className="md:w-3xl flex flex-col gap-12">
-            <div className="-mx-3">
-              <ThesisCard
-                thesis={thesis}
-                onStarredChange={(starred) => setNewFavorite(starred)}
-                starDisabled={
-                  election.algorithm.weightedVotesLimit !== false &&
-                  Object.values(ratings).reduce(
-                    (n, t) => (t.favorite === true ? n + 1 : n),
-                    0
-                  ) >= election.algorithm.weightedVotesLimit
-                }
-                starred={newFavorite}
-              />
-            </div>
+          <div className="w-screen md:w-3xl -mx-3 md:mx-0 flex flex-col gap-12">
+            <ThesisCard
+              thesis={thesis}
+              onStarredChange={(starred) => setNewFavorite(starred)}
+              starDisabled={
+                election.algorithm.weightedVotesLimit !== false &&
+                Object.values(ratings).reduce(
+                  (n, t) => (t.favorite === true ? n + 1 : n),
+                  0
+                ) >= election.algorithm.weightedVotesLimit
+              }
+              starred={newFavorite}
+            />
 
             {/* Rating System */}
-            <div className="space-y-2 md:self-center">
+            <div className="mx-4 md:mx-0 space-y-2 md:self-center">
               <div className="flex justify-between gap-2 md:gap-4">
                 {[1, 2, 3, 4, 5]
                   .slice(0, election.algorithm.decisions)
@@ -96,7 +94,7 @@ export default function ChangeRatingDialog({
             </div>
 
             <Button
-              className="md:w-96 md:mx-auto"
+              className="md:w-96 mx-4 md:mx-auto"
               onClick={() => {
                 onRatingChange({ rating: newRating, favorite: newFavorite });
                 onOpenChange(false);

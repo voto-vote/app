@@ -6,10 +6,11 @@
   "ShareDrawer": {
     "systemModalDescription": "Bewerte die Wahlprogramme und finde heraus, welche Partei am besten zu dir passt.",
     "screenReaderTitle": "Teilen",
-    "title": "Dein persönlicher VOTO Code",
-    "description": "Deine Bewertungen sind über den obigen Code abrufbar. Du kannst Dir den Link zu den Bewertungen über den \"Teilen\" Knopf speichern und Dir Dein Ergebnis erneut ansehen.",
+    "title": "Dein persönlicher VOTO Link",
+    "description": "Deine Bewertungen sind über den obigen QR-Code abrufbar. Du kannst Dir den Link zu den Bewertungen über den \"Teilen\" Knopf speichern und Dir Dein Ergebnis erneut ansehen.",
     "shareButton": "Teilen",
-    "closeButton": "Schließen"
+    "closeButton": "Schließen",
+    "sharingNotSupported": "Der Link wurde in die Zwischenablage kopiert."
   },
   "Elections": {
     "tagline": "Wählen einfach machen",
