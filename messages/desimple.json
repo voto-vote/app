@@ -6,10 +6,11 @@
   "ShareDrawer": {
     "systemModalDescription": "Bewerte die Parteien und finde heraus, welche am besten zu dir passt.",
     "screenReaderTitle": "Teilen",
-    "title": "Dein VOTO-Code",
-    "description": "Mit dem Code oben kannst du deine Bewertungen speichern. So kannst du dir dein Ergebnis noch einmal anschauen.",
+    "title": "Dein VOTO-Link",
+    "description": "Mit dem QR-Code oben kannst du deine Bewertungen speichern. So kannst du dir dein Ergebnis noch einmal anschauen.",
     "shareButton": "Teilen",
-    "closeButton": "Schließen"
+    "closeButton": "Schließen",
+    "sharingNotSupported": "Der Link wurde in die Zwischenablage kopiert."
   },
   "Elections": {
     "tagline": "Wählen leicht gemacht",
@@ -32,7 +33,7 @@
     "introThreeTitle": "Du hast dich vertippt? Kein Problem.",
     "introThreeDescription": "Mit der **Zeitleiste** kannst du schnell zwischen den Aussagen wechseln. Deine Antwort wird im Kreis angezeigt. Wenn du auf einen Kreis tippst, kannst du deine Antwort ändern.",
     "introFourTitle": "Dein Ergebnis zur Wahl.",
-    "introFourDescription": "Wenn du genug Aussagen beantwortet hast, siehst du dein Ergebnis. Du erfährst, welche Partei oder welcher Kandidierende am besten zu dir passt. Du kannst dir auch alle Antworten und **Begründungen** ansehen."
+    "introFourDescription": "Wenn du genug Aussagen beantwortet hast, siehst du dein Ergebnis. Du erfährst, {matchType, select, candidates {welcher Kandidierende} candidates_and_parties {welche Partei und welcher Kandidierende} other {welche Partei}} am besten zu dir passt. Du kannst dir auch alle Antworten und **Begründungen** ansehen."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",

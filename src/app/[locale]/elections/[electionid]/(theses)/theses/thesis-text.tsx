@@ -9,6 +9,9 @@ import {
 import { type Thesis } from "@/types/theses";
 
 export default function ThesisText({ thesis }: { thesis: Thesis }) {
+  // Trim thesis text to avoid spaces at the start and end
+  thesis.text = thesis.text.trim();
+
   // Sort explanations by startOffset
   const explanations =
     thesis.explanations?.sort((a, b) => a.startOffset - b.startOffset) ?? [];
@@ -55,7 +58,7 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
   }
 
   return (
-    <p className="text-2xl font-bold">
+    <p className="text-xl md:text-2xl font-bold">
       {segments.map((segment, index) => {
         if (!segment.explanation) {
           return <span key={index}>{segment.text}</span>;
