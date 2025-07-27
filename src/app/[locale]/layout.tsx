@@ -52,7 +52,7 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <HeaderProvider>
             <Header />
-            <div className="grow overflow-y-scroll">{children}</div>
+            <main className="grow overflow-y-scroll">{children}</main>
           </HeaderProvider>
         </NextIntlClientProvider>
       </body>

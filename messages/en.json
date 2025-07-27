@@ -6,10 +6,11 @@
   "ShareDrawer": {
     "systemModalDescription": "Evaluate the election manifestos and find out which party suits you best.",
     "screenReaderTitle": "Share",
-    "title": "Your personal VOTO code",
-    "description": "Your ratings can be accessed for using the code above. You can save the link to the ratings by using the \"Share\" button below and view your result again.",
+    "title": "Your personal VOTO link",
+    "description": "Your ratings can be accessed for using the QR-Code above. You can save the link to the ratings by using the \"Share\" button below and view your result again.",
     "shareButton": "Share",
-    "closeButton": "Close"
+    "closeButton": "Close",
+    "sharingNotSupported": "The link has been copied to the clipboard."
   },
   "Elections": {
     "tagline": "Voting made easy",
@@ -32,7 +33,7 @@
     "introThreeTitle": "Made a mistake? No worries.",
     "introThreeDescription": "Using the **timeline**, you can easily **navigate** through the statements. For the ones you've already answered, your response will appear inside the circle. Tapping on a circle takes you to the respective statement so you can re-evaluate it.",
     "introFourTitle": "Your matches for the upcoming election.",
-    "introFourDescription": "Once you've answered enough statements, you'll see your results. Here you can find out which party and candidate you **agree with the most**. You can also get an overview of all parties/candidates and read their **explanations** for each statement."
+    "introFourDescription": "Once you've answered enough statements, you'll see your results. Here you can find out which {matchType, select, candidates {candidate} candidates_and_parties {party and candidate} other {party}} you **agree with the most**. You can also get an overview of all {matchType, select, candidates {candidates} candidates_and_parties {parties and candidates} other {parties}} and read their **explanations** for each statement."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",

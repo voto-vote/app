@@ -78,7 +78,9 @@ export default function Intro() {
     {
       animation: resultAnimation,
       title: t("introFourTitle"),
-      description: t("introFourDescription"),
+      description: t("introFourDescription", {
+        matchType: election.algorithm.matchType.replaceAll("-", "_"),
+      }),
     },
   ];
 
@@ -114,7 +116,7 @@ export default function Intro() {
                   >
                     {/* Video Container */}
                     <motion.div
-                      className="relative w-full max-w-60 md:max-w-72 mx-auto aspect-square rounded-2xl overflow-hidden bg-white border border-zinc-300"
+                      className="relative w-full max-w-52 md:max-w-72 mx-auto aspect-square rounded-2xl overflow-hidden bg-white border border-zinc-300"
                       initial={{ y: 50, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{
