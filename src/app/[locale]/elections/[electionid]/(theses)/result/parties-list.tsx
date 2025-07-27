@@ -29,7 +29,7 @@ export default function PartiesList({
             className="w-full text-start flex items-center gap-4 py-4 hover:bg-accent transition-colors cursor-pointer"
           >
             <div className="flex-1 min-w-0">
-              <div className="font-bold text-lg truncate">{p.name}</div>
+              <div className="font-bold md:text-lg truncate">{p.name}</div>
               <MatchBar value={p.match} color={p.color} className="mt-2" />
             </div>
             <div className="text-primary flex items-center">

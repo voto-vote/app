@@ -35,6 +35,7 @@ interface ThesisCardProps {
   ownRating: Rating;
   participantsRatings: ParticipantRating[];
   onRatingChange: (rating: Rating) => void;
+  isDesktop: boolean;
 }
 
 export default function ThesisResultCard({
@@ -46,6 +47,7 @@ export default function ThesisResultCard({
   ownRating,
   participantsRatings,
   onRatingChange,
+  isDesktop,
 }: ThesisCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [expandedParticipantExplanations, setExpandedParticipantExplanations] =
@@ -55,7 +57,7 @@ export default function ThesisResultCard({
 
   return (
     <div className="flex flex-col justify-center md:justify-end">
-      <Card className="p-6 m-4 gap-2 border border-zinc-300 bg-zinc-100 overflow-auto md:max-w-3xl md:mx-auto shadow-none md:w-full">
+      <Card className="p-4 md:p-6 m-2 md:m-4 gap-2 border border-zinc-300 bg-zinc-100 overflow-auto md:max-w-3xl md:mx-auto shadow-none md:w-full">
         <div className="flex items-start justify-between leading-relaxed text-gray-600">
           <div>{thesis.category}</div>
           <div>
@@ -105,13 +107,16 @@ export default function ThesisResultCard({
           </div>
         )}
 
-        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,auto)_minmax(0,1fr)] gap-x-4 items-center mt-4">
-          <div className="justify-self-end text-lg">ICH</div>
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,auto)_minmax(0,1fr)] gap-x-2 md:gap-x-4 items-center mt-4">
+          <div className="justify-self-end text-sm sm:text-base md:text-lg">
+            ICH
+          </div>
           <RatingVisualization election={election} rating={ownRating} />
           <div>
             <Button
+              size={isDesktop ? "default" : "sm"}
               variant="link"
-              className="p-0"
+              className="p-0 max-h-6 sm:max-h-none max-w-full block truncate"
               onClick={() => setChangeRatingDialogOpen(true)}
             >
               Meinung ändern
@@ -131,25 +136,28 @@ export default function ThesisResultCard({
             return (
               <Fragment key={index}>
                 <div
-                  className="justify-self-end text-lg rounded truncate px-2 max-w-full"
+                  className="justify-self-end text-sm sm:text-base md:text-lg rounded truncate px-2 max-w-full"
                   style={{
                     backgroundColor: rating.color,
                     color: foregroundColor,
                   }}
                 >
-                  {rating.participantName}
+                  {abbreviateName(rating.participantName)}
                 </div>
+
                 <RatingVisualization
                   election={election}
                   rating={rating.rating}
                   backgroundColor={backgroundColor}
                   foregroundColor={foregroundColor}
                 />
+
                 <div>
                   {rating.explanation && (
                     <Button
+                      size={isDesktop ? "default" : "sm"}
                       variant="link"
-                      className="!p-0"
+                      className="!p-0 max-h-6 sm:max-h-none whitespace-normal"
                       onClick={() => {
                         const newSet = new Set(expandedParticipantExplanations);
                         if (
@@ -178,14 +186,18 @@ export default function ThesisResultCard({
                         rating.participantId
                       )}
                     >
-                      <CollapsibleContent
-                        className="rounded"
-                        style={{
-                          backgroundColor: rating.color,
-                          color: foregroundColor,
-                        }}
-                      >
-                        <div className="mx-2 my-1">{rating.explanation}</div>
+                      <CollapsibleContent>
+                        <div
+                          className="my-1 rounded"
+                          style={{
+                            backgroundColor: rating.color,
+                            color: foregroundColor,
+                          }}
+                        >
+                          <div className="px-2 py-1 text-sm sm:text-base">
+                            {rating.explanation}
+                          </div>
+                        </div>
                       </CollapsibleContent>
                     </Collapsible>
                   </div>
@@ -223,7 +235,7 @@ function RatingVisualization({
 
   return (
     <div
-      className={`h-8 flex justify-between items-center ${ratingValue > 0 ? "justify-between" : "justify-center"}`}
+      className={`h-6 md:h-8 flex justify-between items-center ${ratingValue > 0 ? "justify-between" : "justify-center"}`}
     >
       {ratingValue > 0 &&
         Array.from({ length: election.algorithm.decisions }, (_, i) => {
@@ -244,7 +256,7 @@ function RatingVisualization({
                     ? backgroundColor
                     : "var(--color-zinc-200)",
               }}
-              className="relative size-8"
+              className="relative size-6 md:size-8"
             >
               {rating.favorite && ratingValue - 1 === i ? (
                 <Star className="absolute inset-0 fill-current size-full" />
@@ -253,7 +265,7 @@ function RatingVisualization({
               )}
               <div
                 style={{ color: foregroundColor }}
-                className="relative font-semibold text-sm text-center align-middle leading-8"
+                className="relative font-semibold text-sm text-center align-middle leading-6 md:leading-8"
               >
                 {ratingValue - 1 === i && resolvedRatingValue}
               </div>
@@ -265,12 +277,12 @@ function RatingVisualization({
           style={{
             color: backgroundColor,
           }}
-          className="relative size-8"
+          className="relative size-6 md:size-8"
         >
           <Square className="absolute inset-0 fill-current size-full" />
           <div
             style={{ color: foregroundColor }}
-            className="relative font-semibold text-sm text-center align-middle leading-8"
+            className="relative font-semibold text-sm text-center align-middle leading-6 md:leading-8"
           >
             -
           </div>
@@ -278,4 +290,17 @@ function RatingVisualization({
       )}
     </div>
   );
+}
+
+function abbreviateName(fullName: string): string {
+  const parts = fullName.trim().split(" ");
+
+  if (parts.length <= 1) {
+    return fullName; // Return as is if there's no last name
+  }
+
+  const firstName = parts[0];
+  const lastNames = parts.slice(1).join(" ");
+
+  return `${firstName.charAt(0).toUpperCase()}. ${lastNames}`;
 }
