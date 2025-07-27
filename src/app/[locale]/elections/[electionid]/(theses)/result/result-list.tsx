@@ -31,15 +31,15 @@ export default function ResultList({
   const router = useRouter();
 
   return (
-    <div className="container mx-auto max-w-3xl p-2 pb-14">
-      <div className="space-y-8">
+    <div className="container mx-auto max-w-3xl p-2 pb-13">
+      <div className="space-y-4 md:space-y-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-sm max-w-1/2">
+          <p className="text-sm md:max-w-1/2">
             Auf Basis Deiner{" "}
             {Object.values(ratings[election.id] ?? {}).reduce(
               (n, r) => (r.rating ? n + 1 : n),

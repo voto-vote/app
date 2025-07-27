@@ -32,7 +32,7 @@
     "introThreeTitle": "Vertippt? Keine Sorge.",
     "introThreeDescription": "Über die **Timeline** kannst du schnell durch die Thesen **navigieren**. Bei von dir bereits beantworteten Thesen siehst Du Deine Antwort innerhalb des Kreises. Durch einen Tap auf einen der Kreise navigierst Du zur jeweiligen These, um sie erneut zu bewerten.",
     "introFourTitle": "Deine Matches zur anstehenden Wahl.",
-    "introFourDescription": "Hast du genug Thesen beantwortet siehst Du Dein Ergebnis. Hier kannst Du sehen, mit welcher Partei und welchem Kandidierenden du am meisten **übereinstimmst**. Außerdem kannst du Dir einen Überblick über alle Parteien/Kandidierenden verschaffen und dir **Begründungen** zu den einzelnen Thesen durchlesen."
+    "introFourDescription": "Hast du genug Thesen beantwortet siehst Du Dein Ergebnis. Hier kannst Du sehen, mit {matchType, select, candidates {welchem Kandidierenden} candidates_and_parties {welcher Partei und welchem Kandidierenden} other {welcher Partei}} du am meisten **übereinstimmst**. Außerdem kannst du Dir einen Überblick über alle {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} verschaffen und dir **Begründungen** zu den einzelnen Thesen durchlesen."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",

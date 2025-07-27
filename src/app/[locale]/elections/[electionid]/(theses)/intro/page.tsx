@@ -78,7 +78,9 @@ export default function Intro() {
     {
       animation: resultAnimation,
       title: t("introFourTitle"),
-      description: t("introFourDescription"),
+      description: t("introFourDescription", {
+        matchType: election.algorithm.matchType.replaceAll("-", "_"),
+      }),
     },
   ];
 

@@ -32,7 +32,7 @@
     "introThreeTitle": "Du hast dich vertippt? Kein Problem.",
     "introThreeDescription": "Mit der **Zeitleiste** kannst du schnell zwischen den Aussagen wechseln. Deine Antwort wird im Kreis angezeigt. Wenn du auf einen Kreis tippst, kannst du deine Antwort ändern.",
     "introFourTitle": "Dein Ergebnis zur Wahl.",
-    "introFourDescription": "Wenn du genug Aussagen beantwortet hast, siehst du dein Ergebnis. Du erfährst, welche Partei oder welcher Kandidierende am besten zu dir passt. Du kannst dir auch alle Antworten und **Begründungen** ansehen."
+    "introFourDescription": "Wenn du genug Aussagen beantwortet hast, siehst du dein Ergebnis. Du erfährst, {matchType, select, candidates {welcher Kandidierende} candidates_and_parties {welche Partei und welcher Kandidierende} other {welche Partei}} am besten zu dir passt. Du kannst dir auch alle Antworten und **Begründungen** ansehen."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",
