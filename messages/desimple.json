@@ -6,10 +6,11 @@
   "ShareDrawer": {
     "systemModalDescription": "Bewerte die Parteien und finde heraus, welche am besten zu dir passt.",
     "screenReaderTitle": "Teilen",
-    "title": "Dein VOTO-Code",
-    "description": "Mit dem Code oben kannst du deine Bewertungen speichern. So kannst du dir dein Ergebnis noch einmal anschauen.",
+    "title": "Dein VOTO-Link",
+    "description": "Mit dem QR-Code oben kannst du deine Bewertungen speichern. So kannst du dir dein Ergebnis noch einmal anschauen.",
     "shareButton": "Teilen",
-    "closeButton": "Schließen"
+    "closeButton": "Schließen",
+    "sharingNotSupported": "Der Link wurde in die Zwischenablage kopiert."
   },
   "Elections": {
     "tagline": "Wählen leicht gemacht",
