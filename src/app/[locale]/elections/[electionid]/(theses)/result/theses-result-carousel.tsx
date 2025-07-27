@@ -105,7 +105,6 @@ export default function ThesesResultCarousel({
 
       <Carousel
         setApi={setApi}
-        opts={{}}
         className="-mx-2 md:mx-0 md:[&>div]:overflow-visible"
       >
         <CarouselContent className="md:gap-x-32">
@@ -157,7 +156,7 @@ export default function ThesesResultCarousel({
             sortedTheses={sortedTheses}
           />
 
-          <CategoryProgress
+          <ThesesProgress
             thesesSorting={thesesSorting}
             sortedTheses={sortedTheses}
             currentThesisIndex={currentThesisIndex}
@@ -173,7 +172,7 @@ export default function ThesesResultCarousel({
 
       {!isDesktop && (
         <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-          <CategoryProgress
+          <ThesesProgress
             thesesSorting={thesesSorting}
             sortedTheses={sortedTheses}
             currentThesisIndex={currentThesisIndex}
@@ -236,7 +235,7 @@ function NextButton({
   );
 }
 
-function CategoryProgress({
+function ThesesProgress({
   thesesSorting,
   sortedTheses,
   currentThesisIndex,
@@ -247,9 +246,6 @@ function CategoryProgress({
   currentThesisIndex: number;
   className?: string;
 }) {
-  if (thesesSorting !== "category") {
-    return null;
-  }
   return (
     <div
       className={cn(
@@ -258,12 +254,16 @@ function CategoryProgress({
       )}
     >
       <div className="text-sm text-muted-foreground text-center">
-        {sortedTheses[currentThesisIndex]?.category}
+        {thesesSorting === "category"
+          ? sortedTheses[currentThesisIndex]?.category
+          : "Deine zufällige VOTO Sortierung"}
       </div>
-      <div className="flex gap-1">
+      <div className="flex gap-1 max-w-full">
         {sortedTheses
-          .filter(
-            (t) => t.category === sortedTheses[currentThesisIndex]?.category
+          .filter((t) =>
+            thesesSorting === "category"
+              ? t.category === sortedTheses[currentThesisIndex]?.category
+              : true
           )
           .map((t) => (
             <div
