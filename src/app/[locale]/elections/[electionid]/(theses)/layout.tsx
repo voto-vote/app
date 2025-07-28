@@ -2,10 +2,14 @@
 
 import { useEffect } from "react";
 import { useThesesStore } from "@/stores/theses-store";
+import { usePartiesStore } from "@/stores/party-store";
+import { useCandidatesStore } from "@/stores/candidate-store";
 import { useLocale } from "next-intl";
 import { useRandomStore } from "@/stores/random-store";
 import { getTheses } from "@/actions/theses-action";
 import { useElection } from "@/contexts/election-context";
+import { getVotedParties } from "@/actions/party-action";
+import { getVotedCandidates } from "@/actions/candidate-action";
 
 export default function ElectionLayout({
   children,
@@ -14,6 +18,8 @@ export default function ElectionLayout({
 }>) {
   const { election } = useElection();
   const { setTheses, clearTheses } = useThesesStore();
+  const { setParties } = usePartiesStore();
+  const { setCandidates } = useCandidatesStore();
   const locale = useLocale();
   const { seed } = useRandomStore();
 
@@ -26,10 +32,26 @@ export default function ElectionLayout({
       }
     );
 
+    if (election.algorithm.matchType === "candidates") {
+      getVotedCandidates(election.id).then((candidates) => {
+        setCandidates(candidates, election.id);
+      });
+    } else if (election.algorithm.matchType === "parties") {
+      getVotedParties(election.id).then((parties) => {
+        setParties(parties);
+      });
+    } else {
+      getVotedParties(election.id).then((parties) => {
+        setParties(parties);
+      });
+      getVotedCandidates(election.id).then((candidates) => {
+        setCandidates(candidates, election.id);
+      });
+    }
     return () => {
       clearTheses();
     };
-  }, [clearTheses, election, locale, seed, setTheses]);
+  }, [clearTheses, election, locale, seed, setCandidates, setParties, setTheses]);
   return children;
 }
 
@@ -70,3 +92,4 @@ function shuffle<T>(
 
   return newArray;
 }
+
