@@ -74,7 +74,7 @@ export default function Progress({
               onClick={() =>
                 rating.rating !== undefined && onCurrentIdChange(t.id)
               }
-              className={`relative font-semibold text-xs text-center align-middle transition ${rating.rating !== undefined ? "text-primary hover:scale-125 cursor-pointer" : "text-accent"} ${t.id === currentId ? "scale-125 [&>svg]:stroke-primary" : ""}`}
+              className={`relative font-semibold text-xs text-center align-middle transition ${rating.rating !== undefined ? "text-primary hover:scale-125 cursor-pointer" : "text-accent"} ${t.id === currentId ? "scale-125 [&_svg]:stroke-1 [&_svg]:stroke-primary" : ""}`}
             >
               <Tooltip
                 delayDuration={500}

@@ -6,10 +6,11 @@
   "ShareDrawer": {
     "systemModalDescription": "Bewerte die Parteien und finde heraus, welche am besten zu dir passt.",
     "screenReaderTitle": "Teilen",
-    "title": "Dein VOTO-Code",
-    "description": "Mit dem Code oben kannst du deine Bewertungen speichern. So kannst du dir dein Ergebnis noch einmal anschauen.",
+    "title": "Dein VOTO-Link",
+    "description": "Mit dem QR-Code oben kannst du deine Bewertungen speichern. So kannst du dir dein Ergebnis noch einmal anschauen.",
     "shareButton": "Teilen",
-    "closeButton": "Schließen"
+    "closeButton": "Schließen",
+    "sharingNotSupported": "Der Link wurde in die Zwischenablage kopiert."
   },
   "Elections": {
     "tagline": "Wählen leicht gemacht",
@@ -24,7 +25,15 @@
   },
   "Intro": {
     "nextButton": "Weiter",
-    "startVotoButton": "VOTO starten"
+    "startVotoButton": "VOTO starten",
+    "introOneTitle": "Finde heraus, wer zu dir passt!",
+    "introOneDescription": "Du kannst bis zu **{numberOfTheses, plural, =1 {# These} other {# Thesen}}** beantworten. So siehst du, welche {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} bei der Wahl \"{electionTitle} - {electionSubtitle}\" gut zu dir passen. Die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} haben auch geantwortet.",
+    "introTwoTitle": "Was ist dir besonders wichtig?",
+    "introTwoDescription": "Wenn dir ein Thema sehr wichtig ist, markiere es mit einem Stern. Es zählt dann **doppelt so viel**.",
+    "introThreeTitle": "Du hast dich vertippt? Kein Problem.",
+    "introThreeDescription": "Mit der **Zeitleiste** kannst du schnell zwischen den Aussagen wechseln. Deine Antwort wird im Kreis angezeigt. Wenn du auf einen Kreis tippst, kannst du deine Antwort ändern.",
+    "introFourTitle": "Dein Ergebnis zur Wahl.",
+    "introFourDescription": "Wenn du genug Aussagen beantwortet hast, siehst du dein Ergebnis. Du erfährst, {matchType, select, candidates {welcher Kandidierende} candidates_and_parties {welche Partei und welcher Kandidierende} other {welche Partei}} am besten zu dir passt. Du kannst dir auch alle Antworten und **Begründungen** ansehen."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",
@@ -50,5 +59,19 @@
     "sortedByYourVoto": "Sortiert nach deinem VOTO.",
     "useVOTOSort": "Dein VOTO zur Sortierung verwenden",
     "useCategoriesSort": "Kategorien zur Sortierung verwenden"
+  },
+  "NavigationSheet": {
+    "title": "VOTO",
+    "subtitle": "Wählen einfach machen",
+    "home": "Startseite",
+    "votoPortal": "VOTO Portal",
+    "informations": "Informationen",
+    "frequentQuestions": "Häufige Fragen",
+    "whatIsVoto": "Was ist VOTO?",
+    "legal": "Rechtliches",
+    "dataPrivacy": "Datenschutz",
+    "imprint": "Impressum",
+    "languages": "Sprachen",
+    "footer": "© {year} VOTO. Alle Rechte vorbehalten."
   }
 }

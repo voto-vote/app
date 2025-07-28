@@ -32,13 +32,13 @@ export default function CandidatesList({
             <Image
               src={c.image}
               alt={c.name}
-              width={56}
-              height={56}
+              width={64}
+              height={64}
               className="rounded-full object-cover size-16 border"
             />
             <div className="flex-1 min-w-0">
-              <div className="font-bold text-lg truncate">{c.name}</div>
-              <div className="text-sm text-muted-foreground truncate">
+              <div className="font-bold md:text-lg truncate">{c.name}</div>
+              <div className="text-xs md:text-sm text-muted-foreground truncate">
                 {c.party} | {c.list} | {c.listNumber}
               </div>
               <MatchBar value={c.match} className="mt-2" />
@@ -53,7 +53,7 @@ export default function CandidatesList({
                 aria-label="Merken"
               >
                 <Bookmark
-                  className={`size-8 transition stroke-1 ${bookmarked.includes(c.id) ? "fill-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
+                  className={`size-8 transition stroke-1 ${bookmarked.includes(c.id) ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
                 />
               </button>
               <button className="cursor-pointer">
