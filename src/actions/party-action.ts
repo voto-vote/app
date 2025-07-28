@@ -5,7 +5,7 @@ import { db } from "@/db/drizzle";
 import { parties, partyVotes } from "@/db/schema";
 import { Party, Status } from "@/types/party";
 
-export async function getPartiesForInstance(
+export async function getVotedParties(
   instanceId: number,
 ): Promise<Party[]> {
   const result = await db

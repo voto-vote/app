@@ -8,7 +8,6 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
-//import LiveMatches from "./live-matches";
 import { Button } from "@/components/ui/button";
 import BreakDrawer from "./break-drawer";
 import Progress from "./progress";
@@ -24,7 +23,11 @@ import { usePartiesStore } from "@/stores/party-store";
 import { useCandidatesStore } from "@/stores/candidate-store";
 import LiveMatches from "./live-matches";
 import { useResultStore } from "@/stores/result-store";
-import { calculateCandidateMatches, calculatePartyMatches } from "@/lib/result-calculator";
+import {
+  calculateCandidateMatches,
+  calculatePartyMatches,
+} from "@/lib/result-calculator";
+import { UserRating } from "@/types/ratings";
 
 export default function ThesesPage() {
   const { election } = useElection();
@@ -77,17 +80,14 @@ export default function ThesesPage() {
     }
   }, [ratings, election?.id, liveMatchesAvailable]);
 
-
   useEffect(() => {
     clearResults();
-    console.log("Calculating matches for election:", election?.id);
     const electionRatings = ratings[election?.id ?? -1] ?? {};
-    // Convert electionRatings to an array of MatchRating
-    const userRatings = Object.entries(electionRatings).map(
+    const userRatings: UserRating[] = Object.entries(electionRatings).map(
       ([thesisId, rating]) => ({
         thesisId,
-        rating: rating.rating ?? 0,
-        favorite: rating.favorite ?? false,
+        rating: rating.rating,
+        favorite: rating.favorite,
       })
     );
     if (parties === undefined && candidates) {
@@ -96,15 +96,14 @@ export default function ThesesPage() {
         candidates!,
         election.algorithm.matrix
       );
-      setResults(election.id, [], matches);
-      console.log("Results for candidates:", matches);
+      setResults([], matches);
     } else if (candidates === undefined && parties) {
       const matches = calculatePartyMatches(
         userRatings,
         parties!,
         election.algorithm.matrix
       );
-      setResults(election.id, matches, []);
+      setResults(matches, []);
     } else if (
       parties &&
       candidates &&
@@ -121,10 +120,17 @@ export default function ThesesPage() {
         candidates!,
         election.algorithm.matrix
       );
-      // Set both results in the store
-      setResults(election.id, partyMatches, candidateMatches);
+      setResults(partyMatches, candidateMatches);
     }
-  }, [candidates, clearResults, election.algorithm.matrix, election.id, parties, ratings, setResults]);
+  }, [
+    candidates,
+    clearResults,
+    election.algorithm.matrix,
+    election.id,
+    parties,
+    ratings,
+    setResults,
+  ]);
 
   if (!theses) {
     return null;
@@ -158,7 +164,7 @@ export default function ThesesPage() {
           transition={{ delay: 0.2, duration: 0.4 }}
         >
           <LiveMatches
-            entities={results[election.id] ?? []}
+            entities={results}
             liveMatchesVisible={liveMatchesVisible}
           />
           {/* Live indicator */}

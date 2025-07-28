@@ -8,8 +8,8 @@ import { useLocale } from "next-intl";
 import { useRandomStore } from "@/stores/random-store";
 import { getTheses } from "@/actions/theses-action";
 import { useElection } from "@/contexts/election-context";
-import { getPartiesForInstance } from "@/actions/party-action";
-import { getCandidatesByInstanceAndStatus } from "@/actions/candidate-action";
+import { getVotedParties } from "@/actions/party-action";
+import { getVotedCandidates } from "@/actions/candidate-action";
 
 export default function ElectionLayout({
   children,
@@ -33,18 +33,18 @@ export default function ElectionLayout({
     );
 
     if (election.algorithm.matchType === "candidates") {
-      getCandidatesByInstanceAndStatus(election.id).then((candidates) => {
+      getVotedCandidates(election.id).then((candidates) => {
         setCandidates(candidates, election.id);
       });
     } else if (election.algorithm.matchType === "parties") {
-      getPartiesForInstance(election.id).then((parties) => {
-        setParties(parties, election.id);
+      getVotedParties(election.id).then((parties) => {
+        setParties(parties);
       });
     } else {
-      getPartiesForInstance(election.id).then((parties) => {
-        setParties(parties, election.id);
+      getVotedParties(election.id).then((parties) => {
+        setParties(parties);
       });
-      getCandidatesByInstanceAndStatus(election.id).then((candidates) => {
+      getVotedCandidates(election.id).then((candidates) => {
         setCandidates(candidates, election.id);
       });
     }

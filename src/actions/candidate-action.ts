@@ -5,7 +5,7 @@ import { db } from "@/db/drizzle";
 import { candidates, parties, candidateVotes, users } from "@/db/schema";
 import { Candidate, Status } from "@/types/candidate";
 
-export async function getCandidatesByInstanceAndStatus(instanceId: number): Promise<Candidate[]> {
+export async function getVotedCandidates(instanceId: number): Promise<Candidate[]> {
   const result = await db
     .select({
       // Candidate fields
