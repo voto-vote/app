@@ -1,6 +1,6 @@
 import { Candidate } from "@/types/candidate";
 import { Party } from "@/types/party";
-import { MatchRating } from "@/types/ratings";
+import { MatchRating, UserRating } from "@/types/ratings";
 import { Result } from "@/types/result";
 
 // Types for the algorithm
@@ -39,6 +39,7 @@ function calculatePoints(
   let maxMinusPoints = 0;
   let points = 0.0;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   for (const [_, voteItem] of voteMap) {
     const { min, max } = getMinMaxOfMatrix(matrix);
     const addMaxPoints = voteItem.userWeight * max;
@@ -62,21 +63,28 @@ function calculatePoints(
 
 function createVoteMap(
   userRatings: MatchRating[],
-  entityRatings: MatchRating[]
+  entityRatings: MatchRating[],
+  decisions: number
 ): VoteMap {
   const voteMap = new Map<string, VoteItem>();
 
   // Create a map of user ratings for quick lookup
   const userRatingMap = new Map<string, MatchRating>();
   userRatings.forEach((rating) => {
-    // TODO: Fetch from election to get amount of ratings possibvle
-     const ratingMap = {
+     const ratingMap : Record<number, number> = {
       1: 0,
-      2: 50,
-      3: 100,
+      2: 25,
+      3: 50,
+      4: 75,
+      5: 100
+    };
+    if (decisions === 3) {
+      ratingMap[1] = 0;
+      ratingMap[2] = 50;
+      ratingMap[3] = 100;
     }
-    if (typeof rating.rating === "number" && ratingMap.hasOwnProperty(rating.rating)) {
-      rating.rating = ratingMap[rating.rating as 1 | 2 | 3];
+    if (rating.rating) {
+      rating.rating = ratingMap[rating.rating!] || 0; // Convert to percentage
     }
     userRatingMap.set(rating.thesisId, rating);
   });
@@ -102,7 +110,7 @@ function createVoteMap(
 }
 
 export function calculatePartyMatches(
-  userRatings: MatchRating[],
+  userRatings: UserRating[],
   parties: Party[],
   matrix: number[][]
 ): Result[] {
@@ -111,7 +119,7 @@ export function calculatePartyMatches(
   // Calculate matches for parties
   if (parties) {
     parties.forEach((party) => {
-      const voteMap = createVoteMap(userRatings, party.ratings);
+      const voteMap = createVoteMap(userRatings, party.ratings,matrix.length);
       if (voteMap.size > 0) {
         const matchPercentage = calculatePoints(voteMap, matrix, maxValue);
         results.push({
@@ -129,7 +137,7 @@ export function calculatePartyMatches(
 }
 
 export function calculateCandidateMatches(
-  userRatings: MatchRating[],
+  userRatings: UserRating[],
   candidates: Candidate[],
   matrix: number[][]
 ): Result[] {
@@ -138,7 +146,7 @@ export function calculateCandidateMatches(
 
   if (candidates) {
     candidates.forEach((candidate) => {
-      const voteMap = createVoteMap(userRatings, candidate.ratings);
+      const voteMap = createVoteMap(userRatings, candidate.ratings,matrix.length);
       if (voteMap.size > 0) {
         const matchPercentage = calculatePoints(voteMap, matrix, maxValue);
         results.push({

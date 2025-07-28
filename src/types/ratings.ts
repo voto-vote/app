@@ -3,7 +3,7 @@ import { Candidate } from "./candidate";
 import { Party } from "./party";
 
 export type Rating = {
-  rating: number | undefined; 
+  rating: number | undefined; // undefined means no rating given yet, -1 means skipped
   favorite: boolean;
 };
 
@@ -11,6 +11,12 @@ export type MatchRating = {
   thesisId: Thesis["id"];
   rating: number | undefined;
   explanation?: string; // Optional explanation for the rating
+};
+
+export type UserRating = {
+  thesisId: Thesis["id"];
+  rating: number | undefined;
+  favorite: boolean;
 };
 
 export type Ratings = {
@@ -27,7 +33,6 @@ export type PartyRatings = {
   ratings: Ratings;
 };
 
-// Types for the algorithm
 export type VoteItem = {
   userVote: number;
   userWeight: number;
