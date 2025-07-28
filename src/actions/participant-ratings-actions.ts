@@ -1,68 +1,17 @@
 "use server";
 
-import { db } from "@/db/drizzle";
-import { candidates, candidateVotes, parties, partyVotes } from "@/db/schema";
-import { calculateResultForCandidate } from "@/lib/result-calculator";
-import { Candidate } from "@/types/candidate";
-import { Party } from "@/types/party";
-import { CandidateRatings, PartyRatings, Ratings } from "@/types/ratings";
-import { eq, and } from "drizzle-orm";
 
-type ParticipantRating = {
-  [participantId: string]: Ratings;
-};
-
-export async function getParticipantRatings(
-  instanceId: string
-): Promise<ParticipantRating> {
-  const candidateVotesPromise = db
-    .select({
-      id: candidateVotes.candidateId,
-      instanceId: candidateVotes.instanceId,
-      statementId: candidateVotes.statementId,
-      candidateId: candidateVotes.candidateId,
-      value: candidateVotes.value,
-      explanation: candidateVotes.explanation,
-    })
-    .from(candidateVotes)
-    .innerJoin(candidates, eq(candidateVotes.candidateId, candidates.id))
-    .where(
-      and(
-        eq(candidates.instanceId, parseInt(instanceId)),
-        eq(candidates.status, 3)
-      )
-    );
-
-  const partyVotesPromise = db
-    .select({
-      id: partyVotes.id,
-      instanceId: partyVotes.instanceId,
-      statementId: partyVotes.statementId,
-      partyId: partyVotes.partyId,
-      value: partyVotes.value,
-      explanation: partyVotes.explanation,
-    })
-    .from(partyVotes)
-    .innerJoin(parties, eq(partyVotes.partyId, parties.id))
-    .where(
-      and(eq(parties.instanceId, parseInt(instanceId)), eq(parties.status, 2))
-    );
-
-  const [candidateVotesResult, partyVotesResult] = await Promise.all([
-    candidateVotesPromise,
-    partyVotesPromise,
-  ]);
-
-  // TODO:
-  const participantRatings: Ratings = {}
+/*
+  const participantRatings: Ratings = useRatingsStore.getState().ratings.get(
+    parseInt(instanceId)
+  ) || {};
+  console.log("Participant Ratings: ", participantRatings);
   const matrix: number[][] = [
     [1, 0, -1],
     [0, 0.5, 0],
     [-1, 0, 1]
   ]
 
-
-  // Todo: IMprove, as its straight vibe coded. 
   const partyRatingsMap = new Map<Party["id"], PartyRatings>();
   partyVotesResult.forEach((vote) => {
     if (!partyRatingsMap.has(vote.partyId)) {
@@ -74,7 +23,7 @@ export async function getParticipantRatings(
     const partyRating = partyRatingsMap.get(vote.partyId)!;
     partyRating.ratings[vote.statementId] = {
       rating: vote.value,
-      favorite: false // Adjust based on your data
+      favorite: false 
     };
   });
 
@@ -89,7 +38,7 @@ export async function getParticipantRatings(
     const candidateRating = candidateRatingsMap.get(vote.candidateId)!;
     candidateRating.ratings[vote.statementId] = {
       rating: vote.value,
-      favorite: false // Adjust based on your data
+      favorite: false 
     };
   });
 
@@ -116,3 +65,5 @@ export async function getParticipantRatings(
   return {}
 }
     
+
+*/

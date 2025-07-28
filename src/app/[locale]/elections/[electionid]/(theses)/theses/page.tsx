@@ -8,7 +8,7 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import PartyMatches from "./party-matches";
+//import LiveMatches from "./live-matches";
 import { Button } from "@/components/ui/button";
 import BreakDrawer from "./break-drawer";
 import Progress from "./progress";
@@ -20,40 +20,26 @@ import { useRouter } from "@/i18n/navigation";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { motion } from "framer-motion";
 import { useElection } from "@/contexts/election-context";
+import {
+  calculateCandidateMatches,
+  calculatePartyMatches,
+} from "@/actions/rating-ation";
+import { usePartiesStore } from "@/stores/party-store";
+import { useCandidatesStore } from "@/stores/candidate-store";
+import LiveMatches from "./live-matches";
+import { useResultStore } from "@/stores/result-store";
 
 export default function ThesesPage() {
   const { election } = useElection();
+  const { parties } = usePartiesStore();
+  const { results, setResults } = useResultStore();
+  const { candidates } = useCandidatesStore();
   const { theses } = useThesesStore();
   const { ratings, setRating, setFavorite } = useRatingsStore();
   const [api, setApi] = useState<CarouselApi>();
   const [currentThesisIndex, setCurrentThesisIndex] = useState(0);
   const count = theses?.length ?? 0;
-  const [parties, setParties] = useState([
-    {
-      id: "spd",
-      name: "SPD",
-      matchPercentage: 0,
-      color: "#E3000F",
-    },
-    {
-      id: "gruene",
-      name: "Die Grünen",
-      matchPercentage: 0,
-      color: "#46962b",
-    },
-    {
-      id: "linke",
-      name: "Die Linke",
-      matchPercentage: 0,
-      color: "#BE3075",
-    },
-    {
-      id: "mannheimer",
-      name: "Mannheimer Liste",
-      matchPercentage: 0,
-      color: "#009ee3",
-    },
-  ]);
+
   const [liveMatchesAvailable, setLiveMatchesAvailable] = useState(false);
   const [liveMatchesVisible, setLiveMatchesVisible] = useState(false);
   const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
@@ -104,6 +90,51 @@ export default function ThesesPage() {
       return;
     }
 
+    const electionRatings = ratings[election?.id ?? -1] ?? {};
+    // Convert electionRatings to an array of MatchRating
+    const userRatings = Object.entries(electionRatings).map(
+      ([thesisId, rating]) => ({
+        thesisId,
+        rating: rating.rating ?? 0,
+        favorite: rating.favorite ?? false,
+      })
+    );
+
+    if (parties === undefined && candidates) {
+      const matches = calculateCandidateMatches(
+        userRatings,
+        candidates!,
+        election.algorithm.matrix
+      );
+      setResults(election.id, [], matches);
+      console.log("Party matches calculated:", matches);
+
+    } else if (candidates === undefined && parties) {
+      const matches = calculatePartyMatches(
+        userRatings,
+        parties!,
+        election.algorithm.matrix
+      );
+      setResults(election.id, matches, []);
+    } else if (
+      parties &&
+      candidates &&
+      parties.length > 0 &&
+      candidates.length > 0
+    ) {
+      const partyMatches = calculatePartyMatches(
+        userRatings,
+        parties!,
+        election.algorithm.matrix
+      );
+      const candidateMatches = calculateCandidateMatches(
+        userRatings,
+        candidates!,
+        election.algorithm.matrix
+      );
+      setResults(election.id, partyMatches, candidateMatches);
+    }
+
     // The timeout makes it possible to highlight the selected rating button before continuing
     setTimeout(() => {
       if (!skipBreak && index % Math.round(theses!.length / 2) === 0) {
@@ -112,14 +143,6 @@ export default function ThesesPage() {
       }
 
       api?.scrollTo(index);
-
-      // TODO calculate party match updates
-      setParties((p) =>
-        p.map((party) => {
-          party.matchPercentage = Math.floor(Math.random() * 100);
-          return party;
-        })
-      );
     }, 200);
   }
 
@@ -133,11 +156,10 @@ export default function ThesesPage() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.4 }}
         >
-          <PartyMatches
-            parties={parties}
+          <LiveMatches
+            entities={results[election.id] ?? []}
             liveMatchesVisible={liveMatchesVisible}
           />
-
           {/* Live indicator */}
           <div
             className={`fixed left-1/2 -translate-x-1/2 z-10 transition-all duration-300 shadow bg-white rounded-lg ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}

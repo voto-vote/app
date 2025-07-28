@@ -2,7 +2,7 @@
 
 import { eq, and } from "drizzle-orm";
 import { db } from "@/db/drizzle";
-import { candidates, parties } from "@/db/schema";
+import { candidates, parties, candidateVotes, users } from "@/db/schema";
 import { Candidate, Status } from "@/types/candidate";
 
 export async function getCandidatesByInstanceAndStatus(instanceId: number): Promise<Candidate[]> {
@@ -10,6 +10,9 @@ export async function getCandidatesByInstanceAndStatus(instanceId: number): Prom
     .select({
       // Candidate fields
       id: candidates.id,
+      title: users.title,
+      firstName: users.firstName,
+      lastName: users.lastName,
       instanceId: candidates.instanceId,
       userId: candidates.userId,
       partyId: candidates.partyId,
@@ -24,6 +27,7 @@ export async function getCandidatesByInstanceAndStatus(instanceId: number): Prom
       color: parties.color,
     })
     .from(candidates)
+    .innerJoin(users, eq(candidates.userId, users.id))
     .innerJoin(parties, eq(candidates.partyId, parties.id))
     .where(
       and(
@@ -32,9 +36,31 @@ export async function getCandidatesByInstanceAndStatus(instanceId: number): Prom
       )
     );
 
+  const candiVotes = await db
+      .select({
+        id: candidateVotes.candidateId,
+        instanceId: candidateVotes.instanceId,
+        statementId: candidateVotes.statementId,
+        candidateId: candidateVotes.candidateId,
+        value: candidateVotes.value,
+        explanation: candidateVotes.explanation,
+      })
+      .from(candidateVotes)
+      .innerJoin(candidates, eq(candidateVotes.candidateId, candidates.id))
+      .where(
+        and(
+          eq(candidates.instanceId, instanceId),
+          eq(candidates.status, 3)
+        )
+      );
+    
+
   // Transform the database result to match your Candidate type + color
   return result.map(candidate => ({
     id: candidate.id,
+    title: candidate.title,
+    firstName: candidate.firstName,
+    lastName: candidate.lastName,
     instanceId: candidate.instanceId,
     userId: candidate.userId,
     partyId: candidate.partyId,
@@ -44,6 +70,13 @@ export async function getCandidatesByInstanceAndStatus(instanceId: number): Prom
     listPlace: candidate.listPlace,
     website: candidate.website,
     status: getStatusFromNumber(candidate.status),
+    ratings: candiVotes
+      .filter(vote => vote.candidateId === candidate.id)
+      .map(vote => ({
+        thesisId: String(vote.statementId),
+        rating: vote.value,
+        explanation: vote.explanation,
+      })),
     createdAt: candidate.createdAt,
     updatedAt: candidate.updatedAt,
     color: candidate.color,

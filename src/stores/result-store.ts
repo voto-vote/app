@@ -10,7 +10,7 @@ type State = {
 };
 
 type Action = {
-  setResult: (
+  setResults: (
     electionId: Election["id"],
     partyResult: Result[],
     candidateResult: Result[]
@@ -21,8 +21,7 @@ export const useResultStore = create<State & Action>()(
   persist(
     (set) => ({
       results: {},
-
-      setResult: (electionId, partyResult, candidateResult) =>
+      setResults: (electionId, partyResult, candidateResult) =>
         set((state) => ({
           results: {
             ...state.results,

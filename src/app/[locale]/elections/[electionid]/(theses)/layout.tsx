@@ -32,23 +32,26 @@ export default function ElectionLayout({
       }
     );
 
-    getPartiesForInstance(election.id).then((parties) => {
-      // Assuming you have a store or context to set parties
-      // setParties(parties);
-      setParties(parties, election.id);
-    });
-
-    getCandidatesByInstanceAndStatus(election.id).then((candidates) => {
-      // Assuming you have a store or context to set candidates
-      // setCandidates(candidates);
-      setCandidates(candidates, election.id);
-    });
-
-
+    if (election.algorithm.matchType === "candidates") {
+      getCandidatesByInstanceAndStatus(election.id).then((candidates) => {
+        setCandidates(candidates, election.id);
+      });
+    } else if (election.algorithm.matchType === "parties") {
+      getPartiesForInstance(election.id).then((parties) => {
+        setParties(parties, election.id);
+      });
+    } else {
+      getPartiesForInstance(election.id).then((parties) => {
+        setParties(parties, election.id);
+      });
+      getCandidatesByInstanceAndStatus(election.id).then((candidates) => {
+        setCandidates(candidates, election.id);
+      });
+    }
     return () => {
       clearTheses();
     };
-  }, [clearTheses, election, locale, seed, setTheses]);
+  }, [clearTheses, election, locale, seed, setCandidates, setParties, setTheses]);
   return children;
 }
 

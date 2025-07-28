@@ -2,7 +2,7 @@
 
 import { eq, and } from "drizzle-orm";
 import { db } from "@/db/drizzle";
-import { parties } from "@/db/schema";
+import { parties, partyVotes } from "@/db/schema";
 import { Party, Status } from "@/types/party";
 
 export async function getPartiesForInstance(
@@ -18,7 +18,19 @@ export async function getPartiesForInstance(
       )
     );
 
-  // Transform the database result to match your Party type
+   const partyVotesPromise = await db
+      .select({
+        statementId: partyVotes.statementId,
+        value: partyVotes.value,
+        explanation: partyVotes.explanation,
+      })
+      .from(partyVotes)
+      .innerJoin(parties, eq(partyVotes.partyId, parties.id))
+      .where(
+        and(eq(parties.instanceId, instanceId), eq(parties.status, 2))
+      );
+  
+
   return result.map(party => ({
     id: party.id,
     parentPartyId: party.parentPartyId,
@@ -28,10 +40,17 @@ export async function getPartiesForInstance(
     description: party.description,
     website: party.website,
     status: getStatusFromNumber(party.status),
+    ratings: partyVotesPromise.map(vote => ({
+      thesisId: String(vote.statementId),
+      rating: vote.value,
+      explanation: vote.explanation,
+    })),
     color: party.color,
     createdAt: party.createdAt,
     updatedAt: party.updatedAt,
   }));
+
+
 }
 
 function getStatusFromNumber(statusNum: number): Status {
