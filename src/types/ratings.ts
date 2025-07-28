@@ -26,3 +26,10 @@ export type PartyRatings = {
   partyId: Party["id"];
   ratings: Ratings;
 };
+
+// Types for the algorithm
+export type VoteItem = {
+  userVote: number;
+  userWeight: number;
+  matchVote: number; // The vote from party or candidate
+};
