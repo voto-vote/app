@@ -128,7 +128,8 @@
     "changeOpinion": "Change opinion"
   },
   "CandidatesList": {
-    "bookmark": "Watch"
+    "bookmark": "Watch",
+    "unknownParty": "Unknown Party"
   },
   "CandidateOrParty": {
     "bookmark": "Watch",

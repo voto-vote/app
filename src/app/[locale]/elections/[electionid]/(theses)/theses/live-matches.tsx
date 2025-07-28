@@ -1,22 +1,22 @@
 "use client";
 
-import { Result } from "@/types/result";
+import { Results } from "@/types/result";
 import { motion } from "framer-motion";
 
-
 interface LiveMatchesProps {
-  entities: Result[];
+  results: Results;
   liveMatchesVisible: boolean;
 }
 
 export default function LiveMatches({
-  entities,
+  results,
   liveMatchesVisible,
 }: LiveMatchesProps) {
-  const sortedMatches = [...entities].sort(
-    (a, b) => b.matchPercentage - a.matchPercentage
-  );
-  const topEntities = sortedMatches.slice(0, 4);
+  const sortedResults = [
+    ...results.candidateResults,
+    ...results.partyResults,
+  ].sort((a, b) => b.matchPercentage - a.matchPercentage);
+  const topFourResults = sortedResults.slice(0, 4);
 
   return (
     <div
@@ -26,15 +26,17 @@ export default function LiveMatches({
           : "opacity-0 max-h-0 p-0 border-b-0"
       }`}
     >
-      {topEntities.map((match) => (
-        <motion.div key={match.entity_id} className="space-y-1" layout>
-          <p className="text-sm font-medium truncate">{match.displayName}</p>
+      {topFourResults.map((result) => (
+        <motion.div key={result.entity.id} className="space-y-1" layout>
+          <p className="text-sm font-medium truncate">
+            {result.entity.displayName}
+          </p>
           <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
             <div
               className="h-full transition-all duration-300"
               style={{
-                width: `${match.matchPercentage}%`,
-                backgroundColor: match.color || "var(--primary)"
+                width: `${result.matchPercentage}%`,
+                backgroundColor: result.entity.color || "var(--primary)",
               }}
             ></div>
           </div>

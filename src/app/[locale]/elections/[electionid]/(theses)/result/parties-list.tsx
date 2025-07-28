@@ -1,48 +1,54 @@
 "use client";
 
 import { ChevronRight } from "lucide-react";
-import { mockParties } from "./mock";
 import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
 import { Bookmark } from "@/components/icons/bookmark";
+import { Results } from "@/types/result";
 
 export default function PartiesList({
-  parties,
+  results,
   bookmarked,
   onBookmarkToggle,
   filterBookmarked,
   onPartyClick,
 }: {
-  parties: typeof mockParties;
-  bookmarked: string[];
-  onBookmarkToggle: (id: string) => void;
+  results: Results;
+  bookmarked: number[];
+  onBookmarkToggle: (id: number) => void;
   filterBookmarked?: boolean;
-  onPartyClick: (id: string) => void;
+  onPartyClick: (id: number) => void;
 }) {
   return (
     <div className="divide-y">
-      {parties
-        .filter((p) => !filterBookmarked || bookmarked.includes(p.id))
-        .map((p) => (
+      {results.partyResults
+        .filter((r) => !filterBookmarked || bookmarked.includes(r.entity.id))
+        .map((r) => (
           <div
-            key={p.id}
-            onClick={() => onPartyClick(p.id)}
+            key={r.entity.id}
+            onClick={() => onPartyClick(r.entity.id)}
             className="w-full text-start flex items-center gap-4 py-4 hover:bg-accent transition-colors cursor-pointer"
           >
             <div className="flex-1 min-w-0">
-              <div className="font-bold md:text-lg truncate">{p.name}</div>
-              <MatchBar value={p.match} color={p.color} className="mt-2" />
+              <div className="font-bold md:text-lg truncate">
+                {r.entity.displayName}
+              </div>
+              <MatchBar
+                value={r.matchPercentage}
+                color={r.entity.color}
+                className="mt-2"
+              />
             </div>
             <div className="text-primary flex items-center">
               <button
                 className="cursor-pointer"
                 onClick={(e) => {
-                  onBookmarkToggle(p.id);
+                  onBookmarkToggle(r.entity.id);
                   e.stopPropagation();
                 }}
                 aria-label="Merken"
               >
                 <Bookmark
-                  className={`size-8 transition stroke-1 ${bookmarked.includes(p.id) ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
+                  className={`size-8 transition stroke-1 ${bookmarked.includes(r.entity.id) ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
                 />
               </button>
               <button className="cursor-pointer">

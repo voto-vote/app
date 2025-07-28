@@ -1,16 +1,17 @@
-import { MatchRating } from "./ratings";
+import { Ratings } from "./ratings";
 
 export type Party = {
   id: number;
   parentPartyId: number;
   instanceId: number;
-  shortName: string;
+  displayName: string;
   detailedName: string;
+  image: string; // URL to the party's image
   description: string;
   website: string;
   status: Status;
   color: string;
-  ratings: MatchRating[];
+  ratings: Ratings;
   createdAt: string;
   updatedAt: string;
 };
