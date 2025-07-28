@@ -22,7 +22,7 @@ export default function ElectionLayout({
     getTheses(election.id, locale, election.title, election.subtitle).then(
       (theses) => {
         const shuffledTheses = shuffle(theses, random);
-        setTheses(shuffledTheses, election.id);
+        setTheses(shuffledTheses);
       }
     );
 
