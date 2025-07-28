@@ -128,7 +128,8 @@
     "changeOpinion": "Meinung ändern"
   },
   "CandidatesList": {
-    "bookmark": "Merken"
+    "bookmark": "Merken",
+    "unknownParty": "Unbekannte Partei"
   },
   "CandidateOrParty": {
     "bookmark": "Merken",

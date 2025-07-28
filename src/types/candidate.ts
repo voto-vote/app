@@ -1,10 +1,14 @@
-import { MatchRating } from "./ratings";
+import { Ratings } from "./ratings";
 
 export type Candidate = {
   id: number;
   title: string;
   firstName: string;
   lastName: string;
+  displayName: string;
+  dateOfBirth: Date;
+  gender: "male" | "female" | "non-binary" | "unknown";
+  image: string; // URL to the candidate's image
   instanceId: number;
   userId: number;
   partyId: number;
@@ -14,7 +18,7 @@ export type Candidate = {
   listPlace: number;
   website: string;
   status: Status;
-  ratings: MatchRating[];
+  ratings: Ratings;
   color: string; // Color from the party
   createdAt: string;
   updatedAt: string;

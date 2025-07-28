@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import CandidatesList from "./candidates-list";
 import PartiesList from "./parties-list";
 import FilterDialog from "./filter-dialog";
-import { mockCandidates, mockParties } from "./mock";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { useRouter } from "@/i18n/navigation";
 import { useElection } from "@/contexts/election-context";
@@ -15,6 +14,8 @@ import BottomBar from "./bottom-bar";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
 import { useThesesStore } from "@/stores/theses-store";
+import { useResultStore } from "@/stores/result-store";
+import { usePartiesStore } from "@/stores/party-store";
 
 interface ResultListProps {
   filterBookmarked: boolean;
@@ -25,16 +26,20 @@ export default function ResultList({
   filterBookmarked,
   setFilterBookmarked,
 }: ResultListProps) {
-  const [tab, setTab] = useState<"candidates" | "parties">("candidates");
-  const [filterOpen, setFilterOpen] = useState(false);
   const { election } = useElection();
+  const [tab, setTab] = useState<"candidates" | "parties">(
+    election.algorithm.matchType === "parties" ? "parties" : "candidates"
+  );
+  const [filterOpen, setFilterOpen] = useState(false);
   const { theses } = useThesesStore();
   const { ratings } = useRatingsStore();
+  const { results } = useResultStore();
+  const { parties } = usePartiesStore();
   const { bookmarks, toggleCandidate, toggleParty } = useBookmarkStore();
   const router = useRouter();
   const t = useTranslations("ResultList");
 
-  if (!theses) {
+  if (!theses || !parties) {
     return null;
   }
 
@@ -60,30 +65,33 @@ export default function ResultList({
         </motion.div>
 
         {/* Tabs */}
-        <Tabs value={tab} onValueChange={(val) => setTab(val as typeof tab)}>
-          <TabsList className="border w-full">
-            <TabsTrigger
-              value="candidates"
-              className={`text-lg transition-all
+        {election.algorithm.matchType === "candidates-and-parties" && (
+          <Tabs value={tab} onValueChange={(val) => setTab(val as typeof tab)}>
+            <TabsList className="border w-full">
+              <TabsTrigger
+                value="candidates"
+                className={`text-lg transition-all
                 ${tab === "candidates" ? "text-primary font-semibold" : "text-primary/70"}`}
-            >
-              {t("candidatesTab")}
-            </TabsTrigger>
-            <TabsTrigger
-              value="parties"
-              className={`text-lg transition-all
+              >
+                {t("candidatesTab")}
+              </TabsTrigger>
+              <TabsTrigger
+                value="parties"
+                className={`text-lg transition-all
                 ${tab === "parties" ? "text-primary font-semibold" : "text-primary/70"}`}
-            >
-              {t("partiesTab")}
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+              >
+                {t("partiesTab")}
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        )}
 
         {/* Tab Content */}
         <div>
           {tab === "candidates" && (
             <CandidatesList
-              candidates={mockCandidates}
+              results={results}
+              parties={parties}
               bookmarked={bookmarks[election.id]?.candidates || []}
               onBookmarkToggle={(id) => toggleCandidate(election.id, id)}
               filterBookmarked={filterBookmarked}
@@ -94,7 +102,7 @@ export default function ResultList({
           )}
           {tab === "parties" && (
             <PartiesList
-              parties={mockParties}
+              results={results}
               bookmarked={bookmarks[election.id]?.parties || []}
               onBookmarkToggle={(id) => toggleParty(election.id, id)}
               filterBookmarked={filterBookmarked}

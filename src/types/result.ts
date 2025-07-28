@@ -1,9 +1,12 @@
-export type Result = {
-  entity_id: number;
-  resultType: ResultType;
+import { Candidate } from "./candidate";
+import { Party } from "./party";
+
+export type Result<T> = {
+  entity: T;
   matchPercentage: number;
-  color: string;
-  displayName: string;
 };
 
-export type ResultType = "party" | "candidate";
+export type Results = {
+  partyResults: Result<Party>[];
+  candidateResults: Result<Candidate>[];
+};
