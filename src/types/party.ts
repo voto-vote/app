@@ -15,9 +15,6 @@ export type Party = {
   updatedAt: string;
 };
 
-export type Status =
-  | "created"
-  | "active"
-  | "voted"
-  | "deactivated";
+export type Parties = Party[];
 
+export type Status = "created" | "active" | "voted" | "deactivated";
