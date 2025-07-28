@@ -34,7 +34,7 @@ export default function Header() {
   }, [headerDetails?.logo]);
 
   return (
-    <header className="bg-brand text-white transition-colors duration-[500ms]">
+    <header className="bg-brand text-white transition-colors duration-[500ms] z-50">
       <div className="container mx-auto max-w-screen-xl p-2 grid grid-cols-[minmax(0,6rem)_minmax(0,auto)_minmax(0,6rem)] items-center overflow-hidden h-14">
         <div className="justify-self-start">
           <button className="p-2 rounded-full hover:bg-primary/50 transition-colors">

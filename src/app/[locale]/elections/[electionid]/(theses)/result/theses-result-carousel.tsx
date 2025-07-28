@@ -17,6 +17,8 @@ import ThesisResultCard from "./theses-result-card";
 import type { Election } from "@/types/election";
 import type { Rating, Ratings } from "@/types/ratings";
 import { useTranslations } from "next-intl";
+import { useBreakpoint } from "@/hooks/use-breakpoint";
+import { cn } from "@/lib/utils";
 
 interface ThesesResultCarouselProps {
   election: Election;
@@ -37,6 +39,7 @@ export default function ThesesResultCarousel({
   const [thesesSorting, setThesesSorting] = useState<"random" | "category">(
     "category"
   );
+  const isDesktop = useBreakpoint("sm");
   const t = useTranslations("ThesesResultCarousel");
 
   useEffect(() => {
@@ -65,7 +68,7 @@ export default function ThesesResultCarousel({
   }, [theses, thesesSorting]);
   return (
     <>
-      <div className="flex items-center text-sm">
+      <div className="flex flex-wrap items-center text-sm">
         <div className="mr-1">
           {thesesSorting === "category"
             ? t("sortedByCategories")
@@ -73,7 +76,7 @@ export default function ThesesResultCarousel({
         </div>
         <Button
           variant="link"
-          className="text-primary p-0 h-fit"
+          className="text-primary p-0 h-fit max-w-full justify-start whitespace-normal text-start"
           onClick={() =>
             setThesesSorting(
               thesesSorting === "category" ? "random" : "category"
@@ -102,14 +105,14 @@ export default function ThesesResultCarousel({
 
       <Carousel
         setApi={setApi}
-        opts={{}}
-        className="md:[&>div]:overflow-visible"
+        className="-mx-2 md:mx-0 md:[&>div]:overflow-visible"
       >
         <CarouselContent className="md:gap-x-32">
           {sortedTheses.map((thesis, i) => (
             <CarouselItem key={thesis.id}>
               <ThesisResultCard
                 election={election}
+                ratings={ratings}
                 thesis={thesis}
                 thesisIndex={i}
                 numberOfTheses={sortedTheses.length}
@@ -135,57 +138,146 @@ export default function ThesesResultCarousel({
                     color: "red",
                   },
                 ]}
+                onRatingChange={(newRating) =>
+                  onRatingChange(thesis.id, newRating)
+                }
+                isDesktop={isDesktop}
               />
             </CarouselItem>
           ))}
         </CarouselContent>
       </Carousel>
 
-      <div className="flex justify-between">
-        <Button
-          disabled={currentThesisIndex === 0}
-          onClick={() => api?.scrollPrev()}
-        >
-          <ChevronLeft />
-          These {Math.max(currentThesisIndex, 1)} / {sortedTheses.length}
-        </Button>
+      {isDesktop && (
+        <div className="flex justify-between gap-1">
+          <PrevButton
+            currentThesisIndex={currentThesisIndex}
+            api={api}
+            sortedTheses={sortedTheses}
+          />
 
-        {thesesSorting === "category" && (
-          <div className="flex flex-col justify-center items-center gap-1">
-            <div className="text-sm text-muted-foreground">
-              {sortedTheses[currentThesisIndex]?.category}
-            </div>
-            <div className="flex gap-1">
-              {sortedTheses
-                .filter(
-                  (t) =>
-                    t.category === sortedTheses[currentThesisIndex]?.category
-                )
-                .map((t) => (
-                  <div
-                    key={t.id}
-                    className="rounded-full size-2 transition-colors"
-                    style={{
-                      backgroundColor:
-                        t.id === sortedTheses[currentThesisIndex]?.id
-                          ? "var(--color-primary)"
-                          : "var(--color-zinc-300)",
-                    }}
-                  ></div>
-                ))}
-            </div>
-          </div>
-        )}
+          <ThesesProgress
+            thesesSorting={thesesSorting}
+            sortedTheses={sortedTheses}
+            currentThesisIndex={currentThesisIndex}
+          />
 
-        <Button
-          disabled={currentThesisIndex === sortedTheses.length - 1}
-          onClick={() => api?.scrollNext()}
-        >
-          These {Math.min(currentThesisIndex + 2, sortedTheses.length)} /{" "}
-          {sortedTheses.length}
-          <ChevronRight />
-        </Button>
-      </div>
+          <NextButton
+            currentThesisIndex={currentThesisIndex}
+            api={api}
+            sortedTheses={sortedTheses}
+          />
+        </div>
+      )}
+
+      {!isDesktop && (
+        <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+          <ThesesProgress
+            thesesSorting={thesesSorting}
+            sortedTheses={sortedTheses}
+            currentThesisIndex={currentThesisIndex}
+            className="col-span-2"
+          />
+          <PrevButton
+            currentThesisIndex={currentThesisIndex}
+            api={api}
+            sortedTheses={sortedTheses}
+          />
+          <NextButton
+            currentThesisIndex={currentThesisIndex}
+            api={api}
+            sortedTheses={sortedTheses}
+          />
+        </div>
+      )}
     </>
+  );
+}
+
+function PrevButton({
+  currentThesisIndex,
+  api,
+  sortedTheses,
+}: {
+  currentThesisIndex: number;
+  api?: CarouselApi;
+  sortedTheses: Theses;
+}) {
+  return (
+    <Button
+      disabled={currentThesisIndex === 0}
+      onClick={() => api?.scrollPrev()}
+    >
+      <ChevronLeft />
+      These {Math.max(currentThesisIndex, 1)} / {sortedTheses.length}
+    </Button>
+  );
+}
+
+function NextButton({
+  currentThesisIndex,
+  api,
+  sortedTheses,
+}: {
+  currentThesisIndex: number;
+  api?: CarouselApi;
+  sortedTheses: Theses;
+}) {
+  return (
+    <Button
+      disabled={currentThesisIndex === sortedTheses.length - 1}
+      onClick={() => api?.scrollNext()}
+    >
+      These {Math.min(currentThesisIndex + 2, sortedTheses.length)} /{" "}
+      {sortedTheses.length}
+      <ChevronRight />
+    </Button>
+  );
+}
+
+function ThesesProgress({
+  thesesSorting,
+  sortedTheses,
+  currentThesisIndex,
+  className = "",
+}: {
+  thesesSorting: "category" | "random";
+  sortedTheses: Theses;
+  currentThesisIndex: number;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex flex-col justify-center items-center gap-1",
+        className
+      )}
+    >
+      <div className="text-sm text-muted-foreground text-center">
+        {thesesSorting === "category"
+          ? sortedTheses[currentThesisIndex]?.category
+          : "Deine zufällige VOTO Sortierung"}
+      </div>
+      <div className="flex gap-1 max-w-full">
+        {sortedTheses
+          .filter((t) =>
+            thesesSorting === "category"
+              ? t.category === sortedTheses[currentThesisIndex]?.category
+              : true
+          )
+          .map((t) => (
+            <div
+              key={t.id}
+              className="rounded-full size-2 transition-colors"
+              style={{
+                backgroundColor:
+                  t.id === sortedTheses[currentThesisIndex]?.id
+                    ? "var(--color-primary)"
+                    : "var(--color-zinc-300)",
+              }}
+            ></div>
+          ))}
+      </div>
+    </div>
   );
 }

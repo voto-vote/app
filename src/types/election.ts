@@ -9,7 +9,6 @@ export type Election = {
   launchDate: string;
   status: Status;
   private: boolean;
-  intro: Intro[];
   matchFields: MatchField[];
   algorithm: Algorithm;
   survey: Survey;
@@ -24,12 +23,6 @@ export type Status =
   | "ready-to-launch"
   | "live"
   | "deactivated";
-
-export type Intro = {
-  image: string;
-  title: string;
-  description: string;
-};
 
 export type MatchField = {
   type: "district" | "description" | "list" | "website";

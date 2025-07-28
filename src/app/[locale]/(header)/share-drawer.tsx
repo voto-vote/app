@@ -13,15 +13,15 @@ interface ShareDrawerProps {
 }
 
 export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
-  const params = useParams<{ electionid: string; runid: string }>();
-  const [url, setUrl] = useState<string>();
+  const params = useParams<{ electionid: string }>();
+  const [url, setUrl] = useState<string>("");
   const t = useTranslations("ShareDrawer");
 
   useEffect(() => {
     setUrl(
       `${window.location.origin}/elections/${params.electionid}/theses/result`
     );
-  }, [params.electionid, params.runid]);
+  }, [params.electionid]);
 
   function share() {
     if (navigator.share) {
@@ -29,6 +29,10 @@ export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
         title: "VOTO",
         text: t("systemModalDescription"),
         url,
+      });
+    } else {
+      navigator.clipboard?.writeText(url).then(() => {
+        alert(t("sharingNotSupported"));
       });
     }
   }
@@ -40,12 +44,9 @@ export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
       title={t("screenReaderTitle")}
     >
       <div className="flex flex-col gap-4">
-        {url && params.runid && (
-          <div className="border-[6px] rounded-xl border-primary mx-auto flex flex-col">
+        {url && (
+          <div className="border-[6px] rounded-xl border-primary mx-auto">
             <QRCodeCanvas url={url} />
-            <div className="font-mono text-xl font-extrabold border-t-[6px] border-primary text-center py-1">
-              #{params.runid.toUpperCase()}
-            </div>
           </div>
         )}
 
@@ -53,7 +54,6 @@ export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
           <h2 className="text-lg font-semibold">{t("title")}</h2>
           <p className="text-sm text-muted-foreground">{t("description")}</p>
         </div>
-
         <Button onClick={share}>{t("shareButton")}</Button>
         <Button variant="ghost" onClick={() => onOpenChange(false)}>
           {t("closeButton")}
