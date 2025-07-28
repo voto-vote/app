@@ -10,6 +10,7 @@ import { getTheses } from "@/actions/theses-action";
 import { useElection } from "@/contexts/election-context";
 import { getVotedParties } from "@/actions/party-action";
 import { getVotedCandidates } from "@/actions/candidate-action";
+import { useResultStore } from "@/stores/result-store";
 
 export default function ElectionLayout({
   children,
@@ -18,8 +19,9 @@ export default function ElectionLayout({
 }>) {
   const { election } = useElection();
   const { setTheses, clearTheses } = useThesesStore();
-  const { setParties } = usePartiesStore();
-  const { setCandidates } = useCandidatesStore();
+  const { setParties, clearParties } = usePartiesStore();
+  const { setCandidates, clearCandidates } = useCandidatesStore();
+  const { clearResults } = useResultStore();
   const locale = useLocale();
   const { seed } = useRandomStore();
 
@@ -32,26 +34,41 @@ export default function ElectionLayout({
       }
     );
 
-    if (election.algorithm.matchType === "candidates") {
-      getVotedCandidates(election.id).then((candidates) => {
-        setCandidates(candidates, election.id);
-      });
-    } else if (election.algorithm.matchType === "parties") {
-      getVotedParties(election.id).then((parties) => {
-        setParties(parties);
-      });
-    } else {
-      getVotedParties(election.id).then((parties) => {
-        setParties(parties);
-      });
+    if (
+      election.algorithm.matchType === "candidates" ||
+      election.algorithm.matchType === "candidates-and-parties"
+    ) {
       getVotedCandidates(election.id).then((candidates) => {
         setCandidates(candidates, election.id);
       });
     }
+    if (
+      election.algorithm.matchType === "parties" ||
+      election.algorithm.matchType === "candidates-and-parties"
+    ) {
+      getVotedParties(election.id).then((parties) => {
+        setParties(parties);
+      });
+    }
+
     return () => {
       clearTheses();
+      clearParties();
+      clearCandidates();
+      clearResults();
     };
-  }, [clearTheses, election, locale, seed, setCandidates, setParties, setTheses]);
+  }, [
+    clearCandidates,
+    clearParties,
+    clearResults,
+    clearTheses,
+    election,
+    locale,
+    seed,
+    setCandidates,
+    setParties,
+    setTheses,
+  ]);
   return children;
 }
 
@@ -92,4 +109,3 @@ function shuffle<T>(
 
   return newArray;
 }
-

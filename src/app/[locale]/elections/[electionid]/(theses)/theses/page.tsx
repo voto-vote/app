@@ -59,6 +59,7 @@ export default function ThesesPage() {
     if (!api) {
       return;
     }
+
     setCurrentThesisIndex(api.selectedScrollSnap());
 
     api.on("select", () => {
@@ -92,18 +93,17 @@ export default function ThesesPage() {
     if (parties === undefined && candidates) {
       const matches = calculateCandidateMatches(
         userRatings,
-        candidates!,
+        candidates,
         election.algorithm.matrix
       );
       setResults([], matches);
     } else if (candidates === undefined && parties) {
       const matches = calculatePartyMatches(
         userRatings,
-        parties!,
+        parties,
         election.algorithm.matrix
       );
       setResults(matches, []);
-      console.log("Party matches calculated", matches);
     } else if (
       parties &&
       candidates &&
@@ -117,7 +117,7 @@ export default function ThesesPage() {
       );
       const candidateMatches = calculateCandidateMatches(
         userRatings,
-        candidates!,
+        candidates,
         election.algorithm.matrix
       );
       setResults(partyMatches, candidateMatches);
@@ -169,7 +169,7 @@ export default function ThesesPage() {
           />
           {/* Live indicator */}
           <div
-            className={`fixed left-1/2 -translate-x-1/2 z-10 transition-all duration-300 shadow bg-white rounded-lg ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
+            className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-300 shadow bg-white rounded-lg ${liveMatchesVisible ? "-mt-3" : "-mt-2"}`}
           >
             <button
               onClick={() => setLiveMatchesVisible(!liveMatchesVisible)}
