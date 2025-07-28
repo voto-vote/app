@@ -27,7 +27,7 @@
     "nextButton": "Next",
     "startVotoButton": "Start VOTO",
     "introOneTitle": "Learn more about current topics and discover who suits you best!",
-    "introOneDescription": "To find out which {matchType, select, candidates {candidates} candidates_and_parties {candidates and parties} other {parties}} align with your views, you can answer up to **{numberOfTheses, plural, =1 {# statement} other {# statements}}**. The {matchType, select, candidates {candidates} candidates_and_parties {candidates and parties} other {parties}} in the election \"{electionTitle} - {electionSubtitle}\" have done so as well.",
+    "introOneDescription": "To find out which {matchType, select, candidates {candidates} candidates_and_parties {candidates and parties} other {parties}} align with your views, you can answer up to **{count, plural, =1 {# statement} other {# statements}}**. The {matchType, select, candidates {candidates} candidates_and_parties {candidates and parties} other {parties}} in the election \"{electionTitle} - {electionSubtitle}\" have done so as well.",
     "introTwoTitle": "What are you passionate about?",
     "introTwoDescription": "If a topic is especially important to you, you can mark it with the star symbol. This statement will be **counted twice as much**.",
     "introThreeTitle": "Made a mistake? No worries.",
@@ -58,7 +58,11 @@
     "sortedByCategories": "Sorted by categories.",
     "sortedByYourVoto": "Sorted by your VOTO.",
     "useVOTOSort": "Use your VOTO for sorting instead",
-    "useCategoriesSort": "Use categories for sorting instead"
+    "useCategoriesSort": "Use categories for sorting instead",
+    "thesesSortingInfo": "The theses of a VOTO are randomly sorted when answered to avoid influencing you.",
+    "nextThesis": "Thesis {current} / {total}",
+    "previousThesis": "Thesis {current} / {total}",
+    "yourRandomSorting": "Your random VOTO sorting"
   },
   "NavigationSheet": {
     "title": "VOTO",
@@ -73,5 +77,67 @@
     "imprint": "Imprint",
     "languages": "Languages",
     "footer": "© {year} VOTO. All rights reserved."
+  },
+  "ResultPage": {
+    "resultTab": "Result",
+    "thesesTab": "Theses"
+  },
+  "ThesisResultCard": {
+    "moreInfos": "Additional informations",
+    "i": "Myself",
+    "changeRating": "Change opinion",
+    "details": "Details"
+  },
+  "ThesesList": {
+    "explanation": "This is how you and the {matchType, select, candidates {candidates} candidates_and_parties {parties and candidates} other {parties}} on your watchlist responded.",
+    "detailsInfo": "{pointer, select, coarse {Tap} other {Click}} on <details>Details</details> to see the reason {matchType, select, candidates {of the respective candidate} candidates_and_parties {of the respective party or candidate} other {of the respective party}}.",
+    "changeOpinionInfo": "{pointer, select, coarse {Tap} other {Click}} on <changeopinion>Change opinion</changeopinion> to change your answer."
+  },
+  "ResultList": {
+    "explanation": "Based on {count, plural, =1 {your # answered thesis} other {your # answered theses}} for the election {electionTitle} - {electionSubtitle}",
+    "candidatesTab": "Candidates",
+    "partiesTab": "Parties",
+    "filterButton": "Filter",
+    "bookmarksButton": "Watch list ({count})"
+  },
+  "LegendBottomBar": {
+    "showLegend": "Legend",
+    "hideLegend": "Close legend"
+  },
+  "FilterDialog": {
+    "title": "Filter",
+    "resetFilters": "Reset all",
+    "searchCandidates": "Search for candidates...",
+    "party": "Party",
+    "list": "List",
+    "region": "Region",
+    "age": "Age",
+    "gender": "Gender",
+    "politicalAreaDescription": "{matchType, select, candidates {Candidates} candidates_and_parties {Parties and candidates} other {Parties}} that place particular emphasis on these policy areas:",
+    "policyArea": "Policy area",
+    "sameRatingsDescription": "{matchType, select, candidates {Candidates} candidates_and_parties {Parties and candidates} other {Parties}} who have answered the following theses as I have:",
+    "thesis": "Thesis",
+    "filterButton": "Filter ({count})",
+    "resetFiltersButton": "Reset all"
+  },
+  "ChangeRatingDialog": {
+    "title": "Change rating",
+    "ratingSystemFullAgreement": "full agreement",
+    "ratingSystemExplanation": "no agreement",
+    "dontChangeOpinion": "Don't change opinion",
+    "changeOpinion": "Change opinion"
+  },
+  "CandidatesList": {
+    "bookmark": "Watch"
+  },
+  "CandidateOrParty": {
+    "bookmark": "Watch",
+    "logoOrAvatar": "Logo or avatar",
+    "list": "List",
+    "position": "Position",
+    "region": "Region",
+    "aboutMe": "About me",
+    "details": "Details",
+    "votoAnswers": "VOTO answers from {participant}"
   }
 }
