@@ -4,13 +4,13 @@ import { UserRating } from "@/types/ratings";
 import { Result } from "@/types/result";
 
 function getMaxOfMatrix(matrix: number[][]): number {
-      const flattened = matrix.flat();
-      return Math.max(...flattened);
-    }
+  const flattened = matrix.flat();
+  return Math.max(...flattened);
+}
 function getMinOfMatrix(matrix: number[][]): number {
-      const flattened = matrix.flat();
-      return Math.min(...flattened);
-    }
+  const flattened = matrix.flat();
+  return Math.min(...flattened);
+}
 
 export function calculatePartyMatches(
   userRatings: UserRating[],
@@ -27,12 +27,12 @@ export function calculatePartyMatches(
       let points = 0.0;
       const partyVotes = party.ratings || [];
       userRatings.forEach((userVote) => {
-        const ratingMap : Record<number, number> = {
+        const ratingMap: Record<number, number> = {
           1: 0,
           2: 25,
           3: 50,
           4: 75,
-          5: 100
+          5: 100,
         };
         if (matrix.length === 3) {
           console.warn("Using 3-point scale for ratings");
@@ -49,13 +49,15 @@ export function calculatePartyMatches(
         const max = getMaxOfMatrix(matrix);
         // Get value 2 if favorite is set in oneliner
         const userFavorite = userVote.favorite ? 2 : 1;
-        const addMaxPoints =  userVote.favorite ? 2 : 1 * max;
+        const addMaxPoints = userVote.favorite ? 2 : 1 * max;
         const addMaxMinusPoints = userVote.favorite ? 2 : 1 * min;
         maxPoints += addMaxPoints;
         maxMinusPoints += addMaxMinusPoints;
         const divider = 100 / (length - 1);
         const matchIndex = Math.round((partyVote.rating || 0) / divider);
-        const userIndex = Math.round((ratingMap[userVote.rating || 0] || 0) / divider);
+        const userIndex = Math.round(
+          (ratingMap[userVote.rating || 0] || 0) / divider
+        );
         const addPoints = matrix[matchIndex][userIndex] * userFavorite;
         points += addPoints;
       });
@@ -90,12 +92,12 @@ export function calculateCandidateMatches(
       let points = 0.0;
       const candidateVotes = candidate.ratings || [];
       userRatings.forEach((userVote) => {
-        const ratingMap : Record<number, number> = {
+        const ratingMap: Record<number, number> = {
           1: 0,
           2: 25,
           3: 50,
           4: 75,
-          5: 100
+          5: 100,
         };
         if (matrix.length === 3) {
           console.warn("Using 3-point scale for ratings");
@@ -112,13 +114,15 @@ export function calculateCandidateMatches(
         const max = getMaxOfMatrix(matrix);
         // Get value 2 if favorite is set in oneliner
         const userFavorite = userVote.favorite ? 2 : 1;
-        const addMaxPoints =  userVote.favorite ? 2 : 1 * max;
+        const addMaxPoints = userVote.favorite ? 2 : 1 * max;
         const addMaxMinusPoints = userVote.favorite ? 2 : 1 * min;
         maxPoints += addMaxPoints;
         maxMinusPoints += addMaxMinusPoints;
         const divider = 100 / (length - 1);
         const matchIndex = Math.round((candidateVote.rating || 0) / divider);
-        const userIndex = Math.round((ratingMap[userVote.rating || 0] || 0) / divider);
+        const userIndex = Math.round(
+          (ratingMap[userVote.rating || 0] || 0) / divider
+        );
         const addPoints = matrix[matchIndex][userIndex] * userFavorite;
         points += addPoints;
       });
@@ -130,7 +134,7 @@ export function calculateCandidateMatches(
       const displayName = candidate.title
         ? `${candidate.title} ${candidate.firstName} ${candidate.lastName}`
         : `${candidate.firstName} ${candidate.lastName}`;
-    
+
       results.push({
         entity_id: candidate.id,
         resultType: "candidate",
@@ -139,7 +143,6 @@ export function calculateCandidateMatches(
         displayName: displayName,
       });
     });
-
   }
   return results.sort((a, b) => b.matchPercentage - a.matchPercentage);
 }

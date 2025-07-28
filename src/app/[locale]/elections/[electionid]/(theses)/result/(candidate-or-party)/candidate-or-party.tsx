@@ -116,7 +116,7 @@ export default function CandidateOrParty({
             animate={{ y: 0 }}
             exit={{ y: -65 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed top-14 left-0 right-0 z-40 backdrop-blur-md bg-accent/50 border-b border-zinc-300 flex items-center p-2"
+            className="fixed top-14 left-0 right-0 z-30 backdrop-blur-md bg-accent/50 border-b border-zinc-300 flex items-center p-2"
           >
             <div className="flex items-center gap-3 w-full max-w-3xl mx-auto">
               <div

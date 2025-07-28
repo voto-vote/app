@@ -3,10 +3,12 @@
 import { eq, and } from "drizzle-orm";
 import { db } from "@/db/drizzle";
 import { candidates, parties, candidateVotes, users } from "@/db/schema";
-import { Candidate, Status } from "@/types/candidate";
+import { Candidates, Status } from "@/types/candidate";
 
-export async function getVotedCandidates(instanceId: number): Promise<Candidate[]> {
-  const result = await db
+export async function getVotedCandidates(
+  instanceId: number
+): Promise<Candidates> {
+  const candidatesPromise = db
     .select({
       // Candidate fields
       id: candidates.id,
@@ -36,27 +38,28 @@ export async function getVotedCandidates(instanceId: number): Promise<Candidate[
       )
     );
 
-  const candiVotes = await db
-      .select({
-        id: candidateVotes.candidateId,
-        instanceId: candidateVotes.instanceId,
-        statementId: candidateVotes.statementId,
-        candidateId: candidateVotes.candidateId,
-        value: candidateVotes.value,
-        explanation: candidateVotes.explanation,
-      })
-      .from(candidateVotes)
-      .innerJoin(candidates, eq(candidateVotes.candidateId, candidates.id))
-      .where(
-        and(
-          eq(candidates.instanceId, instanceId),
-          eq(candidates.status, 3)
-        )
-      );
-    
+  const candidateVotesPromise = db
+    .select({
+      id: candidateVotes.candidateId,
+      instanceId: candidateVotes.instanceId,
+      statementId: candidateVotes.statementId,
+      candidateId: candidateVotes.candidateId,
+      value: candidateVotes.value,
+      explanation: candidateVotes.explanation,
+    })
+    .from(candidateVotes)
+    .innerJoin(candidates, eq(candidateVotes.candidateId, candidates.id))
+    .where(
+      and(eq(candidates.instanceId, instanceId), eq(candidates.status, 3))
+    );
+
+  const [candidatesResult, candidateVotesResult] = await Promise.all([
+    candidatesPromise,
+    candidateVotesPromise,
+  ]);
 
   // Transform the database result to match your Candidate type + color
-  return result.map(candidate => ({
+  return candidatesResult.map((candidate) => ({
     id: candidate.id,
     title: candidate.title,
     firstName: candidate.firstName,
@@ -70,9 +73,9 @@ export async function getVotedCandidates(instanceId: number): Promise<Candidate[
     listPlace: candidate.listPlace,
     website: candidate.website,
     status: getStatusFromNumber(candidate.status),
-    ratings: candiVotes
-      .filter(vote => vote.candidateId === candidate.id)
-      .map(vote => ({
+    ratings: candidateVotesResult
+      .filter((vote) => vote.candidateId === candidate.id)
+      .map((vote) => ({
         thesisId: String(vote.statementId),
         rating: vote.value,
         explanation: vote.explanation,
@@ -87,10 +90,10 @@ export async function getVotedCandidates(instanceId: number): Promise<Candidate[
 function getStatusFromNumber(statusNum: number): Status {
   const statusMap: Record<number, Status> = {
     0: "created",
-    1: "active", 
+    1: "active",
     2: "voted",
-    3: "deactivated"
+    3: "deactivated",
   };
-  
+
   return statusMap[statusNum] || "created";
 }
