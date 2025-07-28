@@ -20,12 +20,9 @@ export type Candidate = {
   updatedAt: string;
 };
 
-export type Status =
-  | "created"
-  | "invited"
-  | "active"
-  | "voted"
-  | "deactivated";
+export type Candidates = Candidate[];
+
+export type Status = "created" | "invited" | "active" | "voted" | "deactivated";
 
 export type CandidateVote = {
   id: number;

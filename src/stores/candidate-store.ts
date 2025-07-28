@@ -1,23 +1,17 @@
 import { create } from "zustand";
-import { Election } from "@/types/election";
-import { Candidate } from "@/types/candidate";
+import { Candidates } from "@/types/candidate";
 
 type State = {
-  candidates: Candidate[] | undefined;
-  electionId: Election["id"] | undefined;
+  candidates: Candidates | undefined;
 };
 
 type Action = {
-  setCandidates: (
-    candidates: NonNullable<State["candidates"]>,
-    electionId: NonNullable<State["electionId"]>
-  ) => void;
+  setCandidates: (candidates: NonNullable<State["candidates"]>) => void;
   clearCandidates: () => void;
 };
 
 export const useCandidatesStore = create<State & Action>((set) => ({
   candidates: undefined,
-  electionId: undefined,
-  setCandidates: (candidates, electionId) => set({ candidates, electionId }),
-  clearCandidates: () => set({ candidates: undefined, electionId: undefined }),
+  setCandidates: (candidates) => set({ candidates }),
+  clearCandidates: () => set({ candidates: undefined }),
 }));
