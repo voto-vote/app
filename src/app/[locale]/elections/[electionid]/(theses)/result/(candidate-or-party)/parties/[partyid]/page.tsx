@@ -16,5 +16,6 @@ export default function PartyPage() {
   if (!party) {
     notFound();
   }
+
   return <CandidateOrParty entity={party} />;
 }
