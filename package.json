@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "i18n:check": "i18n-check -s en -l messages -f next-intl -u src"
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.11",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@lingual/i18n-check": "^0.8.4",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.16",
     "@testing-library/dom": "^10.4.0",

@@ -30,7 +30,7 @@ export default function ChangeRatingDialog({
   onOpenChange,
   onRatingChange,
 }: ChangeRatingDialogProps) {
-  const t = useTranslations("ThesesPage");
+  const t = useTranslations("ChangeRatingDialog");
   const [newRating, setNewRating] = useState<number>(
     ratings[thesis.id]?.rating ?? -1
   );
@@ -48,7 +48,7 @@ export default function ChangeRatingDialog({
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid max-w-[calc(100%-1rem)] translate-x-[-50%] translate-y-[-50%] duration-200"
           }
         >
-          <DialogTitle className="sr-only">Change Rating</DialogTitle>
+          <DialogTitle className="sr-only">{t("title")}</DialogTitle>
 
           <div className="w-screen md:w-3xl -mx-3 md:mx-0 flex flex-col gap-12">
             <ThesisCard
@@ -102,8 +102,8 @@ export default function ChangeRatingDialog({
             >
               {newRating === ratings[thesis.id]?.rating &&
               newFavorite === ratings[thesis.id]?.favorite
-                ? "Meinung nicht ändern"
-                : "Meinung ändern"}
+                ? t("dontChangeOpinion")
+                : t("changeOpinion")}
             </Button>
           </div>
         </DialogPrimitive.Content>

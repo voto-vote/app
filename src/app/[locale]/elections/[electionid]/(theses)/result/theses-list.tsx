@@ -3,14 +3,18 @@
 import { motion } from "framer-motion";
 import { useElection } from "@/contexts/election-context";
 import { useRatingsStore } from "@/stores/ratings-store";
-import ThesesResultCarousel from "./theses-result-carousel";
+import ThesesResultCarousel from "./thesis-result-carousel";
 import { useThesesStore } from "@/stores/theses-store";
 import LegendBottomBar from "./legend-bottom-bar";
+import { useTranslations } from "next-intl";
+import { usePointer } from "@/hooks/use-pointer";
 
 export default function ThesesList() {
   const { election } = useElection();
   const { theses } = useThesesStore();
   const { ratings, setRating, setFavorite } = useRatingsStore();
+  const isCoarsePointer = usePointer();
+  const t = useTranslations("ThesesList");
 
   if (!theses) {
     return null;
@@ -27,19 +31,28 @@ export default function ThesesList() {
           className="space-y-4 md:max-w-1/2 text-sm"
         >
           <p className="font-bold">
-            So haben Du und die Parteien / Kandidierenden deiner Merkliste
-            geantwortet.
+            {t("explanation", {
+              matchType: election.algorithm.matchType,
+            })}
           </p>
 
           <p>
-            Klicke / Tippe auf <span className="text-primary">Details</span> um
-            die Begründung der / jeweiligen Partei / Kandidierenden zu sehen.
+            {t.rich("detailsInfo", {
+              pointer: isCoarsePointer ? "coarse" : "fine",
+              matchType: election.algorithm.matchType,
+              details: (chunks) => (
+                <span className="text-primary">{chunks}</span>
+              ),
+            })}
           </p>
 
           <p>
-            Klicke / Tippe auf{" "}
-            <span className="text-primary">Meinung ändern</span> um Deine
-            Antwort anzupassen.
+            {t.rich("changeOpinionInfo", {
+              pointer: isCoarsePointer ? "coarse" : "fine",
+              changeopinion: (chunks) => (
+                <span className="text-primary">{chunks}</span>
+              ),
+            })}
           </p>
         </motion.div>
 

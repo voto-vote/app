@@ -8,6 +8,7 @@ import { useBackButtonStore } from "@/stores/back-button-store";
 import ThesesList from "./theses-list";
 import { Bookmark } from "@/components/icons/bookmark";
 import { useBookmarkStore } from "@/stores/bookmark-store";
+import { useTranslations } from "next-intl";
 
 export default function ResultPage() {
   const { election } = useElection();
@@ -15,6 +16,7 @@ export default function ResultPage() {
   const { setBackPath } = useBackButtonStore();
   const [tab, setTab] = useState<"result" | "theses">("result");
   const [filterBookmarked, setFilterBookmarked] = useState(false);
+  const t = useTranslations("ResultPage");
 
   useEffect(() => {
     if (election?.id) {
@@ -30,10 +32,10 @@ export default function ResultPage() {
       <Tabs value={tab} onValueChange={(val) => setTab(val as typeof tab)}>
         <TabsList className="w-full rounded-none p-0 h-16 border-0">
           <TabTrigger value="result" currentValue={tab}>
-            Ergebnis
+            {t("resultTab")}
           </TabTrigger>
           <TabTrigger value="theses" currentValue={tab}>
-            Thesen
+            {t("thesesTab")}
             <div className="absolute -top-2 left-[calc(50%_+_3rem)] size-12">
               <div className="size-full relative">
                 <Bookmark className="absolute inset-0 stroke-0 fill-primary size-full" />

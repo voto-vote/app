@@ -9,6 +9,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/animated-collapsible";
+import { useTranslations } from "next-intl";
 
 interface LegendBottomBarProps {
   election: Election;
@@ -16,6 +17,7 @@ interface LegendBottomBarProps {
 
 export default function LegendBottomBar({ election }: LegendBottomBarProps) {
   const [open, setOpen] = useState(false);
+  const t = useTranslations("LegendBottomBar");
 
   const mockParties = [
     {
@@ -77,7 +79,7 @@ export default function LegendBottomBar({ election }: LegendBottomBarProps) {
       >
         <CollapsibleTrigger asChild>
           <Button variant="ghost">
-            {open ? "Legende ausblenden" : "Legende"}
+            {open ? t("hideLegend") : t("showLegend")}
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent className="self-stretch">

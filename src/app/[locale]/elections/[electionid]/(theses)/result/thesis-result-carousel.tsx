@@ -13,7 +13,7 @@ import {
 import type { Theses } from "@/types/theses";
 import { ChevronLeft, ChevronRight, CircleQuestionMark } from "lucide-react";
 import { useEffect, useState } from "react";
-import ThesisResultCard from "./theses-result-card";
+import ThesisResultCard from "./thesis-result-card";
 import type { Election } from "@/types/election";
 import type { Rating, Ratings } from "@/types/ratings";
 import { useTranslations } from "next-intl";
@@ -97,8 +97,7 @@ export default function ThesesResultCarousel({
             className="bg-primary text-primary-foreground text-sm py-1 px-2 border-primary"
             side="top"
           >
-            Die Thesen eines VOTOs sind beim Beantworten zufällig sortiert, um
-            Dich nicht zu beeinflussen.
+            {t("thesesSortingInfo")}
           </PopoverContent>
         </Popover>
       </div>
@@ -203,13 +202,18 @@ function PrevButton({
   api?: CarouselApi;
   sortedTheses: Theses;
 }) {
+  const t = useTranslations("ThesesResultCarousel");
+
   return (
     <Button
       disabled={currentThesisIndex === 0}
       onClick={() => api?.scrollPrev()}
     >
       <ChevronLeft />
-      These {Math.max(currentThesisIndex, 1)} / {sortedTheses.length}
+      {t("previousThesis", {
+        current: Math.max(currentThesisIndex, 1),
+        total: sortedTheses.length,
+      })}
     </Button>
   );
 }
@@ -223,13 +227,17 @@ function NextButton({
   api?: CarouselApi;
   sortedTheses: Theses;
 }) {
+  const t = useTranslations("ThesesResultCarousel");
+
   return (
     <Button
       disabled={currentThesisIndex === sortedTheses.length - 1}
       onClick={() => api?.scrollNext()}
     >
-      These {Math.min(currentThesisIndex + 2, sortedTheses.length)} /{" "}
-      {sortedTheses.length}
+      {t("nextThesis", {
+        current: Math.min(currentThesisIndex + 2, sortedTheses.length),
+        total: sortedTheses.length,
+      })}
       <ChevronRight />
     </Button>
   );
@@ -246,6 +254,8 @@ function ThesesProgress({
   currentThesisIndex: number;
   className?: string;
 }) {
+  const t = useTranslations("ThesesResultCarousel");
+
   return (
     <div
       className={cn(
@@ -256,7 +266,7 @@ function ThesesProgress({
       <div className="text-sm text-muted-foreground text-center">
         {thesesSorting === "category"
           ? sortedTheses[currentThesisIndex]?.category
-          : "Deine zufällige VOTO Sortierung"}
+          : t("yourRandomSorting")}
       </div>
       <div className="flex gap-1 max-w-full">
         {sortedTheses

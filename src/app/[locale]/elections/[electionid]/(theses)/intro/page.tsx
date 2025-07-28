@@ -60,7 +60,7 @@ export default function Intro() {
       title: t("introOneTitle"),
       description: t("introOneDescription", {
         matchType: election.algorithm.matchType.replaceAll("-", "_"),
-        numberOfTheses: theses.length,
+        count: theses.length,
         electionTitle: election.title,
         electionSubtitle: election.subtitle,
       }),
