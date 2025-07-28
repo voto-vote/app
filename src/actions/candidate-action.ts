@@ -2,8 +2,15 @@
 
 import { eq, and } from "drizzle-orm";
 import { db } from "@/db/drizzle";
-import { candidates, parties, candidateVotes, users } from "@/db/schema";
-import { Candidates, Status } from "@/types/candidate";
+import {
+  candidates,
+  parties,
+  candidateVotes,
+  users,
+  genders,
+} from "@/db/schema";
+import { Candidate, Candidates, Status } from "@/types/candidate";
+import { Ratings } from "@/types/ratings";
 
 export async function getVotedCandidates(
   instanceId: number
@@ -15,6 +22,8 @@ export async function getVotedCandidates(
       title: users.title,
       firstName: users.firstName,
       lastName: users.lastName,
+      dateOfBirth: users.birthday,
+      gender: genders.id,
       instanceId: candidates.instanceId,
       userId: candidates.userId,
       partyId: candidates.partyId,
@@ -30,6 +39,7 @@ export async function getVotedCandidates(
     })
     .from(candidates)
     .innerJoin(users, eq(candidates.userId, users.id))
+    .innerJoin(genders, eq(users.genderId, genders.id))
     .innerJoin(parties, eq(candidates.partyId, parties.id))
     .where(
       and(
@@ -64,6 +74,11 @@ export async function getVotedCandidates(
     title: candidate.title,
     firstName: candidate.firstName,
     lastName: candidate.lastName,
+    displayName:
+      `${candidate.title ?? ""} ${candidate.firstName} ${candidate.lastName}`.trim(),
+    dateOfBirth: new Date(candidate.dateOfBirth),
+    gender: convertGender(candidate.gender),
+    image: "https://i.pravatar.cc/300",
     instanceId: candidate.instanceId,
     userId: candidate.userId,
     partyId: candidate.partyId,
@@ -75,11 +90,14 @@ export async function getVotedCandidates(
     status: getStatusFromNumber(candidate.status),
     ratings: candidateVotesResult
       .filter((vote) => vote.candidateId === candidate.id)
-      .map((vote) => ({
-        thesisId: String(vote.statementId),
-        rating: vote.value,
-        explanation: vote.explanation,
-      })),
+      .reduce<Ratings>((r, vote) => {
+        r[String(vote.statementId)] = {
+          rating: vote.value,
+          favorite: false,
+          explanation: vote.explanation,
+        };
+        return r;
+      }, {}),
     createdAt: candidate.createdAt,
     updatedAt: candidate.updatedAt,
     color: candidate.color,
@@ -96,4 +114,17 @@ function getStatusFromNumber(statusNum: number): Status {
   };
 
   return statusMap[statusNum] || "created";
+}
+
+function convertGender(genderId: number): Candidate["gender"] {
+  switch (genderId) {
+    case 1:
+      return "male";
+    case 2:
+      return "female";
+    case 3:
+      return "non-binary";
+    default:
+      return "unknown";
+  }
 }

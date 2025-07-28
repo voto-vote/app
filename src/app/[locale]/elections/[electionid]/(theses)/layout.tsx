@@ -39,7 +39,7 @@ export default function ElectionLayout({
       election.algorithm.matchType === "candidates-and-parties"
     ) {
       getVotedCandidates(election.id).then((candidates) => {
-        setCandidates(candidates, election.id);
+        setCandidates(candidates);
       });
     }
     if (

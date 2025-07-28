@@ -23,11 +23,7 @@ import { usePartiesStore } from "@/stores/party-store";
 import { useCandidatesStore } from "@/stores/candidate-store";
 import LiveMatches from "./live-matches";
 import { useResultStore } from "@/stores/result-store";
-import {
-  calculateCandidateMatches,
-  calculatePartyMatches,
-} from "@/lib/result-calculator";
-import { UserRating } from "@/types/ratings";
+import { calculateResults } from "@/lib/result-calculator";
 
 export default function ThesesPage() {
   const { election } = useElection();
@@ -68,7 +64,7 @@ export default function ThesesPage() {
   }, [api]);
 
   useEffect(() => {
-    const electionRatings = ratings[election?.id ?? -1] ?? {};
+    const electionRatings = ratings[election.id] ?? {};
     const hasRatings = Object.values(electionRatings).some(
       (r) => r.rating !== undefined
     );
@@ -78,50 +74,19 @@ export default function ThesesPage() {
     if (hasRatings && !previousLiveMatchesAvailable) {
       setLiveMatchesVisible(true);
     }
-  }, [ratings, election?.id, liveMatchesAvailable]);
+  }, [ratings, election.id, liveMatchesAvailable]);
 
   useEffect(() => {
-    clearResults();
-    const electionRatings = ratings[election?.id ?? -1] ?? {};
-    const userRatings: UserRating[] = Object.entries(electionRatings).map(
-      ([thesisId, rating]) => ({
-        thesisId,
-        rating: rating.rating,
-        favorite: rating.favorite,
-      })
+    const electionRatings = ratings[election.id] ?? {};
+
+    const results = calculateResults(
+      electionRatings,
+      election.algorithm.matrix,
+      parties,
+      candidates
     );
-    if (parties === undefined && candidates) {
-      const matches = calculateCandidateMatches(
-        userRatings,
-        candidates,
-        election.algorithm.matrix
-      );
-      setResults([], matches);
-    } else if (candidates === undefined && parties) {
-      const matches = calculatePartyMatches(
-        userRatings,
-        parties,
-        election.algorithm.matrix
-      );
-      setResults(matches, []);
-    } else if (
-      parties &&
-      candidates &&
-      parties.length > 0 &&
-      candidates.length > 0
-    ) {
-      const partyMatches = calculatePartyMatches(
-        userRatings,
-        parties!,
-        election.algorithm.matrix
-      );
-      const candidateMatches = calculateCandidateMatches(
-        userRatings,
-        candidates,
-        election.algorithm.matrix
-      );
-      setResults(partyMatches, candidateMatches);
-    }
+
+    setResults(results);
   }, [
     candidates,
     clearResults,
@@ -164,7 +129,7 @@ export default function ThesesPage() {
           transition={{ delay: 0.2, duration: 0.4 }}
         >
           <LiveMatches
-            entities={results}
+            results={results}
             liveMatchesVisible={liveMatchesVisible}
           />
           {/* Live indicator */}

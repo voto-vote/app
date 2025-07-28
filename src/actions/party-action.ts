@@ -4,6 +4,7 @@ import { eq, and } from "drizzle-orm";
 import { db } from "@/db/drizzle";
 import { parties, partyVotes } from "@/db/schema";
 import { Parties, Status } from "@/types/party";
+import { Ratings } from "@/types/ratings";
 
 export async function getVotedParties(instanceId: number): Promise<Parties> {
   const partyPromise = db
@@ -36,18 +37,23 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
     id: party.id,
     parentPartyId: party.parentPartyId,
     instanceId: party.instanceId,
-    shortName: party.shortName,
+    displayName: party.shortName,
     detailedName: party.detailedName,
+    image:
+      "https://firebasestorage.googleapis.com/v0/b/votoprod.appspot.com/o/parties%2F3787957%2FpartyPicture.jpg?alt=media",
     description: party.description,
     website: party.website,
     status: getStatusFromNumber(party.status),
     ratings: partyVotesResult
       .filter((vote) => vote.partyId === party.id)
-      .map((vote) => ({
-        thesisId: String(vote.statementId),
-        rating: vote.value,
-        explanation: vote.explanation,
-      })),
+      .reduce<Ratings>((r, vote) => {
+        r[String(vote.statementId)] = {
+          rating: vote.value,
+          favorite: false,
+          explanation: vote.explanation,
+        };
+        return r;
+      }, {}),
     color: party.color,
     createdAt: party.createdAt,
     updatedAt: party.updatedAt,
