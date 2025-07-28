@@ -100,7 +100,7 @@ export default function ThesesPage() {
         election.algorithm.matrix
       );
       setResults(election.id, [], matches);
-
+      console.log("Results for candidates:", matches);
     } else if (candidates === undefined && parties) {
       const matches = calculatePartyMatches(
         userRatings,
@@ -127,7 +127,7 @@ export default function ThesesPage() {
       // Set both results in the store
       setResults(election.id, partyMatches, candidateMatches);
     }
-  }, [candidates, election.algorithm.matrix, election.id, parties, ratings, setResults]);
+  }, [candidates, clearResults, election.algorithm.matrix, election.id, parties, ratings, setResults]);
 
   if (!theses) {
     return null;

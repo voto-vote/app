@@ -34,7 +34,7 @@ export default function LiveMatches({
               className="h-full transition-all duration-300"
               style={{
                 width: `${match.matchPercentage}%`,
-                backgroundColor: match.color,
+                backgroundColor: match.color || "var(--primary)"
               }}
             ></div>
           </div>
