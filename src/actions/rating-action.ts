@@ -57,7 +57,7 @@ function calculatePoints(
   points += Math.abs(maxMinusPoints);
 
   const matchPercentage = (points / maxPoints) * 100;
-  return matchPercentage;
+  return Math.round(matchPercentage);
 }
 
 function createVoteMap(
@@ -69,6 +69,15 @@ function createVoteMap(
   // Create a map of user ratings for quick lookup
   const userRatingMap = new Map<string, MatchRating>();
   userRatings.forEach((rating) => {
+    // TODO: Fetch from election to get amount of ratings possibvle
+     const ratingMap = {
+      1: 0,
+      2: 50,
+      3: 100,
+    }
+    if (typeof rating.rating === "number" && ratingMap.hasOwnProperty(rating.rating)) {
+      rating.rating = ratingMap[rating.rating as 1 | 2 | 3];
+    }
     userRatingMap.set(rating.thesisId, rating);
   });
 
