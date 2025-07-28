@@ -17,6 +17,7 @@ type Action = {
 
 export const usePartiesStore = create<State & Action>((set) => ({
   parties: undefined,
+  partyVotes: undefined,
   electionId: undefined,
   setParties: (parties, electionId) => set({ parties, electionId }),
   clearParties: () => set({ parties: undefined, electionId: undefined }),

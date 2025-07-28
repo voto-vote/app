@@ -3,8 +3,14 @@ import { Candidate } from "./candidate";
 import { Party } from "./party";
 
 export type Rating = {
-  rating: number | undefined; // undefined means no rating given yet, -1 means skipped
+  rating: number | undefined; 
   favorite: boolean;
+};
+
+export type MatchRating = {
+  thesisId: Thesis["id"];
+  rating: number | undefined;
+  explanation?: string; // Optional explanation for the rating
 };
 
 export type Ratings = {

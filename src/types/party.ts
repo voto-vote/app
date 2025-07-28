@@ -1,3 +1,5 @@
+import { MatchRating } from "./ratings";
+
 export type Party = {
   id: number;
   parentPartyId: number;
@@ -8,6 +10,7 @@ export type Party = {
   website: string;
   status: Status;
   color: string;
+  ratings: MatchRating[];
   createdAt: string;
   updatedAt: string;
 };
@@ -17,3 +20,4 @@ export type Status =
   | "active"
   | "voted"
   | "deactivated";
+
