@@ -59,7 +59,6 @@ export default function ThesesPage() {
     if (!api) {
       return;
     }
-
     setCurrentThesisIndex(api.selectedScrollSnap());
 
     api.on("select", () => {
@@ -104,6 +103,7 @@ export default function ThesesPage() {
         election.algorithm.matrix
       );
       setResults(matches, []);
+      console.log("Party matches calculated", matches);
     } else if (
       parties &&
       candidates &&
@@ -305,7 +305,6 @@ export default function ThesesPage() {
           setBreakDrawerOpen(false);
           // Mark all missed theses as skipped
           for (let i = 0; i < theses.length; i++) {
-            console.log(ratings[election.id]?.[theses[i].id]?.rating);
             if (ratings[election.id]?.[theses[i].id]?.rating === undefined) {
               setRating(election.id, theses[i].id, -1);
             }
