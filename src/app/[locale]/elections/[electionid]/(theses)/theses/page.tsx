@@ -23,7 +23,7 @@ import { useElection } from "@/contexts/election-context";
 import {
   calculateCandidateMatches,
   calculatePartyMatches,
-} from "@/actions/rating-ation";
+} from "@/actions/rating-action";
 import { usePartiesStore } from "@/stores/party-store";
 import { useCandidatesStore } from "@/stores/candidate-store";
 import LiveMatches from "./live-matches";
@@ -32,7 +32,7 @@ import { useResultStore } from "@/stores/result-store";
 export default function ThesesPage() {
   const { election } = useElection();
   const { parties } = usePartiesStore();
-  const { results, setResults } = useResultStore();
+  const { results, setResults, clearResults } = useResultStore();
   const { candidates } = useCandidatesStore();
   const { theses } = useThesesStore();
   const { ratings, setRating, setFavorite } = useRatingsStore();
@@ -80,16 +80,10 @@ export default function ThesesPage() {
     }
   }, [ratings, election?.id, liveMatchesAvailable]);
 
-  if (!theses) {
-    return null;
-  }
 
-  function goTo(index: number, skipBreak = false) {
-    if (index >= count) {
-      router.push(`/elections/${election!.id}/result`);
-      return;
-    }
-
+  useEffect(() => {
+    clearResults();
+    console.log("Calculating matches for election:", election?.id);
     const electionRatings = ratings[election?.id ?? -1] ?? {};
     // Convert electionRatings to an array of MatchRating
     const userRatings = Object.entries(electionRatings).map(
@@ -99,7 +93,6 @@ export default function ThesesPage() {
         favorite: rating.favorite ?? false,
       })
     );
-
     if (parties === undefined && candidates) {
       const matches = calculateCandidateMatches(
         userRatings,
@@ -107,7 +100,6 @@ export default function ThesesPage() {
         election.algorithm.matrix
       );
       setResults(election.id, [], matches);
-      console.log("Party matches calculated:", matches);
 
     } else if (candidates === undefined && parties) {
       const matches = calculatePartyMatches(
@@ -132,7 +124,19 @@ export default function ThesesPage() {
         candidates!,
         election.algorithm.matrix
       );
+      // Set both results in the store
       setResults(election.id, partyMatches, candidateMatches);
+    }
+  }, [candidates, election.algorithm.matrix, election.id, parties, ratings, setResults]);
+
+  if (!theses) {
+    return null;
+  }
+
+  function goTo(index: number, skipBreak = false) {
+    if (index >= count) {
+      router.push(`/elections/${election!.id}/result`);
+      return;
     }
 
     // The timeout makes it possible to highlight the selected rating button before continuing

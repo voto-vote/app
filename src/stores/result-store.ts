@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
 import { Election } from "@/types/election";
 import { Result } from "@/types/result";
 
@@ -15,24 +14,21 @@ type Action = {
     partyResult: Result[],
     candidateResult: Result[]
   ) => void;
+  clearResults: () => void;
 };
 
-export const useResultStore = create<State & Action>()(
-  persist(
-    (set) => ({
-      results: {},
-      setResults: (electionId, partyResult, candidateResult) =>
-        set((state) => ({
-          results: {
-            ...state.results,
-            [electionId]: [
-              ...(state.results[electionId] || []),
-              ...partyResult,
-              ...candidateResult,
-            ],
-          },
-        })),
-    }),
-    { name: "voto-results", storage: createJSONStorage(() => localStorage) }
-  )
-);
+export const useResultStore = create<State & Action>((set) => ({
+  results: {},
+  setResults: (electionId, partyResult, candidateResult) =>
+    set((state) => ({
+      results: {
+        ...state.results,
+        [electionId]: [
+          ...(state.results[electionId] || []),
+          ...partyResult,
+          ...candidateResult,
+        ],
+      },
+    })),
+  clearResults: () => set({ results: {} }),
+}));
