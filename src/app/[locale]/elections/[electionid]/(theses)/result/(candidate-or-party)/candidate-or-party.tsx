@@ -15,30 +15,14 @@ import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
-
-type Party = {
-  id: string;
-  name: string;
-  image: string;
-  description: string;
-};
-
-type Candidate = {
-  id: string;
-  name: string;
-  image: string;
-  description: string;
-  aboutMe: string;
-  party: Party;
-};
+import { Party } from "@/types/party";
+import { Candidate } from "@/types/candidate";
 
 interface CandidateOrPartyProps {
-  participant: Party | Candidate;
+  entity: Party | Candidate;
 }
 
-export default function CandidateOrParty({
-  participant,
-}: CandidateOrPartyProps) {
+export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
   const { bookmarks, toggleCandidate, toggleParty } = useBookmarkStore();
   const [isAboutMeExpanded, setIsAboutMeExpanded] = useState(false);
   const [aboutMeRef, setAboutMeRef] = useState<HTMLDivElement | null>(null);
@@ -49,7 +33,7 @@ export default function CandidateOrParty({
   const { ratings, setRating, setFavorite } = useRatingsStore();
   const { setBackPath } = useBackButtonStore();
   const isDesktop = useBreakpoint("md");
-  const type = participant.hasOwnProperty("aboutMe") ? "candidate" : "party";
+  const type = entity.hasOwnProperty("description") ? "candidate" : "party";
   const t = useTranslations("CandidateOrParty");
 
   useEffect(() => {
@@ -90,19 +74,17 @@ export default function CandidateOrParty({
 
   function toggleBookmark() {
     if (type === "candidate") {
-      toggleCandidate(election.id, participant.id);
+      toggleCandidate(election.id, entity.id);
     } else {
-      toggleParty(election.id, participant.id);
+      toggleParty(election.id, entity.id);
     }
   }
 
   function isBookmarked() {
     if (type === "candidate") {
-      return (bookmarks[election.id]?.candidates || []).includes(
-        participant.id
-      );
+      return (bookmarks[election.id]?.candidates || []).includes(entity.id);
     } else {
-      return (bookmarks[election.id]?.parties || []).includes(participant.id);
+      return (bookmarks[election.id]?.parties || []).includes(entity.id);
     }
   }
 
@@ -124,14 +106,14 @@ export default function CandidateOrParty({
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={participant.image}
+                  src={entity.image}
                   alt={t("logoOrAvatar")}
                   className="object-contain h-full"
                 />
               </div>
               <div className="grow space-y-[0.125rem]">
                 <div className="font-bold text-base leading-none">
-                  {participant.name}
+                  {entity.displayName}
                 </div>
                 <div className="text-xs">CDU | S-Nord | #6</div>
                 <MatchBar value={60} size="sm" />
@@ -158,7 +140,7 @@ export default function CandidateOrParty({
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={participant.image}
+              src={entity.image}
               alt={t("logoOrAvatar")}
               className="object-contain h-full"
             />
@@ -179,11 +161,9 @@ export default function CandidateOrParty({
 
         {/* Candidate Info */}
         <div>
-          <h1 className="text-xl font-bold">{participant.name}</h1>
+          <h1 className="text-xl font-bold">{entity.displayName}</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2 text-lg">
-              {participant.description}
-            </div>
+            <div className="md:col-span-2 text-lg">{entity.description}</div>
             {!isDesktop && <MatchBar value={60} />}
             <div className="grid grid-cols-[minmax(0,auto)_minmax(0,1fr)] gap-6">
               <div className="font-bold text-sm">
@@ -205,7 +185,7 @@ export default function CandidateOrParty({
         </div>
 
         {/* About me */}
-        {"aboutMe" in participant && (
+        {"aboutMe" in entity && (
           <div>
             <h2 className="text-lg font-bold">{t("aboutMe")}</h2>
             <div
@@ -215,7 +195,7 @@ export default function CandidateOrParty({
               }}
             >
               <div className="col-span-4" ref={setAboutMeRef}>
-                {participant.aboutMe}
+                {entity.description}
               </div>
             </div>
 
@@ -240,7 +220,7 @@ export default function CandidateOrParty({
         {/* Theses */}
         <div className="mb-0">
           <h2 className="text-lg font-bold">
-            {t("votoAnswers", { participant: participant.name })}
+            {t("votoAnswers", { participant: entity.displayName })}
           </h2>
 
           <ThesesResultCarousel

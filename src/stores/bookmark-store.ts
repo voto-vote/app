@@ -1,19 +1,24 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { Election } from "@/types/election";
+import { Party } from "@/types/party";
+import { Candidate } from "@/types/candidate";
 
 type State = {
   bookmarks: {
     [electionId: Election["id"]]: {
-      parties: string[];
-      candidates: string[];
+      parties: Party["id"][];
+      candidates: Candidate["id"][];
     };
   };
 };
 
 type Action = {
-  toggleParty: (electionId: Election["id"], partyId: string) => void;
-  toggleCandidate: (electionId: Election["id"], candidateId: string) => void;
+  toggleParty: (electionId: Election["id"], partyId: Party["id"]) => void;
+  toggleCandidate: (
+    electionId: Election["id"],
+    candidateId: Candidate["id"]
+  ) => void;
 };
 
 export const useBookmarkStore = create<State & Action>()(

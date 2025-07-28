@@ -1,18 +1,21 @@
 "use client";
 
+import { useParams, notFound } from "next/navigation";
 import CandidateOrParty from "../../candidate-or-party";
+import { usePartiesStore } from "@/stores/party-store";
 
-export default function CandidatePage() {
-  return (
-    <CandidateOrParty
-      participant={{
-        id: "42",
-        name: "Die Grünen Burgenland",
-        image:
-          "https://firebasestorage.googleapis.com/v0/b/votoprod.appspot.com/o/parties%2F3787957%2FpartyPicture.jpg?alt=media",
-        description:
-          "Eine glückliche Zukunft mit Wiesenböden statt Betonwüsten, lebendigen Ortskernen als Treffpunkt für Jung und Alt, Vertrauen und Zuversicht durch transparente Politik und Wirtschaft, ein gutes Leben für alle – was wir uns vorstellen können, das können wir auch erreichen. Wir GRÜNE bringen den progressiven Wind der Veränderung ins Burgenland – für ein lebenswertes Hier und Jetzt und eine Zukunft für unsere Kinder und Enkelkinder.",
-      }}
-    />
-  );
+export default function PartyPage() {
+  const { partyid } = useParams<{ partyid: string }>();
+  const { parties } = usePartiesStore();
+
+  if (!parties) {
+    return null;
+  }
+
+  const party = parties.find((p) => String(p.id) === partyid);
+  if (!party) {
+    notFound();
+  }
+
+  return <CandidateOrParty entity={party} />;
 }

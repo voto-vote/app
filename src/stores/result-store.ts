@@ -1,26 +1,21 @@
 import { create } from "zustand";
-import { Result } from "@/types/result";
+import { Results } from "@/types/result";
 
 type State = {
-  results: Result[];
+  results: Results;
 };
 
 type Action = {
-  setResults: (
-    partyResult: Result[],
-    candidateResult: Result[]
-  ) => void;
+  setResults: (results: Results) => void;
   clearResults: () => void;
 };
 
 export const useResultStore = create<State & Action>((set) => ({
-  results: [],
-  setResults: (partyResults, candidateResults) =>
-    set(() => ({
-      results: [
-        ...partyResults,
-        ...candidateResults,
-      ],
-    })),
-  clearResults: () => set({ results: [] }),
+  results: {
+    partyResults: [],
+    candidateResults: [],
+  },
+  setResults: (results) => set(() => ({ results })),
+  clearResults: () =>
+    set({ results: { partyResults: [], candidateResults: [] } }),
 }));
