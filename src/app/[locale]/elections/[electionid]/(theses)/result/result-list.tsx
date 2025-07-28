@@ -15,6 +15,8 @@ import BottomBar from "./bottom-bar";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
 import { useThesesStore } from "@/stores/theses-store";
+import { useCandidatesStore } from "@/stores/candidate-store";
+import { useResultStore } from "@/stores/result-store";
 
 interface ResultListProps {
   filterBookmarked: boolean;
