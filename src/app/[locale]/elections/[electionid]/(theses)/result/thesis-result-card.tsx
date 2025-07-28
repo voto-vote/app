@@ -53,7 +53,7 @@ export default function ThesisResultCard({
   const [expandedParticipantExplanations, setExpandedParticipantExplanations] =
     useState<Set<string>>(new Set());
   const [changeRatingDialogOpen, setChangeRatingDialogOpen] = useState(false);
-  const t = useTranslations("ThesisCard");
+  const t = useTranslations("ThesisResultCard");
 
   return (
     <div className="flex flex-col justify-center md:justify-end">
@@ -108,8 +108,8 @@ export default function ThesisResultCard({
         )}
 
         <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,auto)_minmax(0,1fr)] gap-x-2 md:gap-x-4 items-center mt-4">
-          <div className="justify-self-end text-sm sm:text-base md:text-lg">
-            ICH
+          <div className="justify-self-end text-sm sm:text-base md:text-lg uppercase">
+            {t("i")}
           </div>
           <RatingVisualization election={election} rating={ownRating} />
           <div>
@@ -119,7 +119,7 @@ export default function ThesisResultCard({
               className="p-0 max-h-6 sm:max-h-none max-w-full block truncate"
               onClick={() => setChangeRatingDialogOpen(true)}
             >
-              Meinung ändern
+              {t("changeRating")}
             </Button>
           </div>
 
@@ -172,7 +172,7 @@ export default function ThesisResultCard({
                         setExpandedParticipantExplanations(newSet);
                       }}
                     >
-                      Details
+                      {t("details")}
                       <ChevronDown
                         className={`size-6 transition ${expandedParticipantExplanations.has(rating.participantId) ? "rotate-180" : ""}`}
                       />
