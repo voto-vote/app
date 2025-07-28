@@ -27,7 +27,7 @@
     "nextButton": "Weiter",
     "startVotoButton": "VOTO starten",
     "introOneTitle": "Lerne mehr über aktuelle Themen und entdecke wer zu Dir passt!",
-    "introOneDescription": "Um herauszufinden, welche {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} zu deiner Einstellung passen, kannst du bis zu **{numberOfTheses, plural, =1 {# These} other {# Thesen}}** beantworten. Die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} der Wahl \"{electionTitle} - {electionSubtitle}\" haben dies ebenfalls getan.",
+    "introOneDescription": "Um herauszufinden, welche {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} zu deiner Einstellung passen, kannst du bis zu **{count, plural, =1 {# These} other {# Thesen}}** beantworten. Die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} der Wahl \"{electionTitle} - {electionSubtitle}\" haben dies ebenfalls getan.",
     "introTwoTitle": "Wofür brennst du?",
     "introTwoDescription": "Liegt dir ein Thema besonders am Herzen, kannst du dieses mit dem Stern Symbol markieren. Diese These wird **doppelt so stark bewertet**.",
     "introThreeTitle": "Vertippt? Keine Sorge.",
@@ -58,7 +58,11 @@
     "sortedByCategories": "Sortiert nach Kategorien.",
     "sortedByYourVoto": "Sortiert nach Deinem VOTO.",
     "useVOTOSort": "Sortierung Deines VOTOs stattdessen verwenden",
-    "useCategoriesSort": "Sortierung nach Kategorien stattdessen verwenden"
+    "useCategoriesSort": "Sortierung nach Kategorien stattdessen verwenden",
+    "thesesSortingInfo": "Die Thesen eines VOTOs sind beim Beantworten zufällig sortiert, um Dich nicht zu beeinflussen.",
+    "nextThesis": "These {current} / {total}",
+    "previousThesis": "These {current} / {total}",
+    "yourRandomSorting": "Deine zufällige VOTO Sortierung"
   },
   "NavigationSheet": {
     "title": "VOTO",
@@ -73,5 +77,67 @@
     "imprint": "Impressum",
     "languages": "Sprachen",
     "footer": "© {year} VOTO. Alle Rechte vorbehalten."
+  },
+  "ResultPage": {
+    "resultTab": "Ergebnis",
+    "thesesTab": "Thesen"
+  },
+  "ThesisResultCard": {
+    "moreInfos": "Weitere Informationen",
+    "i": "Ich",
+    "changeRating": "Meinung ändern",
+    "details": "Details"
+  },
+  "ThesesList": {
+    "explanation": "So haben Du und die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} deiner Merkliste geantwortet.",
+    "detailsInfo": "{pointer, select, coarse {Tippe} other {Klicke}} auf <details>Details</details> um die Begründung {matchType, select, candidates {des jeweiligen Kandidierenden} candidates_and_parties {der jeweiligen Partei bzw. des jeweiligen Kandidierenden} other {der jeweiligen Partei}} zu sehen.",
+    "changeOpinionInfo": "{pointer, select, coarse {Tippe} other {Klicke}} auf <changeopinion>Meinung ändern</changeopinion> um Deine Antwort anzupassen."
+  },
+  "ResultList": {
+    "explanation": "Auf Basis {count, plural, =1 {Deiner # beantworteten These} other {Deinen # beantworteten Thesen}} zur Wahl {electionTitle} - {electionSubtitle}",
+    "candidatesTab": "Kandidierende",
+    "partiesTab": "Parteien",
+    "filterButton": "Filter",
+    "bookmarksButton": "Merkliste ({count})"
+  },
+  "LegendBottomBar": {
+    "showLegend": "Legende",
+    "hideLegend": "Legende ausblenden"
+  },
+  "FilterDialog": {
+    "title": "Filter",
+    "resetFilters": "Alle zurücksetzen",
+    "searchCandidates": "Nach Kandidierenden suchen...",
+    "party": "Partei",
+    "list": "Liste",
+    "region": "Region",
+    "age": "Alter",
+    "gender": "Geschlecht",
+    "politicalAreaDescription": "{matchType, select, candidates {Kandidierende} candidates_and_parties {Parteien und Kandidierende} other {Parteien}}, die besonderen Wert auf diese Politikbereiche legen:",
+    "policyArea": "Politikbereich",
+    "sameRatingsDescription": "{matchType, select, candidates {Kandidierende} candidates_and_parties {Parteien und Kandidierende} other {Parteien}}, welche folgende Thesen wie ich beantwortet haben:",
+    "thesis": "These",
+    "filterButton": "Filter ({count})",
+    "resetFiltersButton": "Alle zurücksetzen"
+  },
+  "ChangeRatingDialog": {
+    "title": "Bewertung ändern",
+    "ratingSystemFullAgreement": "volle Zustimmung",
+    "ratingSystemExplanation": "keine Zustimmung",
+    "dontChangeOpinion": "Meinung nicht ändern",
+    "changeOpinion": "Meinung ändern"
+  },
+  "CandidatesList": {
+    "bookmark": "Merken"
+  },
+  "CandidateOrParty": {
+    "bookmark": "Merken",
+    "logoOrAvatar": "Logo oder Avatar",
+    "list": "Liste",
+    "position": "Position",
+    "region": "Region",
+    "aboutMe": "Über mich",
+    "details": "Details",
+    "votoAnswers": "VOTO Antworten von {participant}"
   }
 }

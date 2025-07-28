@@ -8,12 +8,13 @@ import { useBackButtonStore } from "@/stores/back-button-store";
 import { useThesesStore } from "@/stores/theses-store";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { useElection } from "@/contexts/election-context";
-import ThesesResultCarousel from "../theses-result-carousel";
+import ThesesResultCarousel from "../thesis-result-carousel";
 import { Bookmark } from "@/components/icons/bookmark";
 import LegendBottomBar from "../legend-bottom-bar";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBookmarkStore } from "@/stores/bookmark-store";
+import { useTranslations } from "next-intl";
 
 type Party = {
   id: string;
@@ -49,6 +50,7 @@ export default function CandidateOrParty({
   const { setBackPath } = useBackButtonStore();
   const isDesktop = useBreakpoint("md");
   const type = participant.hasOwnProperty("aboutMe") ? "candidate" : "party";
+  const t = useTranslations("CandidateOrParty");
 
   useEffect(() => {
     if (election?.id) {
@@ -123,7 +125,7 @@ export default function CandidateOrParty({
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={participant.image}
-                  alt="Party picture"
+                  alt={t("logoOrAvatar")}
                   className="object-contain h-full"
                 />
               </div>
@@ -134,7 +136,7 @@ export default function CandidateOrParty({
                 <div className="text-xs">CDU | S-Nord | #6</div>
                 <MatchBar value={60} size="sm" />
               </div>
-              <button aria-label="Merken" onClick={toggleBookmark}>
+              <button aria-label={t("bookmark")} onClick={toggleBookmark}>
                 <Bookmark
                   className={`size-7 transition stroke-1 ${isBookmarked() ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
                 />
@@ -157,16 +159,16 @@ export default function CandidateOrParty({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={participant.image}
-              alt="Party picture"
+              alt={t("logoOrAvatar")}
               className="object-contain h-full"
             />
           </div>
           <div className="flex items-center justify-end md:justify-baseline md:ml-42 p-4">
             {isDesktop && <MatchBar value={60} className="grow" />}
             <button
-              aria-label="Merken"
               onClick={toggleBookmark}
               className="ml-4"
+              aria-label={t("bookmark")}
             >
               <Bookmark
                 className={`size-8 transition stroke-1 ${isBookmarked() ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
@@ -185,11 +187,11 @@ export default function CandidateOrParty({
             {!isDesktop && <MatchBar value={60} />}
             <div className="grid grid-cols-[minmax(0,auto)_minmax(0,1fr)] gap-6">
               <div className="font-bold text-sm">
-                Liste
+                {t("list")}
                 <br />
-                Position
+                {t("position")}
                 <br />
-                Region
+                {t("region")}
               </div>
               <div className="text-sm">
                 CDU
@@ -205,7 +207,7 @@ export default function CandidateOrParty({
         {/* About me */}
         {"aboutMe" in participant && (
           <div>
-            <h2 className="text-lg font-bold">Über mich</h2>
+            <h2 className="text-lg font-bold">{t("aboutMe")}</h2>
             <div
               className="md:grid md:grid-cols-6 overflow-hidden transition-all duration-500 ease-in-out"
               style={{
@@ -227,7 +229,7 @@ export default function CandidateOrParty({
               className="text-primary text-sm -ml-3"
               onClick={() => setIsAboutMeExpanded(!isAboutMeExpanded)}
             >
-              Details
+              {t("details")}
               <ChevronDown
                 className={`transition ${isAboutMeExpanded ? "rotate-180" : "rotate-0"}`}
               />
@@ -238,7 +240,7 @@ export default function CandidateOrParty({
         {/* Theses */}
         <div className="mb-0">
           <h2 className="text-lg font-bold">
-            VOTO Antworten von {participant.name}
+            {t("votoAnswers", { participant: participant.name })}
           </h2>
 
           <ThesesResultCarousel

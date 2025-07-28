@@ -5,6 +5,7 @@ import Image from "next/image";
 import { mockCandidates } from "./mock";
 import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
 import { Bookmark } from "@/components/icons/bookmark";
+import { useTranslations } from "next-intl";
 
 export default function CandidatesList({
   candidates,
@@ -19,6 +20,8 @@ export default function CandidatesList({
   filterBookmarked?: boolean;
   onCandidateClick: (id: string) => void;
 }) {
+  const t = useTranslations("CandidatesList");
+
   return (
     <div className="divide-y">
       {candidates
@@ -50,7 +53,7 @@ export default function CandidatesList({
                   onBookmarkToggle(c.id);
                   e.stopPropagation();
                 }}
-                aria-label="Merken"
+                aria-label={t("bookmark")}
               >
                 <Bookmark
                   className={`size-8 transition stroke-1 ${bookmarked.includes(c.id) ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}

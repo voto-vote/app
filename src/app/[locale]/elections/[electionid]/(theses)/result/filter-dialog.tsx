@@ -9,7 +9,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { Election } from "@/types/election";
+import { Theses } from "@/types/theses";
 import { ChevronDown, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const mockActiveFilters = [
@@ -22,21 +25,30 @@ const mockActiveFilters = [
 ];
 
 interface FilterProps {
+  election: Election;
+  theses: Theses;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export default function FilterDialog({ open, onOpenChange }: FilterProps) {
+export default function FilterDialog({
+  election,
+  theses,
+  open,
+  onOpenChange,
+}: FilterProps) {
+  const t = useTranslations("FilterDialog");
+
   return (
     <ResponsiveDialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Filter"
+      title={t("title")}
       className="space-y-2"
     >
       <div className="flex flex-wrap gap-2 mb-6">
         <Badge className="rounded-full" variant="secondary">
-          Alle zurücksetzen
+          {t("resetFilters")}
           <button
             onClick={() => {}}
             className="transition-colors hover:bg-accent-foreground/10 rounded-full p-0.5"
@@ -47,33 +59,37 @@ export default function FilterDialog({ open, onOpenChange }: FilterProps) {
           <FilterPill label={f.label} key={i} />
         ))}
       </div>
-      <Input placeholder="Nach Kandidierenden suchen..." />
+      <Input placeholder={t("searchCandidates")} />
 
       <DropdownInput
-        label="Patei"
+        label={t("party")}
         items={["SPD", "Bündnis 90 / Die Grünen", "Die Linke"]}
         className="mt-4"
       />
-      <DropdownInput label="Liste" items={["Die Staditsten"]} />
-      <DropdownInput label="Region" items={["S-West"]} />
+      <DropdownInput label={t("list")} items={["Die Staditsten"]} />
+      <DropdownInput label={t("region")} items={["S-West"]} />
 
-      <DropdownInput label="Alter" items={[]} className="mt-4" />
-      <DropdownInput label="Geschlecht" items={[]} />
-
-      <div className="text-xs text-muted-foreground mt-3 mb-1">
-        Politiker/Parteien, die besonderen Wert auf diese Politikbereiche legen:
-      </div>
-      <DropdownInput label="Politikbereich" items={[]} />
+      <DropdownInput label={t("age")} items={[]} className="mt-4" />
+      <DropdownInput label={t("gender")} items={[]} />
 
       <div className="text-xs text-muted-foreground mt-3 mb-1">
-        Politiker/Parteien, welche folgende Thesen wie ich beantwortet haben:
+        {t("politicalAreaDescription", {
+          matchType: election.algorithm.matchType,
+        })}
       </div>
-      <DropdownInput label="These" items={[]} />
+      <DropdownInput label={t("policyArea")} items={[]} />
+
+      <div className="text-xs text-muted-foreground mt-3 mb-1">
+        {t("sameRatingsDescription", {
+          matchType: election.algorithm.matchType,
+        })}
+      </div>
+      <DropdownInput label={t("thesis")} items={theses.map((t) => t.text)} />
 
       <div className="flex gap-2 mt-4">
-        <Button className="flex-auto">Filter (6)</Button>
+        <Button className="flex-auto">{t("filterButton", { count: 6 })}</Button>
         <Button className="flex-auto" variant="secondary">
-          Alle zurücksetzen
+          {t("resetFiltersButton")}
         </Button>
       </div>
     </ResponsiveDialog>
