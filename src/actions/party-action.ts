@@ -14,12 +14,13 @@ export async function getVotedParties(
     .where(
       and(
         eq(parties.instanceId, instanceId),
-        eq(parties.status, 3) // 3 corresponds to "voted" status
+        eq(parties.status, 2) // 2 corresponds to "voted" status
       )
     );
 
    const partyVotesPromise = await db
       .select({
+        partyId: partyVotes.partyId,
         statementId: partyVotes.statementId,
         value: partyVotes.value,
         explanation: partyVotes.explanation,
@@ -40,7 +41,7 @@ export async function getVotedParties(
     description: party.description,
     website: party.website,
     status: getStatusFromNumber(party.status),
-    ratings: partyVotesPromise.map(vote => ({
+    ratings: partyVotesPromise.filter(vote => vote.partyId === party.id).map(vote => ({
       thesisId: String(vote.statementId),
       rating: vote.value,
       explanation: vote.explanation,
@@ -49,8 +50,6 @@ export async function getVotedParties(
     createdAt: party.createdAt,
     updatedAt: party.updatedAt,
   }));
-
-
 }
 
 function getStatusFromNumber(statusNum: number): Status {
