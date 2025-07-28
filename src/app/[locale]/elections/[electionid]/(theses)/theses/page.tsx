@@ -20,14 +20,11 @@ import { useRouter } from "@/i18n/navigation";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { motion } from "framer-motion";
 import { useElection } from "@/contexts/election-context";
-import {
-  calculateCandidateMatches,
-  calculatePartyMatches,
-} from "@/actions/rating-action";
 import { usePartiesStore } from "@/stores/party-store";
 import { useCandidatesStore } from "@/stores/candidate-store";
 import LiveMatches from "./live-matches";
 import { useResultStore } from "@/stores/result-store";
+import { calculateCandidateMatches, calculatePartyMatches } from "@/lib/result-calculator";
 
 export default function ThesesPage() {
   const { election } = useElection();

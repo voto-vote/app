@@ -1,80 +1,157 @@
-import { CandidateRatings, PartyRatings, Rating, Ratings } from "@/types/ratings";
+import { Candidate } from "@/types/candidate";
+import { Party } from "@/types/party";
+import { MatchRating } from "@/types/ratings";
+import { Result } from "@/types/result";
 
-export function calculateResultForCandidate(candidateRatings: CandidateRatings, matrix: number[][], participantRatings: Ratings) {
-      let maxPoints = 0;
-      let maxMinusPoints = 0;
-      let points = 0.0;
-    Object.entries(candidateRatings.ratings).forEach(([thesisId, candidateRating]) => {
-        const ratingResult = calculatePointsForRating(thesisId, candidateRating, participantRatings[thesisId], matrix, maxPoints, maxMinusPoints, points);
-        maxPoints = ratingResult?.maxPoints || 0;
-        maxMinusPoints = ratingResult?.maxMinusPoints || 0;
-        points = ratingResult?.points || 0;
+// Types for the algorithm
+type VoteItem = {
+  userVote: number;
+  userWeight: number;
+  matchVote: number; // The vote from party or candidate
+};
+
+type VoteMap = Map<string, VoteItem>; // thesisId -> VoteItem
+
+function getMinMaxOfMatrix(matrix: number[][]): { min: number; max: number } {
+  let max = matrix[0][0];
+  let min = matrix[0][0];
+
+  for (const row of matrix) {
+    for (const value of row) {
+      if (max < value) {
+        max = value;
+      }
+      if (min > value) {
+        min = value;
+      }
+    }
+  }
+
+  return { min, max };
+}
+
+function calculatePoints(
+  voteMap: VoteMap,
+  matrix: number[][],
+  maxValue: number
+): number {
+  let maxPoints = 0;
+  let maxMinusPoints = 0;
+  let points = 0.0;
+
+  for (const [_, voteItem] of voteMap) {
+    const { min, max } = getMinMaxOfMatrix(matrix);
+    const addMaxPoints = voteItem.userWeight * max;
+    const addMaxMinusPoints = voteItem.userWeight * min;
+    maxPoints += addMaxPoints;
+    maxMinusPoints += addMaxMinusPoints;
+
+    const divider = maxValue / (matrix.length - 1);
+    const matchIndex = Math.round(voteItem.matchVote / divider);
+    const userIndex = Math.round(voteItem.userVote / divider);
+    const addPoints = matrix[matchIndex][userIndex] * voteItem.userWeight;
+    points += addPoints;
+  }
+
+  maxPoints += Math.abs(maxMinusPoints);
+  points += Math.abs(maxMinusPoints);
+
+  const matchPercentage = (points / maxPoints) * 100;
+  return Math.round(matchPercentage);
+}
+
+function createVoteMap(
+  userRatings: MatchRating[],
+  entityRatings: MatchRating[]
+): VoteMap {
+  const voteMap = new Map<string, VoteItem>();
+
+  // Create a map of user ratings for quick lookup
+  const userRatingMap = new Map<string, MatchRating>();
+  userRatings.forEach((rating) => {
+    // TODO: Fetch from election to get amount of ratings possibvle
+     const ratingMap = {
+      1: 0,
+      2: 50,
+      3: 100,
+    }
+    if (typeof rating.rating === "number" && ratingMap.hasOwnProperty(rating.rating)) {
+      rating.rating = ratingMap[rating.rating as 1 | 2 | 3];
+    }
+    userRatingMap.set(rating.thesisId, rating);
+  });
+
+  // Create vote items for each thesis where both user and entity have ratings
+  entityRatings.forEach((entityRating) => {
+    const userRating = userRatingMap.get(entityRating.thesisId);
+
+    if (
+      userRating &&
+      userRating.rating !== undefined &&
+      entityRating.rating !== undefined
+    ) {
+      voteMap.set(entityRating.thesisId, {
+        userVote: userRating.rating,
+        userWeight: 1, // You can adjust this based on your weighting logic
+        matchVote: entityRating.rating,
       });
-      maxPoints += Math.abs(maxMinusPoints);
-      points += Math.abs(maxMinusPoints);
-      const match = Math.round((points / maxPoints) * 1000) / 10;
-      return match;
     }
+  });
 
-    export function calculateResultForParty(partyRatings: PartyRatings, matrix: number[][], participantRatings: Ratings) : number {
-      let maxPoints = 0;
-      let maxMinusPoints = 0;
-      let points = 0.0;
-      Object.entries(partyRatings.ratings).forEach(([thesisId, partyRating]) => {
-        const ratingResult = calculatePointsForRating(thesisId, partyRating, participantRatings[thesisId], matrix, maxPoints, maxMinusPoints, points);
-        maxPoints = ratingResult?.maxPoints || 0;
-        maxMinusPoints = ratingResult?.maxMinusPoints || 0;
-        points = ratingResult?.points || 0;
-      });
-      maxPoints += Math.abs(maxMinusPoints);
-      points += Math.abs(maxMinusPoints);
-      const match = Math.round((points / maxPoints) * 1000) / 10;
-      return match;
-    }
+  return voteMap;
+}
 
-    function calculatePointsForRating(thesisId: string, matchRating: Rating, participantRating: Rating, matrix: number[][], maxPoints: number, maxMinusPoints: number, points: number) : RatingCalculationResult | undefined {
-        if (!matchRating) return;
-        const min = getMinOfMatrix(matrix);
-        const max = getMaxOfMatrix(matrix);
-        // Get object key
-        if (!participantRating) return;
-        // If participantratings is favorite, duplicate max points
-        let addMaxPoints = max;
-        if (participantRating.favorite) {
-            addMaxPoints *= 2;
-        }
-        let addMaxMinusPoints = min;
-        if (participantRating.favorite) {
-            addMaxMinusPoints *= 2;
-        }
-        maxPoints += addMaxPoints;
-        maxMinusPoints += addMaxMinusPoints;
-        const divider = 100 / (length - 1);
-         if (typeof matchRating.rating === "undefined") return;
-        const matchIndex = Math.round(matchRating.rating / divider);
-        if (typeof participantRating.rating === "undefined") return;
-        const userIndex = Math.round(participantRating.rating / divider);
-        const addPoints = matrix[matchIndex][userIndex];
-        if (participantRating.favorite) {
-          points += addPoints * 2; // Double points if favorite
-        }
-        points += addPoints;
-        return { maxPoints, maxMinusPoints, points };
-    }
+export function calculatePartyMatches(
+  userRatings: MatchRating[],
+  parties: Party[],
+  matrix: number[][]
+): Result[] {
+  const results: Result[] = [];
+  const maxValue = 100;
+  // Calculate matches for parties
+  if (parties) {
+    parties.forEach((party) => {
+      const voteMap = createVoteMap(userRatings, party.ratings);
+      if (voteMap.size > 0) {
+        const matchPercentage = calculatePoints(voteMap, matrix, maxValue);
+        results.push({
+          entity_id: party.id,
+          resultType: "party",
+          value: party.id,
+          matchPercentage,
+          color: party.color,
+          displayName: party.shortName,
+        });
+      }
+    });
+  }
+  return results.sort((a, b) => b.matchPercentage - a.matchPercentage);
+}
 
-    export type RatingCalculationResult = {
-      maxPoints: number;
-      maxMinusPoints: number;
-      points: number;
-    };
+export function calculateCandidateMatches(
+  userRatings: MatchRating[],
+  candidates: Candidate[],
+  matrix: number[][]
+): Result[] {
+  const results: Result[] = [];
+  const maxValue = 100;
 
-    export function getMaxOfMatrix(matrix: number[][]) {
-      const flattened = matrix.flat();
-      return Math.max(...flattened);
-    }
-
-    export function getMinOfMatrix(matrix: number[][]) {
-      const flattened = matrix.flat();
-      return Math.min(...flattened);
-    }
-
+  if (candidates) {
+    candidates.forEach((candidate) => {
+      const voteMap = createVoteMap(userRatings, candidate.ratings);
+      if (voteMap.size > 0) {
+        const matchPercentage = calculatePoints(voteMap, matrix, maxValue);
+        results.push({
+          entity_id: candidate.id,
+          resultType: "candidate",
+          value: candidate.id,
+          matchPercentage,
+          color: candidate.color,
+          displayName: `${candidate.title} ${candidate.firstName} ${candidate.lastName}`, // You might want to use a name field if available
+        });
+      }
+    });
+  }
+  // Sort by match percentage in descending order
+  return results.sort((a, b) => b.matchPercentage - a.matchPercentage);
+}
