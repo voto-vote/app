@@ -34,10 +34,7 @@ export async function getElectionSummaries(
     await Promise.all(
       instance.map(async (i) => {
         try {
-          const configurationUrl = objectStorageUrl.replace(
-            "{id}",
-            i.id.toString()
-          );
+          const configurationUrl = objectStorageUrl + "/configuration/" + i.id.toString() + "/configuration.json";
           const configurationUrlOrigin = new URL(configurationUrl).origin;
           const response = await fetch(configurationUrl);
           const config = await response.json();
