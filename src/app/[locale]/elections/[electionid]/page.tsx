@@ -78,9 +78,9 @@ export default function Election() {
 
   function checkForIntroPage(electionId: number) {
     if (seenIntro) {
-      router.push(`/elections/${electionId}/survey`);
+      router.push(`/elections/${electionId}/theses`);
     } else {
-      router.push(`/elections/${electionId}/survey`);
+      router.push(`/elections/${electionId}/intro`);
     }
   }
 
