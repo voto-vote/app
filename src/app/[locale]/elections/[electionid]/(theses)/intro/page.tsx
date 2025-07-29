@@ -20,10 +20,12 @@ import thesesCardAnimation from "./theses-card-animation.json";
 import starThesesAnimation from "./star-theses-animation.json";
 import navigateThesesAnimation from "./navigate-theses-animation.json";
 import resultAnimation from "./result-animation.json";
+import { useIntroStore } from "@/stores/intro-store";
 
 export default function Intro() {
   const { election } = useElection();
   const { setBackPath } = useBackButtonStore();
+  const { setSeenIntro } = useIntroStore();
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [api, setApi] = useState<CarouselApi>();
@@ -86,6 +88,7 @@ export default function Intro() {
 
   function goToNextPage() {
     if (currentPage >= intro.length - 1) {
+      setSeenIntro(true);
       return router.push(`/elections/${election?.id}/theses`);
     }
     api?.scrollTo(currentPage + 1);
@@ -206,8 +209,10 @@ export default function Intro() {
               <Button
                 variant="ghost"
                 className={`w-full text-primary hover:text-primary/80 text-sm ${currentPage >= intro.length - 1 ? "opacity-0" : ""}`}
-                onClick={() => router.push(`/elections/${election.id}/theses`)}
-              >
+                onClick={() => {
+                  setSeenIntro(true);
+                  router.push(`/elections/${election.id}/theses`);
+                }}              >
                 {t("startVotoButton")}
               </Button>
             </motion.div>
