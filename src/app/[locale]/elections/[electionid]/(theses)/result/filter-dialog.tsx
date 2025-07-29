@@ -47,12 +47,13 @@ export default function FilterDialog({
       className="space-y-2"
     >
       <div className="flex flex-wrap gap-2 mb-6">
-        <Badge className="rounded-full" variant="secondary">
-          {t("resetFilters")}
+        <Badge asChild variant="secondary">
           <button
             onClick={() => {}}
-            className="transition-colors hover:bg-accent-foreground/10 rounded-full p-0.5"
-          ></button>
+            className="transition-colors hover:bg-accent-foreground/10 !rounded !py-0.5 !px-1.5"
+          >
+            {t("resetFilters")}
+          </button>
         </Badge>
 
         {mockActiveFilters.map((f, i) => (
@@ -104,11 +105,11 @@ function FilterPill({
   onClick?: () => void;
 }) {
   return (
-    <Badge className="rounded-full">
+    <Badge className="rounded ps-1.5 pe-0.5">
       {label}
       <button
         onClick={onClick}
-        className="transition-colors hover:bg-accent-foreground/10 rounded-full p-0.5"
+        className="transition-colors hover:bg-accent-foreground/10 rounded p-0.5"
       >
         <X className="size-3" />
       </button>
@@ -141,7 +142,7 @@ function DropdownInput({
           <ChevronDown className="size-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="start">
+      <DropdownMenuContent className="w-96" align="start">
         {items.map((item, i) => (
           <DropdownMenuCheckboxItem
             key={i}
