@@ -140,6 +140,6 @@
     "website": "Webseite",
     "aboutMe": "Über mich",
     "details": "Details",
-    "votoAnswers": "VOTO Antworten von {participant}"
+    "votoAnswers": "VOTO Antworten von {name}"
   }
 }

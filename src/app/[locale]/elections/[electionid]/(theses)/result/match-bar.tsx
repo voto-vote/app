@@ -14,7 +14,7 @@ export default function MatchBar({
   className?: string;
 }) {
   const sizeClassesProgress = {
-    sm: "h-3 rounded-xs",
+    sm: "h-3 rounded-[0.25rem]",
     md: "h-4 rounded-sm",
   };
 

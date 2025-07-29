@@ -179,7 +179,7 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2 text-lg">{entity.description}</div>
             {!isDesktop && <MatchBar value={result.matchPercentage} />}
-            <div className="grid grid-cols-2 h-fit gap-x-2">
+            <div className="grid grid-cols-[minmax(0,auto)_minmax(0,1fr)] md:grid-cols-2 h-fit gap-x-2">
               {items
                 .entries()
                 .toArray()
@@ -206,7 +206,7 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
         {/* Theses */}
         <div className="mb-0">
           <h2 className="text-lg font-bold">
-            {t("votoAnswers", { participant: entity.displayName })}
+            {t("votoAnswers", { name: entity.displayName })}
           </h2>
 
           <ThesesResultCarousel
