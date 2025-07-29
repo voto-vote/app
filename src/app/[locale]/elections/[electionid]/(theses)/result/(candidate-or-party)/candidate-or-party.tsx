@@ -14,24 +14,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Entity } from "@/types/entity";
+import { Result } from "@/types/result";
 
 interface CandidateOrPartyProps {
-  entity: Entity;
+  result: Result;
 }
 
-export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
+export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
   const { bookmarks, toggleCandidate, toggleParty } = useBookmarkStore();
   const [showTopBar, setShowTopBar] = useState(false);
   const { election } = useElection();
   const { theses } = useThesesStore();
-  const {
-    userRatings,
-    setUserRating,
-    setUserFavorite,
-  } = useUserRatingsStore();
+  const { userRatings, setUserRating, setUserFavorite } = useUserRatingsStore();
   const { setBackPath } = useBackButtonStore();
   const isDesktop = useBreakpoint("md");
+  const entity = result.entity;
   const t = useTranslations("CandidateOrParty");
 
   useEffect(() => {
@@ -131,7 +128,7 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
                 <div className="text-xs truncate">
                   {items.values().toArray().join(" | ")}
                 </div>
-                <MatchBar value={60} size="sm" />
+                <MatchBar value={result.matchPercentage} size="sm" />
               </div>
               <button aria-label={t("bookmark")} onClick={toggleBookmark}>
                 <Bookmark
@@ -161,7 +158,9 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
             />
           </div>
           <div className="flex items-center justify-end md:justify-baseline md:ml-42 p-4">
-            {isDesktop && <MatchBar value={60} className="grow" />}
+            {isDesktop && (
+              <MatchBar value={result.matchPercentage} className="grow" />
+            )}
             <button
               onClick={toggleBookmark}
               className="ml-4"
@@ -179,7 +178,7 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
           <h1 className="text-xl font-bold">{entity.displayName}</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2 text-lg">{entity.description}</div>
-            {!isDesktop && <MatchBar value={60} />}
+            {!isDesktop && <MatchBar value={result.matchPercentage} />}
             <div className="grid grid-cols-2 h-fit gap-x-2">
               {items
                 .entries()
