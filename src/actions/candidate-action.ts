@@ -70,6 +70,13 @@ export async function getVotedCandidates(
     candidateVotesPromise,
   ]);
 
+  const objectStorageUrl = process.env.OBJECT_STORAGE_URL;
+  if (!objectStorageUrl) {
+    throw new Error(
+      "OBJECT_STORAGE_URL is not defined in the environment variables."
+    );
+  }
+
   // Transform the database result to match your Candidate type + color
   return candidatesResult.map((candidate) => ({
     id: candidate.id,
@@ -81,7 +88,7 @@ export async function getVotedCandidates(
       `${candidate.title ?? ""} ${candidate.firstName} ${candidate.lastName}`.trim(),
     dateOfBirth: new Date(candidate.dateOfBirth),
     gender: convertGender(candidate.gender),
-    image: "https://i.pravatar.cc/300",
+    image: `${objectStorageUrl}/candidates/${candidate.id}/candidatePicture.jpg`, // Assuming image URL pattern
     instanceId: candidate.instanceId,
     userId: candidate.userId,
     partyId: candidate.partyId,

@@ -43,7 +43,7 @@ export async function getElection(id: string): Promise<Election> {
     .innerJoin(elections, eq(instances.electionId, elections.id))
     .where(and(eq(elections.status, 2), eq(instances.id, parseInt(id))));
 
-  const configurationUrl = objectStorageUrl.replace("{id}", id);
+  const configurationUrl = objectStorageUrl + "/configuration/" + id + "/configuration.json";
   const configurationUrlOrigin = new URL(configurationUrl).origin;
   const configurationPromise = fetch(configurationUrl).then((r) => r.json());
 
