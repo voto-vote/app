@@ -34,6 +34,14 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
     partyVotesPromise,
   ]);
 
+  const objectStorageUrl = process.env.OBJECT_STORAGE_URL;
+  if (!objectStorageUrl) {
+    throw new Error(
+      "OBJECT_STORAGE_URL is not defined in the environment variables."
+    );
+  }
+
+
   return partyResult.map((party) => ({
     id: party.id,
     type: "party",
@@ -41,8 +49,7 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
     instanceId: party.instanceId,
     displayName: party.shortName,
     detailedName: party.detailedName,
-    image:
-      "https://firebasestorage.googleapis.com/v0/b/votoprod.appspot.com/o/parties%2F3787957%2FpartyPicture.jpg?alt=media",
+    image: `${objectStorageUrl}/parties/${party.id}/partyPicture.jpg`,
     description: party.description,
     website: safeParseUrl(party.website),
     status: getStatusFromNumber(party.status),
