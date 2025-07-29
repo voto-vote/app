@@ -2,6 +2,7 @@ import { Ratings } from "./ratings";
 
 export type Candidate = {
   id: number;
+  type: "candidate";
   title: string;
   firstName: string;
   lastName: string;

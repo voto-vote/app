@@ -12,10 +12,9 @@ export default function LiveMatches({
   results,
   liveMatchesVisible,
 }: LiveMatchesProps) {
-  const sortedResults = [
-    ...results.candidateResults,
-    ...results.partyResults,
-  ].sort((a, b) => b.matchPercentage - a.matchPercentage);
+  const sortedResults = results.sort(
+    (a, b) => b.matchPercentage - a.matchPercentage
+  );
   const topFourResults = sortedResults.slice(0, 4);
 
   return (

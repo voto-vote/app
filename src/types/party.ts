@@ -2,6 +2,7 @@ import { Ratings } from "./ratings";
 
 export type Party = {
   id: number;
+  type: "party";
   parentPartyId: number;
   instanceId: number;
   displayName: string;

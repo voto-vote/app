@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import FilterDialog from "./filter-dialog";
-import { useRatingsStore } from "@/stores/ratings-store";
+import { useUserRatingsStore } from "@/stores/user-ratings-store";
 import { useRouter } from "@/i18n/navigation";
 import { useElection } from "@/contexts/election-context";
 import BottomBar from "./bottom-bar";
@@ -30,7 +30,7 @@ export default function ResultList({
   );
   const [filterOpen, setFilterOpen] = useState(false);
   const { theses } = useThesesStore();
-  const { ratings } = useRatingsStore();
+  const { userRatings } = useUserRatingsStore();
   const { results } = useResultStore();
   const { bookmarks, toggleCandidate, toggleParty } = useBookmarkStore();
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function ResultList({
         >
           <p className="text-sm md:max-w-1/2">
             {t("explanation", {
-              count: Object.values(ratings[election.id] ?? {}).reduce(
+              count: Object.values(userRatings[election.id] ?? {}).reduce(
                 (n, r) => ((r.rating ?? 0 > 0) ? n + 1 : n),
                 0
               ),
@@ -87,7 +87,11 @@ export default function ResultList({
         <div>
           {tab === "candidates" && (
             <CandidatesOrPartiesList
-              result={results.candidateResults}
+              result={
+                election.algorithm.matchType === "candidates"
+                  ? results
+                  : results.filter((r) => r.entity.type === "candidate")
+              }
               bookmarked={bookmarks[election.id]?.candidates || []}
               onBookmarkToggle={(id) => toggleCandidate(election.id, id)}
               filterBookmarked={filterBookmarked}
@@ -98,7 +102,11 @@ export default function ResultList({
           )}
           {tab === "parties" && (
             <CandidatesOrPartiesList
-              result={results.partyResults}
+              result={
+                election.algorithm.matchType === "parties"
+                  ? results
+                  : results.filter((r) => r.entity.type === "party")
+              }
               bookmarked={bookmarks[election.id]?.parties || []}
               onBookmarkToggle={(id) => toggleParty(election.id, id)}
               filterBookmarked={filterBookmarked}

@@ -7,8 +7,8 @@ import { Candidate } from "@/types/candidate";
 type State = {
   bookmarks: {
     [electionId: Election["id"]]: {
-      parties: Party["id"][];
-      candidates: Candidate["id"][];
+      parties?: Party["id"][];
+      candidates?: Candidate["id"][];
     };
   };
 };
@@ -35,7 +35,7 @@ export const useBookmarkStore = create<State & Action>()(
               parties: (state.bookmarks[electionId]?.parties ?? []).includes(
                 partyId
               )
-                ? state.bookmarks[electionId].parties.filter(
+                ? (state.bookmarks[electionId].parties ?? []).filter(
                     (id) => id !== partyId
                   )
                 : [...(state.bookmarks[electionId]?.parties ?? []), partyId],
@@ -52,7 +52,7 @@ export const useBookmarkStore = create<State & Action>()(
               candidates: (
                 state.bookmarks[electionId]?.candidates ?? []
               ).includes(candidateId)
-                ? state.bookmarks[electionId].candidates.filter(
+                ? (state.bookmarks[electionId].candidates ?? []).filter(
                     (id) => id !== candidateId
                   )
                 : [

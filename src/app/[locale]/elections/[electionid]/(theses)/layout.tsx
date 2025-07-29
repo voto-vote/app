@@ -12,7 +12,7 @@ import { getVotedParties } from "@/actions/party-action";
 import { getVotedCandidates } from "@/actions/candidate-action";
 import { useResultStore } from "@/stores/result-store";
 import { calculateResults } from "@/lib/result-calculator";
-import { useRatingsStore } from "@/stores/ratings-store";
+import { useUserRatingsStore } from "@/stores/user-ratings-store";
 
 export default function ElectionLayout({
   children,
@@ -21,7 +21,7 @@ export default function ElectionLayout({
 }>) {
   const { election } = useElection();
   const { setTheses, clearTheses } = useThesesStore();
-  const { ratings } = useRatingsStore();
+  const { userRatings } = useUserRatingsStore();
   const { parties, setParties, clearParties } = usePartiesStore();
   const { candidates, setCandidates, clearCandidates } = useCandidatesStore();
   const { setResults, clearResults } = useResultStore();
@@ -74,13 +74,12 @@ export default function ElectionLayout({
 
   // Whenever the ratings change, recalculate the results
   useEffect(() => {
-    const electionRatings = ratings[election.id] ?? {};
+    const electionRatings = userRatings[election.id] ?? {};
 
     const results = calculateResults(
-      electionRatings,
       election.algorithm.matrix,
-      parties,
-      candidates
+      [...(parties ?? []), ...(candidates ?? [])],
+      electionRatings
     );
 
     setResults(results);
@@ -94,7 +93,7 @@ export default function ElectionLayout({
     election.algorithm.matrix,
     election.id,
     parties,
-    ratings,
+    userRatings,
     setResults,
   ]);
 

@@ -4,11 +4,9 @@ import { Bookmark } from "@/components/icons/bookmark";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Candidate } from "@/types/candidate";
-import { Party } from "@/types/party";
 
 interface CandidatesOrPartiesListProps {
-  result: Result<Party | Candidate>[];
+  result: Result[];
   bookmarked: number[];
   onBookmarkToggle: (id: number) => void;
   filterBookmarked?: boolean;
@@ -24,9 +22,9 @@ export default function CandidatesOrPartiesList({
 }: CandidatesOrPartiesListProps) {
   const t = useTranslations("CandidatesOrPartiesList");
 
-  function getItems(result: Result<Party | Candidate>): Map<string, string> {
+  function getItems(result: Result): Map<string, string> {
     const items: Map<string, string> = new Map();
-    if (result.type === "candidate") {
+    if (result.entity.type === "candidate") {
       if (result.entity.partyName) {
         items.set("party", result.entity.partyName);
       }
@@ -37,12 +35,9 @@ export default function CandidatesOrPartiesList({
         items.set("position", "#" + result.entity.listPlace);
       }
     }
-    if (result.type === "party") {
+    if (result.entity.type === "party") {
       if (result.entity.detailedName) {
         items.set("detailedName", result.entity.detailedName);
-      }
-      if (result.entity.website) {
-        items.set("website", result.entity.website.toString());
       }
     }
     return items;
@@ -59,7 +54,7 @@ export default function CandidatesOrPartiesList({
               onClick={() => onClick(r.entity.id)}
               className="w-full text-start flex items-center gap-4 py-4 hover:bg-accent transition-colors cursor-pointer"
             >
-              {r.type === "candidate" && (
+              {r.entity.type === "candidate" && (
                 <Image
                   src={r.entity.image}
                   alt={r.entity.displayName}
@@ -77,7 +72,7 @@ export default function CandidatesOrPartiesList({
                 </div>
                 <MatchBar
                   value={r.matchPercentage}
-                  color={r.type === "party" ? r.entity.color : undefined}
+                  color={r.entity.type === "party" ? r.entity.color : undefined}
                   className="mt-2"
                 />
               </div>

@@ -1,12 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
-import { ChevronDown } from "lucide-react";
 import { Fragment, useEffect, useState } from "react";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import { useThesesStore } from "@/stores/theses-store";
-import { useRatingsStore } from "@/stores/ratings-store";
+import { useUserRatingsStore } from "@/stores/user-ratings-store";
 import { useElection } from "@/contexts/election-context";
 import ThesesResultCarousel from "../thesis-result-carousel";
 import { Bookmark } from "@/components/icons/bookmark";
@@ -15,11 +13,8 @@ import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
-import { Party } from "@/types/party";
-import { Candidate } from "@/types/candidate";
 import { Link } from "@/i18n/navigation";
-
-type Entity = (Party & { type: "party" }) | (Candidate & { type: "candidate" });
+import { Entity } from "@/types/entity";
 
 interface CandidateOrPartyProps {
   entity: Entity;
@@ -27,13 +22,14 @@ interface CandidateOrPartyProps {
 
 export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
   const { bookmarks, toggleCandidate, toggleParty } = useBookmarkStore();
-  const [isAboutMeExpanded, setIsAboutMeExpanded] = useState(false);
-  const [aboutMeRef, setAboutMeRef] = useState<HTMLDivElement | null>(null);
-  const [aboutMeHeight, setAboutMeHeight] = useState(0);
   const [showTopBar, setShowTopBar] = useState(false);
   const { election } = useElection();
   const { theses } = useThesesStore();
-  const { ratings, setRating, setFavorite } = useRatingsStore();
+  const {
+    userRatings,
+    setUserRating,
+    setUserFavorite,
+  } = useUserRatingsStore();
   const { setBackPath } = useBackButtonStore();
   const isDesktop = useBreakpoint("md");
   const t = useTranslations("CandidateOrParty");
@@ -63,12 +59,6 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
       }
     };
   }, []);
-
-  useEffect(() => {
-    if (aboutMeRef) {
-      setAboutMeHeight(aboutMeRef.scrollHeight);
-    }
-  }, [aboutMeRef]);
 
   if (!theses) {
     return null;
@@ -214,39 +204,6 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
           </div>
         </div>
 
-        {/* About me */}
-        {"aboutMe" in entity && (
-          <div>
-            <h2 className="text-lg font-bold">{t("aboutMe")}</h2>
-            <div
-              className="md:grid md:grid-cols-6 overflow-hidden transition-all duration-500 ease-in-out"
-              style={{
-                maxHeight: isAboutMeExpanded ? `${aboutMeHeight}px` : "7.5rem",
-              }}
-            >
-              <div className="col-span-4" ref={setAboutMeRef}>
-                {entity.description}
-              </div>
-            </div>
-
-            {/* Gradient overlay when collapsed */}
-            {!isAboutMeExpanded && (
-              <div className="h-6 bg-gradient-to-t from-background to-transparent -mt-6 relative z-10" />
-            )}
-
-            <Button
-              variant="ghost"
-              className="text-primary text-sm -ml-3"
-              onClick={() => setIsAboutMeExpanded(!isAboutMeExpanded)}
-            >
-              {t("details")}
-              <ChevronDown
-                className={`transition ${isAboutMeExpanded ? "rotate-180" : "rotate-0"}`}
-              />
-            </Button>
-          </div>
-        )}
-
         {/* Theses */}
         <div className="mb-0">
           <h2 className="text-lg font-bold">
@@ -256,12 +213,13 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
           <ThesesResultCarousel
             election={election}
             theses={theses}
-            ratings={ratings[election.id]}
+            userRatings={userRatings[election.id] ?? {}}
+            entities={[entity]}
             onRatingChange={(thesisId, newRating) => {
               if (newRating.rating !== undefined) {
-                setRating(election.id, thesisId, newRating.rating);
+                setUserRating(election.id, thesisId, newRating.rating);
               }
-              setFavorite(election.id, thesisId, newRating.favorite);
+              setUserFavorite(election.id, thesisId, newRating.favorite);
             }}
           />
         </div>

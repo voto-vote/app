@@ -16,17 +16,18 @@ import { useThesesStore } from "@/stores/theses-store";
 import { ChevronsUpDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import { useRatingsStore } from "@/stores/ratings-store";
+import { useUserRatingsStore } from "@/stores/user-ratings-store";
 import { motion } from "framer-motion";
 import { useElection } from "@/contexts/election-context";
 import LiveMatches from "./live-matches";
 import { useResultStore } from "@/stores/result-store";
+import { convertDecisionToRating } from "@/lib/result-calculator";
 
 export default function ThesesPage() {
   const { election } = useElection();
   const { results } = useResultStore();
   const { theses } = useThesesStore();
-  const { ratings, setRating, setFavorite } = useRatingsStore();
+  const { userRatings, setUserRating, setUserFavorite } = useUserRatingsStore();
   const [api, setApi] = useState<CarouselApi>();
   const [currentThesisIndex, setCurrentThesisIndex] = useState(0);
   const count = theses?.length ?? 0;
@@ -59,7 +60,7 @@ export default function ThesesPage() {
   }, [api]);
 
   useEffect(() => {
-    const electionRatings = ratings[election.id] ?? {};
+    const electionRatings = userRatings[election.id] ?? {};
     const hasRatings = Object.values(electionRatings).some(
       (r) => r.rating !== undefined
     );
@@ -69,7 +70,7 @@ export default function ThesesPage() {
     if (hasRatings && !previousLiveMatchesAvailable) {
       setLiveMatchesVisible(true);
     }
-  }, [ratings, election.id, liveMatchesAvailable]);
+  }, [userRatings, election.id, liveMatchesAvailable]);
 
   if (!theses) {
     return null;
@@ -148,16 +149,16 @@ export default function ThesesPage() {
                   <ThesisCard
                     thesis={thesis}
                     onStarredChange={(starred) =>
-                      setFavorite(election.id, thesis.id, starred)
+                      setUserFavorite(election.id, thesis.id, starred)
                     }
                     starDisabled={
                       election.algorithm.weightedVotesLimit !== false &&
-                      Object.values(ratings[election.id] ?? {}).reduce(
+                      Object.values(userRatings[election.id] ?? {}).reduce(
                         (n, t) => (t.favorite === true ? n + 1 : n),
                         0
                       ) >= election.algorithm.weightedVotesLimit
                     }
-                    starred={ratings[election.id]?.[thesis.id]?.favorite}
+                    starred={userRatings[election.id]?.[thesis.id]?.favorite}
                   />
                 </div>
               </CarouselItem>
@@ -174,8 +175,9 @@ export default function ThesesPage() {
         >
           {/* Progress */}
           <Progress
+            election={election}
             theses={theses}
-            ratings={ratings[election.id] ?? {}}
+            userRatings={userRatings[election.id] ?? {}}
             currentId={theses[currentThesisIndex]?.id}
             onCurrentIdChange={(id) =>
               goTo(theses.findIndex((t) => t.id === id) ?? 0, true)
@@ -187,27 +189,34 @@ export default function ThesesPage() {
             <div className="flex justify-between gap-2">
               {[1, 2, 3, 4, 5]
                 .slice(0, election.algorithm.decisions)
-                .map((value) => (
-                  <button
-                    key={value}
-                    onClick={() => {
-                      setRating(
-                        election.id,
-                        theses[currentThesisIndex]?.id,
-                        value
-                      );
-                      goTo(currentThesisIndex + 1);
-                    }}
-                    className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
-                      ratings[election.id]?.[theses[currentThesisIndex]?.id]
-                        ?.rating === value
-                        ? "bg-primary text-white shadow-lg scale-105"
-                        : "bg-primary/5 text-primary hover:bg-primary/10"
-                    }`}
-                  >
-                    {value}
-                  </button>
-                ))}
+                .map((decision, index) => {
+                  const ratingValue = convertDecisionToRating(
+                    decision,
+                    election.algorithm.decisions
+                  );
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setUserRating(
+                          election.id,
+                          theses[currentThesisIndex]?.id,
+                          ratingValue
+                        );
+                        goTo(currentThesisIndex + 1);
+                      }}
+                      className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
+                        userRatings[election.id]?.[
+                          theses[currentThesisIndex]?.id
+                        ]?.rating === ratingValue
+                          ? "bg-primary text-white shadow-lg scale-105"
+                          : "bg-primary/5 text-primary hover:bg-primary/10"
+                      }`}
+                    >
+                      {decision}
+                    </button>
+                  );
+                })}
             </div>
             <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 px-2">
               <span>{t("ratingSystemExplanation")}</span>
@@ -225,8 +234,12 @@ export default function ThesesPage() {
               variant="link"
               className="w-full text-primary"
               onClick={() => {
-                setRating(election.id, theses[currentThesisIndex]?.id, -1);
-                setFavorite(election.id, theses[currentThesisIndex]?.id, false);
+                setUserRating(election.id, theses[currentThesisIndex]?.id, -1);
+                setUserFavorite(
+                  election.id,
+                  theses[currentThesisIndex]?.id,
+                  false
+                );
                 goTo(currentThesisIndex + 1);
               }}
             >
@@ -244,8 +257,10 @@ export default function ThesesPage() {
           setBreakDrawerOpen(false);
           // Mark all missed theses as skipped
           for (let i = 0; i < theses.length; i++) {
-            if (ratings[election.id]?.[theses[i].id]?.rating === undefined) {
-              setRating(election.id, theses[i].id, -1);
+            if (
+              userRatings[election.id]?.[theses[i].id]?.rating === undefined
+            ) {
+              setUserRating(election.id, theses[i].id, -1);
             }
           }
           router.push(`/elections/${election.id}/result`);
