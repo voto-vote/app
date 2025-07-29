@@ -8,7 +8,7 @@ export type Party = {
   detailedName: string;
   image: string; // URL to the party's image
   description: string;
-  website: string;
+  website?: string;
   status: Status;
   color: string;
   ratings: Ratings;

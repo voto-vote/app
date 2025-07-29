@@ -1,8 +1,11 @@
 import { Candidate } from "./candidate";
 import { Party } from "./party";
 
-export type Result<T> = {
-  entity: T;
+export type Result<T extends Party | Candidate> = (T extends Candidate
+  ? { type: "candidate"; entity: Candidate }
+  : T extends Party
+    ? { type: "party"; entity: Party }
+    : never) & {
   matchPercentage: number;
 };
 

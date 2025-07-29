@@ -5,6 +5,7 @@ import { db } from "@/db/drizzle";
 import { parties, partyVotes } from "@/db/schema";
 import { Parties, Status } from "@/types/party";
 import { Ratings } from "@/types/ratings";
+import { safeParseUrl } from "@/lib/url-utils";
 
 export async function getVotedParties(instanceId: number): Promise<Parties> {
   const partyPromise = db
@@ -42,7 +43,7 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
     image:
       "https://firebasestorage.googleapis.com/v0/b/votoprod.appspot.com/o/parties%2F3787957%2FpartyPicture.jpg?alt=media",
     description: party.description,
-    website: party.website,
+    website: safeParseUrl(party.website),
     status: getStatusFromNumber(party.status),
     ratings: partyVotesResult
       .filter((vote) => vote.partyId === party.id)
