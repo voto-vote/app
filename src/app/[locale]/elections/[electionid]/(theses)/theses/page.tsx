@@ -19,17 +19,12 @@ import { useRouter } from "@/i18n/navigation";
 import { useRatingsStore } from "@/stores/ratings-store";
 import { motion } from "framer-motion";
 import { useElection } from "@/contexts/election-context";
-import { usePartiesStore } from "@/stores/party-store";
-import { useCandidatesStore } from "@/stores/candidate-store";
 import LiveMatches from "./live-matches";
 import { useResultStore } from "@/stores/result-store";
-import { calculateResults } from "@/lib/result-calculator";
 
 export default function ThesesPage() {
   const { election } = useElection();
-  const { parties } = usePartiesStore();
-  const { results, setResults, clearResults } = useResultStore();
-  const { candidates } = useCandidatesStore();
+  const { results } = useResultStore();
   const { theses } = useThesesStore();
   const { ratings, setRating, setFavorite } = useRatingsStore();
   const [api, setApi] = useState<CarouselApi>();
@@ -75,27 +70,6 @@ export default function ThesesPage() {
       setLiveMatchesVisible(true);
     }
   }, [ratings, election.id, liveMatchesAvailable]);
-
-  useEffect(() => {
-    const electionRatings = ratings[election.id] ?? {};
-
-    const results = calculateResults(
-      electionRatings,
-      election.algorithm.matrix,
-      parties,
-      candidates
-    );
-
-    setResults(results);
-  }, [
-    candidates,
-    clearResults,
-    election.algorithm.matrix,
-    election.id,
-    parties,
-    ratings,
-    setResults,
-  ]);
 
   if (!theses) {
     return null;

@@ -11,6 +11,8 @@ import { useElection } from "@/contexts/election-context";
 import { getVotedParties } from "@/actions/party-action";
 import { getVotedCandidates } from "@/actions/candidate-action";
 import { useResultStore } from "@/stores/result-store";
+import { calculateResults } from "@/lib/result-calculator";
+import { useRatingsStore } from "@/stores/ratings-store";
 
 export default function ElectionLayout({
   children,
@@ -19,12 +21,14 @@ export default function ElectionLayout({
 }>) {
   const { election } = useElection();
   const { setTheses, clearTheses } = useThesesStore();
-  const { setParties, clearParties } = usePartiesStore();
-  const { setCandidates, clearCandidates } = useCandidatesStore();
-  const { clearResults } = useResultStore();
+  const { ratings } = useRatingsStore();
+  const { parties, setParties, clearParties } = usePartiesStore();
+  const { candidates, setCandidates, clearCandidates } = useCandidatesStore();
+  const { setResults, clearResults } = useResultStore();
   const locale = useLocale();
   const { seed } = useRandomStore();
 
+  // When entering the (theses) page, fetch theses and candidates/parties
   useEffect(() => {
     const random = createSeededRandom(seed);
     getTheses(election.id, locale, election.title, election.subtitle).then(
@@ -55,12 +59,10 @@ export default function ElectionLayout({
       clearTheses();
       clearParties();
       clearCandidates();
-      clearResults();
     };
   }, [
     clearCandidates,
     clearParties,
-    clearResults,
     clearTheses,
     election,
     locale,
@@ -69,6 +71,33 @@ export default function ElectionLayout({
     setParties,
     setTheses,
   ]);
+
+  // Whenever the ratings change, recalculate the results
+  useEffect(() => {
+    const electionRatings = ratings[election.id] ?? {};
+
+    const results = calculateResults(
+      electionRatings,
+      election.algorithm.matrix,
+      parties,
+      candidates
+    );
+
+    setResults(results);
+
+    return () => {
+      clearResults();
+    };
+  }, [
+    candidates,
+    clearResults,
+    election.algorithm.matrix,
+    election.id,
+    parties,
+    ratings,
+    setResults,
+  ]);
+
   return children;
 }
 
