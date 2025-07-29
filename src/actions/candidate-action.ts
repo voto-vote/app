@@ -73,6 +73,7 @@ export async function getVotedCandidates(
   // Transform the database result to match your Candidate type + color
   return candidatesResult.map((candidate) => ({
     id: candidate.id,
+    type: "candidate",
     title: candidate.title,
     firstName: candidate.firstName,
     lastName: candidate.lastName,

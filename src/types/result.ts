@@ -1,15 +1,8 @@
-import { Candidate } from "./candidate";
-import { Party } from "./party";
+import { Entity } from "./entity";
 
-export type Result<T extends Party | Candidate> = (T extends Candidate
-  ? { type: "candidate"; entity: Candidate }
-  : T extends Party
-    ? { type: "party"; entity: Party }
-    : never) & {
+export type Result = {
+  entity: Entity;
   matchPercentage: number;
 };
 
-export type Results = {
-  partyResults: Result<Party>[];
-  candidateResults: Result<Candidate>[];
-};
+export type Results = Result[];
