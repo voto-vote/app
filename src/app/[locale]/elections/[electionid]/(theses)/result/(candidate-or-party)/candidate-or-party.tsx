@@ -33,7 +33,7 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
   const { ratings, setRating, setFavorite } = useRatingsStore();
   const { setBackPath } = useBackButtonStore();
   const isDesktop = useBreakpoint("md");
-  const type = entity.hasOwnProperty("description") ? "candidate" : "party";
+  const type = entity.hasOwnProperty("firstName") ? "candidate" : "party";
   const t = useTranslations("CandidateOrParty");
 
   useEffect(() => {
@@ -88,6 +88,7 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
     }
   }
 
+  // TODO: Fetch labels from configuration 
   function renderEntityData(
     breakLines: boolean,
     entity: Party | Candidate
