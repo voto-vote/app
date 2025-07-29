@@ -262,7 +262,7 @@ function ThesesProgress({
           ? sortedTheses[currentThesisIndex]?.category
           : t("yourRandomSorting")}
       </div>
-      <div className="flex gap-1 max-w-full">
+      <div className="flex flex-wrap gap-1 max-w-full">
         {sortedTheses
           .filter((t) =>
             thesesSorting === "category"
