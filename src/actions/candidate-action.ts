@@ -26,6 +26,7 @@ export async function getVotedCandidates(
       gender: genders.id,
       instanceId: candidates.instanceId,
       userId: candidates.userId,
+      partyName: parties.shortName,
       partyId: candidates.partyId,
       description: candidates.description,
       district: candidates.district,
@@ -82,6 +83,7 @@ export async function getVotedCandidates(
     instanceId: candidate.instanceId,
     userId: candidate.userId,
     partyId: candidate.partyId,
+    partyName: candidate.partyName,
     description: candidate.description,
     district: candidate.district,
     launchDate: "", // Note: launchDate is not in your schema but in your type
