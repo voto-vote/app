@@ -1,5 +1,7 @@
 "use client";
 
+import { useBreakpoint } from "@/hooks/use-breakpoint";
+import { abbreviateName } from "@/lib/entity-utils";
 import { Results } from "@/types/result";
 import { motion } from "framer-motion";
 
@@ -12,6 +14,7 @@ export default function LiveMatches({
   results,
   liveMatchesVisible,
 }: LiveMatchesProps) {
+  const isDesktop = useBreakpoint("md");
   const sortedResults = results.sort(
     (a, b) => b.matchPercentage - a.matchPercentage
   );
@@ -28,7 +31,9 @@ export default function LiveMatches({
       {topFourResults.map((result) => (
         <motion.div key={result.entity.id} className="space-y-1" layout>
           <p className="text-sm font-medium truncate">
-            {result.entity.displayName}
+            {!isDesktop && result.entity.type === "candidate"
+              ? abbreviateName(result.entity.displayName)
+              : result.entity.displayName}
           </p>
           <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
             <div
