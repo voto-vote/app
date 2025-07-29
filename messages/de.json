@@ -97,7 +97,7 @@
     "explanation": "Auf Basis {count, plural, =1 {Deiner # beantworteten These} other {Deinen # beantworteten Thesen}} zur Wahl {electionTitle} - {electionSubtitle}",
     "candidatesTab": "Kandidierende",
     "partiesTab": "Parteien",
-    "filterButton": "Filter",
+    "filterButton": "Filter ({count})",
     "bookmarksButton": "Merkliste ({count})"
   },
   "LegendBottomBar": {
@@ -107,18 +107,20 @@
   "FilterDialog": {
     "title": "Filter",
     "resetFilters": "Alle zurücksetzen",
-    "searchCandidates": "Nach Kandidierenden suchen...",
+    "search": "Nach {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} suchen...",
     "party": "Partei",
-    "list": "Liste",
+    "listPosition": "Listenplatz",
     "region": "Region",
     "age": "Alter",
     "gender": "Geschlecht",
-    "politicalAreaDescription": "{matchType, select, candidates {Kandidierende} candidates_and_parties {Parteien und Kandidierende} other {Parteien}}, die besonderen Wert auf diese Politikbereiche legen:",
-    "policyArea": "Politikbereich",
     "sameRatingsDescription": "{matchType, select, candidates {Kandidierende} candidates_and_parties {Parteien und Kandidierende} other {Parteien}}, welche folgende Thesen wie ich beantwortet haben:",
     "thesis": "These",
     "filterButton": "Filter ({count})",
-    "resetFiltersButton": "Alle zurücksetzen"
+    "resetFiltersButton": "Alle zurücksetzen",
+    "male": "Männlich",
+    "female": "Weiblich",
+    "non-binary": "Divers",
+    "unknown": "Keine Angabe"
   },
   "ChangeRatingDialog": {
     "title": "Bewertung ändern",
@@ -140,6 +142,6 @@
     "website": "Webseite",
     "aboutMe": "Über mich",
     "details": "Details",
-    "votoAnswers": "VOTO Antworten von {participant}"
+    "votoAnswers": "VOTO Antworten von {name}"
   }
 }
