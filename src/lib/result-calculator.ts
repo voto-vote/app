@@ -1,21 +1,6 @@
-import { Candidate, Candidates } from "@/types/candidate";
-import { Parties, Party } from "@/types/party";
+import { Entities } from "@/types/entity";
 import { Ratings } from "@/types/ratings";
-import { Results, Result } from "@/types/result";
-
-export function calculateResults(
-  ratings: Ratings,
-  matrix: number[][],
-  parties?: Parties,
-  candidates?: Candidates
-): Results {
-  const results: Results = {
-    partyResults: calculateResult(matrix, parties || [], ratings),
-    candidateResults: calculateResult(matrix, candidates || [], ratings),
-  };
-
-  return results;
-}
+import { Result } from "@/types/result";
 
 function getMaxOfMatrix(matrix: number[][]): number {
   const flattened = matrix.flat();
@@ -26,26 +11,12 @@ function getMinOfMatrix(matrix: number[][]): number {
   return Math.min(...flattened);
 }
 
-const threeDecisionsMap: Record<number, number> = {
-  1: 0,
-  2: 50,
-  3: 100,
-};
-const fiveDecisionsMap: Record<number, number> = {
-  1: 0,
-  2: 25,
-  3: 50,
-  4: 75,
-  5: 100,
-};
-
-function calculateResult<T extends Party | Candidate>(
+export function calculateResults(
   matrix: number[][],
-  entities: T[],
-  ratings: Ratings
-): Result<T>[] {
-  const results: Result<T>[] = [];
-  const ratingMap = matrix.length === 3 ? threeDecisionsMap : fiveDecisionsMap;
+  entities: Entities,
+  userRatings: Ratings
+): Result[] {
+  const results: Result[] = [];
   const min = getMinOfMatrix(matrix);
   const max = getMaxOfMatrix(matrix);
   const divider = 100 / (matrix.length - 1);
@@ -57,34 +28,61 @@ function calculateResult<T extends Party | Candidate>(
     let points = 0.0;
     const entityRatings = entity.ratings || [];
 
-    for (const [thesisId, rating] of Object.entries(ratings)) {
+    for (const [thesisId, userRating] of Object.entries(userRatings)) {
       const entityRating = entityRatings[thesisId];
       // "Bugfix" if a rating is missing
       if (!entityRating) continue;
 
       // Get value 2 if favorite is set in oneliner
-      const userFavorite = rating.favorite ? 2 : 1;
-      const addMaxPoints = rating.favorite ? 2 : 1 * max;
-      const addMaxMinusPoints = rating.favorite ? 2 : 1 * min;
+      const userFavorite = userRating.favorite ? 2 : 1;
+      const addMaxPoints = userRating.favorite ? 2 : 1 * max;
+      const addMaxMinusPoints = userRating.favorite ? 2 : 1 * min;
       maxPoints += addMaxPoints;
       maxMinusPoints += addMaxMinusPoints;
       const matchIndex = Math.round((entityRating.rating || 0) / divider);
-      const userIndex = Math.round(
-        (ratingMap[rating.rating || 0] || 0) / divider
-      );
+      const userIndex = Math.round((userRating.rating || 0) / divider);
       const addPoints = matrix[matchIndex][userIndex] * userFavorite;
       points += addPoints;
     }
 
     maxPoints += Math.abs(maxMinusPoints);
     points += Math.abs(maxMinusPoints);
-    const match = Math.round((points / maxPoints) * 1000) / 10;
+    let match = Math.round((points / maxPoints) * 1000) / 10;
 
-    results.push({
+    // If no ratings have been given yet by the user, set match to 0
+    if (maxPoints === 0) {
+      match = 0;
+    }
+
+    const result: Result = {
       entity,
       matchPercentage: match,
-    });
+    };
+
+    results.push(result);
   }
 
   return results.sort((a, b) => b.matchPercentage - a.matchPercentage);
+}
+
+// Converts a decision key to a percentage based rating on a scale
+// For example, if the scale is 5 and the key is 3, it returns 50
+// If the scale is 3 and the key is 2, it returns 50
+export function convertDecisionToRating(key: number, scale: number): number {
+  if (scale <= 1) {
+    return 0;
+  }
+
+  return Math.max(0, Math.min(100, ((key - 1) / (scale - 1)) * 100));
+}
+
+// Converts a rating to a decision key based on the scale
+// For example, if the scale is 5 and the rating is 50, it returns 3
+export function convertRatingToDecision(rating: number, scale: number): number {
+  if (scale <= 1) {
+    return 1;
+  }
+
+  const key = Math.round((rating / 100) * (scale - 1) + 1);
+  return Math.max(1, Math.min(scale, key));
 }

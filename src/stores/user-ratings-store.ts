@@ -5,38 +5,37 @@ import { Election } from "@/types/election";
 import { Ratings } from "@/types/ratings";
 
 type State = {
-  ratings: {
+  userRatings: {
     [electionId: Election["id"]]: Ratings;
   };
 };
 
 type Action = {
-  setRating: (
+  setUserRating: (
     electionId: Election["id"],
     thesisId: Thesis["id"],
     rating: number
   ) => void;
-  setFavorite: (
+  setUserFavorite: (
     electionId: Election["id"],
     thesisId: Thesis["id"],
     favorite: boolean
   ) => void;
 };
 
-
-export const useRatingsStore = create<State & Action>()(
+export const useUserRatingsStore = create<State & Action>()(
   persist(
     (set) => ({
-      ratings: {},
+      userRatings: {},
 
-      setRating: (electionId, thesisId, rating) =>
+      setUserRating: (electionId, thesisId, rating) =>
         set((state) => ({
-          ratings: {
-            ...state.ratings,
+          userRatings: {
+            ...state.userRatings,
             [electionId]: {
-              ...state.ratings[electionId],
+              ...state.userRatings[electionId],
               [thesisId]: {
-                ...(state.ratings[electionId]?.[thesisId] ?? {
+                ...(state.userRatings[electionId]?.[thesisId] ?? {
                   favorite: false,
                 }),
                 rating,
@@ -45,15 +44,15 @@ export const useRatingsStore = create<State & Action>()(
           },
         })),
 
-      setFavorite: (electionId, thesisId, favorite) =>
+      setUserFavorite: (electionId, thesisId, favorite) =>
         set((state) => {
           return {
-            ratings: {
-              ...state.ratings,
+            userRatings: {
+              ...state.userRatings,
               [electionId]: {
-                ...state.ratings[electionId],
+                ...state.userRatings[electionId],
                 [thesisId]: {
-                  ...(state.ratings[electionId]?.[thesisId] ?? {
+                  ...(state.userRatings[electionId]?.[thesisId] ?? {
                     rating: undefined,
                   }),
                   favorite: favorite,

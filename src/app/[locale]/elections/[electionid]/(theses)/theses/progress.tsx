@@ -6,21 +6,25 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
+import { convertRatingToDecision } from "@/lib/result-calculator";
+import { Election } from "@/types/election";
 import type { Ratings } from "@/types/ratings";
 import type { Theses } from "@/types/theses";
 import { Circle, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface ProgressProps {
+  election: Election;
   theses: Theses;
-  ratings: Ratings;
+  userRatings: Ratings;
   currentId: string;
   onCurrentIdChange: (id: string) => void;
 }
 
 export default function Progress({
+  election,
   theses,
-  ratings,
+  userRatings,
   currentId,
   onCurrentIdChange,
 }: ProgressProps) {
@@ -59,10 +63,21 @@ export default function Progress({
         }}
       >
         {theses.map((t) => {
-          const rating = ratings[t.id] || {
+          const rating = userRatings[t.id] || {
             rating: undefined,
             favorite: false,
           };
+
+          let ratingDisplayValue = "";
+          if (rating.rating === -1) {
+            ratingDisplayValue = "-";
+          } else if (rating.rating !== undefined) {
+            ratingDisplayValue = convertRatingToDecision(
+              rating.rating,
+              election.algorithm.decisions
+            ).toString();
+          }
+
           return (
             <div
               key={t.id}
@@ -93,8 +108,7 @@ export default function Progress({
                     />
                   )}
                   <span className="relative text-primary-foreground">
-                    {rating.rating === -1 && "-"}
-                    {(rating.rating ?? -1) >= 0 && rating.rating}
+                    {ratingDisplayValue}
                   </span>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-screen">

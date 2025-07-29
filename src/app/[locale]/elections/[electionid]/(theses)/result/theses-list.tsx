@@ -2,19 +2,43 @@
 
 import { motion } from "framer-motion";
 import { useElection } from "@/contexts/election-context";
-import { useRatingsStore } from "@/stores/ratings-store";
+import { useUserRatingsStore } from "@/stores/user-ratings-store";
 import ThesesResultCarousel from "./thesis-result-carousel";
 import { useThesesStore } from "@/stores/theses-store";
 import LegendBottomBar from "./legend-bottom-bar";
 import { useTranslations } from "next-intl";
 import { usePointer } from "@/hooks/use-pointer";
+import { useCandidatesStore } from "@/stores/candidate-store";
+import { usePartiesStore } from "@/stores/party-store";
+import { useBookmarkStore } from "@/stores/bookmark-store";
+import { useEffect, useState } from "react";
+import { Entities } from "@/types/entity";
 
 export default function ThesesList() {
   const { election } = useElection();
   const { theses } = useThesesStore();
-  const { ratings, setRating, setFavorite } = useRatingsStore();
+  const { candidates } = useCandidatesStore();
+  const { parties } = usePartiesStore();
+  const { userRatings, setUserRating, setUserFavorite } = useUserRatingsStore();
+  const { bookmarks } = useBookmarkStore();
+  const [filteredEntities, setFilteredEntities] = useState<Entities>([]);
   const isCoarsePointer = usePointer();
   const t = useTranslations("ThesesList");
+
+  useEffect(() => {
+    const bookmarksThisElection = bookmarks[election.id] || {};
+
+    const filteredParties = (parties ?? []).filter((p) =>
+      (bookmarksThisElection.parties ?? []).includes(p.id)
+    );
+    const filteredCandidates = (candidates ?? []).filter((c) =>
+      (bookmarksThisElection.candidates ?? []).includes(c.id)
+    );
+
+    const entities: Entities = [...filteredCandidates, ...filteredParties];
+
+    setFilteredEntities(entities);
+  }, [bookmarks, candidates, parties, election.id]);
 
   if (!theses) {
     return null;
@@ -61,12 +85,13 @@ export default function ThesesList() {
           <ThesesResultCarousel
             election={election}
             theses={theses}
-            ratings={ratings[election.id]}
+            userRatings={userRatings[election.id] ?? {}}
+            entities={filteredEntities}
             onRatingChange={(thesisId, newRating) => {
               if (newRating.rating !== undefined) {
-                setRating(election.id, thesisId, newRating.rating);
+                setUserRating(election.id, thesisId, newRating.rating);
               }
-              setFavorite(election.id, thesisId, newRating.favorite);
+              setUserFavorite(election.id, thesisId, newRating.favorite);
             }}
           />
         </div>

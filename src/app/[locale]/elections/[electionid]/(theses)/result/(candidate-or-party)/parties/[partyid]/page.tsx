@@ -1,21 +1,21 @@
 "use client";
 
-import { useParams, notFound } from "next/navigation";
+import { useParams } from "next/navigation";
 import CandidateOrParty from "../../candidate-or-party";
-import { usePartiesStore } from "@/stores/party-store";
+import { useResultStore } from "@/stores/result-store";
 
 export default function PartyPage() {
   const { partyid } = useParams<{ partyid: string }>();
-  const { parties } = usePartiesStore();
+  const { results } = useResultStore();
 
-  if (!parties) {
+  if (!results) {
     return null;
   }
 
-  const party = parties.find((p) => String(p.id) === partyid);
-  if (!party) {
-    notFound();
+  const result = results.find((r) => String(r.entity.id) === partyid);
+  if (!result) {
+    return null;
   }
 
-  return <CandidateOrParty entity={party} />;
+  return <CandidateOrParty result={result} />;
 }
