@@ -12,10 +12,11 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Election } from "@/types/election";
 import { Rating, Ratings } from "@/types/ratings";
+import { convertDecisionToRating } from "@/lib/result-calculator";
 
 interface ChangeRatingDialogProps {
   election: Election;
-  ratings: Ratings;
+  userRatings: Ratings;
   thesis: Thesis;
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -24,7 +25,7 @@ interface ChangeRatingDialogProps {
 
 export default function ChangeRatingDialog({
   election,
-  ratings,
+  userRatings,
   thesis,
   open,
   onOpenChange,
@@ -32,10 +33,10 @@ export default function ChangeRatingDialog({
 }: ChangeRatingDialogProps) {
   const t = useTranslations("ChangeRatingDialog");
   const [newRating, setNewRating] = useState<number>(
-    ratings[thesis.id]?.rating ?? -1
+    userRatings[thesis.id]?.rating ?? -1
   );
   const [newFavorite, setNewFavorite] = useState<boolean>(
-    ratings[thesis.id]?.favorite ?? false
+    userRatings[thesis.id]?.favorite ?? false
   );
 
   return (
@@ -56,7 +57,7 @@ export default function ChangeRatingDialog({
               onStarredChange={(starred) => setNewFavorite(starred)}
               starDisabled={
                 election.algorithm.weightedVotesLimit !== false &&
-                Object.values(ratings).reduce(
+                Object.values(userRatings).reduce(
                   (n, t) => (t.favorite === true ? n + 1 : n),
                   0
                 ) >= election.algorithm.weightedVotesLimit
@@ -69,23 +70,29 @@ export default function ChangeRatingDialog({
               <div className="flex justify-between gap-2 md:gap-4">
                 {[1, 2, 3, 4, 5]
                   .slice(0, election.algorithm.decisions)
-                  .map((value) => (
-                    <button
-                      key={value}
-                      onClick={() => setNewRating(value)}
-                      className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 backdrop-blur-md ${
-                        newRating === value
-                          ? "bg-primary text-white shadow-lg scale-105"
-                          : "bg-primary/5 text-primary hover:bg-primary/10"
-                      } ${
-                        ratings[thesis.id]?.rating === value
-                          ? "border-2 border-primary"
-                          : ""
-                      }`}
-                    >
-                      {value}
-                    </button>
-                  ))}
+                  .map((decision, index) => {
+                    const ratingValue = convertDecisionToRating(
+                      decision,
+                      election.algorithm.decisions
+                    );
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => setNewRating(ratingValue)}
+                        className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 backdrop-blur-md ${
+                          newRating === ratingValue
+                            ? "bg-primary text-white shadow-lg scale-105"
+                            : "bg-primary/5 text-primary hover:bg-primary/10"
+                        } ${
+                          userRatings[thesis.id]?.rating === ratingValue
+                            ? "border-2 border-primary"
+                            : ""
+                        }`}
+                      >
+                        {decision}
+                      </button>
+                    );
+                  })}
               </div>
               <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 px-2">
                 <span>{t("ratingSystemExplanation")}</span>
@@ -100,8 +107,8 @@ export default function ChangeRatingDialog({
                 onOpenChange(false);
               }}
             >
-              {newRating === ratings[thesis.id]?.rating &&
-              newFavorite === ratings[thesis.id]?.favorite
+              {newRating === userRatings[thesis.id]?.rating &&
+              newFavorite === userRatings[thesis.id]?.favorite
                 ? t("dontChangeOpinion")
                 : t("changeOpinion")}
             </Button>

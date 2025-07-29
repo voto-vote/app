@@ -19,18 +19,21 @@ import type { Rating, Ratings } from "@/types/ratings";
 import { useTranslations } from "next-intl";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { cn } from "@/lib/utils";
+import { Entities } from "@/types/entity";
 
 interface ThesesResultCarouselProps {
   election: Election;
   theses: Theses;
-  ratings: Ratings;
+  userRatings: Ratings;
+  entities: Entities;
   onRatingChange: (thesisId: string, newRating: Rating) => void;
 }
 
 export default function ThesesResultCarousel({
   election,
   theses,
-  ratings,
+  userRatings,
+  entities,
   onRatingChange,
 }: ThesesResultCarouselProps) {
   const [sortedTheses, setSortedTheses] = useState<Theses>([]);
@@ -111,32 +114,23 @@ export default function ThesesResultCarousel({
             <CarouselItem key={thesis.id}>
               <ThesisResultCard
                 election={election}
-                ratings={ratings}
+                userRatings={userRatings}
                 thesis={thesis}
                 thesisIndex={i}
                 numberOfTheses={sortedTheses.length}
                 ownRating={
-                  ratings?.[thesis.id] ?? {
+                  userRatings?.[thesis.id] ?? {
                     rating: undefined,
                     favorite: false,
                   }
                 }
-                participantsRatings={[
-                  {
-                    participantId: "1",
-                    participantName: "Brigitte Burn-Müllhaupt",
-                    rating: { rating: 2, favorite: false },
-                    color: "black",
-                    explanation:
-                      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-                  },
-                  {
-                    participantId: "2",
-                    participantName: "Max Mustermann",
-                    rating: { rating: 1, favorite: true },
-                    color: "red",
-                  },
-                ]}
+                entityRatings={entities.map((entity) => {
+                  const rating = entity.ratings[thesis.id] ?? {
+                    rating: undefined,
+                    favorite: false,
+                  };
+                  return { entity, rating };
+                })}
                 onRatingChange={(newRating) =>
                   onRatingChange(thesis.id, newRating)
                 }

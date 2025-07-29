@@ -127,16 +127,17 @@
     "dontChangeOpinion": "Meinung nicht ändern",
     "changeOpinion": "Meinung ändern"
   },
-  "CandidatesList": {
-    "bookmark": "Merken",
-    "unknownParty": "Unbekannte Partei"
+  "CandidatesOrPartiesList": {
+    "bookmark": "Merken"
   },
   "CandidateOrParty": {
     "bookmark": "Merken",
     "logoOrAvatar": "Logo oder Avatar",
-    "list": "Liste",
-    "position": "Position",
+    "party": "Partei",
     "region": "Region",
+    "position": "Position",
+    "detailedName": "Detaillierter Name",
+    "website": "Webseite",
     "aboutMe": "Über mich",
     "details": "Details",
     "votoAnswers": "VOTO Antworten von {participant}"

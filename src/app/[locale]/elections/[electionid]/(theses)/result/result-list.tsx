@@ -4,10 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
-import CandidatesList from "./candidates-list";
-import PartiesList from "./parties-list";
 import FilterDialog from "./filter-dialog";
-import { useRatingsStore } from "@/stores/ratings-store";
+import { useUserRatingsStore } from "@/stores/user-ratings-store";
 import { useRouter } from "@/i18n/navigation";
 import { useElection } from "@/contexts/election-context";
 import BottomBar from "./bottom-bar";
@@ -15,7 +13,7 @@ import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
 import { useThesesStore } from "@/stores/theses-store";
 import { useResultStore } from "@/stores/result-store";
-import { usePartiesStore } from "@/stores/party-store";
+import CandidatesOrPartiesList from "./candidates-or-parties-list";
 
 interface ResultListProps {
   filterBookmarked: boolean;
@@ -32,14 +30,13 @@ export default function ResultList({
   );
   const [filterOpen, setFilterOpen] = useState(false);
   const { theses } = useThesesStore();
-  const { ratings } = useRatingsStore();
+  const { userRatings } = useUserRatingsStore();
   const { results } = useResultStore();
-  const { parties } = usePartiesStore();
   const { bookmarks, toggleCandidate, toggleParty } = useBookmarkStore();
   const router = useRouter();
   const t = useTranslations("ResultList");
 
-  if (!theses || !parties) {
+  if (!theses) {
     return null;
   }
 
@@ -54,7 +51,7 @@ export default function ResultList({
         >
           <p className="text-sm md:max-w-1/2">
             {t("explanation", {
-              count: Object.values(ratings[election.id] ?? {}).reduce(
+              count: Object.values(userRatings[election.id] ?? {}).reduce(
                 (n, r) => ((r.rating ?? 0 > 0) ? n + 1 : n),
                 0
               ),
@@ -89,24 +86,31 @@ export default function ResultList({
         {/* Tab Content */}
         <div>
           {tab === "candidates" && (
-            <CandidatesList
-              results={results}
-              parties={parties}
+            <CandidatesOrPartiesList
+              result={
+                election.algorithm.matchType === "candidates"
+                  ? results
+                  : results.filter((r) => r.entity.type === "candidate")
+              }
               bookmarked={bookmarks[election.id]?.candidates || []}
               onBookmarkToggle={(id) => toggleCandidate(election.id, id)}
               filterBookmarked={filterBookmarked}
-              onCandidateClick={(id) =>
+              onClick={(id) =>
                 router.push(`/elections/${election.id}/result/candidates/${id}`)
               }
             />
           )}
           {tab === "parties" && (
-            <PartiesList
-              results={results}
+            <CandidatesOrPartiesList
+              result={
+                election.algorithm.matchType === "parties"
+                  ? results
+                  : results.filter((r) => r.entity.type === "party")
+              }
               bookmarked={bookmarks[election.id]?.parties || []}
               onBookmarkToggle={(id) => toggleParty(election.id, id)}
               filterBookmarked={filterBookmarked}
-              onPartyClick={(id) =>
+              onClick={(id) =>
                 router.push(`/elections/${election.id}/result/parties/${id}`)
               }
             />

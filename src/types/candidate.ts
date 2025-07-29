@@ -2,6 +2,7 @@ import { Ratings } from "./ratings";
 
 export type Candidate = {
   id: number;
+  type: "candidate";
   title: string;
   firstName: string;
   lastName: string;
@@ -17,7 +18,7 @@ export type Candidate = {
   district: string;
   launchDate: string;
   listPlace: number;
-  website: string;
+  website?: string;
   status: Status;
   ratings: Ratings;
   color: string; // Color from the party

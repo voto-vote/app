@@ -17,41 +17,40 @@ import {
   CollapsibleContent,
 } from "@/components/animated-collapsible";
 import ChangeRatingDialog from "./change-rating-dialog";
+import { Entity } from "@/types/entity";
+import { convertRatingToDecision } from "@/lib/result-calculator";
 
-type ParticipantRating = {
-  participantId: string;
-  participantName: string;
+type EntityRating = {
+  entity: Entity;
   rating: Rating;
-  color?: string;
-  explanation?: string;
 };
 
 interface ThesisCardProps {
   election: Election;
-  ratings: Ratings;
+  userRatings: Ratings;
   thesis: Thesis;
   thesisIndex: number;
   numberOfTheses: number;
   ownRating: Rating;
-  participantsRatings: ParticipantRating[];
+  entityRatings: EntityRating[];
   onRatingChange: (rating: Rating) => void;
   isDesktop: boolean;
 }
 
 export default function ThesisResultCard({
   election,
-  ratings,
+  userRatings,
   thesis,
   thesisIndex,
   numberOfTheses,
   ownRating,
-  participantsRatings,
+  entityRatings,
   onRatingChange,
   isDesktop,
 }: ThesisCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [expandedParticipantExplanations, setExpandedParticipantExplanations] =
-    useState<Set<string>>(new Set());
+    useState<Set<number>>(new Set());
   const [changeRatingDialogOpen, setChangeRatingDialogOpen] = useState(false);
   const t = useTranslations("ThesisResultCard");
 
@@ -123,12 +122,8 @@ export default function ThesisResultCard({
             </Button>
           </div>
 
-          {participantsRatings.map((rating, index) => {
-            const backgroundColor =
-              rating.color ??
-              window
-                .getComputedStyle(document.documentElement)
-                .getPropertyValue("--primary");
+          {entityRatings.map((er, index) => {
+            const backgroundColor = er.entity.color || "var(--primary)";
             const foregroundColor = isLightColor(backgroundColor)
               ? "var(--color-zinc-900)"
               : "var(--color-zinc-100)";
@@ -138,64 +133,60 @@ export default function ThesisResultCard({
                 <div
                   className="justify-self-end text-sm sm:text-base md:text-lg rounded truncate px-2 max-w-full"
                   style={{
-                    backgroundColor: rating.color,
+                    backgroundColor: backgroundColor,
                     color: foregroundColor,
                   }}
                 >
-                  {abbreviateName(rating.participantName)}
+                  {er.entity.type === "candidate"
+                    ? abbreviateName(er.entity.displayName)
+                    : er.entity.displayName}
                 </div>
 
                 <RatingVisualization
                   election={election}
-                  rating={rating.rating}
+                  rating={er.rating}
                   backgroundColor={backgroundColor}
                   foregroundColor={foregroundColor}
                 />
 
                 <div>
-                  {rating.explanation && (
+                  {er.rating.explanation && (
                     <Button
                       size={isDesktop ? "default" : "sm"}
                       variant="link"
                       className="!p-0 max-h-6 sm:max-h-none whitespace-normal"
                       onClick={() => {
                         const newSet = new Set(expandedParticipantExplanations);
-                        if (
-                          expandedParticipantExplanations.has(
-                            rating.participantId
-                          )
-                        ) {
-                          newSet.delete(rating.participantId);
+                        if (expandedParticipantExplanations.has(er.entity.id)) {
+                          newSet.delete(er.entity.id);
                         } else {
-                          newSet.add(rating.participantId);
+                          newSet.add(er.entity.id);
                         }
                         setExpandedParticipantExplanations(newSet);
                       }}
                     >
                       {t("details")}
                       <ChevronDown
-                        className={`size-6 transition ${expandedParticipantExplanations.has(rating.participantId) ? "rotate-180" : ""}`}
+                        className={`size-6 transition ${expandedParticipantExplanations.has(er.entity.id) ? "rotate-180" : ""}`}
                       />
                     </Button>
                   )}
                 </div>
-                {rating.explanation && (
+                {er.rating.explanation && (
                   <div className="col-span-3">
                     <Collapsible
-                      open={expandedParticipantExplanations.has(
-                        rating.participantId
-                      )}
+                      open={expandedParticipantExplanations.has(er.entity.id)}
                     >
                       <CollapsibleContent>
                         <div
                           className="my-1 rounded"
                           style={{
-                            backgroundColor: rating.color,
+                            backgroundColor: backgroundColor,
                             color: foregroundColor,
                           }}
                         >
                           <div className="px-2 py-1 text-sm sm:text-base">
-                            {rating.explanation}
+                            {er.rating.explanation}
                           </div>
                         </div>
                       </CollapsibleContent>
@@ -210,7 +201,7 @@ export default function ThesisResultCard({
 
       <ChangeRatingDialog
         election={election}
-        ratings={ratings}
+        userRatings={userRatings}
         thesis={thesis}
         open={changeRatingDialogOpen}
         onOpenChange={setChangeRatingDialogOpen}
@@ -231,34 +222,39 @@ function RatingVisualization({
   backgroundColor?: string;
   foregroundColor?: string;
 }) {
-  const ratingValue = rating.rating ?? 0;
+  let decision = undefined;
+  if (rating.rating !== undefined && rating.rating !== -1) {
+    decision = convertRatingToDecision(
+      rating.rating,
+      election.algorithm.decisions
+    );
+  }
+
+  let ratingDisplayValue = "";
+  if (rating.rating === -1) {
+    ratingDisplayValue = "-";
+  } else if (rating.rating !== undefined) {
+    ratingDisplayValue = decision?.toString() ?? "";
+  }
 
   return (
     <div
-      className={`h-6 md:h-8 flex justify-between items-center ${ratingValue > 0 ? "justify-between" : "justify-center"}`}
+      className={`h-6 md:h-8 flex justify-between items-center ${rating.rating === -1 ? "justify-center" : "justify-between"}`}
     >
-      {ratingValue > 0 &&
+      {rating.rating !== -1 &&
         Array.from({ length: election.algorithm.decisions }, (_, i) => {
-          let resolvedRatingValue: string;
-          if (ratingValue === -1) {
-            resolvedRatingValue = "-";
-          } else if (ratingValue === undefined) {
-            resolvedRatingValue = "";
-          } else {
-            resolvedRatingValue = String(ratingValue);
-          }
           return (
             <div
               key={i}
               style={{
                 color:
-                  ratingValue - 1 === i
+                  decision === i + 1
                     ? backgroundColor
                     : "var(--color-zinc-200)",
               }}
               className="relative size-6 md:size-8"
             >
-              {rating.favorite && ratingValue - 1 === i ? (
+              {rating.favorite && decision === i + 1 ? (
                 <Star className="absolute inset-0 fill-current size-full" />
               ) : (
                 <Square className="absolute inset-0 fill-current size-full" />
@@ -267,12 +263,12 @@ function RatingVisualization({
                 style={{ color: foregroundColor }}
                 className="relative font-semibold text-sm text-center align-middle leading-6 md:leading-8"
               >
-                {ratingValue - 1 === i && resolvedRatingValue}
+                {decision === i + 1 && ratingDisplayValue}
               </div>
             </div>
           );
         })}
-      {ratingValue === -1 && (
+      {rating.rating === -1 && (
         <div
           style={{
             color: backgroundColor,
