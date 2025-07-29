@@ -13,6 +13,7 @@ import { getVotedCandidates } from "@/actions/candidate-action";
 import { useResultStore } from "@/stores/result-store";
 import { calculateResults } from "@/lib/result-calculator";
 import { useUserRatingsStore } from "@/stores/user-ratings-store";
+import { useEntityFilterStore } from "@/stores/entity-filter-store";
 
 export default function ElectionLayout({
   children,
@@ -25,6 +26,7 @@ export default function ElectionLayout({
   const { parties, setParties, clearParties } = usePartiesStore();
   const { candidates, setCandidates, clearCandidates } = useCandidatesStore();
   const { setResults, clearResults } = useResultStore();
+  const { clearEntityFilters } = useEntityFilterStore();
   const locale = useLocale();
   const { seed } = useRandomStore();
 
@@ -59,6 +61,7 @@ export default function ElectionLayout({
       clearTheses();
       clearParties();
       clearCandidates();
+      clearEntityFilters();
     };
   }, [
     clearCandidates,

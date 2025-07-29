@@ -4,12 +4,14 @@ import { Bookmark } from "@/components/icons/bookmark";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { Entity } from "@/types/entity";
 
 interface CandidatesOrPartiesListProps {
   result: Result[];
   bookmarked: number[];
   onBookmarkToggle: (id: number) => void;
   filterBookmarked?: boolean;
+  filters: ((entity: Entity) => boolean)[];
   onClick: (id: number) => void;
 }
 
@@ -18,6 +20,7 @@ export default function CandidatesOrPartiesList({
   bookmarked,
   onBookmarkToggle,
   filterBookmarked,
+  filters,
   onClick,
 }: CandidatesOrPartiesListProps) {
   const t = useTranslations("CandidatesOrPartiesList");
@@ -47,6 +50,7 @@ export default function CandidatesOrPartiesList({
     <div className="divide-y">
       {result
         .filter((r) => !filterBookmarked || bookmarked.includes(r.entity.id))
+        .filter((r) => filters.every((f) => f(r.entity)))
         .map((r) => {
           return (
             <div

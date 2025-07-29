@@ -97,7 +97,7 @@
     "explanation": "Based on {count, plural, =1 {your # answered thesis} other {your # answered theses}} for the election {electionTitle} - {electionSubtitle}",
     "candidatesTab": "Candidates",
     "partiesTab": "Parties",
-    "filterButton": "Filter",
+    "filterButton": "Filter ({count})",
     "bookmarksButton": "Watch list ({count})"
   },
   "LegendBottomBar": {
@@ -107,18 +107,20 @@
   "FilterDialog": {
     "title": "Filter",
     "resetFilters": "Reset all",
-    "searchCandidates": "Search for candidates...",
+    "search": "Search for {matchType, select, candidates {candidates} candidates_and_parties {parties and candidates} other {parties}}...",
     "party": "Party",
-    "list": "List",
+    "listPosition": "List position",
     "region": "Region",
     "age": "Age",
     "gender": "Gender",
-    "politicalAreaDescription": "{matchType, select, candidates {Candidates} candidates_and_parties {Parties and candidates} other {Parties}} that place particular emphasis on these policy areas:",
-    "policyArea": "Policy area",
     "sameRatingsDescription": "{matchType, select, candidates {Candidates} candidates_and_parties {Parties and candidates} other {Parties}} who have answered the following theses as I have:",
     "thesis": "Thesis",
     "filterButton": "Filter ({count})",
-    "resetFiltersButton": "Reset all"
+    "resetFiltersButton": "Reset all",
+    "male": "Male",
+    "female": "Female",
+    "non-binary": "Non-binary",
+    "unknown": "Unknown"
   },
   "ChangeRatingDialog": {
     "title": "Change rating",

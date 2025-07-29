@@ -14,6 +14,8 @@ import { useTranslations } from "next-intl";
 import { useThesesStore } from "@/stores/theses-store";
 import { useResultStore } from "@/stores/result-store";
 import CandidatesOrPartiesList from "./candidates-or-parties-list";
+import { Candidate } from "@/types/candidate";
+import { useEntityFilterStore } from "@/stores/entity-filter-store";
 
 interface ResultListProps {
   filterBookmarked: boolean;
@@ -33,6 +35,7 @@ export default function ResultList({
   const { userRatings } = useUserRatingsStore();
   const { results } = useResultStore();
   const { bookmarks, toggleCandidate, toggleParty } = useBookmarkStore();
+  const { entityFilters } = useEntityFilterStore();
   const router = useRouter();
   const t = useTranslations("ResultList");
 
@@ -95,6 +98,7 @@ export default function ResultList({
               bookmarked={bookmarks[election.id]?.candidates || []}
               onBookmarkToggle={(id) => toggleCandidate(election.id, id)}
               filterBookmarked={filterBookmarked}
+              filters={Object.values(entityFilters).map((f) => f.condition)}
               onClick={(id) =>
                 router.push(`/elections/${election.id}/result/candidates/${id}`)
               }
@@ -110,6 +114,7 @@ export default function ResultList({
               bookmarked={bookmarks[election.id]?.parties || []}
               onBookmarkToggle={(id) => toggleParty(election.id, id)}
               filterBookmarked={filterBookmarked}
+              filters={Object.values(entityFilters).map((f) => f.condition)}
               onClick={(id) =>
                 router.push(`/elections/${election.id}/result/parties/${id}`)
               }
@@ -121,7 +126,9 @@ export default function ResultList({
       {/* Bottom Bar */}
       <BottomBar>
         <Button variant="ghost" onClick={() => setFilterOpen(true)}>
-          {t("filterButton")}
+          {t("filterButton", {
+            count: Object.keys(entityFilters).length.toString(),
+          })}
         </Button>
         <Button
           variant="ghost"
@@ -143,6 +150,10 @@ export default function ResultList({
       <FilterDialog
         election={election}
         theses={theses}
+        candidates={results
+          .filter((r) => r.entity.type === "candidate")
+          .map((r) => r.entity as Candidate)}
+        userRatings={userRatings[election.id] || {}}
         open={filterOpen}
         onOpenChange={setFilterOpen}
       />
