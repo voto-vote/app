@@ -88,6 +88,55 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
     }
   }
 
+  function renderEntityData(
+    breakLines: boolean,
+    entity: Party | Candidate
+  ): React.ReactNode {
+    if (breakLines) {
+      if (type === "candidate") {
+        entity = entity as Candidate;
+        return (
+          <>
+            {entity.partyName || "Unknown Party"}
+            <br />
+            {entity.listPlace || "Unknown Position"}
+            <br />
+            {entity.district || "Unknown Region"}
+          </>
+        );
+      } else {
+        entity = entity as Party;
+        return (
+          <>
+            {entity.displayName || "Unknown Party"}
+            <br />
+            {entity.website || "Unknown Website"}
+            <br />
+          </>
+        );
+      }
+    } else {
+      if (type === "candidate") {
+        entity = entity as Candidate;
+        return (
+          <>
+            {entity.partyName || "Unknown Party"} |{" "}
+            {entity.district || "Unknown Region"} | #
+            {entity.listPlace || "Unknown Position"}
+          </>
+        );
+      } else {
+        entity = entity as Party;
+        return (
+          <>
+            {entity.displayName || "Unknown Party"} |{" "}
+            {entity.website || "Unknown Website"}
+          </>
+        );
+      }
+    }
+  }
+
   return (
     <div className="overflow-hidden">
       {/* Sticky Top Bar */}
@@ -115,7 +164,7 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
                 <div className="font-bold text-base leading-none">
                   {entity.displayName}
                 </div>
-                <div className="text-xs">CDU | S-Nord | #6</div>
+                <div className="text-xs">{renderEntityData(false, entity)}</div>
                 <MatchBar value={60} size="sm" />
               </div>
               <button aria-label={t("bookmark")} onClick={toggleBookmark}>
@@ -174,11 +223,7 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
                 {t("region")}
               </div>
               <div className="text-sm">
-                CDU
-                <br />
-                6
-                <br />
-                Stuttgart-Nord
+                {renderEntityData(true, entity)}
               </div>
             </div>
           </div>
