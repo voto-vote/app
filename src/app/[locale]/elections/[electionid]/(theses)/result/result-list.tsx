@@ -16,6 +16,7 @@ import { useResultStore } from "@/stores/result-store";
 import CandidatesOrPartiesList from "./candidates-or-parties-list";
 import { Candidate } from "@/types/candidate";
 import { useEntityFilterStore } from "@/stores/entity-filter-store";
+import { Info } from "lucide-react";
 
 interface ResultListProps {
   filterBookmarked: boolean;
@@ -52,7 +53,7 @@ export default function ResultList({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-sm md:max-w-1/2">
+          <p className="text-semibold mt-4">
             {t("explanation", {
               count: Object.values(userRatings[election.id] ?? {}).reduce(
                 (n, r) => ((r.rating ?? 0 > 0) ? n + 1 : n),
