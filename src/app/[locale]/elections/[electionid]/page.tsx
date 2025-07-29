@@ -20,9 +20,11 @@ import { useTranslations } from "use-intl";
 import { routing } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useElection } from "@/contexts/election-context";
+import { useIntroStore } from "@/stores/intro-store";
 
 export default function Election() {
   const { election } = useElection();
+  const { seenIntro } = useIntroStore();
   const router = useRouter();
   const { setBackPath } = useBackButtonStore();
   const locale = useLocale();
@@ -73,6 +75,14 @@ export default function Election() {
   const [imageSrc, setImageSrc] = useState(
     election.image || "/placeholder.svg"
   );
+
+  function checkForIntroPage(electionId: number) {
+    if (seenIntro) {
+      router.push(`/elections/${electionId}/theses`);
+    } else {
+      router.push(`/elections/${electionId}/intro`);
+    }
+  }
 
   return (
     <motion.div
@@ -186,7 +196,7 @@ export default function Election() {
             <Button
               size={"lg"}
               className="w-full text-lg transition"
-              onClick={() => router.push(`/elections/${election.id}/intro`)}
+              onClick={() => checkForIntroPage(election.id)}
             >
               {t("startVotoButton")}
             </Button>
