@@ -65,6 +65,7 @@ export default function ElectionLayout({
     };
   }, [
     clearCandidates,
+    clearEntityFilters,
     clearParties,
     clearTheses,
     election,
