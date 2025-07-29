@@ -11,6 +11,7 @@ import {
 } from "@/db/schema";
 import { Candidate, Candidates, Status } from "@/types/candidate";
 import { Ratings } from "@/types/ratings";
+import { safeParseUrl } from "@/lib/url-utils";
 
 export async function getVotedCandidates(
   instanceId: number
@@ -88,7 +89,7 @@ export async function getVotedCandidates(
     district: candidate.district,
     launchDate: "", // Note: launchDate is not in your schema but in your type
     listPlace: candidate.listPlace,
-    website: candidate.website,
+    website: safeParseUrl(candidate.website),
     status: getStatusFromNumber(candidate.status),
     ratings: candidateVotesResult
       .filter((vote) => vote.candidateId === candidate.id)

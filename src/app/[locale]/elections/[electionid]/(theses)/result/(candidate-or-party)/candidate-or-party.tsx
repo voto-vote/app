@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
 import { ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import { useThesesStore } from "@/stores/theses-store";
 import { useRatingsStore } from "@/stores/ratings-store";
@@ -17,9 +17,12 @@ import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
 import { Party } from "@/types/party";
 import { Candidate } from "@/types/candidate";
+import { Link } from "@/i18n/navigation";
+
+type Entity = (Party & { type: "party" }) | (Candidate & { type: "candidate" });
 
 interface CandidateOrPartyProps {
-  entity: Party | Candidate;
+  entity: Entity;
 }
 
 export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
@@ -33,7 +36,6 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
   const { ratings, setRating, setFavorite } = useRatingsStore();
   const { setBackPath } = useBackButtonStore();
   const isDesktop = useBreakpoint("md");
-  const type = entity.hasOwnProperty("description") ? "candidate" : "party";
   const t = useTranslations("CandidateOrParty");
 
   useEffect(() => {
@@ -73,7 +75,7 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
   }
 
   function toggleBookmark() {
-    if (type === "candidate") {
+    if (entity.type === "candidate") {
       toggleCandidate(election.id, entity.id);
     } else {
       toggleParty(election.id, entity.id);
@@ -81,59 +83,31 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
   }
 
   function isBookmarked() {
-    if (type === "candidate") {
+    if (entity.type === "candidate") {
       return (bookmarks[election.id]?.candidates || []).includes(entity.id);
     } else {
       return (bookmarks[election.id]?.parties || []).includes(entity.id);
     }
   }
 
-  function renderEntityData(
-    breakLines: boolean,
-    entity: Party | Candidate
-  ): React.ReactNode {
-    if (breakLines) {
-      if (type === "candidate") {
-        entity = entity as Candidate;
-        return (
-          <>
-            {entity.partyName || "Unknown Party"}
-            <br />
-            {entity.listPlace || "Unknown Position"}
-            <br />
-            {entity.district || "Unknown Region"}
-          </>
-        );
-      } else {
-        entity = entity as Party;
-        return (
-          <>
-            {entity.displayName || "Unknown Party"}
-            <br />
-            {entity.website || "Unknown Website"}
-            <br />
-          </>
-        );
-      }
-    } else {
-      if (type === "candidate") {
-        entity = entity as Candidate;
-        return (
-          <>
-            {entity.partyName || "Unknown Party"} |{" "}
-            {entity.district || "Unknown Region"} | #
-            {entity.listPlace || "Unknown Position"}
-          </>
-        );
-      } else {
-        entity = entity as Party;
-        return (
-          <>
-            {entity.displayName || "Unknown Party"} |{" "}
-            {entity.website || "Unknown Website"}
-          </>
-        );
-      }
+  const items: Map<string, string> = new Map();
+  if (entity.type === "candidate") {
+    if (entity.partyName) {
+      items.set("party", entity.partyName);
+    }
+    if (entity.district) {
+      items.set("region", entity.district);
+    }
+    if (entity.listPlace) {
+      items.set("position", "#" + entity.listPlace);
+    }
+  }
+  if (entity.type === "party") {
+    if (entity.detailedName) {
+      items.set("detailedName", entity.detailedName);
+    }
+    if (entity.website) {
+      items.set("website", entity.website.toString());
     }
   }
 
@@ -151,7 +125,7 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
           >
             <div className="flex items-center gap-3 w-full max-w-3xl mx-auto">
               <div
-                className={`h-12 w-fit overflow-hidden ${type === "candidate" ? "rounded-full" : "rounded"}`}
+                className={`h-12 w-fit overflow-hidden ${entity.type === "candidate" ? "rounded-full" : "rounded"}`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -160,11 +134,13 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
                   className="object-contain h-full"
                 />
               </div>
-              <div className="grow space-y-[0.125rem]">
+              <div className="min-w-0 grow space-y-[0.125rem]">
                 <div className="font-bold text-base leading-none">
                   {entity.displayName}
                 </div>
-                <div className="text-xs">{renderEntityData(false, entity)}</div>
+                <div className="text-xs truncate">
+                  {items.values().toArray().join(" | ")}
+                </div>
                 <MatchBar value={60} size="sm" />
               </div>
               <button aria-label={t("bookmark")} onClick={toggleBookmark}>
@@ -185,7 +161,7 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
             style={{ backgroundImage: `url(${election.image})` }}
           ></div>
           <div
-            className={`absolute left-1/2 md:left-2 -translate-x-1/2 md:translate-x-0 top-6 md:top-18 h-38 w-fit border-4 border-background overflow-hidden ${type === "candidate" ? "rounded-full" : "rounded"}`}
+            className={`absolute left-1/2 md:left-2 -translate-x-1/2 md:translate-x-0 top-6 md:top-18 h-38 w-fit border-4 border-background overflow-hidden ${entity.type === "candidate" ? "rounded-full" : "rounded"}`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -214,17 +190,26 @@ export default function CandidateOrParty({ entity }: CandidateOrPartyProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2 text-lg">{entity.description}</div>
             {!isDesktop && <MatchBar value={60} />}
-            <div className="grid grid-cols-[minmax(0,auto)_minmax(0,1fr)] gap-6">
-              <div className="font-bold text-sm">
-                {t("list")}
-                <br />
-                {t("position")}
-                <br />
-                {t("region")}
-              </div>
-              <div className="text-sm">
-                {renderEntityData(true, entity)}
-              </div>
+            <div className="grid grid-cols-2 h-fit gap-x-2">
+              {items
+                .entries()
+                .toArray()
+                .map(([key, value]) => (
+                  <Fragment key={key}>
+                    <span className="font-bold text-sm">{t(key)}</span>
+                    {key === "website" ? (
+                      <Link
+                        href={value}
+                        target="_blank"
+                        className="text-sm hover:underline"
+                      >
+                        {value}
+                      </Link>
+                    ) : (
+                      <span className="text-sm">{value}</span>
+                    )}
+                  </Fragment>
+                ))}
             </div>
           </div>
         </div>

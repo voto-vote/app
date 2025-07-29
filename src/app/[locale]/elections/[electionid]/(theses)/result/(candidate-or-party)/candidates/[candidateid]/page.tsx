@@ -17,5 +17,5 @@ export default function CandidatePage() {
     notFound();
   }
 
-  return <CandidateOrParty entity={candidate} />;
+  return <CandidateOrParty entity={{ ...candidate, type: "candidate" }} />;
 }

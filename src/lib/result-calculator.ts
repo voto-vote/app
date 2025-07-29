@@ -10,8 +10,13 @@ export function calculateResults(
   candidates?: Candidates
 ): Results {
   const results: Results = {
-    partyResults: calculateResult(matrix, parties || [], ratings),
-    candidateResults: calculateResult(matrix, candidates || [], ratings),
+    partyResults: calculateResult(matrix, parties || [], "party", ratings),
+    candidateResults: calculateResult(
+      matrix,
+      candidates || [],
+      "candidate",
+      ratings
+    ),
   };
 
   return results;
@@ -42,6 +47,7 @@ const fiveDecisionsMap: Record<number, number> = {
 function calculateResult<T extends Party | Candidate>(
   matrix: number[][],
   entities: T[],
+  type: Result<T>["type"],
   ratings: Ratings
 ): Result<T>[] {
   const results: Result<T>[] = [];
@@ -79,11 +85,13 @@ function calculateResult<T extends Party | Candidate>(
     maxPoints += Math.abs(maxMinusPoints);
     points += Math.abs(maxMinusPoints);
     const match = Math.round((points / maxPoints) * 1000) / 10;
-
-    results.push({
+    const result: Result<T> = {
+      type,
       entity,
       matchPercentage: match,
-    });
+    } as unknown as Result<T>;
+
+    results.push(result);
   }
 
   return results.sort((a, b) => b.matchPercentage - a.matchPercentage);
