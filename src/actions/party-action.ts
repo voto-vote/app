@@ -41,7 +41,6 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
     );
   }
 
-
   return partyResult.map((party) => ({
     id: party.id,
     type: "party",

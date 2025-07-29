@@ -1,16 +1,16 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 type State = {
-  seenIntro: boolean;
-  setSeenIntro: (seen: boolean) => void;
+  introSeen: boolean;
+  setIntroSeen: (seen: boolean) => void;
 };
 
 export const useIntroStore = create<State>()(
   persist(
     (set) => ({
-      seenIntro: false,
-      setSeenIntro: (seen: boolean) => set({ seenIntro: seen }),
+      introSeen: false,
+      setIntroSeen: (seen: boolean) => set({ introSeen: seen }),
     }),
     {
       name: "voto-intro-seen",

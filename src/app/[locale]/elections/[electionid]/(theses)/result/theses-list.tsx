@@ -52,7 +52,7 @@ export default function ThesesList() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="space-y-4 md:max-w-1/2 text-sm"
+          className="space-y-2"
         >
           <p className="font-bold">
             {t("explanation", {
@@ -60,7 +60,7 @@ export default function ThesesList() {
             })}
           </p>
 
-          <p>
+          <p className="text-sm">
             {t.rich("detailsInfo", {
               pointer: isCoarsePointer ? "coarse" : "fine",
               matchType: election.algorithm.matchType,
@@ -70,7 +70,7 @@ export default function ThesesList() {
             })}
           </p>
 
-          <p>
+          <p className="text-sm">
             {t.rich("changeOpinionInfo", {
               pointer: isCoarsePointer ? "coarse" : "fine",
               changeopinion: (chunks) => (

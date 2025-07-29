@@ -18,9 +18,6 @@ const nextConfig: NextConfig = {
     "[fd00:*]",
     "localhost",
   ],
-  experimental: {
-    nodeMiddleware: true,
-  },
 };
 
 const withNextIntl = createNextIntlPlugin();

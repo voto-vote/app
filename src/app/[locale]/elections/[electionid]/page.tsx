@@ -24,7 +24,7 @@ import { useIntroStore } from "@/stores/intro-store";
 
 export default function Election() {
   const { election } = useElection();
-  const { seenIntro } = useIntroStore();
+  const { introSeen } = useIntroStore();
   const router = useRouter();
   const { setBackPath } = useBackButtonStore();
   const locale = useLocale();
@@ -76,11 +76,11 @@ export default function Election() {
     election.image || "/placeholder.svg"
   );
 
-  function checkForIntroPage(electionId: number) {
-    if (seenIntro) {
-      router.push(`/elections/${electionId}/theses`);
+  function goToIntroOrTheses() {
+    if (introSeen) {
+      router.push(`/elections/${election.id}/theses`);
     } else {
-      router.push(`/elections/${electionId}/intro`);
+      router.push(`/elections/${election.id}/intro`);
     }
   }
 
@@ -196,7 +196,7 @@ export default function Election() {
             <Button
               size={"lg"}
               className="w-full text-lg transition"
-              onClick={() => checkForIntroPage(election.id)}
+              onClick={goToIntroOrTheses}
             >
               {t("startVotoButton")}
             </Button>
