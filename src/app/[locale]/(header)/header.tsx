@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, Menu, QrCode } from "lucide-react";
+import { ChevronLeft, Menu, Share2 } from "lucide-react";
 import ShareDrawer from "./share-drawer";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -180,7 +180,7 @@ export default function Header() {
                 exit={{ y: -10, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <QrCode
+                <Share2
                   className="size-6"
                   onClick={() => setShareDrawerOpen(true)}
                 />

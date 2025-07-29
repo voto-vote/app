@@ -186,7 +186,9 @@ export default function ThesesPage() {
 
           {/* Rating System */}
           <div className="space-y-2 mt-4 md:max-w-lg md:mx-auto">
-            <div className="flex justify-between gap-2">
+            <div
+              className={`flex gap-2 ${election.algorithm.decisions < 5 ? "justify-around" : "justify-between"}`}
+            >
               {[1, 2, 3, 4, 5]
                 .slice(0, election.algorithm.decisions)
                 .map((decision, index) => {
