@@ -12,6 +12,7 @@ export type Candidate = {
   instanceId: number;
   userId: number;
   partyId: number;
+  partyName: string; // Name of the party
   description: string;
   district: string;
   launchDate: string;
