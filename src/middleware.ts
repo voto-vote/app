@@ -13,11 +13,13 @@ export default async function middleware(request: NextRequest) {
 
   const electionsPathIndex = segments.indexOf("elections");
   if (electionsPathIndex !== -1 && electionsPathIndex < segments.length - 1) {
+    const staticLocales = routing.locales;
     const electionId = segments[electionsPathIndex + 1];
     const election = await getElection(electionId);
+    const electionLocales = election?.locales?.map((l) => l.split("-")[0]) || [];
     // Intersection of the static locales and the election's locales
-    const supportedLocales = routing.locales.filter((l) =>
-      election.locales.includes(l)
+    const supportedLocales = staticLocales.filter((l) =>
+      electionLocales.includes(l)
     );
 
     handleI18nRouting = createMiddleware({
@@ -25,6 +27,7 @@ export default async function middleware(request: NextRequest) {
       defaultLocale: routing.defaultLocale,
     });
 
+    // If the url already contains a locale, we need to remove it
     if (electionsPathIndex > 0) {
       request.nextUrl.pathname =
         "/" + segments.slice(electionsPathIndex).join("/");
