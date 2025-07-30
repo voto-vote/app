@@ -47,13 +47,18 @@ export async function getElection(id: string): Promise<Election | null> {
   const configurationUrlOrigin = new URL(configurationUrl).origin;
   const configurationPromise = fetch(configurationUrl).then((r) => r.json());
 
-  const [availableLanguages, numberOfTheses, instance, configuration] =
-    await Promise.all([
-      availableLanguagesData,
-      numberOfThesesData,
-      instanceData,
-      configurationPromise,
-    ]);
+  let availableLanguages, numberOfTheses, instance, configuration;
+  try {
+    [availableLanguages, numberOfTheses, instance, configuration] =
+      await Promise.all([
+        availableLanguagesData,
+        numberOfThesesData,
+        instanceData,
+        configurationPromise,
+      ]);
+  } catch (error) {
+    return null; // Election not found
+  }
 
   const i = instance[0];
   if (!i) {

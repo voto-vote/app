@@ -7,8 +7,8 @@ export const runtime = "nodejs";
 
 // If an election does not support the requested locale, we redirect to the default locale
 export default async function middleware(request: NextRequest) {
-  // "" / locale / ...
-  const [, , ...segments] = request.nextUrl.pathname.split("/");
+  // "" / ...
+  const [, ...segments] = request.nextUrl.pathname.split("/");
   let handleI18nRouting;
 
   const electionsPathIndex = segments.indexOf("elections");
@@ -16,7 +16,8 @@ export default async function middleware(request: NextRequest) {
     const staticLocales = routing.locales;
     const electionId = segments[electionsPathIndex + 1];
     const election = await getElection(electionId);
-    const electionLocales = election?.locales?.map((l) => l.split("-")[0]) || [];
+    const electionLocales =
+      election?.locales?.map((l) => l.split("-")[0]) || [];
     // Intersection of the static locales and the election's locales
     const supportedLocales = staticLocales.filter((l) =>
       electionLocales.includes(l)
@@ -27,10 +28,16 @@ export default async function middleware(request: NextRequest) {
       defaultLocale: routing.defaultLocale,
     });
 
-    // If the url already contains a locale, we need to remove it
+    // If the url already starts with a locale that is not in the supported locales, we need to remove it
+    // This would otherwise lead to a redirect loop
     if (electionsPathIndex > 0) {
-      request.nextUrl.pathname =
-        "/" + segments.slice(electionsPathIndex).join("/");
+      const locale = segments[electionsPathIndex - 1];
+      if (
+        !supportedLocales.includes(locale as (typeof routing.locales)[number])
+      ) {
+        request.nextUrl.pathname =
+          "/" + segments.slice(electionsPathIndex).join("/");
+      }
     }
   } else {
     handleI18nRouting = createMiddleware(routing);
