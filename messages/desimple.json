@@ -1,13 +1,13 @@
 {
   "Metadata": {
     "title": "VOTO - Wählen leicht gemacht",
-    "description": "Bewerte die Parteien und finde heraus, welche am besten zu dir passt."
+    "description": "Bewerte die Parteien und finde heraus, welche am besten zu Dir passt."
   },
   "ShareDrawer": {
-    "systemModalDescription": "Bewerte die Parteien und finde heraus, welche am besten zu dir passt.",
+    "systemModalDescription": "Bewerte die Parteien und finde heraus, welche am besten zu Dir passt.",
     "screenReaderTitle": "Teilen",
     "title": "Dein VOTO-Link",
-    "description": "Mit dem QR-Code oben kannst du deine Bewertungen speichern. So kannst du dir dein Ergebnis noch einmal anschauen.",
+    "description": "Mit dem QR-Code oben kannst Du Deine Bewertungen speichern. So kannst Du Dir Dein Ergebnis noch einmal anschauen.",
     "shareButton": "Teilen",
     "closeButton": "Schließen",
     "sharingNotSupported": "Der Link wurde in die Zwischenablage kopiert."
@@ -26,14 +26,14 @@
   "Intro": {
     "nextButton": "Weiter",
     "startVotoButton": "VOTO starten",
-    "introOneTitle": "Finde heraus, wer zu dir passt!",
-    "introOneDescription": "Du kannst bis zu **{count, plural, =1 {# These} other {# Thesen}}** beantworten. So siehst du, welche {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} bei der Wahl \"{electionTitle} - {electionSubtitle}\" gut zu dir passen. Die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} haben auch geantwortet.",
-    "introTwoTitle": "Was ist dir besonders wichtig?",
-    "introTwoDescription": "Wenn dir ein Thema sehr wichtig ist, markiere es mit einem Stern. Es zählt dann **doppelt so viel**.",
-    "introThreeTitle": "Du hast dich vertippt? Kein Problem.",
-    "introThreeDescription": "Mit der **Zeitleiste** kannst du schnell zwischen den Aussagen wechseln. Deine Antwort wird im Kreis angezeigt. Wenn du auf einen Kreis tippst, kannst du deine Antwort ändern.",
+    "introOneTitle": "Finde heraus, wer zu Dir passt!",
+    "introOneDescription": "Du kannst bis zu **{count, plural, =1 {# These} other {# Thesen}}** beantworten. So siehst Du, welche {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} bei der Wahl „{electionTitle} - {electionSubtitle}“ gut zu Dir passen. Die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} haben auch geantwortet.",
+    "introTwoTitle": "Was ist Dir besonders wichtig?",
+    "introTwoDescription": "Wenn Dir ein Thema sehr wichtig ist, markiere es mit einem Stern. Es zählt dann **doppelt so viel**.",
+    "introThreeTitle": "Du hast Dich vertippt? Kein Problem.",
+    "introThreeDescription": "Mit der **Zeitleiste** kannst Du schnell zwischen den Aussagen wechseln. Deine Antwort wird im Kreis angezeigt. Wenn Du auf einen Kreis tippst, kannst Du Deine Antwort ändern.",
     "introFourTitle": "Dein Ergebnis zur Wahl.",
-    "introFourDescription": "Wenn du genug Aussagen beantwortet hast, siehst du dein Ergebnis. Du erfährst, {matchType, select, candidates {welcher Kandidierende} candidates_and_parties {welche Partei und welcher Kandidierende} other {welche Partei}} am besten zu dir passt. Du kannst dir auch alle Antworten und **Begründungen** der {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} ansehen."
+    "introFourDescription": "Wenn Du genug Aussagen beantwortet hast, siehst Du Dein Ergebnis. Du erfährst, {matchType, select, candidates {welcher Kandidierende} candidates_and_parties {welche Partei und welcher Kandidierende} other {welche Partei}} am besten zu Dir passt. Du kannst Dir auch alle Antworten und **Begründungen** der {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} ansehen."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",
@@ -43,7 +43,7 @@
   },
   "ThesisCard": {
     "moreInfos": "Mehr Infos",
-    "starDisabledExplanation": "Du kannst keine weiteren Thesen mehr gewichten. Du kannst deine Gewichtungen später auf der Ergebnisseite ändern."
+    "starDisabledExplanation": "Du kannst keine weiteren Thesen mehr gewichten. Du kannst Deine Gewichtungen später auf der Ergebnisseite ändern."
   },
   "BreakDrawer": {
     "title": "Pause",
@@ -52,11 +52,11 @@
     "titleSkip": "Schneller zum Ergebnis",
     "titleContinue": "Weitermachen",
     "descriptionSkip": "Du hast {completedTheses, plural, =1 {# Aussage} other {# Aussagen}} beantwortet. Du kannst jetzt zum Ergebnis springen, aber es wird dann ungenauer sein.",
-    "descriptionContinue": "Wenn du noch {remainingTheses, plural, =1 {# Aussage} other {# Aussagen}} beantwortest, wird dein Ergebnis genauer und du bekommst mehr Infos."
+    "descriptionContinue": "Wenn Du noch {remainingTheses, plural, =1 {# Aussage} other {# Aussagen}} beantwortest, wird Dein Ergebnis genauer und Du bekommst mehr Infos."
   },
   "ThesesResultCarousel": {
     "sortedByCategories": "Sortiert nach Kategorien.",
-    "sortedByYourVoto": "Sortiert nach deinem VOTO.",
+    "sortedByYourVoto": "Sortiert nach Deinem VOTO.",
     "useVOTOSort": "Dein VOTO zur Sortierung verwenden",
     "useCategoriesSort": "Kategorien zur Sortierung verwenden",
     "thesesSortingInfo": "Die Thesen sind zufällig sortiert, damit Du nicht beeinflusst wirst.",
@@ -90,8 +90,8 @@
   },
   "ThesesList": {
     "explanation": "So haben Du und die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} Deiner Merkliste geantwortet.",
-    "detailsInfo": "{pointer, select, coarse {Tippe} other {Klicke}} auf <details>Details</details> um die Begründung {matchType, select, candidates {des Kandidierenden} candidates_and_parties {der Partei oder des Kandidierenden} other {der Partei}} zu sehen.",
-    "changeOpinionInfo": "{pointer, select, coarse {Tippe} other {Klicke}} auf <changeopinion>Meinung ändern</changeopinion> um Deine Antwort zu ändern."
+    "detailsInfo": "{pointer, select, coarse {Tippe} other {Klicke}} auf <details>Details</details>, um die Begründung {matchType, select, candidates {des Kandidierenden} candidates_and_parties {der Partei oder des Kandidierenden} other {der Partei}} zu sehen.",
+    "changeOpinionInfo": "{pointer, select, coarse {Tippe} other {Klicke}} auf <changeopinion>Meinung ändern</changeopinion>, um Deine Antwort zu ändern."
   },
   "ResultList": {
     "explanation": "Das Ergebnis basiert auf {count, plural, =1 {Deiner # These} other {Deinen # Thesen}} zur Wahl {electionTitle} - {electionSubtitle}.",
@@ -113,7 +113,7 @@
     "region": "Region",
     "age": "Alter",
     "gender": "Geschlecht",
-    "sameRatingsDescription": "{matchType, select, candidates {Kandidierende} candidates_and_parties {Parteien und Kandidierende} other {Parteien}}, welche folgende Thesen wie ich beantwortet haben:",
+    "sameRatingsDescription": "{matchType, select, candidates {Kandidierende} candidates_and_parties {Parteien und Kandidierende} other {Parteien}}, welche folgende Thesen wie Ich beantwortet haben:",
     "thesis": "These",
     "filterButton": "Filter ({count})",
     "resetFiltersButton": "Alle zurücksetzen",
@@ -143,5 +143,10 @@
     "aboutMe": "Über mich",
     "details": "Details",
     "votoAnswers": "VOTO Antworten von {name}"
+  },
+  "NotFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die Seite, die Du suchst, existiert nicht oder wurde verschoben.",
+    "backToHome": "Zurück zur Startseite"
   }
 }
