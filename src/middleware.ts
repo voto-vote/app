@@ -7,6 +7,7 @@ export const runtime = "nodejs";
 
 // If an election does not support the requested locale, we redirect to the default locale
 export default async function middleware(request: NextRequest) {
+  console.log("Middleware triggered for:", request.nextUrl.toString());
   // "" / ...
   const [, ...segments] = request.nextUrl.pathname.split("/");
   let handleI18nRouting;
@@ -43,7 +44,8 @@ export default async function middleware(request: NextRequest) {
     handleI18nRouting = createMiddleware(routing);
   }
 
-  return handleI18nRouting(request);
+  const response = handleI18nRouting(request);
+  console.log("Redirecting to: ", response.status === 307 ? response.headers.get("Location") : request.nextUrl.toString());
 }
 
 export const config = {
