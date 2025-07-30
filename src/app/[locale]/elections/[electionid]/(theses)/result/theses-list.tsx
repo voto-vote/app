@@ -45,7 +45,7 @@ export default function ThesesList() {
   }
 
   return (
-    <>
+    <div className="overflow-hidden">
       <div className="container mx-auto max-w-3xl p-2 pb-13 space-y-8">
         {/* Header */}
         <motion.div
@@ -99,6 +99,6 @@ export default function ThesesList() {
 
       {/* Bottom Bar Legend */}
       <LegendBottomBar election={election} />
-    </>
+    </div>
   );
 }
