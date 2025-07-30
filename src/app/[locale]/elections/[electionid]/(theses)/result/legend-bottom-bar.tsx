@@ -35,7 +35,7 @@ export default function LegendBottomBar({ election }: LegendBottomBarProps) {
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="self-stretch">
-            <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
+            <div className="flex flex-wrap justify-center gap-4">
               {parties.map((party, index) => {
                 const foregroundColor = isLightColor(party.color)
                   ? "var(--color-zinc-900)"
