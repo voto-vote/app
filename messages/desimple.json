@@ -130,7 +130,9 @@
     "changeOpinion": "Meinung ändern"
   },
   "CandidatesOrPartiesList": {
-    "bookmark": "Merken"
+    "bookmark": "Merken",
+    "noBookmarks": "Deine Merkliste ist leer. Durch {pointer, select, coarse {antippen} other {anklicken}} des Lesezeichen-Symbols kannst Du {matchType, select, candidates {Kandidierende} candidates_and_parties {Parteien und Kandidierende} other {Parteien}} zur Merkliste hinzufügen.",
+    "tooManyFilters": "{matchType, select, candidates {Keine Kandidierenden} candidates_and_parties {Keine Parteien oder Kandidierenden} other {Keine Parteien}} entsprechen Deinen Filtern. Entferne einige Filter, um {matchType, select, candidates {Kandidierende} candidates_and_parties {Parteien oder Kandidierende} other {Parteien}} anzuzeigen."
   },
   "CandidateOrParty": {
     "bookmark": "Merken",
