@@ -36,7 +36,7 @@ export default function ResultPage() {
           </TabTrigger>
           <TabTrigger value="theses" currentValue={tab}>
             {t("thesesTab")}
-            <div className="absolute -top-2 right-0 sm:left-[calc(50%_+_3rem)] size-12">
+            <div className="absolute -top-2 max-sm:right-0 sm:left-[calc(50%_+_3rem)] size-12">
               <div className="size-full relative">
                 <Bookmark className="absolute inset-0 stroke-0 fill-primary size-full" />
                 <div className="absolute inset-0 text-primary-foreground text-sm font-semibold grid place-items-center mb-2">
