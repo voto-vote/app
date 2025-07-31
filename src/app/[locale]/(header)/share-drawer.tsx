@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import ResponsiveDialog from "@/components/responsive-dialog";
+import { useResultStore } from "@/stores/result-store";
 
 interface ShareDrawerProps {
   open: boolean;
@@ -14,12 +15,19 @@ interface ShareDrawerProps {
 
 export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
   const params = useParams<{ electionid: string }>();
+  const { results } = useResultStore();
   const [url, setUrl] = useState<string>("");
   const t = useTranslations("ShareDrawer");
 
   useEffect(() => {
+    const idsAndPercentages = results.flatMap((result) => [
+      result.entity.id,
+      result.matchPercentage,
+    ]);
+    const json = JSON.stringify(idsAndPercentages);
+    const base64 = Buffer.from(json).toString('base64');
     setUrl(
-      `${window.location.origin}/elections/${params.electionid}/theses/result`
+      `${window.location.origin}/elections/${params.electionid}/theses/result?data=${base64}`
     );
   }, [params.electionid]);
 

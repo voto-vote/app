@@ -16,6 +16,7 @@ import { useResultStore } from "@/stores/result-store";
 import CandidatesOrPartiesList from "./candidates-or-parties-list";
 import { Candidate } from "@/types/candidate";
 import { useEntityFilterStore } from "@/stores/entity-filter-store";
+import { useSearchParams } from "next/navigation";
 
 interface ResultListProps {
   filterBookmarked: boolean;
@@ -37,10 +38,20 @@ export default function ResultList({
   const { bookmarks, toggleCandidate, toggleParty } = useBookmarkStore();
   const { entityFilters } = useEntityFilterStore();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const t = useTranslations("ResultList");
 
   if (!theses) {
     return null;
+  }
+
+  function pushWithData(id: number, type: "candidates" | "parties") {
+    let path = `/elections/${election.id}/result/${type}/${id}`;
+    const data = searchParams.get("data");
+    if (data) {
+      path += `?data=${data}`;
+    }
+    router.push(path);
   }
 
   return (
@@ -100,9 +111,7 @@ export default function ResultList({
               onBookmarkToggle={(id) => toggleCandidate(election.id, id)}
               filterBookmarked={filterBookmarked}
               filters={Object.values(entityFilters).map((f) => f.condition)}
-              onClick={(id) =>
-                router.push(`/elections/${election.id}/result/candidates/${id}`)
-              }
+              onClick={(id) => pushWithData(id, "candidates")}
             />
           )}
           {tab === "parties" && (
@@ -117,9 +126,7 @@ export default function ResultList({
               onBookmarkToggle={(id) => toggleParty(election.id, id)}
               filterBookmarked={filterBookmarked}
               filters={Object.values(entityFilters).map((f) => f.condition)}
-              onClick={(id) =>
-                router.push(`/elections/${election.id}/result/parties/${id}`)
-              }
+              onClick={(id) => pushWithData(id, "parties")}
             />
           )}
         </div>

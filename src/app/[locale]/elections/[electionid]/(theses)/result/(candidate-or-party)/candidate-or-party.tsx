@@ -15,6 +15,7 @@ import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Result } from "@/types/result";
+import { useSearchParams } from "next/navigation";
 
 interface CandidateOrPartyProps {
   result: Result;
@@ -29,11 +30,16 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
   const { setBackPath } = useBackButtonStore();
   const isDesktop = useBreakpoint("md");
   const entity = result.entity;
+  const searchParams = useSearchParams();
   const t = useTranslations("CandidateOrParty");
 
   useEffect(() => {
     if (election?.id) {
-      setBackPath(`/elections/${election?.id}/result`);
+      let backPath = `/elections/${election.id}/theses`;
+      if (searchParams.has("data")) {
+        backPath += `?data=${searchParams.get("data")}`;
+      }
+      setBackPath(backPath);
     } else {
       setBackPath("/");
     }
