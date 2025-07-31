@@ -3,7 +3,7 @@
 import { ChevronDown, ChevronUp, Info, Star, StarOff } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { type Thesis } from "@/types/theses";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";

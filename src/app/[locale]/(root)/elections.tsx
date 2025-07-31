@@ -2,7 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { ElectionSummary } from "@/types/election-summary";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import FilterDialog from "./filter-dialog";
 import { useUserRatingsStore } from "@/stores/user-ratings-store";
 import { useRouter } from "@/i18n/navigation";
@@ -16,7 +16,6 @@ import { useResultStore } from "@/stores/result-store";
 import CandidatesOrPartiesList from "./candidates-or-parties-list";
 import { Candidate } from "@/types/candidate";
 import { useEntityFilterStore } from "@/stores/entity-filter-store";
-import { Info } from "lucide-react";
 
 interface ResultListProps {
   filterBookmarked: boolean;

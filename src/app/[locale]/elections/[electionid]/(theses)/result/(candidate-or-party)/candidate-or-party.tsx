@@ -10,7 +10,7 @@ import ThesesResultCarousel from "../thesis-result-carousel";
 import { Bookmark } from "@/components/icons/bookmark";
 import LegendBottomBar from "../legend-bottom-bar";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";

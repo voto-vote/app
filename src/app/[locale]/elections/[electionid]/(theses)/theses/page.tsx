@@ -17,7 +17,7 @@ import { ChevronsUpDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useUserRatingsStore } from "@/stores/user-ratings-store";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useElection } from "@/contexts/election-context";
 import LiveMatches from "./live-matches";
 import { useResultStore } from "@/stores/result-store";

@@ -3,7 +3,7 @@
 import { ChevronDown, ChevronUp, Info, Square, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Fragment, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Thesis } from "@/types/theses";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";

@@ -3,7 +3,7 @@
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { abbreviateName } from "@/lib/entity-utils";
 import { Results } from "@/types/result";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 interface LiveMatchesProps {
   results: Results;

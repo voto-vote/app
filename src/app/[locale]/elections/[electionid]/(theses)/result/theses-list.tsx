@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useElection } from "@/contexts/election-context";
 import { useUserRatingsStore } from "@/stores/user-ratings-store";
 import ThesesResultCarousel from "./thesis-result-carousel";
@@ -48,37 +47,28 @@ export default function ThesesList() {
     <div className="overflow-hidden">
       <div className="container mx-auto max-w-3xl p-2 pb-13 space-y-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="space-y-2"
-        >
-          <p className="font-bold">
-            {t("explanation", {
-              matchType: election.algorithm.matchType,
-            })}
-          </p>
+        <p className="font-bold">
+          {t("explanation", {
+            matchType: election.algorithm.matchType,
+          })}
+        </p>
 
-          <p className="text-sm">
-            {t.rich("detailsInfo", {
-              pointer: isCoarsePointer ? "coarse" : "fine",
-              matchType: election.algorithm.matchType,
-              details: (chunks) => (
-                <span className="text-primary">{chunks}</span>
-              ),
-            })}
-          </p>
+        <p className="text-sm">
+          {t.rich("detailsInfo", {
+            pointer: isCoarsePointer ? "coarse" : "fine",
+            matchType: election.algorithm.matchType,
+            details: (chunks) => <span className="text-primary">{chunks}</span>,
+          })}
+        </p>
 
-          <p className="text-sm">
-            {t.rich("changeOpinionInfo", {
-              pointer: isCoarsePointer ? "coarse" : "fine",
-              changeopinion: (chunks) => (
-                <span className="text-primary">{chunks}</span>
-              ),
-            })}
-          </p>
-        </motion.div>
+        <p className="text-sm">
+          {t.rich("changeOpinionInfo", {
+            pointer: isCoarsePointer ? "coarse" : "fine",
+            changeopinion: (chunks) => (
+              <span className="text-primary">{chunks}</span>
+            ),
+          })}
+        </p>
 
         {/* Theses List */}
         <div>

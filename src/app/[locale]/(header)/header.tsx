@@ -5,7 +5,7 @@ import ShareDrawer from "./share-drawer";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import NavigationSheet from "./navigation-sheet";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
