@@ -8,10 +8,10 @@ import {
   statementTranslations,
 } from "@/db/schema";
 import { Election, Status } from "@/types/election";
-import { eq, and, count } from "drizzle-orm";
+import { eq, count } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 
-export async function getElection(id: string): Promise<Election> {
+export async function getElection(id: string): Promise<Election | null> {
   const objectStorageUrl = process.env.OBJECT_STORAGE_URL;
   if (!objectStorageUrl) {
     throw new Error(
@@ -41,21 +41,29 @@ export async function getElection(id: string): Promise<Election> {
     })
     .from(instances)
     .innerJoin(elections, eq(instances.electionId, elections.id))
-    .where(and(eq(elections.status, 2), eq(instances.id, parseInt(id))));
+    .where(eq(instances.id, parseInt(id)));
 
   const configurationUrl = objectStorageUrl + "/configuration/" + id + "/configuration.json";
   const configurationUrlOrigin = new URL(configurationUrl).origin;
   const configurationPromise = fetch(configurationUrl).then((r) => r.json());
 
-  const [availableLanguages, numberOfTheses, instance, configuration] =
-    await Promise.all([
-      availableLanguagesData,
-      numberOfThesesData,
-      instanceData,
-      configurationPromise,
-    ]);
+  let availableLanguages, numberOfTheses, instance, configuration;
+  try {
+    [availableLanguages, numberOfTheses, instance, configuration] =
+      await Promise.all([
+        availableLanguagesData,
+        numberOfThesesData,
+        instanceData,
+        configurationPromise,
+      ]);
+  } catch (error) {
+    return null; // Election not found
+  }
 
   const i = instance[0];
+  if (!i) {
+    return null; // Election not found
+  }
   const locales = availableLanguages.map((l) => l.languageCode);
   if (locales.length === 0) {
     locales.push("de");

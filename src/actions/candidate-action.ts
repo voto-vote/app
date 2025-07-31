@@ -37,7 +37,7 @@ export async function getVotedCandidates(
       createdAt: candidates.createdAt,
       updatedAt: candidates.updatedAt,
       // Party color from join
-      color: parties.color,
+      color: parties.color || "var(--primary)",
     })
     .from(candidates)
     .innerJoin(users, eq(candidates.userId, users.id))

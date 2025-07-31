@@ -91,6 +91,7 @@ export default function ResultList({
         <div>
           {tab === "candidates" && (
             <CandidatesOrPartiesList
+              election={election}
               result={
                 election.algorithm.matchType === "candidates"
                   ? results
@@ -107,6 +108,7 @@ export default function ResultList({
           )}
           {tab === "parties" && (
             <CandidatesOrPartiesList
+              election={election}
               result={
                 election.algorithm.matchType === "parties"
                   ? results
