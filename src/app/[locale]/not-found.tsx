@@ -18,20 +18,14 @@ export default function NotFound() {
         transition={{ duration: 0.5 }}
       >
         {/* Logo */}
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          <Image
-            src="/logo.svg"
-            alt="VOTO"
-            width={200}
-            height={87}
-            className="mx-auto"
-            priority
-          />
-        </motion.div>
+        <Image
+          src="/logo.svg"
+          alt="VOTO"
+          width={200}
+          height={87}
+          className="mx-auto"
+          priority
+        />
 
         {/* Error Message */}
         <div className="space-y-4">
