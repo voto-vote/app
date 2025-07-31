@@ -171,8 +171,9 @@ export default function Header() {
           </div>
         )}
         <div className="flex gap-1 justify-self-end">
-          <AnimatePresence mode="wait">
-            {pathname.match(/\/elections\/.+?\/result.*/) && (
+          {/*<AnimatePresence mode="wait">
+            {pathname.match(/\/elections\/.+?\/result.*/
+          /*) && (
               <motion.button
                 className="p-2 rounded-full hover:bg-primary/50 transition-colors"
                 initial={{ y: -10, opacity: 0 }}
@@ -186,7 +187,7 @@ export default function Header() {
                 />
               </motion.button>
             )}
-          </AnimatePresence>
+          </AnimatePresence>*/}
           <button className="p-2 rounded-full hover:bg-primary/50 transition-colors">
             <Menu
               className="size-6"
