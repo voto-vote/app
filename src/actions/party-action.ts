@@ -62,7 +62,7 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
         };
         return r;
       }, {}),
-    color: party.color,
+    color: party.color || "var(--primary)",
     createdAt: party.createdAt,
     updatedAt: party.updatedAt,
   }));

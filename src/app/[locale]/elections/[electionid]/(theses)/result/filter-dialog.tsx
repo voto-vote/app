@@ -196,6 +196,11 @@ export default function FilterDialog({
           <DropdownInput
             label={t("gender")}
             items={candidates.reduce<Record<string, string>>((acc, c) => {
+              // All possible translations are listed here to make the i18n-check linter happy (no-unused-keys).
+              // t("male")
+              // t("female")
+              // t("non-binary")
+              // t("unknown")
               acc[c.gender] = t(c.gender);
               return acc;
             }, {})}

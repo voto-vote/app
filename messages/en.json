@@ -7,7 +7,7 @@
     "systemModalDescription": "Evaluate the election manifestos and find out which party suits you best.",
     "screenReaderTitle": "Share",
     "title": "Your personal VOTO link",
-    "description": "Your ratings can be accessed for using the QR-Code above. You can save the link to the ratings by using the \"Share\" button below and view your result again.",
+    "description": "Your ratings can be accessed using the QR code above. You can save the link to the ratings by using the \"Share\" button below and view your results again.",
     "shareButton": "Share",
     "closeButton": "Close",
     "sharingNotSupported": "The link has been copied to the clipboard."
@@ -20,7 +20,7 @@
     "languageSelector": "Language:",
     "placeholderLanguageSelect": "Select language",
     "startVotoButton": "Start VOTO",
-    "informationsTitle": "Informations",
+    "informationsTitle": "Information",
     "sponsorsTitle": "Cooperation partners & sponsors"
   },
   "Intro": {
@@ -42,7 +42,7 @@
     "continueButton": "Skip"
   },
   "ThesisCard": {
-    "moreInfos": "Additional informations",
+    "moreInfos": "Additional information",
     "starDisabledExplanation": "You cannot weight any more theses as the maximum has been reached. However, you can change your weights later on the result page."
   },
   "BreakDrawer": {
@@ -69,7 +69,7 @@
     "subtitle": "Voting made easy",
     "home": "Home",
     "votoPortal": "VOTO Portal",
-    "informations": "Informations",
+    "informations": "Information",
     "frequentQuestions": "Frequently Asked Questions",
     "whatIsVoto": "What is VOTO?",
     "legal": "Legal",
@@ -83,7 +83,7 @@
     "thesesTab": "Theses"
   },
   "ThesisResultCard": {
-    "moreInfos": "Additional informations",
+    "moreInfos": "Additional information",
     "i": "Myself",
     "changeRating": "Change opinion",
     "details": "Details"
@@ -130,7 +130,9 @@
     "changeOpinion": "Change opinion"
   },
   "CandidatesOrPartiesList": {
-    "bookmark": "Watch"
+    "bookmark": "Watch",
+    "noBookmarks": "Your watchlist is empty. By {pointer, select, coarse {tap} other {click}} of the bookmark icon you can add {matchType, select, candidates {candidates} candidates_and_parties {parties and candidates} other {parties}} to the watchlist.",
+    "tooManyFilters": "{matchType, select, candidates {No candidates} candidates_and_parties {No parties or candidates} other {No parties}} match your filters. Remove some filters to show {matchType, select, candidates {candidates} candidates_and_parties {parties or candidates} other {parties}}."
   },
   "CandidateOrParty": {
     "bookmark": "Watch",
@@ -138,10 +140,15 @@
     "party": "Party",
     "region": "Region",
     "position": "Position",
-    "detailedName": "Detailed Name",
+    "detailedName": "Detailed name",
     "website": "Website",
     "aboutMe": "About me",
     "details": "Details",
     "votoAnswers": "VOTO answers from {name}"
+  },
+  "NotFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "backToHome": "Back to Home"
   }
 }

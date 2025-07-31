@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ResultList from "./result-list";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useElection } from "@/contexts/election-context";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import ThesesList from "./theses-list";
@@ -36,7 +36,7 @@ export default function ResultPage() {
           </TabTrigger>
           <TabTrigger value="theses" currentValue={tab}>
             {t("thesesTab")}
-            <div className="absolute -top-2 left-[calc(50%_+_3rem)] size-12">
+            <div className="absolute -top-2 max-sm:right-0 sm:left-[calc(50%_+_3rem)] size-12">
               <div className="size-full relative">
                 <Bookmark className="absolute inset-0 stroke-0 fill-primary size-full" />
                 <div className="absolute inset-0 text-primary-foreground text-sm font-semibold grid place-items-center mb-2">
@@ -47,18 +47,16 @@ export default function ResultPage() {
             </div>
           </TabTrigger>
         </TabsList>
-      </Tabs>
-
-      {/* Tab Content */}
-      <div>
-        {tab === "result" && (
+        <TabsContent value="result">
           <ResultList
             filterBookmarked={filterBookmarked}
             setFilterBookmarked={setFilterBookmarked}
           />
-        )}
-        {tab === "theses" && <ThesesList />}
-      </div>
+        </TabsContent>
+        <TabsContent value="theses">
+          <ThesesList />
+        </TabsContent>
+      </Tabs>
     </>
   );
 }
