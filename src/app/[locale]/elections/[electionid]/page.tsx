@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -22,6 +21,13 @@ import { useParams } from "next/navigation";
 import { useElection } from "@/contexts/election-context";
 import { useIntroStore } from "@/stores/intro-store";
 
+interface CountdownTime {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
 export default function Election() {
   const { election } = useElection();
   const { introSeen } = useIntroStore();
@@ -32,9 +38,50 @@ export default function Election() {
   const pathname = usePathname();
   const params = useParams();
 
+  // Countdown state
+  const [countdown, setCountdown] = useState<CountdownTime>({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+  const [isCountdownFinished, setIsCountdownFinished] = useState(false);
+
   useEffect(() => {
     setBackPath("/");
   }, [setBackPath]);
+
+  // Countdown effect
+  useEffect(() => {
+    const targetDate = new Date(election.launchDate);
+    
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = targetDate.getTime() - now;
+
+      if (distance < 0) {
+        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setIsCountdownFinished(true);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setCountdown({ days, hours, minutes, seconds });
+      setIsCountdownFinished(false);
+    };
+
+    // Update immediately
+    updateCountdown();
+
+    // Update every second
+    const interval = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(interval);
+  }, [election.electionDate]);
 
   function changeLanguage(newLocale: string) {
     router.replace(
@@ -84,6 +131,19 @@ export default function Election() {
     }
   }
 
+  const CountdownDisplay = () => (
+    <motion.div
+      className="col-span-2 md:col-span-12 mt-6"
+      variants={itemVariants}
+    >
+      <div className="text-center">
+        <h3 className="text-lg md:text-xl font-semibold mb-4">
+          Election is now available!
+        </h3>
+      </div>
+    </motion.div>
+  );
+
   return (
     <motion.div
       initial="hidden"
@@ -91,7 +151,7 @@ export default function Election() {
       variants={containerVariants}
       className="container mx-auto max-w-screen-xl"
     >
-      {/* Main Image */}
+      {/* Main Image with Countdown Overlay */}
       <motion.div
         className="relative w-full h-64 md:h-96"
         initial={{ opacity: 0, scale: 1.05 }}
@@ -109,6 +169,35 @@ export default function Election() {
           priority
           onError={() => setImageSrc("/placeholder.svg")}
         />
+        
+        {/* Countdown Overlay */}
+        {!isCountdownFinished && (
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center bg-black/50"
+            variants={itemVariants}
+          >
+            <div className="text-center text-white">
+              <div className="grid grid-cols-4 gap-2 md:gap-4 max-w-sm mx-auto">
+                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/30">
+                  <div className="text-xl md:text-2xl font-bold">{countdown.days}</div>
+                  <div className="text-xs md:text-sm opacity-90">{t("countdown_days")}</div>
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/30">
+                  <div className="text-xl md:text-2xl font-bold">{countdown.hours}</div>
+                  <div className="text-xs md:text-sm opacity-90">{t("countdown_hours")}</div>
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/30">
+                  <div className="text-xl md:text-2xl font-bold">{countdown.minutes}</div>
+                  <div className="text-xs md:text-sm opacity-90">{t("countdown_minutes")}</div>
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/30">
+                  <div className="text-xl md:text-2xl font-bold">{countdown.seconds}</div>
+                  <div className="text-xs md:text-sm opacity-90">{t("countdown_seconds")}</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
       </motion.div>
 
       <div className="p-4 md:p-8">
@@ -191,14 +280,15 @@ export default function Election() {
                 delay: 0.6,
               },
             }}
-            whileTap={{ scale: 0.97 }}
+            whileTap={isCountdownFinished ? { scale: 0.97 } : {}}
           >
             <Button
               size={"lg"}
               className="w-full text-lg transition"
               onClick={goToIntroOrTheses}
+              disabled={!isCountdownFinished}
             >
-              {t("startVotoButton")}
+              {isCountdownFinished ? t("startVotoButton") : t("startVotoButtonDisabled")}
             </Button>
           </motion.div>
 
