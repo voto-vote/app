@@ -104,6 +104,7 @@ export default function ThesesPage() {
           transition={{ delay: 0.2, duration: 0.4 }}
         >
           <LiveMatches
+            entityType={election.algorithm.matchType === "parties" ? "party" : "candidate"}
             results={results}
             liveMatchesVisible={liveMatchesVisible}
           />
