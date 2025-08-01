@@ -94,9 +94,9 @@ export async function getVotedCandidates(
     partyId: candidate.partyId,
     partyName: candidate.partyName,
     description: candidate.description,
-    district: candidate.district,
+    district: candidate.district === "-1" ? undefined : candidate.district,
     launchDate: "", // Note: launchDate is not in your schema but in your type
-    listPlace: candidate.listPlace,
+    listPlace: candidate.listPlace === -1 ? undefined : candidate.listPlace,
     website: safeParseUrl(candidate.website),
     status: getStatusFromNumber(candidate.status),
     ratings: candidateVotesResult
