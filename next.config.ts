@@ -11,7 +11,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  
   allowedDevOrigins: [
     "10.*.*.*",
     "172.*.*.*",
