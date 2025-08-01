@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
     "[fd00:*]",
     "localhost",
   ],
-
+  // TODO: Remove this when the redirect is no longer needed
   async redirects() {
     return [
       {
