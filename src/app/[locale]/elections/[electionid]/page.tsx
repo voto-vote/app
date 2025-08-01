@@ -166,39 +166,21 @@ export default function Election() {
             variants={itemVariants}
           >
             <div className="text-center text-white">
-              <div className="grid grid-cols-4 gap-2 md:gap-4 max-w-sm mx-auto">
-                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/30">
-                  <div className="text-xl md:text-2xl font-bold">
-                    {countdown.days}
+              <div className="grid grid-cols-4 gap-2 md:gap-4 mx-auto">
+                {[
+                  [countdown.days, t("countdownDays")],
+                  [countdown.hours, t("countdownHours")],
+                  [countdown.minutes, t("countdownMinutes")],
+                  [countdown.seconds, t("countdownSeconds")],
+                ].map(([value, label], i) => (
+                  <div
+                    key={i}
+                    className="bg-white/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/30 min-w-fit"
+                  >
+                    <div className="text-xl md:text-2xl font-bold">{value}</div>
+                    <div className="text-xs md:text-sm opacity-90">{label}</div>
                   </div>
-                  <div className="text-xs md:text-sm opacity-90">
-                    {t("countdown_days")}
-                  </div>
-                </div>
-                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/30">
-                  <div className="text-xl md:text-2xl font-bold">
-                    {countdown.hours}
-                  </div>
-                  <div className="text-xs md:text-sm opacity-90">
-                    {t("countdown_hours")}
-                  </div>
-                </div>
-                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/30">
-                  <div className="text-xl md:text-2xl font-bold">
-                    {countdown.minutes}
-                  </div>
-                  <div className="text-xs md:text-sm opacity-90">
-                    {t("countdown_minutes")}
-                  </div>
-                </div>
-                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-white/30">
-                  <div className="text-xl md:text-2xl font-bold">
-                    {countdown.seconds}
-                  </div>
-                  <div className="text-xs md:text-sm opacity-90">
-                    {t("countdown_seconds")}
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </motion.div>
