@@ -55,10 +55,9 @@ export default function ResultList({
         >
           <p className="text-semibold mt-4">
             {t("explanation", {
-              count: Object.values(userRatings[election.id] ?? {}).reduce(
-                (n, r) => ((r.rating ?? 0 > 0) ? n + 1 : n),
-                0
-              ),
+              count: Object.values(userRatings[election.id] ?? {}).filter(
+                (r) => (r.rating ?? -2) >= 0
+              ).length,
               electionTitle: election.title,
               electionSubtitle: election.subtitle,
             })}
