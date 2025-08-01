@@ -9,6 +9,7 @@ import ThesesList from "./theses-list";
 import { Bookmark } from "@/components/icons/bookmark";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
+import SurveyDialog from "./survey-dialog";
 
 export default function ResultPage() {
   const { election } = useElection();
@@ -17,6 +18,22 @@ export default function ResultPage() {
   const [tab, setTab] = useState<"result" | "theses">("result");
   const [filterBookmarked, setFilterBookmarked] = useState(false);
   const t = useTranslations("ResultPage");
+  const [isSurveyDialogOpen, setSurveyDialogOpen] = useState(false);
+  const [surveySeen, setSurveySeen] = useState(false);
+
+  useEffect(() => {
+    // Set a timer to open the dialog after 10 seconds
+    if (!surveySeen) {
+      const timer = setTimeout(() => {
+        setSurveyDialogOpen(true);
+        setSurveySeen(true);
+      }, 10000);
+      // Cleanup timers on component unmount
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, []);
 
   useEffect(() => {
     if (election?.id) {
@@ -57,6 +74,11 @@ export default function ResultPage() {
           <ThesesList />
         </TabsContent>
       </Tabs>
+      <SurveyDialog
+        survey={election.survey.afterTheses}
+        open={isSurveyDialogOpen}
+        onOpenChange={setSurveyDialogOpen}
+      />
     </>
   );
 }
