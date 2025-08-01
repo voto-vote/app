@@ -82,10 +82,10 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
     if (entity.partyName) {
       items.set("party", entity.partyName);
     }
-    if (entity.district && entity.district !== "-1") {
+    if (entity.district) {
       items.set("region", entity.district);
     }
-    if (entity.listPlace && entity.listPlace !== -1) {
+    if (entity.listPlace) {
       items.set("position", "#" + entity.listPlace);
     }
   }
@@ -128,7 +128,11 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
                 <div className="text-xs truncate">
                   {items.values().toArray().join(" | ")}
                 </div>
-                <MatchBar color={result.entity.color} value={result.matchPercentage} size="sm" />
+                <MatchBar
+                  color={result.entity.color}
+                  value={result.matchPercentage}
+                  size="sm"
+                />
               </div>
               <button aria-label={t("bookmark")} onClick={toggleBookmark}>
                 <Bookmark
@@ -159,7 +163,11 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
           </div>
           <div className="flex items-center justify-end md:justify-baseline md:ml-42 p-4">
             {isDesktop && (
-              <MatchBar color={result.entity.color} value={result.matchPercentage} className="grow" />
+              <MatchBar
+                color={result.entity.color}
+                value={result.matchPercentage}
+                className="grow"
+              />
             )}
             <button
               onClick={toggleBookmark}
@@ -178,7 +186,12 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
           <h1 className="text-xl font-bold">{entity.displayName}</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2 text-lg">{entity.description}</div>
-            {!isDesktop && <MatchBar color={result.entity.color} value={result.matchPercentage} />}
+            {!isDesktop && (
+              <MatchBar
+                color={result.entity.color}
+                value={result.matchPercentage}
+              />
+            )}
             <div className="grid grid-cols-[minmax(0,auto)_minmax(0,1fr)] md:grid-cols-2 h-fit gap-x-2">
               {items
                 .entries()
