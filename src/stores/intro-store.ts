@@ -3,10 +3,13 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 type State = {
   introSeen: boolean;
+};
+
+type Action = {
   setIntroSeen: (seen: boolean) => void;
 };
 
-export const useIntroStore = create<State>()(
+export const useIntroStore = create<State & Action>()(
   persist(
     (set) => ({
       introSeen: false,

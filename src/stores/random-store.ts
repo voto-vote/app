@@ -3,10 +3,13 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 type State = {
   seed: number;
+};
+
+type Action = {
   createSeed: () => void;
 };
 
-export const useRandomStore = create<State>()(
+export const useRandomStore = create<State & Action>()(
   persist(
     (set, get) => ({
       seed: 0,
