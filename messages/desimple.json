@@ -17,10 +17,10 @@
     "openElectionsButton": "VOTO starten"
   },
   "Election": {
-    "countdown_days": "Tage",
-    "countdown_hours": "Stunden",
-    "countdown_minutes": "Minuten",
-    "countdown_seconds": "Sekunden",
+    "countdownDays": "Tage",
+    "countdownHours": "Stunden",
+    "countdownMinutes": "Minuten",
+    "countdownSeconds": "Sekunden",
     "languageSelector": "Sprache:",
     "placeholderLanguageSelect": "Sprache auswählen",
     "startVotoButton": "VOTO starten",
