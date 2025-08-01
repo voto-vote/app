@@ -44,7 +44,7 @@ export function isLightColor(color: string): boolean {
     if (!matches || matches.length < 3) return false;
     [r, g, b] = matches.map(Number);
   } else {
-    // For other formats, default to dark text
+    // For other formats, default to dark color
     return false;
   }
 
