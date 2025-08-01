@@ -94,7 +94,7 @@
     "changeOpinionInfo": "{pointer, select, coarse {Tap} other {Click}} on <changeopinion>Change opinion</changeopinion> to change your answer."
   },
   "ResultList": {
-    "explanation": "Based on your answered theses for the election {electionTitle} - {electionSubtitle}",
+    "explanation": "Based on {count, plural, =1 {your # answered thesis} other {your # answered theses}} for the election {electionTitle} - {electionSubtitle}",
     "candidatesTab": "Candidates",
     "partiesTab": "Parties",
     "filterButton": "Filter ({count})",
