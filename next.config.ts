@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  
   allowedDevOrigins: [
     "10.*.*.*",
     "172.*.*.*",
@@ -18,6 +19,16 @@ const nextConfig: NextConfig = {
     "[fd00:*]",
     "localhost",
   ],
+
+  async redirects() {
+    return [
+      {
+        source: '/:locale/app/:id',
+        destination: '/:locale/elections/:id',
+        permanent: true, // 301 redirect
+      },
+    ];
+  },
 };
 
 const withNextIntl = createNextIntlPlugin();
