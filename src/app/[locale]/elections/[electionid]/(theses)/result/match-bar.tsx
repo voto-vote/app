@@ -1,5 +1,5 @@
 import { Progress } from "@/components/ui/progress";
-import { isLightColor } from "@/lib/color-utils";
+import { isLightColor, isVeryLightColor } from "@/lib/color-utils";
 import { cn } from "@/lib/utils";
 import { CSSProperties } from "react";
 
@@ -24,10 +24,11 @@ export default function MatchBar({
     md: "text-sm",
   };
 
-  const backgroundColor = "#ffffff"; //color || "var(--primary)";
+  const backgroundColor = color || "var(--primary)";
   const foregroundColor = isLightColor(backgroundColor)
     ? "var(--color-zinc-900)"
     : "var(--color-zinc-100)";
+  const needsBorder = isVeryLightColor(backgroundColor);
 
   return (
     <div className={cn("relative", className)}>
@@ -35,9 +36,10 @@ export default function MatchBar({
         value={value}
         className={cn(
           sizeClassesProgress[size],
-          '[&_[data-slot="progress-indicator"]]:bg-(--progress-indicator) bg-(--progress-indicator)/20'
+          '[&_[data-slot="progress-indicator"]]:bg-(--progress-indicator) bg-(--progress-indicator)/20',
+          needsBorder && 'border [&_[data-slot="progress-indicator"]]:border-r'
         )}
-        style={{ "--progress-indicator": backgroundColor }}
+        style={{ "--progress-indicator": backgroundColor } as CSSProperties}
       />
       <div
         className={cn(
