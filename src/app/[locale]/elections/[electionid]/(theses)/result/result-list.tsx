@@ -16,7 +16,6 @@ import { useResultStore } from "@/stores/result-store";
 import CandidatesOrPartiesList from "./candidates-or-parties-list";
 import { Candidate } from "@/types/candidate";
 import { useEntityFilterStore } from "@/stores/entity-filter-store";
-import { Info } from "lucide-react";
 
 interface ResultListProps {
   filterBookmarked: boolean;

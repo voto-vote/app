@@ -82,10 +82,10 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
     if (entity.partyName) {
       items.set("party", entity.partyName);
     }
-    if (entity.district) {
+    if (entity.district && entity.district !== "-1") {
       items.set("region", entity.district);
     }
-    if (entity.listPlace) {
+    if (entity.listPlace && entity.listPlace !== -1) {
       items.set("position", "#" + entity.listPlace);
     }
   }

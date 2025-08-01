@@ -39,10 +39,10 @@ export default function CandidatesOrPartiesList({
       if (result.entity.partyName) {
         items.set("party", result.entity.partyName);
       }
-      if (result.entity.district) {
+      if (result.entity.district && result.entity.district !== "-1") {
         items.set("region", result.entity.district);
       }
-      if (result.entity.listPlace) {
+      if (result.entity.listPlace && result.entity.listPlace !== -1) {
         items.set("position", "#" + result.entity.listPlace);
       }
     }
@@ -84,7 +84,7 @@ export default function CandidatesOrPartiesList({
                   <MatchBar
                     value={r.matchPercentage}
                     color={
-                      r.entity.type === "party" ? r.entity.color : undefined
+                      r.entity.color
                     }
                     className="mt-2"
                   />
