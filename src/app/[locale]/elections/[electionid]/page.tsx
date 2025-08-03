@@ -20,6 +20,8 @@ import { routing } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useElection } from "@/contexts/election-context";
 import { useIntroStore } from "@/stores/intro-store";
+import { CreateEventRequest } from "@/types/api";
+import { EventsAPI } from "@/lib/api";
 
 interface CountdownTime {
   days: number;
@@ -126,6 +128,13 @@ export default function Election() {
   );
 
   function goToIntroOrTheses() {
+    const createEventRequest: CreateEventRequest = {
+      electionId: election.id,
+      eventType: "voto_started",
+      data: undefined,
+    };
+    // Just fire and forget the event
+    EventsAPI.createEvent(createEventRequest);
     if (introSeen) {
       router.push(`/elections/${election.id}/theses`);
     } else {
@@ -279,6 +288,10 @@ export default function Election() {
                 ? t("startVotoButton")
                 : t("startVotoButtonDisabled")}
             </Button>
+            {/* Show a small message, that anonymous voting is not allowed */}
+            <p className="text-sm text-muted-foreground">
+              {t("dataDisclaimer")}
+            </p>
           </motion.div>
 
           {/* Content Area */}

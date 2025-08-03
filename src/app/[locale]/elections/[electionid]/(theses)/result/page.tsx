@@ -9,7 +9,9 @@ import ThesesList from "./theses-list";
 import { Bookmark } from "@/components/icons/bookmark";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
-import SurveyDialog from "./survey-dialog";
+import ResponsiveDialog from "@/components/responsive-dialog";
+import { Button } from "@/components/ui/button";
+import { useSurveyStore } from "@/stores/survey-store";
 
 export default function ResultPage() {
   const { election } = useElection();
@@ -19,21 +21,20 @@ export default function ResultPage() {
   const [filterBookmarked, setFilterBookmarked] = useState(false);
   const t = useTranslations("ResultPage");
   const [isSurveyDialogOpen, setSurveyDialogOpen] = useState(false);
-  const [surveySeen, setSurveySeen] = useState(false);
-
+  const { setSurveySeen, isSurveySeen } = useSurveyStore();
+  
   useEffect(() => {
-    // Set a timer to open the dialog after 10 seconds
-    if (!surveySeen) {
+    if (election.survey.afterTheses !== false &&
+      typeof election.survey.afterTheses === "object" &&
+      !isSurveySeen(election.id)) {
       const timer = setTimeout(() => {
         setSurveyDialogOpen(true);
-        setSurveySeen(true);
+        setSurveySeen(election.id, true); // Mark as seen when showing
       }, 10000);
-      // Cleanup timers on component unmount
-      return () => {
-        clearTimeout(timer);
-      };
+
+      return () => clearTimeout(timer);
     }
-  }, []);
+  }, [election.survey.afterTheses, election.id, isSurveySeen, setSurveySeen]);
 
   useEffect(() => {
     if (election?.id) {
@@ -74,11 +75,40 @@ export default function ResultPage() {
           <ThesesList />
         </TabsContent>
       </Tabs>
-      <SurveyDialog
-        survey={election.survey.afterTheses}
-        open={isSurveyDialogOpen}
-        onOpenChange={setSurveyDialogOpen}
-      />
+
+      {election.survey.afterTheses &&
+        typeof election.survey.afterTheses === "object" && (
+          <ResponsiveDialog
+            open={isSurveyDialogOpen}
+            onOpenChange={setSurveyDialogOpen}
+            title={election.survey.afterTheses.title || t("surveyTitle")}
+          >
+            <div className="flex flex-col gap-4">
+              <div className="space-y-2 text-center">
+                <h2 className="text-lg font-semibold">
+                  {election.survey.afterTheses.description}
+                </h2>
+              </div>
+              {
+                <Button asChild>
+                  <a
+                    href={election.survey.afterTheses.endpoint}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {election.survey.afterTheses.yes}
+                  </a>
+                </Button>
+              }
+              <Button
+                variant="ghost"
+                onClick={() => setSurveyDialogOpen(false)}
+              >
+                {election.survey.afterTheses.no}
+              </Button>
+            </div>
+          </ResponsiveDialog>
+        )}
     </>
   );
 }

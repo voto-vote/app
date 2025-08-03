@@ -26,7 +26,8 @@
     "startVotoButton": "Start VOTO",
     "startVotoButtonDisabled": "VOTO starts soon",
     "informationsTitle": "Information",
-    "sponsorsTitle": "Cooperation partners & sponsors"
+    "sponsorsTitle": "Cooperation partners & sponsors",
+    "dataDisclaimer": "VOTO does not collect personal data. Your ratings are stored anonymously. You can change this at any time in the site menu."
   },
   "Intro": {
     "nextButton": "Next",
