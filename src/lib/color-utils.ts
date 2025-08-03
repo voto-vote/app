@@ -13,11 +13,30 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
 }
 
 /**
+ * Parses hex and rgb color strings
+ */
+function parseColor(color: string): { r: number; g: number; b: number } | null {
+  if (color.startsWith("#")) {
+    // Hex color
+    return hexToRgb(color);
+  } else if (color.startsWith("rgb")) {
+    // RGB color
+    const matches = color.match(/\d+/g);
+    if (!matches || matches.length < 3) return null;
+    const [r, g, b] = matches.map(Number);
+    return { r, g, b };
+  } else {
+    // Unknown color
+    return null;
+  }
+}
+
+/**
  * Calculate the relative luminance of a color
  * Based on WCAG guidelines: https://www.w3.org/WAI/GL/wiki/Relative_luminance
  */
-function getLuminance(r: number, g: number, b: number): number {
-  const [rs, gs, bs] = [r, g, b].map((c) => {
+function getLuminance(color: { r: number; g: number; b: number }): number {
+  const [rs, gs, bs] = [color.r, color.g, color.b].map((c) => {
     c = c / 255;
     return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   });
@@ -30,24 +49,26 @@ function getLuminance(r: number, g: number, b: number): number {
  * @param color - The color in hex or rgb format
  */
 export function isLightColor(color: string): boolean {
-  // Handle different color formats
-  let r: number, g: number, b: number;
-
-  if (color.startsWith("#")) {
-    // Hex color
-    const rgb = hexToRgb(color);
-    if (!rgb) return false;
-    ({ r, g, b } = rgb);
-  } else if (color.startsWith("rgb")) {
-    // RGB color
-    const matches = color.match(/\d+/g);
-    if (!matches || matches.length < 3) return false;
-    [r, g, b] = matches.map(Number);
-  } else {
-    // For other formats, default to dark text
+  const parsedColor = parseColor(color);
+  if (!parsedColor) {
     return false;
   }
 
-  const luminance = getLuminance(r, g, b);
+  const luminance = getLuminance(parsedColor!);
   return luminance > 0.5;
+}
+
+/**
+ * Determine if a color is very light
+ * Returns true if the color is very light (should use a different background)
+ * @param color - The color in hex or rgb format
+ */
+export function isVeryLightColor(color: string): boolean {
+  const parsedColor = parseColor(color);
+  if (!parsedColor) {
+    return false;
+  }
+
+  const luminance = getLuminance(parsedColor!);
+  return luminance > 0.9;
 }

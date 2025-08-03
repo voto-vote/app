@@ -15,9 +15,9 @@ export type Candidate = {
   partyId: number;
   partyName: string; // Name of the party
   description: string;
-  district: string;
+  district?: string;
   launchDate: string;
-  listPlace: number;
+  listPlace?: number;
   website?: string;
   status: Status;
   ratings: Ratings;

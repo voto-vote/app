@@ -137,7 +137,9 @@ export default function FilterDialog({
           <DropdownInput
             label={t("listPosition")}
             items={candidates.reduce<Record<string, string>>((acc, c) => {
-              acc[c.listPlace.toString()] = "#" + c.listPlace.toString();
+              if (c.listPlace) {
+                acc[c.listPlace.toString()] = "#" + c.listPlace.toString();
+              }
               return acc;
             }, {})}
             onFilterAddition={(key, value) =>
@@ -146,7 +148,7 @@ export default function FilterDialog({
                 truncateText(value),
                 (entity) =>
                   entity.type === "candidate" &&
-                  entity.listPlace.toString() === key
+                  entity.listPlace?.toString() === key
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("list-" + k)}
@@ -156,7 +158,9 @@ export default function FilterDialog({
           <DropdownInput
             label={t("region")}
             items={candidates.reduce<Record<string, string>>((acc, c) => {
-              acc[c.district] = c.district;
+              if (c.district) {
+                acc[c.district] = c.district;
+              }
               return acc;
             }, {})}
             onFilterAddition={(key, value) =>

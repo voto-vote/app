@@ -6,16 +6,24 @@ import { Results } from "@/types/result";
 import { motion } from "framer-motion";
 
 interface LiveMatchesProps {
+  entityType: "candidate" | "party";
   results: Results;
   liveMatchesVisible: boolean;
 }
 
 export default function LiveMatches({
   results,
+  entityType,
   liveMatchesVisible,
 }: LiveMatchesProps) {
   const isDesktop = useBreakpoint("md");
-  const sortedResults = results.sort(
+  const filteredResults = results.filter(
+    (result) => result.entity.type === entityType
+  );
+  if (filteredResults.length === 0) {
+    return null; // No results to display
+  }
+  const sortedResults = filteredResults.sort(
     (a, b) => b.matchPercentage - a.matchPercentage
   );
   const topFourResults = sortedResults.slice(0, 4);

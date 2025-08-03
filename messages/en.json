@@ -17,9 +17,14 @@
     "openElectionsButton": "Open VOTO"
   },
   "Election": {
+    "countdownDays": "days",
+    "countdownHours": "hours",
+    "countdownMinutes": "minutes",
+    "countdownSeconds": "seconds",
     "languageSelector": "Language:",
     "placeholderLanguageSelect": "Select language",
     "startVotoButton": "Start VOTO",
+    "startVotoButtonDisabled": "VOTO starts soon",
     "informationsTitle": "Information",
     "sponsorsTitle": "Cooperation partners & sponsors"
   },
