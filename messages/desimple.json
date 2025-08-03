@@ -26,7 +26,8 @@
     "startVotoButton": "VOTO starten",
     "startVotoButtonDisabled": "VOTO startet bald",
     "informationsTitle": "Infos",
-    "sponsorsTitle": "Partner & Unterstützer"
+    "sponsorsTitle": "Partner & Unterstützer",
+    "dataDisclaimer": "VOTO erhebt keine personenbezogenen Daten. Deine Bewertungen werden anonym gespeichert. Dies kannst du jederzeit im Seitenmenü ändern"
   },
   "Intro": {
     "nextButton": "Weiter",
