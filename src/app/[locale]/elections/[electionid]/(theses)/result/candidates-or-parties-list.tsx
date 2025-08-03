@@ -83,9 +83,7 @@ export default function CandidatesOrPartiesList({
                   </div>
                   <MatchBar
                     value={r.matchPercentage}
-                    color={
-                      r.entity.type === "party" ? r.entity.color : undefined
-                    }
+                    color={r.entity.color}
                     className="mt-2"
                   />
                 </div>
