@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import {
   Sheet,
   SheetContent,
@@ -25,6 +26,8 @@ import {
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
+import { useDataSharingStore } from "@/stores/data-sharing-store";
+import { Label } from "@/components/ui/label";
 
 interface NavigationSheetProps {
   open: boolean;
@@ -40,6 +43,8 @@ export default function NavigationSheet({
   const pathname = usePathname();
   const params = useParams();
   const t = useTranslations("NavigationSheet");
+  const { dataSharingEnabled, disableDataSharing, enableDataSharing } =
+    useDataSharingStore();
 
   const navigationItems = [
     { label: t("home"), icon: Home, href: "/" },
@@ -145,13 +150,42 @@ export default function NavigationSheet({
                 onClick={() => onOpenChange(false)}
                 asChild
               >
-                <Link href={item.href}>
+                <Link
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <item.icon className="mr-3 size-4" />
                   {item.label}
                   <ChevronRight className="ml-auto size-4 opacity-50" />
                 </Link>
               </Button>
             ))}
+          </div>
+
+          <Separator />
+
+          {/* Settings for sharing anonymous data */}
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-3">
+              {t("settings")}
+            </h3>
+            <div className="w-full justify-start h-11 text-sm px-3 flex items-center space-x-2">
+              <Switch
+                id="share-anonymous-data"
+                checked={dataSharingEnabled}
+                onCheckedChange={(checked) => {
+                  if (checked) {
+                    enableDataSharing();
+                  } else {
+                    disableDataSharing();
+                  }
+                }}
+              />
+              <Label htmlFor="share-anonymous-data">
+                {t("sendAnonymousData")}
+              </Label>
+            </div>
           </div>
 
           <Separator />
