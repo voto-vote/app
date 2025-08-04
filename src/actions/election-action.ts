@@ -59,7 +59,7 @@ export async function getElection(id: string): Promise<Election | null> {
         instanceData,
         configurationPromise,
       ]);
-  } catch (error) {
+  } catch {
     return null; // Election not found
   }
 
