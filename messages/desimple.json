@@ -102,7 +102,7 @@
     "changeOpinionInfo": "{pointer, select, coarse {Tippe} other {Klicke}} auf <changeopinion>Meinung ändern</changeopinion>, um Deine Antwort zu ändern."
   },
   "ResultList": {
-    "explanation": "Das Ergebnis basiert auf {count, plural, =1 {Deiner # These} other {Deinen # Thesen}} zur Wahl {electionTitle} - {electionSubtitle}.",
+    "explanation": "Das Ergebnis basiert auf deinen Antworten zu {count, plural, =1 {Deiner # These} other {Deinen # Thesen}}.",
     "candidatesTab": "Kandidierende",
     "partiesTab": "Parteien",
     "filterButton": "Filter ({count})",
