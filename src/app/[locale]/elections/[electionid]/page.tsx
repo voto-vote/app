@@ -20,6 +20,8 @@ import { routing } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useElection } from "@/contexts/election-context";
 import { useIntroStore } from "@/stores/intro-store";
+import { EventsAPI } from "@/lib/api";
+import { useDataSharingStore } from "@/stores/data-sharing-store";
 
 interface CountdownTime {
   days: number;
@@ -37,6 +39,7 @@ export default function Election() {
   const t = useTranslations("Election");
   const pathname = usePathname();
   const params = useParams();
+  const { dataSharingEnabled } = useDataSharingStore();
 
   // Countdown state
   const [countdown, setCountdown] = useState<CountdownTime>({
@@ -124,6 +127,15 @@ export default function Election() {
   const [imageSrc, setImageSrc] = useState(
     election.image || "/placeholder.svg"
   );
+
+  function sendVotoStartedEvent() {
+    if (dataSharingEnabled) {
+      EventsAPI.createEvent({
+        electionId: election.id,
+        eventType: "voto_started",
+      });
+    }
+  }
 
   function goToIntroOrTheses() {
     if (introSeen) {
@@ -254,32 +266,54 @@ export default function Election() {
           </motion.div>
 
           {/* Start Button */}
-          <motion.div
-            className="col-span-2 md:col-span-5 md:col-start-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              transition: {
-                type: "spring",
-                stiffness: 400,
-                damping: 20,
-                delay: 0.6,
-              },
-            }}
-            whileTap={isCountdownFinished ? { scale: 0.97 } : {}}
-          >
-            <Button
-              size={"lg"}
-              className="w-full text-lg transition"
-              onClick={goToIntroOrTheses}
-              disabled={!isCountdownFinished}
+          <div className="col-span-2 md:col-span-5 md:col-start-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 20,
+                  delay: 0.6,
+                },
+              }}
+              whileTap={isCountdownFinished ? { scale: 0.97 } : {}}
             >
-              {isCountdownFinished
-                ? t("startVotoButton")
-                : t("startVotoButtonDisabled")}
-            </Button>
-          </motion.div>
+              <Button
+                size={"lg"}
+                className="w-full text-lg transition"
+                onClick={() => {
+                  sendVotoStartedEvent();
+                  goToIntroOrTheses();
+                }}
+                disabled={!isCountdownFinished}
+              >
+                {isCountdownFinished
+                  ? t("startVotoButton")
+                  : t("startVotoButtonDisabled")}
+              </Button>
+            </motion.div>
+
+            {/* Show a small message, that anonymous voting is not allowed */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 20,
+                  delay: 0.6,
+                },
+              }}
+              className="text-sm text-muted-foreground text-center"
+            >
+              {t("dataDisclaimer")}
+            </motion.p>
+          </div>
 
           {/* Content Area */}
           <motion.div

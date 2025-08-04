@@ -22,6 +22,8 @@ import { useElection } from "@/contexts/election-context";
 import LiveMatches from "./live-matches";
 import { useResultStore } from "@/stores/result-store";
 import { convertDecisionToRating } from "@/lib/result-calculator";
+import { EventsAPI } from "@/lib/api";
+import { useDataSharingStore } from "@/stores/data-sharing-store";
 
 export default function ThesesPage() {
   const { election } = useElection();
@@ -30,13 +32,13 @@ export default function ThesesPage() {
   const { userRatings, setUserRating, setUserFavorite } = useUserRatingsStore();
   const [api, setApi] = useState<CarouselApi>();
   const [currentThesisIndex, setCurrentThesisIndex] = useState(0);
-  const count = theses?.length ?? 0;
-
   const [liveMatchesAvailable, setLiveMatchesAvailable] = useState(false);
   const [liveMatchesVisible, setLiveMatchesVisible] = useState(false);
   const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
+  const { setSharingId, dataSharingEnabled } = useDataSharingStore();
   const { setBackPath } = useBackButtonStore();
   const t = useTranslations("ThesesPage");
+  const count = theses?.length ?? 0;
   const router = useRouter();
 
   useEffect(() => {
@@ -51,9 +53,7 @@ export default function ThesesPage() {
     if (!api) {
       return;
     }
-
     setCurrentThesisIndex(api.selectedScrollSnap());
-
     api.on("select", () => {
       setCurrentThesisIndex(api.selectedScrollSnap());
     });
@@ -76,8 +76,19 @@ export default function ThesesPage() {
     return null;
   }
 
+  function sendVotoFinishedEvent() {
+    if (dataSharingEnabled) {
+      EventsAPI.createEvent({
+        electionId: election.id,
+        eventType: "voto_finished",
+        ratings: userRatings[election.id] ?? {},
+      }).then((data) => data && setSharingId(data));
+    }
+  }
+
   function goTo(index: number, skipBreak = false) {
     if (index >= count) {
+      sendVotoFinishedEvent();
       router.push(`/elections/${election!.id}/result`);
       return;
     }
@@ -104,7 +115,9 @@ export default function ThesesPage() {
           transition={{ delay: 0.2, duration: 0.4 }}
         >
           <LiveMatches
-            entityType={election.algorithm.matchType === "parties" ? "party" : "candidate"}
+            entityType={
+              election.algorithm.matchType === "parties" ? "party" : "candidate"
+            }
             results={results}
             liveMatchesVisible={liveMatchesVisible}
           />

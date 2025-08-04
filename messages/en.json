@@ -26,7 +26,8 @@
     "startVotoButton": "Start VOTO",
     "startVotoButtonDisabled": "VOTO starts soon",
     "informationsTitle": "Information",
-    "sponsorsTitle": "Cooperation partners & sponsors"
+    "sponsorsTitle": "Cooperation partners & sponsors",
+    "dataDisclaimer": "VOTO does not collect personal data. Your ratings are stored anonymously. You can change this at any time in the site menu."
   },
   "Intro": {
     "nextButton": "Next",
@@ -81,6 +82,8 @@
     "dataPrivacy": "Privacy Policy",
     "imprint": "Imprint",
     "languages": "Languages",
+    "settings": "Settings",
+    "sendAnonymousData": "Share anonymous data",
     "footer": "© {year} VOTO. All rights reserved."
   },
   "ResultPage": {
@@ -155,5 +158,8 @@
     "title": "Page Not Found",
     "description": "The page you're looking for doesn't exist or has been moved.",
     "backToHome": "Back to Home"
+  },
+  "SurveyDialog": {
+    "surveyTitle": "Survey"
   }
 }
