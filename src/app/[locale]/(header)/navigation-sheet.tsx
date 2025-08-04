@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import {
   Sheet,
   SheetContent,
@@ -25,6 +26,7 @@ import {
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
+import { useResultIDStore } from "@/stores/submission-store";
 
 interface NavigationSheetProps {
   open: boolean;
@@ -40,6 +42,7 @@ export default function NavigationSheet({
   const pathname = usePathname();
   const params = useParams();
   const t = useTranslations("NavigationSheet");
+  const { resultIDEnabled, disableResultID, enableResultID } = useResultIDStore();
 
   const navigationItems = [
     { label: t("home"), icon: Home, href: "/" },
@@ -145,7 +148,11 @@ export default function NavigationSheet({
                 onClick={() => onOpenChange(false)}
                 asChild
               >
-                <Link href={item.href}>
+                <Link
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <item.icon className="mr-3 size-4" />
                   {item.label}
                   <ChevronRight className="ml-auto size-4 opacity-50" />
@@ -155,7 +162,28 @@ export default function NavigationSheet({
           </div>
 
           <Separator />
-
+          {/* Settings for sending anonymous votes */}
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-3">
+              {t("settings")}
+            </h3>
+            <div className="w-full justify-start h-11 text-sm hover:bg-primary/10 px-3 flex items-center">
+              <Switch id="anonymous-votes" checked={resultIDEnabled} onCheckedChange={(checked) => {
+                if (checked) {
+                  enableResultID();
+                } else {
+                  disableResultID();
+                }
+              }}/>
+              <label
+                htmlFor="anonymous-votes"
+                className="text-sm px-3  font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+              >
+                {t("anonymousVotes")}
+              </label>
+            </div>
+          </div>
+          <Separator />
           {/* Language Section */}
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-3 flex items-center">

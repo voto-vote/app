@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { 
   CreateEventRequest, 
-  ApiResponse
 } from '@/types/api';
 
 // Base API configuration
 export const apiClient = axios.create({
-  baseURL: 'https://api.voto.vote',
+  baseURL: 'https://api.voto.team',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -19,13 +18,13 @@ export class EventsAPI {
    */
   static async createEvent(
     eventData: CreateEventRequest
-  ): Promise<ApiResponse> {
+  ): Promise<string> {
       const response = await apiClient.post(
         '/events',
         {
           ...eventData,
         }
       );
-      return response.data.data
+      return response.data
   }
 }

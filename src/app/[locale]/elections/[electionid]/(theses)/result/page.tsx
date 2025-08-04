@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 import ResponsiveDialog from "@/components/responsive-dialog";
 import { Button } from "@/components/ui/button";
 import { useSurveyStore } from "@/stores/survey-store";
+import { useResultIDStore } from "@/stores/submission-store";
 
 export default function ResultPage() {
   const { election } = useElection();
@@ -22,7 +23,8 @@ export default function ResultPage() {
   const t = useTranslations("ResultPage");
   const [isSurveyDialogOpen, setSurveyDialogOpen] = useState(false);
   const { setSurveySeen, isSurveySeen } = useSurveyStore();
-  
+  const { resultID } = useResultIDStore();
+
   useEffect(() => {
     if (election.survey.afterTheses !== false &&
       typeof election.survey.afterTheses === "object" &&
@@ -32,9 +34,11 @@ export default function ResultPage() {
         setSurveySeen(election.id, true); // Mark as seen when showing
       }, 10000);
 
+      console.log("Result ID:", resultID);
+
       return () => clearTimeout(timer);
     }
-  }, [election.survey.afterTheses, election.id, isSurveySeen, setSurveySeen]);
+  }, [election.survey.afterTheses, election.id, isSurveySeen, setSurveySeen, resultID]);
 
   useEffect(() => {
     if (election?.id) {
@@ -92,7 +96,11 @@ export default function ResultPage() {
               {
                 <Button asChild>
                   <a
-                    href={election.survey.afterTheses.endpoint}
+                    href={(() => {
+                      const url = new URL(election.survey.afterTheses.endpoint);
+                      url.searchParams.set('voteID', resultID || '');
+                      return url.toString();
+                    })()}                    
                     target="_blank"
                     rel="noopener noreferrer"
                   >

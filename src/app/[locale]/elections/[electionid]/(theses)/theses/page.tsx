@@ -40,6 +40,7 @@ export default function ThesesPage() {
   const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
   const { setResultID } = useResultIDStore();
   const { setBackPath } = useBackButtonStore();
+  const { resultIDEnabled } = useResultIDStore();
   const t = useTranslations("ThesesPage");
   const router = useRouter();
 
@@ -80,19 +81,20 @@ export default function ThesesPage() {
 
   function goTo(index: number, skipBreak = false) {
     if (index >= count) {
-      const createEventRequest: CreateEventRequest = {
-        electionId: election.id,
-        eventType: "voto_finished",
-        data: userRatings[election.id] ?? {},
-      };
-      const result = EventsAPI.createEvent(createEventRequest);
-      result.then((data) => {
-        if(data.message !== undefined) {
-          setResultID(data.message);
-        }
-      }).finally(() => {
-        router.push(`/elections/${election!.id}/result`);
-      });
+      if (resultIDEnabled) {
+        const createEventRequest: CreateEventRequest = {
+          electionId: election.id,
+          eventType: "voto_finished",
+          ratings: userRatings[election.id] ?? {},
+        };
+        const result = EventsAPI.createEvent(createEventRequest);
+        result.then((data) => {
+          if (data !== undefined) {
+            setResultID(data);
+          }
+        });
+      }
+      router.push(`/elections/${election!.id}/result`);
       return;
     }
 
@@ -118,7 +120,9 @@ export default function ThesesPage() {
           transition={{ delay: 0.2, duration: 0.4 }}
         >
           <LiveMatches
-            entityType={election.algorithm.matchType === "parties" ? "party" : "candidate"}
+            entityType={
+              election.algorithm.matchType === "parties" ? "party" : "candidate"
+            }
             results={results}
             liveMatchesVisible={liveMatchesVisible}
           />
