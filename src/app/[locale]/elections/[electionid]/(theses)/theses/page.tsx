@@ -24,7 +24,7 @@ import { useResultStore } from "@/stores/result-store";
 import { convertDecisionToRating } from "@/lib/result-calculator";
 import { EventsAPI } from "@/lib/api";
 import { CreateEventRequest } from "@/types/api";
-import { useResultIDStore } from "@/stores/submission-store";
+import { useSharingIDStore } from "@/stores/sharing-id-store";
 
 export default function ThesesPage() {
   const { election } = useElection();
@@ -38,9 +38,8 @@ export default function ThesesPage() {
   const [liveMatchesAvailable, setLiveMatchesAvailable] = useState(false);
   const [liveMatchesVisible, setLiveMatchesVisible] = useState(false);
   const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
-  const { setResultID } = useResultIDStore();
+  const { setSharingID, sharingIDEnabled } = useSharingIDStore();
   const { setBackPath } = useBackButtonStore();
-  const { resultIDEnabled } = useResultIDStore();
   const t = useTranslations("ThesesPage");
   const router = useRouter();
 
@@ -81,7 +80,7 @@ export default function ThesesPage() {
 
   function goTo(index: number, skipBreak = false) {
     if (index >= count) {
-      if (resultIDEnabled) {
+      if (sharingIDEnabled) {
         const createEventRequest: CreateEventRequest = {
           electionId: election.id,
           eventType: "voto_finished",
@@ -90,7 +89,7 @@ export default function ThesesPage() {
         const result = EventsAPI.createEvent(createEventRequest);
         result.then((data) => {
           if (data !== undefined) {
-            setResultID(data);
+            setSharingID(data);
           }
         });
       }

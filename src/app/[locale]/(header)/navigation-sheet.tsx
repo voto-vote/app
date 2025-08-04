@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import { useResultIDStore } from "@/stores/submission-store";
+import { useSharingIDStore } from "@/stores/sharing-id-store";
 
 interface NavigationSheetProps {
   open: boolean;
@@ -42,7 +42,7 @@ export default function NavigationSheet({
   const pathname = usePathname();
   const params = useParams();
   const t = useTranslations("NavigationSheet");
-  const { resultIDEnabled, disableResultID, enableResultID } = useResultIDStore();
+  const { sharingIDEnabled, disableSharingID, enableSharingID } = useSharingIDStore();
 
   const navigationItems = [
     { label: t("home"), icon: Home, href: "/" },
@@ -168,11 +168,11 @@ export default function NavigationSheet({
               {t("settings")}
             </h3>
             <div className="w-full justify-start h-11 text-sm hover:bg-primary/10 px-3 flex items-center">
-              <Switch id="anonymous-votes" checked={resultIDEnabled} onCheckedChange={(checked) => {
+              <Switch id="anonymous-votes" checked={sharingIDEnabled} onCheckedChange={(checked) => {
                 if (checked) {
-                  enableResultID();
+                  enableSharingID();
                 } else {
-                  disableResultID();
+                  disableSharingID();
                 }
               }}/>
               <label

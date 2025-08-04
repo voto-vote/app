@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import ResponsiveDialog from "@/components/responsive-dialog";
 import { Button } from "@/components/ui/button";
 import { useSurveyStore } from "@/stores/survey-store";
-import { useResultIDStore } from "@/stores/submission-store";
+import { useSharingIDStore } from "@/stores/sharing-id-store";
 
 export default function ResultPage() {
   const { election } = useElection();
@@ -23,7 +23,7 @@ export default function ResultPage() {
   const t = useTranslations("ResultPage");
   const [isSurveyDialogOpen, setSurveyDialogOpen] = useState(false);
   const { setSurveySeen, isSurveySeen } = useSurveyStore();
-  const { resultID } = useResultIDStore();
+  const { sharingID } = useSharingIDStore();
 
   useEffect(() => {
     if (election.survey.afterTheses !== false &&
@@ -34,11 +34,11 @@ export default function ResultPage() {
         setSurveySeen(election.id, true); // Mark as seen when showing
       }, 10000);
 
-      console.log("Result ID:", resultID);
+      console.log("Result ID:", sharingID);
 
       return () => clearTimeout(timer);
     }
-  }, [election.survey.afterTheses, election.id, isSurveySeen, setSurveySeen, resultID]);
+  }, [election.survey.afterTheses, election.id, isSurveySeen, setSurveySeen, sharingID]);
 
   useEffect(() => {
     if (election?.id) {
@@ -98,7 +98,7 @@ export default function ResultPage() {
                   <a
                     href={(() => {
                       const url = new URL(election.survey.afterTheses.endpoint);
-                      url.searchParams.set('voteID', resultID || '');
+                      url.searchParams.set('voteID', sharingID || '');
                       return url.toString();
                     })()}                    
                     target="_blank"
