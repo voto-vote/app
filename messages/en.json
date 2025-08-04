@@ -83,7 +83,7 @@
     "imprint": "Imprint",
     "languages": "Languages",
     "settings": "Settings",
-    "anonymousVotes": "Send anonymous data",
+    "sendAnonymousData": "Share anonymous data",
     "footer": "© {year} VOTO. All rights reserved."
   },
   "ResultPage": {
@@ -158,5 +158,8 @@
     "title": "Page Not Found",
     "description": "The page you're looking for doesn't exist or has been moved.",
     "backToHome": "Back to Home"
+  },
+  "SurveyDialog": {
+    "surveyTitle": "Survey"
   }
 }

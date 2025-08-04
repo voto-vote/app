@@ -20,9 +20,8 @@ import { routing } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useElection } from "@/contexts/election-context";
 import { useIntroStore } from "@/stores/intro-store";
-import { CreateEventRequest } from "@/types/api";
 import { EventsAPI } from "@/lib/api";
-import { useSharingIDStore } from "@/stores/sharing-id-store";
+import { useDataSharingStore } from "@/stores/data-sharing-store";
 
 interface CountdownTime {
   days: number;
@@ -40,7 +39,7 @@ export default function Election() {
   const t = useTranslations("Election");
   const pathname = usePathname();
   const params = useParams();
-  const { enableSharingID } = useSharingIDStore();
+  const { dataSharingEnabled } = useDataSharingStore();
 
   // Countdown state
   const [countdown, setCountdown] = useState<CountdownTime>({
@@ -54,12 +53,6 @@ export default function Election() {
   useEffect(() => {
     setBackPath("/");
   }, [setBackPath]);
-
-
-  useEffect(() => {
-    // Enable result ID tracking when the election is loaded
-    enableSharingID();
-  }, [enableSharingID]);
 
   // Countdown effect
   useEffect(() => {
@@ -135,14 +128,16 @@ export default function Election() {
     election.image || "/placeholder.svg"
   );
 
+  function sendVotoStartedEvent() {
+    if (dataSharingEnabled) {
+      EventsAPI.createEvent({
+        electionId: election.id,
+        eventType: "voto_started",
+      });
+    }
+  }
+
   function goToIntroOrTheses() {
-    const createEventRequest: CreateEventRequest = {
-      electionId: election.id,
-      eventType: "voto_started",
-      ratings: {},
-    };
-    // Just fire and forget the event
-    EventsAPI.createEvent(createEventRequest);
     if (introSeen) {
       router.push(`/elections/${election.id}/theses`);
     } else {
@@ -271,36 +266,54 @@ export default function Election() {
           </motion.div>
 
           {/* Start Button */}
-          <motion.div
-            className="col-span-2 md:col-span-5 md:col-start-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              transition: {
-                type: "spring",
-                stiffness: 400,
-                damping: 20,
-                delay: 0.6,
-              },
-            }}
-            whileTap={isCountdownFinished ? { scale: 0.97 } : {}}
-          >
-            <Button
-              size={"lg"}
-              className="w-full text-lg transition"
-              onClick={goToIntroOrTheses}
-              disabled={!isCountdownFinished}
+          <div className="col-span-2 md:col-span-5 md:col-start-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 20,
+                  delay: 0.6,
+                },
+              }}
+              whileTap={isCountdownFinished ? { scale: 0.97 } : {}}
             >
-              {isCountdownFinished
-                ? t("startVotoButton")
-                : t("startVotoButtonDisabled")}
-            </Button>
+              <Button
+                size={"lg"}
+                className="w-full text-lg transition"
+                onClick={() => {
+                  sendVotoStartedEvent();
+                  goToIntroOrTheses();
+                }}
+                disabled={!isCountdownFinished}
+              >
+                {isCountdownFinished
+                  ? t("startVotoButton")
+                  : t("startVotoButtonDisabled")}
+              </Button>
+            </motion.div>
+
             {/* Show a small message, that anonymous voting is not allowed */}
-            <p className="text-sm text-muted-foreground">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 20,
+                  delay: 0.6,
+                },
+              }}
+              className="text-sm text-muted-foreground text-center"
+            >
               {t("dataDisclaimer")}
-            </p>
-          </motion.div>
+            </motion.p>
+          </div>
 
           {/* Content Area */}
           <motion.div

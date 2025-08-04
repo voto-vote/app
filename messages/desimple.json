@@ -27,7 +27,7 @@
     "startVotoButtonDisabled": "VOTO startet bald",
     "informationsTitle": "Infos",
     "sponsorsTitle": "Partner & Unterstützer",
-    "dataDisclaimer": "VOTO erhebt keine personenbezogenen Daten. Deine Bewertungen werden anonym gespeichert. Dies kannst du jederzeit im Seitenmenü ändern"
+    "dataDisclaimer": "VOTO erhebt keine personenbezogenen Daten. Deine Bewertungen werden anonym gespeichert. Dies kannst du jederzeit im Seitenmenü ändern."
   },
   "Intro": {
     "nextButton": "Weiter",
@@ -83,7 +83,7 @@
     "imprint": "Impressum",
     "languages": "Sprachen",
     "settings": "Einstellungen",
-    "anonymousVotes": "Anonyme Daten senden",
+    "sendAnonymousData": "Anonyme Daten teilen",
     "footer": "© {year} VOTO. Alle Rechte vorbehalten."
   },
   "ResultPage": {
@@ -158,5 +158,8 @@
     "title": "Seite nicht gefunden",
     "description": "Die Seite, die Du suchst, existiert nicht oder wurde verschoben.",
     "backToHome": "Zurück zur Startseite"
+  },
+  "SurveyDialog": {
+    "surveyTitle": "Umfrage"
   }
 }

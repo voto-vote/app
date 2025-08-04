@@ -1,9 +1,9 @@
-// types/api.ts
-
+import { Election } from "./election";
 import { Ratings } from "./ratings";
+
 // Event types
 export interface CreateEventRequest {
-  electionId: number;
-  eventType: string;
-  ratings: undefined | Ratings
+  electionId: Election["id"];
+  eventType: "voto_started" | "voto_finished";
+  ratings?: Ratings;
 }

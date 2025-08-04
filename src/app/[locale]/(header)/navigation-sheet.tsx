@@ -26,7 +26,8 @@ import {
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import { useSharingIDStore } from "@/stores/sharing-id-store";
+import { useDataSharingStore } from "@/stores/data-sharing-store";
+import { Label } from "@/components/ui/label";
 
 interface NavigationSheetProps {
   open: boolean;
@@ -42,7 +43,8 @@ export default function NavigationSheet({
   const pathname = usePathname();
   const params = useParams();
   const t = useTranslations("NavigationSheet");
-  const { sharingIDEnabled, disableSharingID, enableSharingID } = useSharingIDStore();
+  const { dataSharingEnabled, disableDataSharing, enableDataSharing } =
+    useDataSharingStore();
 
   const navigationItems = [
     { label: t("home"), icon: Home, href: "/" },
@@ -162,28 +164,32 @@ export default function NavigationSheet({
           </div>
 
           <Separator />
-          {/* Settings for sending anonymous votes */}
+
+          {/* Settings for sharing anonymous data */}
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-3">
               {t("settings")}
             </h3>
-            <div className="w-full justify-start h-11 text-sm hover:bg-primary/10 px-3 flex items-center">
-              <Switch id="anonymous-votes" checked={sharingIDEnabled} onCheckedChange={(checked) => {
-                if (checked) {
-                  enableSharingID();
-                } else {
-                  disableSharingID();
-                }
-              }}/>
-              <label
-                htmlFor="anonymous-votes"
-                className="text-sm px-3  font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-              >
-                {t("anonymousVotes")}
-              </label>
+            <div className="w-full justify-start h-11 text-sm px-3 flex items-center space-x-2">
+              <Switch
+                id="share-anonymous-data"
+                checked={dataSharingEnabled}
+                onCheckedChange={(checked) => {
+                  if (checked) {
+                    enableDataSharing();
+                  } else {
+                    disableDataSharing();
+                  }
+                }}
+              />
+              <Label htmlFor="share-anonymous-data">
+                {t("sendAnonymousData")}
+              </Label>
             </div>
           </div>
+
           <Separator />
+
           {/* Language Section */}
           <div className="space-y-2">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-3 flex items-center">
