@@ -43,9 +43,12 @@ export async function getElection(id: string): Promise<Election | null> {
     .innerJoin(elections, eq(instances.electionId, elections.id))
     .where(eq(instances.id, parseInt(id)));
 
-  const configurationUrl = objectStorageUrl + "/configuration/" + id + "/configuration.json";
+  const configurationUrl =
+    objectStorageUrl + "/configuration/" + id + "/configuration.json";
   const configurationUrlOrigin = new URL(configurationUrl).origin;
-  const configurationPromise = fetch(configurationUrl).then((r) => r.json());
+  const configurationPromise = fetch(configurationUrl, {
+    cache: "no-store",
+  }).then((r) => r.json());
 
   let availableLanguages, numberOfTheses, instance, configuration;
   try {
