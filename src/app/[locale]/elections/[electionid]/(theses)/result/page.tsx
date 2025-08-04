@@ -9,10 +9,7 @@ import ThesesList from "./theses-list";
 import { Bookmark } from "@/components/icons/bookmark";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
-import ResponsiveDialog from "@/components/responsive-dialog";
-import { Button } from "@/components/ui/button";
-import { useSurveyStore } from "@/stores/survey-store";
-import { useSharingIDStore } from "@/stores/sharing-id-store";
+import SurveyDialog from "./survey-dialog";
 
 export default function ResultPage() {
   const { election } = useElection();
@@ -21,24 +18,6 @@ export default function ResultPage() {
   const [tab, setTab] = useState<"result" | "theses">("result");
   const [filterBookmarked, setFilterBookmarked] = useState(false);
   const t = useTranslations("ResultPage");
-  const [isSurveyDialogOpen, setSurveyDialogOpen] = useState(false);
-  const { setSurveySeen, isSurveySeen } = useSurveyStore();
-  const { sharingID } = useSharingIDStore();
-
-  useEffect(() => {
-    if (election.survey.afterTheses !== false &&
-      typeof election.survey.afterTheses === "object" &&
-      !isSurveySeen(election.id)) {
-      const timer = setTimeout(() => {
-        setSurveyDialogOpen(true);
-        setSurveySeen(election.id, true); // Mark as seen when showing
-      }, 10000);
-
-      console.log("Result ID:", sharingID);
-
-      return () => clearTimeout(timer);
-    }
-  }, [election.survey.afterTheses, election.id, isSurveySeen, setSurveySeen, sharingID]);
 
   useEffect(() => {
     if (election?.id) {
@@ -80,43 +59,7 @@ export default function ResultPage() {
         </TabsContent>
       </Tabs>
 
-      {election.survey.afterTheses &&
-        typeof election.survey.afterTheses === "object" && (
-          <ResponsiveDialog
-            open={isSurveyDialogOpen}
-            onOpenChange={setSurveyDialogOpen}
-            title={election.survey.afterTheses.title || t("surveyTitle")}
-          >
-            <div className="flex flex-col gap-4">
-              <div className="space-y-2 text-center">
-                <h2 className="text-lg font-semibold">
-                  {election.survey.afterTheses.description}
-                </h2>
-              </div>
-              {
-                <Button asChild>
-                  <a
-                    href={(() => {
-                      const url = new URL(election.survey.afterTheses.endpoint);
-                      url.searchParams.set('voteID', sharingID || '');
-                      return url.toString();
-                    })()}                    
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {election.survey.afterTheses.yes}
-                  </a>
-                </Button>
-              }
-              <Button
-                variant="ghost"
-                onClick={() => setSurveyDialogOpen(false)}
-              >
-                {election.survey.afterTheses.no}
-              </Button>
-            </div>
-          </ResponsiveDialog>
-        )}
+      <SurveyDialog />
     </>
   );
 }

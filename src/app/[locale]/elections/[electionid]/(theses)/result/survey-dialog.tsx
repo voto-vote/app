@@ -1,54 +1,62 @@
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import ResponsiveDialog from "@/components/responsive-dialog";
 import { Button } from "@/components/ui/button";
-import { SurveyContent } from "@/types/election";
+import { useElection } from "@/contexts/election-context";
+import { Link } from "@/i18n/navigation";
+import { useDataSharingStore } from "@/stores/data-sharing-store";
+import { useSurveyStore } from "@/stores/survey-store";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
-interface SurveyDialogProps {
-  survey: SurveyContent;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
+export default function SurveyDialog() {
+  const { election } = useElection();
+  const [isSurveyDialogOpen, setSurveyDialogOpen] = useState(false);
+  const { isSurveySeen, setSurveySeen } = useSurveyStore();
+  const { sharingId } = useDataSharingStore();
+  const [surveyUrl, setSurveyUrl] = useState<string>("");
+  const t = useTranslations("SurveyDialog");
 
-export default function SurveyDialog({
-  survey,
-  open,
-  onOpenChange,
-}: SurveyDialogProps) {
-  if (!survey) {
-    return null; 
+  useEffect(() => {
+    if (election.survey.afterTheses && !isSurveySeen(election.id)) {
+      const timer = setTimeout(() => {
+        setSurveyDialogOpen(true);
+        setSurveySeen(election.id, true); // Mark as seen when showing
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [election.survey.afterTheses, election.id, isSurveySeen, setSurveySeen]);
+
+  useEffect(() => {
+    if (election.survey.afterTheses) {
+      const url = new URL(election.survey.afterTheses.endpoint);
+      url.searchParams.set("voteID", sharingId || "");
+      setSurveyUrl(url.toString());
+    }
+  }, [election.survey.afterTheses, sharingId]);
+
+  if (!election.survey.afterTheses) {
+    return null;
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>{survey.title}</DialogTitle>
-          <DialogDescription>{survey.description}</DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col gap-3 mt-4">
-          <div className="flex justify-end gap-2">
-            <DialogClose asChild>
-              <Button variant="outline">{survey.no}</Button>
-            </DialogClose>
-            <DialogClose asChild>
-              <a
-                href={survey.endpoint}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-              >
-                {survey.yes}
-              </a>
-            </DialogClose>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <ResponsiveDialog
+      open={isSurveyDialogOpen}
+      onOpenChange={setSurveyDialogOpen}
+      title={election.survey.afterTheses.title || t("surveyTitle")}
+    >
+      <div className="flex flex-col gap-4">
+        <p className="text-lg text-center mb-4">
+          {election.survey.afterTheses.description}
+        </p>
+        <Button onClick={() => setSurveyDialogOpen(false)} asChild>
+          <Link href={surveyUrl} target="_blank" rel="noopener noreferrer">
+            {election.survey.afterTheses.yes}
+          </Link>
+        </Button>
+        <Button variant="ghost" onClick={() => setSurveyDialogOpen(false)}>
+          {election.survey.afterTheses.no}
+        </Button>
+      </div>
+    </ResponsiveDialog>
   );
 }
