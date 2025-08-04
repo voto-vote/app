@@ -82,6 +82,8 @@
     "dataPrivacy": "Privacy Policy",
     "imprint": "Imprint",
     "languages": "Languages",
+    "settings": "Settings",
+    "anonymousVotes": "Send anonymous data",
     "footer": "© {year} VOTO. All rights reserved."
   },
   "ResultPage": {

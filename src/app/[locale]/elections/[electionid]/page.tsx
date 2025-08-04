@@ -22,6 +22,7 @@ import { useElection } from "@/contexts/election-context";
 import { useIntroStore } from "@/stores/intro-store";
 import { CreateEventRequest } from "@/types/api";
 import { EventsAPI } from "@/lib/api";
+import { useResultIDStore } from "@/stores/submission-store";
 
 interface CountdownTime {
   days: number;
@@ -39,6 +40,7 @@ export default function Election() {
   const t = useTranslations("Election");
   const pathname = usePathname();
   const params = useParams();
+  const { enableResultID } = useResultIDStore();
 
   // Countdown state
   const [countdown, setCountdown] = useState<CountdownTime>({
@@ -52,6 +54,12 @@ export default function Election() {
   useEffect(() => {
     setBackPath("/");
   }, [setBackPath]);
+
+
+  useEffect(() => {
+    // Enable result ID tracking when the election is loaded
+    enableResultID();
+  }, [enableResultID]);
 
   // Countdown effect
   useEffect(() => {
@@ -131,7 +139,7 @@ export default function Election() {
     const createEventRequest: CreateEventRequest = {
       electionId: election.id,
       eventType: "voto_started",
-      data: undefined,
+      ratings: ratings,
     };
     // Just fire and forget the event
     EventsAPI.createEvent(createEventRequest);

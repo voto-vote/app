@@ -1,16 +1,22 @@
 import { create } from "zustand";
 
 type State = {
-  resultID: string | null; // ID of the result, if any
+  resultID: string | undefined; // ID of the result, if any
+  resultIDEnabled: boolean; // Whether the result ID is enabled or not
 };
 
 type Action = {
-  setResultID: (id: string | null) => void;
+  setResultID: (id: NonNullable<State["resultID"]>) => void;
   clearResultID: () => void;
+  enableResultID: () => void;
+  disableResultID: () => void;
 };
 
 export const useResultIDStore = create<State & Action>((set) => ({
-  resultID: null,
-  setResultID: (id) => set({ resultID: id }),
-  clearResultID: () => set({ resultID: null }),
+  resultID: undefined,
+  resultIDEnabled: false,
+  setResultID: (resultID) => set({ resultID }),
+  clearResultID: () => set({ resultID: undefined }),
+  enableResultID: () => set({ resultIDEnabled: true }),
+  disableResultID: () => set({ resultIDEnabled: false }),
 }));
