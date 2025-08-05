@@ -72,6 +72,31 @@ export default function ThesesPage() {
     }
   }, [userRatings, election.id, liveMatchesAvailable]);
 
+  useEffect(() => {
+    if (theses) {
+      const ratings = userRatings[election.id] ?? {};
+
+      let newIndex = 0;
+      for (let i = 0; i < theses.length; i++) {
+        const these = theses[i];
+        const theseRating = ratings[these.id];
+        if (!theseRating) {
+          newIndex = i;
+          break;
+        }
+        if (i + 1 === theses.length) {
+          newIndex = i;
+        }
+      }
+
+      if (newIndex > 0) {
+        api?.scrollTo(newIndex);
+      }
+    }
+    // It should ONLY update, when the theses change, NOT when the user ratings change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [api, election.id, theses]);
+
   if (!theses) {
     return null;
   }
