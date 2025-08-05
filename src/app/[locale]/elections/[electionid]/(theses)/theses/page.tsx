@@ -93,7 +93,9 @@ export default function ThesesPage() {
         api?.scrollTo(newIndex);
       }
     }
-  });
+    // It should ONLY update, when the theses change, NOT when the user ratings change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [api, election.id, theses]);
 
   if (!theses) {
     return null;
