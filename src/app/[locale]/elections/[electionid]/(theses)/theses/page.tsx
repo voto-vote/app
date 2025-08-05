@@ -72,6 +72,29 @@ export default function ThesesPage() {
     }
   }, [userRatings, election.id, liveMatchesAvailable]);
 
+  useEffect(() => {
+    if (theses) {
+      const ratings = userRatings[election.id] ?? {};
+
+      let newIndex = 0;
+      for (let i = 0; i < theses.length; i++) {
+        const these = theses[i];
+        const theseRating = ratings[these.id];
+        if (!theseRating) {
+          newIndex = i;
+          break;
+        }
+        if (i + 1 === theses.length) {
+          newIndex = i;
+        }
+      }
+
+      if (newIndex > 0) {
+        api?.scrollTo(newIndex);
+      }
+    }
+  });
+
   if (!theses) {
     return null;
   }
