@@ -47,8 +47,9 @@ export default function MatchBar({
           sizeClassesText[size]
         )}
         style={{
-          right: 100 - value + "%",
-          color: foregroundColor,
+          right: value >= 10 ? 100 - value + "%" : "auto",
+          left: value < 10 ? value + 1 + "%" : "auto",
+          color: value >= 10 ? foregroundColor : "var(--foreground)",
         }}
       >
         {value}%
