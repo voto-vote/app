@@ -1,6 +1,6 @@
 import { CreateEventRequest } from "@/types/api";
 
-const dataSharingEndpoint = process.env.DATA_SHARING_ENDPOINT;
+const dataSharingEndpoint = process.env.NEXT_PUBLIC_DATA_SHARING_ENDPOINT;
 
 export class EventsAPI {
   /**
@@ -10,7 +10,6 @@ export class EventsAPI {
     if (!dataSharingEndpoint) {
       return "";
     }
-
     const response = await fetch(dataSharingEndpoint + "/events", {
       headers: { "Content-Type": "application/json" },
       method: "POST",
