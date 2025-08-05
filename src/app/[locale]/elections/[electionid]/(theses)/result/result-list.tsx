@@ -57,8 +57,6 @@ export default function ResultList({
               count: Object.values(userRatings[election.id] ?? {}).filter(
                 (r) => (r.rating ?? -2) >= 0
               ).length,
-              electionTitle: election.title,
-              electionSubtitle: election.subtitle,
             })}
           </p>
         </motion.div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, Menu, Share2 } from "lucide-react";
+import { ChevronLeft, Menu } from "lucide-react";
 import ShareDrawer from "./share-drawer";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import NavigationSheet from "./navigation-sheet";
 import { AnimatePresence, motion } from "framer-motion";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { useBackButtonStore } from "@/stores/back-button-store";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import { useHeader } from "@/contexts/header-context";
 
@@ -23,7 +23,6 @@ export default function Header() {
     headerDetails?.logo ?? "/logo-white.svg"
   );
   const locale = useLocale();
-  const pathname = usePathname();
 
   useEffect(() => {
     if (headerDetails?.logo) {
