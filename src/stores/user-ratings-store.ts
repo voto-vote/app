@@ -37,9 +37,10 @@ export const useUserRatingsStore = create<State & Action>()(
               [thesisId]: {
                 ...(state.userRatings[electionId]?.[thesisId] ?? {
                   favorite: false,
-                  timestamp: Date.now(), // Set current timestamp when rating is given
+                  timestamp: undefined,
                 }),
                 rating,
+                timestamp: Date.now(), // Set current timestamp when rating is given
               },
             },
           },
