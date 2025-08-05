@@ -2,11 +2,12 @@
 
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { abbreviateName } from "@/lib/entity-utils";
+import { Entity } from "@/types/entity";
 import { Results } from "@/types/result";
 import { motion } from "framer-motion";
 
 interface LiveMatchesProps {
-  entityType: "candidate" | "party";
+  entityType: Entity["type"];
   results: Results;
   liveMatchesVisible: boolean;
 }
