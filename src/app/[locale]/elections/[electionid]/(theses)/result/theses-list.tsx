@@ -64,9 +64,7 @@ export default function ThesesList() {
             {t.rich("detailsInfo", {
               pointer: isCoarsePointer ? "coarse" : "fine",
               matchType: election.algorithm.matchType,
-              details: (chunks) => (
-                <span className="text-primary">{chunks}</span>
-              ),
+              details: (chunks) => <span className="font-bold">{chunks}</span>,
             })}
           </p>
 
@@ -74,7 +72,7 @@ export default function ThesesList() {
             {t.rich("changeOpinionInfo", {
               pointer: isCoarsePointer ? "coarse" : "fine",
               changeopinion: (chunks) => (
-                <span className="text-primary">{chunks}</span>
+                <span className="font-bold">{chunks}</span>
               ),
             })}
           </p>
