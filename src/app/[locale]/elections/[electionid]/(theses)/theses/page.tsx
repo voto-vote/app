@@ -116,7 +116,10 @@ export default function ThesesPage() {
         >
           <LiveMatches
             entityType={
-              election.algorithm.matchType === "parties" ? "party" : "candidate"
+              election.algorithm.matchType === "parties" ||
+              election.algorithm.matchType === "candidates-and-parties"
+                ? "party"
+                : "candidate"
             }
             results={results}
             liveMatchesVisible={liveMatchesVisible}
