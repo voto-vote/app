@@ -203,8 +203,8 @@ export default function FilterDialog({
               // All possible translations are listed here to make the i18n-check linter happy (no-unused-keys).
               // t("male")
               // t("female")
-              // t("non-binary")
-              // t("unknown")
+              // t("other")
+              // t("prefer-not-to-say")
               acc[c.gender] = t(c.gender);
               return acc;
             }, {})}
