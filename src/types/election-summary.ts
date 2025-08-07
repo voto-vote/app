@@ -1,7 +1,7 @@
 export type ElectionSummary = {
   id: number;
-  electionDate: string;
+  electionDate: Date;
   title: string;
   subtitle: string;
-  image: string;
+  image: string; // URL to the election header image
 };
