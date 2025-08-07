@@ -334,47 +334,57 @@ export default function Election() {
             className="col-span-2 md:col-span-12 mt-4"
             variants={itemVariants}
           >
-            <div className="font-bold text-xl mb-2">{t("sponsorsTitle")}</div>
-            <div className="flex flex-col md:flex-row md:flex-wrap gap-4 md:gap-8 mt-4">
-              {election.sponsors.map((sponsor, i) => (
-                <div className="md:max-w-[350px]" key={sponsor.name || i}>
-                  <Link
-                    href={sponsor.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-full text-xl underline block mb-10 font-normal"
-                  >
-                    {sponsor.name}
-                  </Link>
-                  <motion.a
-                    custom={0}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                      transition: {
-                        delay: 0.5 + i * 0.1,
-                        duration: 0.5,
-                        ease: "easeOut",
-                      },
-                    }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.98 }}
-                    href={sponsor.url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Image
-                      src={sponsor.image || "/placeholder.svg"}
-                      alt={sponsor.name}
-                      width={1000}
-                      height={1000}
-                      className="w-full"
-                    />
-                  </motion.a>
+            {election.sponsors.length > 0 && (
+              <>
+                <div className="font-bold text-xl mb-2">
+                  {t("sponsorsTitle")}
                 </div>
-              ))}
-            </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mt-4">
+                  {election.sponsors.map((sponsor, i) => (
+                    <div
+                      className="flex flex-col"
+                      key={sponsor.name || i}
+                    >
+                      <Link
+                        href={sponsor.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full text-xl underline block mb-6 font-normal grow"
+                      >
+                        {sponsor.name}
+                      </Link>
+                      <motion.a
+                        custom={0}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                          transition: {
+                            delay: 0.5 + i * 0.1,
+                            duration: 0.5,
+                            ease: "easeOut",
+                          },
+                        }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                        href={sponsor.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Image
+                          src={sponsor.image || "/placeholder.svg"}
+                          alt={sponsor.name}
+                          width={1000}
+                          height={1000}
+                          className="w-full"
+                        />
+                      </motion.a>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </motion.div>
         </div>
       </div>
