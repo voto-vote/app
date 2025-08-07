@@ -116,7 +116,7 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={entity.image.toString()}
+                  src={entity.image}
                   alt={t("logoOrAvatar")}
                   className="object-contain h-full"
                 />
@@ -156,7 +156,7 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={entity.image.toString()}
+              src={entity.image}
               alt={t("logoOrAvatar")}
               className="object-contain h-full"
             />
