@@ -34,8 +34,6 @@ export async function getVotedCandidates(
       listPlace: candidates.listPlace,
       website: candidates.website,
       status: candidates.status,
-      createdAt: candidates.createdAt,
-      updatedAt: candidates.updatedAt,
       // Party color from join
       color: parties.color || "var(--primary)",
     })
@@ -89,13 +87,12 @@ export async function getVotedCandidates(
     dateOfBirth: new Date(candidate.dateOfBirth),
     gender: convertGender(candidate.gender),
     image: `${objectStorageUrl}/candidates/${candidate.id}/candidatePicture.jpg`, // Assuming image URL pattern
-    instanceId: candidate.instanceId,
+    electionId: candidate.instanceId,
     userId: candidate.userId,
     partyId: candidate.partyId,
     partyName: candidate.partyName,
     description: candidate.description,
     district: candidate.district === "-1" ? undefined : candidate.district,
-    launchDate: "", // Note: launchDate is not in your schema but in your type
     listPlace: candidate.listPlace === -1 ? undefined : candidate.listPlace,
     website: safeParseUrl(candidate.website),
     status: getStatusFromNumber(candidate.status),
@@ -109,8 +106,6 @@ export async function getVotedCandidates(
         };
         return r;
       }, {}),
-    createdAt: candidate.createdAt,
-    updatedAt: candidate.updatedAt,
     color: candidate.color,
   }));
 }
@@ -134,8 +129,8 @@ function convertGender(genderId: number): Candidate["gender"] {
     case 2:
       return "female";
     case 3:
-      return "non-binary";
+      return "other";
     default:
-      return "unknown";
+      return "prefer-not-to-say";
   }
 }

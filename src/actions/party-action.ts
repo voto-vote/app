@@ -45,7 +45,7 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
     id: party.id,
     type: "party",
     parentPartyId: party.parentPartyId,
-    instanceId: party.instanceId,
+    electionId: party.instanceId,
     displayName: party.shortName,
     detailedName: party.detailedName,
     image: `${objectStorageUrl}/parties/${party.id}/partyPicture.jpg`,
@@ -63,8 +63,6 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
         return r;
       }, {}),
     color: party.color || "var(--primary)",
-    createdAt: party.createdAt,
-    updatedAt: party.updatedAt,
   }));
 }
 
