@@ -22,6 +22,7 @@ import { useElection } from "@/contexts/election-context";
 import { useIntroStore } from "@/stores/intro-store";
 import { EventsAPI } from "@/lib/api";
 import { useDataSharingStore } from "@/stores/data-sharing-store";
+import SurveyDialog from "./survey-dialog";
 
 interface CountdownTime {
   days: number;
@@ -388,6 +389,8 @@ export default function Election() {
           </motion.div>
         </div>
       </div>
+
+      <SurveyDialog type="beforeTheses" />
     </motion.div>
   );
 }
