@@ -34,19 +34,22 @@ export async function getElectionSummaries(
     await Promise.all(
       instance.map(async (i) => {
         try {
-          const configurationUrl = objectStorageUrl + "/configuration/" + i.id.toString() + "/configuration.json";
+          const configurationUrl =
+            objectStorageUrl +
+            "/configuration/" +
+            i.id.toString() +
+            "/configuration.json";
           const configurationUrlOrigin = new URL(configurationUrl).origin;
           const response = await fetch(configurationUrl);
           const config = await response.json();
 
           return {
             ...i,
-            electionDate: i.electionDate ?? "1970-01-01",
-            image:
-              config?.introduction?.background?.replace(
-                "voto://",
-                configurationUrlOrigin + "/"
-              ) ?? "",
+            electionDate: new Date(i.electionDate ?? "1970-01-01"),
+            image: config?.introduction?.background?.replace(
+              "voto://",
+              configurationUrlOrigin + "/"
+            ),
           };
         } catch (error) {
           // Ignore elections where configuration is not found or JSON is invalid
