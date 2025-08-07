@@ -337,7 +337,7 @@ export default function Election() {
             <div className="font-bold text-xl mb-2">{t("sponsorsTitle")}</div>
             <div className="flex flex-col md:flex-row md:flex-wrap gap-4 md:gap-8 mt-4">
               {election.sponsors.map((sponsor, i) => (
-                <div className="md:max-w-[350px]">
+                <div className="md:max-w-[350px]" key={sponsor.name || i}>
                   <Link
                     href={sponsor.url}
                     target="_blank"
@@ -347,7 +347,6 @@ export default function Election() {
                     {sponsor.name}
                   </Link>
                   <motion.a
-                    key={i}
                     custom={0}
                     initial={{ opacity: 0, y: 30 }}
                     animate={{
