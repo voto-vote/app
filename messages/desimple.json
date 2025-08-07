@@ -49,7 +49,8 @@
   },
   "ThesisCard": {
     "moreInfos": "Mehr Infos",
-    "starDisabledExplanation": "Du kannst keine weiteren Thesen mehr gewichten. Du kannst Deine Gewichtungen später auf der Ergebnisseite ändern."
+    "starDisabledExplanation": "Du kannst keine weiteren Thesen mehr gewichten. Du kannst Deine Gewichtungen später auf der Ergebnisseite ändern.",
+    "starTooltip": "Markiere diese These als wichtig. Sie zählt doppelt."
   },
   "BreakDrawer": {
     "title": "Pause",

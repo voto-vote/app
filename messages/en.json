@@ -49,7 +49,8 @@
   },
   "ThesisCard": {
     "moreInfos": "Additional information",
-    "starDisabledExplanation": "You cannot weight any more theses as the maximum has been reached. However, you can change your weights later on the result page."
+    "starDisabledExplanation": "You cannot weight any more theses as the maximum has been reached. However, you can change your weights later on the result page.",
+    "starTooltip": "Mark this thesis as especially important. It will count double."
   },
   "BreakDrawer": {
     "title": "Stopover",
