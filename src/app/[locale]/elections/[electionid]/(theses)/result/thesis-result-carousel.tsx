@@ -107,7 +107,7 @@ export default function ThesesResultCarousel({
 
       <Carousel
         setApi={setApi}
-        className="-mx-2 md:mx-0 md:[&>div]:overflow-visible"
+        className="-mx-2 md:mx-0 md:[&>div]:overflow-visible select-none"
       >
         <CarouselContent className="md:gap-x-32">
           {sortedTheses.map((thesis, i) => (
