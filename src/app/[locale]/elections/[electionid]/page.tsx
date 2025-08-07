@@ -13,7 +13,7 @@ import { translateLocale } from "@/i18n/utils";
 import { motion, type Variants } from "framer-motion";
 import Markdown from "@/components/markdown";
 import { useBackButtonStore } from "@/stores/back-button-store";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import { useTranslations } from "use-intl";
 import { routing } from "@/i18n/routing";
@@ -296,7 +296,7 @@ export default function Election() {
               </Button>
             </motion.div>
 
-            {/* Show a small message, that anonymous voting is not allowed */}
+            {/* Show a small message about data sharing */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{
@@ -320,10 +320,62 @@ export default function Election() {
             className="col-span-2 md:col-span-12 mt-6 md:mt-12"
             variants={itemVariants}
           >
+            <div className="font-extrabold text-3xl mb-6">
+              {t("informationsTitle")}
+            </div>
             <Markdown
               content={election.description}
               className="prose-sm [&_img]:max-w-xl [&_img]:w-full"
             />
+          </motion.div>
+
+          {/* Sponsors */}
+          <motion.div
+            className="col-span-2 md:col-span-12 mt-4"
+            variants={itemVariants}
+          >
+            <div className="font-bold text-xl mb-2">{t("sponsorsTitle")}</div>
+            <div className="flex flex-col md:flex-row md:flex-wrap gap-4 md:gap-8 mt-4">
+              {election.sponsors.map((sponsor, i) => (
+                <div className="md:max-w-[350px]">
+                  <Link
+                    href={sponsor.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full text-xl underline block mb-10 font-normal"
+                  >
+                    {sponsor.name}
+                  </Link>
+                  <motion.a
+                    key={i}
+                    custom={0}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        delay: 0.5 + i * 0.1,
+                        duration: 0.5,
+                        ease: "easeOut",
+                      },
+                    }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                    href={sponsor.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Image
+                      src={sponsor.image || "/placeholder.svg"}
+                      alt={sponsor.name}
+                      width={1000}
+                      height={1000}
+                      className="w-full"
+                    />
+                  </motion.a>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>
