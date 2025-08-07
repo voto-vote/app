@@ -17,7 +17,7 @@ export default function Elections({
 
   const groupedElectionSummaries = Object.groupBy(
     electionSummaries,
-    (e) => e.electionDate
+    (e) => e.electionDate.toDateString()
   );
 
   return (
