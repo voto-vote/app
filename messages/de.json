@@ -161,5 +161,10 @@
   },
   "SurveyDialog": {
     "surveyTitle": "Umfrage"
+  },
+  "Error": {
+    "errorOccured": "Ein Fehler ist aufgetreten",
+    "retry": "Erneut versuchen",
+    "backToHome": "Zurück zur Startseite"
   }
 }
