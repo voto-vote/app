@@ -9,7 +9,7 @@ import ThesesList from "./theses-list";
 import { Bookmark } from "@/components/icons/bookmark";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
-import SurveyDialog from "./survey-dialog";
+import SurveyDialog from "@/app/[locale]/elections/[electionid]/survey-dialog";
 
 export default function ResultPage() {
   const { election } = useElection();
@@ -59,7 +59,7 @@ export default function ResultPage() {
         </TabsContent>
       </Tabs>
 
-      <SurveyDialog />
+      <SurveyDialog type="afterTheses" />
     </>
   );
 }

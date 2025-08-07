@@ -5,44 +5,48 @@ import { persist, createJSONStorage } from "zustand/middleware";
 type ElectionId = Election["id"];
 
 type State = {
-  surveysSeen: Record<ElectionId, boolean>; // electionId -> seen status
+  surveyBeforeThesesSeen: Record<ElectionId, boolean>; // electionId -> seen status
+  surveyAfterThesesSeen: Record<ElectionId, boolean>; // electionId -> seen status
 };
 
 type Action = {
-  setSurveySeen: (electionId: ElectionId, seen: boolean) => void;
-  isSurveySeen: (electionId: ElectionId) => boolean;
-  clearSurveyData: (electionId?: ElectionId) => void;
+  setSurveyBeforeThesesSeen: (electionId: ElectionId, seen: boolean) => void;
+  setSurveyAfterThesesSeen: (electionId: ElectionId, seen: boolean) => void;
+  isSurveyBeforeThesesSeen: (electionId: ElectionId) => boolean;
+  isSurveyAfterThesesSeen: (electionId: ElectionId) => boolean;
 };
 
 export const useSurveyStore = create<State & Action>()(
   persist(
     (set, get) => ({
-      surveysSeen: {},
+      surveyBeforeThesesSeen: {},
+      surveyAfterThesesSeen: {},
 
-      setSurveySeen: (electionId: ElectionId, seen: boolean) =>
+      setSurveyBeforeThesesSeen: (electionId: ElectionId, seen: boolean) =>
         set((state) => ({
-          surveysSeen: {
-            ...state.surveysSeen,
+          surveyBeforeThesesSeen: {
+            ...state.surveyBeforeThesesSeen,
             [electionId]: seen,
           },
         })),
 
-      isSurveySeen: (electionId: ElectionId) => {
+      setSurveyAfterThesesSeen: (electionId: ElectionId, seen: boolean) =>
+        set((state) => ({
+          surveyAfterThesesSeen: {
+            ...state.surveyAfterThesesSeen,
+            [electionId]: seen,
+          },
+        })),
+
+      isSurveyBeforeThesesSeen: (electionId: ElectionId) => {
         const state = get();
-        return state.surveysSeen[electionId] || false;
+        return state.surveyBeforeThesesSeen[electionId] || false;
       },
 
-      clearSurveyData: (electionId?: ElectionId) =>
-        set((state) => {
-          if (electionId !== undefined) {
-            // Clear specific election
-            delete state.surveysSeen[electionId];
-            return state;
-          } else {
-            // Clear all elections
-            return { surveysSeen: {} };
-          }
-        }),
+      isSurveyAfterThesesSeen: (electionId: ElectionId) => {
+        const state = get();
+        return state.surveyAfterThesesSeen[electionId] || false;
+      },
     }),
     {
       name: "voto-survey-seen",
