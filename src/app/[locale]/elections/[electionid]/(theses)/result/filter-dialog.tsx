@@ -156,7 +156,7 @@ export default function FilterDialog({
             tmpFiltersKeyPrefix="list-"
           />
           <DropdownInput
-            label={t("region")}
+            label={t("district")}
             items={candidates.reduce<Record<string, string>>((acc, c) => {
               if (c.district) {
                 acc[c.district] = c.district;
@@ -165,15 +165,15 @@ export default function FilterDialog({
             }, {})}
             onFilterAddition={(key, value) =>
               setTmpFilter(
-                "region-" + key,
+                "district-" + key,
                 truncateText(value),
                 (entity) =>
                   entity.type === "candidate" && entity.district === key
               )
             }
-            onFilterRemoval={(k) => removeTmpFilter("region-" + k)}
+            onFilterRemoval={(k) => removeTmpFilter("district-" + k)}
             tmpFilters={tmpFilters}
-            tmpFiltersKeyPrefix="region-"
+            tmpFiltersKeyPrefix="district-"
           />
 
           <DropdownInput

@@ -8,33 +8,21 @@ export type Candidate = {
   lastName: string;
   displayName: string;
   dateOfBirth: Date;
-  gender: "male" | "female" | "non-binary" | "unknown";
+  gender: "male" | "female" | "other" | "prefer-not-to-say";
   image: string; // URL to the candidate's image
-  instanceId: number;
+  electionId: number;
   userId: number;
   partyId: number;
   partyName: string; // Name of the party
   description: string;
   district?: string;
-  launchDate: string;
   listPlace?: number;
-  website?: string;
+  website?: string; // URL to the candidate's website
   status: Status;
   ratings: Ratings;
   color: string; // Color from the party
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type Candidates = Candidate[];
 
 export type Status = "created" | "invited" | "active" | "voted" | "deactivated";
-
-export type CandidateVote = {
-  id: number;
-  instanceId: number;
-  statementId: number;
-  candidateId: number;
-  value: number; // Rating value
-  explanation?: string; // Optional explanation for the rating
-};

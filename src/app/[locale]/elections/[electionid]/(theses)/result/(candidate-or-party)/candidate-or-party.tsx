@@ -83,7 +83,7 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
       items.set("party", entity.partyName);
     }
     if (entity.district) {
-      items.set("region", entity.district);
+      items.set("district", entity.district);
     }
     if (entity.listPlace) {
       items.set("position", "#" + entity.listPlace);
@@ -116,7 +116,7 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={entity.image}
+                  src={entity.image.toString()}
                   alt={t("logoOrAvatar")}
                   className="object-contain h-full"
                 />
@@ -156,7 +156,7 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={entity.image}
+              src={entity.image.toString()}
               alt={t("logoOrAvatar")}
               className="object-contain h-full"
             />
