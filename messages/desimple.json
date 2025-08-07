@@ -118,7 +118,7 @@
     "search": "Nach {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} suchen...",
     "party": "Partei",
     "listPosition": "Listenplatz",
-    "region": "Region",
+    "district": "Bezirk",
     "age": "Alter",
     "gender": "Geschlecht",
     "sameRatingsDescription": "{matchType, select, candidates {Kandidierende} candidates_and_parties {Parteien und Kandidierende} other {Parteien}}, welche folgende Thesen wie Ich beantwortet haben:",
@@ -127,8 +127,8 @@
     "resetFiltersButton": "Alle zurücksetzen",
     "male": "Männlich",
     "female": "Weiblich",
-    "non-binary": "Divers",
-    "unknown": "Keine Angabe"
+    "other": "Divers",
+    "prefer-not-to-say": "Keine Angabe"
   },
   "ChangeRatingDialog": {
     "title": "Bewertung ändern",
@@ -146,7 +146,7 @@
     "bookmark": "Merken",
     "logoOrAvatar": "Logo oder Avatar",
     "party": "Partei",
-    "region": "Region",
+    "district": "Bezirk",
     "position": "Position",
     "detailedName": "Detaillierter Name",
     "website": "Webseite",
