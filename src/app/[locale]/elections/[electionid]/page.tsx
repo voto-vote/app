@@ -337,12 +337,12 @@ export default function Election() {
             <div className="font-bold text-xl mb-2">{t("sponsorsTitle")}</div>
             <div className="flex flex-col md:flex-row md:flex-wrap gap-4 md:gap-8 mt-4">
               {election.sponsors.map((sponsor, i) => (
-                <div className="md:max-w-[350px]" key={sponsor.name || i}>
+                <div className="md:max-w-[350px] flex flex-col" key={sponsor.name || i}>
                   <Link
                     href={sponsor.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-full text-xl underline block mb-10 font-normal"
+                    className="w-full text-xl underline block mb-6 font-normal grow"
                   >
                     {sponsor.name}
                   </Link>
