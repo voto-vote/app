@@ -42,16 +42,3 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ steps.package-version.outputs.current-version}}
-
-  clean:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Delete untagged image versions
-        uses: snok/container-retention-policy@v3.0.0
-        with:
-          image-names: ${{ github.repository }}
-          cut-off: 5m
-          tag-selection: untagged
-          account: ${{ github.actor }}
-          token: ${{ secrets.GITHUB_TOKEN }}

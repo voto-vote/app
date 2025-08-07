@@ -40,7 +40,7 @@ export default function CandidatesOrPartiesList({
         items.set("party", result.entity.partyName);
       }
       if (result.entity.district) {
-        items.set("region", result.entity.district);
+        items.set("district", result.entity.district);
       }
       if (result.entity.listPlace) {
         items.set("position", "#" + result.entity.listPlace);
