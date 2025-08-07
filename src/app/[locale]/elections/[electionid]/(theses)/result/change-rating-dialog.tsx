@@ -9,7 +9,7 @@ import type { Thesis } from "@/types/theses";
 import ThesisCard from "../thesis-card";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Election } from "@/types/election";
 import { Rating, Ratings } from "@/types/ratings";
 import { convertDecisionToRating } from "@/lib/result-calculator";
@@ -38,6 +38,12 @@ export default function ChangeRatingDialog({
   const [newFavorite, setNewFavorite] = useState<boolean>(
     userRatings[thesis.id]?.favorite ?? false
   );
+
+  // Reset rating and favorite when dialog opens
+  useEffect(() => {
+    setNewRating(userRatings[thesis.id]?.rating ?? -1);
+    setNewFavorite(userRatings[thesis.id]?.favorite ?? false);
+  }, [userRatings, thesis.id, open]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
