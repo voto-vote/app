@@ -161,5 +161,10 @@
   },
   "SurveyDialog": {
     "surveyTitle": "Survey"
+  },
+  "Error": {
+    "errorOccured": "An error occured",
+    "retry": "Retry",
+    "backToHome": "Back to Home"
   }
 }
