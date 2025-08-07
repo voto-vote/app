@@ -262,8 +262,16 @@ export default function ThesesPage() {
                   );
                 })}
             </div>
-            <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 px-2">
+            <div
+              className={`grid place-items-center text-center gap-2 text-xs text-gray-600 dark:text-gray-400 px-2`}
+              style={{
+                gridTemplateColumns: `repeat(${election.algorithm.decisions}, minmax(0, 1fr))`,
+              }}
+            >
               <span>{t("ratingSystemExplanation")}</span>
+              {election.algorithm.decisions === 3 && (
+                <span>{t("ratingSystemNeutral")}</span>
+              )}
               <span>{t("ratingSystemFullAgreement")}</span>
             </div>
           </div>

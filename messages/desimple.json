@@ -45,7 +45,8 @@
     "liveMatchesToggle": "LIVE",
     "ratingSystemFullAgreement": "stimme voll zu",
     "ratingSystemExplanation": "stimme gar nicht zu",
-    "continueButton": "Überspringen"
+    "continueButton": "Überspringen",
+    "ratingSystemNeutral": "neutral"
   },
   "ThesisCard": {
     "moreInfos": "Mehr Infos",
