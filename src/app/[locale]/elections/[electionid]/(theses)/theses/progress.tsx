@@ -31,6 +31,9 @@ export default function Progress({
   const [leftDistance, setLeftDistance] = useState(0);
   const isDesktop = useBreakpoint("md");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [mobileOpenTooltipId, setMobileOpenTooltipId] = useState<string | null>(
+    null
+  );
 
   const total = theses.length;
   const dotWidth = isDesktop ? 22 : 20; // Width of a dot in pixels
@@ -51,6 +54,13 @@ export default function Progress({
     // translationX = middleIndex - currentIndex * (width of a dot + dot spacing)
     setLeftDistance(((total - 1) / 2 - currentIndex) * (dotWidth + dotSpacing));
   }, [total, currentId, dotWidth, theses, currentIndex]);
+
+  // Close any open mobile tooltip when the current thesis changes
+  useEffect(() => {
+    if (!isDesktop) {
+      setMobileOpenTooltipId(null);
+    }
+  }, [currentId, isDesktop]);
 
   return (
     <div className="h-10 space-y-2">
@@ -86,14 +96,35 @@ export default function Progress({
                 height: `${dotWidth}px`,
                 lineHeight: `${dotWidth}px`,
               }}
-              onClick={() =>
-                rating.rating !== undefined && onCurrentIdChange(t.id)
-              }
+              onClick={() => {
+                if (rating.rating === undefined) return;
+
+                if (!isDesktop) {
+                  // First tap shows tooltip; second tap navigates
+                  if (mobileOpenTooltipId !== t.id) {
+                    setMobileOpenTooltipId(t.id);
+                    return;
+                  }
+                }
+
+                onCurrentIdChange(t.id);
+              }}
               className={`relative font-semibold text-xs text-center align-middle transition ${rating.rating !== undefined ? "text-primary hover:scale-125 cursor-pointer" : "text-accent"} ${t.id === currentId ? "scale-125 [&_svg]:stroke-1 [&_svg]:stroke-primary" : ""}`}
             >
               <Tooltip
-                delayDuration={500}
-                open={rating.rating !== undefined ? undefined : false}
+                delayDuration={isDesktop ? 500 : 0}
+                open={
+                  rating.rating !== undefined
+                    ? isDesktop
+                      ? undefined
+                      : mobileOpenTooltipId === t.id
+                    : false
+                }
+                onOpenChange={(open) => {
+                  if (!isDesktop) {
+                    setMobileOpenTooltipId(open ? t.id : null);
+                  }
+                }}
               >
                 <TooltipTrigger>
                   {rating.favorite ? (
