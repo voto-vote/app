@@ -268,11 +268,15 @@ export default function ThesesPage() {
                 gridTemplateColumns: `repeat(${election.algorithm.decisions}, minmax(0, 1fr))`,
               }}
             >
-              <span>{t("ratingSystemExplanation")}</span>
+              <span className="col-start-1">
+                {t("ratingSystemExplanation")}
+              </span>
               {election.algorithm.decisions === 3 && (
-                <span>{t("ratingSystemNeutral")}</span>
+                <span className="col-start-2">{t("ratingSystemNeutral")}</span>
               )}
-              <span>{t("ratingSystemFullAgreement")}</span>
+              <span style={{ gridColumnStart: election.algorithm.decisions }}>
+                {t("ratingSystemFullAgreement")}
+              </span>
             </div>
           </div>
 
