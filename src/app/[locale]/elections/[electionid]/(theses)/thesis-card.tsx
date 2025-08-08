@@ -14,6 +14,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ThesisCardProps {
   thesis: Thesis;
@@ -52,11 +57,19 @@ export default function ThesisCard({
           </Popover>
         )}
         {!starDisabled && (
-          <button onClick={() => onStarredChange(!starred)}>
-            <Star
-              className={`size-8 transition stroke-1 hover:scale-110 ${starred ? "fill-primary stroke-primary" : "fill-muted-foreground/35 stroke-muted-foreground/25 hover:fill-muted-foreground/45"}`}
-            />
-          </button>
+          <Tooltip delayDuration={500}>
+            <TooltipTrigger asChild>
+              <button
+                onClick={() => onStarredChange(!starred)}
+                aria-label={t("starTooltip")}
+              >
+                <Star
+                  className={`size-8 transition stroke-1 hover:scale-110 ${starred ? "fill-primary stroke-primary" : "fill-muted-foreground/35 stroke-muted-foreground/25 hover:fill-muted-foreground/45"}`}
+                />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="top">{t("starTooltip")}</TooltipContent>
+          </Tooltip>
         )}
       </div>
       <ThesisText thesis={thesis} />

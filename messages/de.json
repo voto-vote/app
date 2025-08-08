@@ -49,7 +49,8 @@
   },
   "ThesisCard": {
     "moreInfos": "Weitere Informationen",
-    "starDisabledExplanation": "Du kannst keine weiteren Thesen mehr gewichten, da das Maximum erreicht ist. Auf der Ergebnisseite kannst Du jedoch Deine Gewichtungen im Nachhinein ändern."
+    "starDisabledExplanation": "Du kannst keine weiteren Thesen mehr gewichten, da das Maximum erreicht ist. Auf der Ergebnisseite kannst Du jedoch Deine Gewichtungen im Nachhinein ändern.",
+    "starTooltip": "Markiere diese These als besonders wichtig. Sie zählt doppelt."
   },
   "BreakDrawer": {
     "title": "Zwischenstopp",
