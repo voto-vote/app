@@ -39,7 +39,7 @@ export type MatchField = {
 };
 
 export type Algorithm = {
-  decisions: number;
+  decisions: 3 | 5;
   matchType: "candidates" | "parties" | "candidates-and-parties";
   weightedVotesLimit: number | false;
   matrix: number[][];

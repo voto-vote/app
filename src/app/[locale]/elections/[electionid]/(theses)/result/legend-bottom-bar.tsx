@@ -57,7 +57,7 @@ export default function LegendBottomBar({ election }: LegendBottomBarProps) {
                         style={{ color: foregroundColor }}
                         className="relative font-semibold text-xs text-center align-middle leading-4"
                       >
-                        {election.algorithm.decisions}
+                        {(index + 1) % election.algorithm.decisions}
                       </div>
                     </div>
                     <span className="text-foreground">{party.displayName}</span>
