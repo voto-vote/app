@@ -263,7 +263,7 @@ export default function ThesesPage() {
                 })}
             </div>
             <div
-              className={`grid place-items-center text-center gap-2 text-xs text-gray-600 dark:text-gray-400 px-2`}
+              className={`grid place-items-center text-center gap-2 text-xs text-gray-600 dark:text-gray-400`}
               style={{
                 gridTemplateColumns: `repeat(${election.algorithm.decisions}, minmax(0, 1fr))`,
               }}
