@@ -67,9 +67,13 @@ export default function SurveyDialog({ type }: SurveyDialogProps) {
 
   useEffect(() => {
     if (surveyContent) {
-      const url = new URL(surveyContent.endpoint);
-      url.searchParams.set("voteID", sharingId || "");
-      setSurveyUrl(url.toString());
+      try {
+        const url = new URL(surveyContent.endpoint);
+        url.searchParams.set("voteID", sharingId || "");
+        setSurveyUrl(url.toString());
+      } catch (e) {
+        throw new Error("Invalid survey URL: " + e);
+      }
     }
   }, [surveyContent, sharingId]);
 
