@@ -33,22 +33,22 @@ export default function CandidatesOrPartiesList({
     .filter((r) => !filterBookmarked || bookmarked.includes(r.entity.id))
     .filter((r) => filters.every((f) => f(r.entity)));
 
-  function getAdditionalInfos(result: Result): Map<string, string> {
-    const items: Map<string, string> = new Map();
+  function getAdditionalInfos(result: Result): string[][] {
+    const items: string[][] = [];
     if (result.entity.type === "candidate") {
       if (result.entity.partyName) {
-        items.set("party", result.entity.partyName);
+        items.push(["party", result.entity.partyName]);
       }
       if (result.entity.district) {
-        items.set("district", result.entity.district);
+        items.push(["district", result.entity.district]);
       }
       if (result.entity.listPlace) {
-        items.set("position", "#" + result.entity.listPlace);
+        items.push(["position", "#" + result.entity.listPlace]);
       }
     }
     if (result.entity.type === "party") {
       if (result.entity.detailedName) {
-        items.set("detailedName", result.entity.detailedName);
+        items.push(["detailedName", result.entity.detailedName]);
       }
     }
     return items;
@@ -79,7 +79,9 @@ export default function CandidatesOrPartiesList({
                     {r.entity.displayName}
                   </div>
                   <div className="text-xs md:text-sm text-muted-foreground truncate">
-                    {getAdditionalInfos(r).values().toArray().join(" | ")}
+                    {getAdditionalInfos(r)
+                      .map(([, value]) => value)
+                      .join(" | ")}
                   </div>
                   <MatchBar
                     value={r.matchPercentage}
