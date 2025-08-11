@@ -27,6 +27,7 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
   const { theses } = useThesesStore();
   const { userRatings, setUserRating, setUserFavorite } = useUserRatingsStore();
   const { setBackPath } = useBackButtonStore();
+  const [items, setItems] = useState<string[][]>([]);
   const isDesktop = useBreakpoint("md");
   const entity = result.entity;
   const t = useTranslations("CandidateOrParty");
@@ -57,6 +58,30 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
     };
   }, []);
 
+  useEffect(() => {
+    const items: string[][] = [];
+    if (entity.type === "candidate") {
+      if (entity.partyName) {
+        items.push(["party", entity.partyName]);
+      }
+      if (entity.district) {
+        items.push(["district", entity.district]);
+      }
+      if (entity.listPlace) {
+        items.push(["position", "#" + entity.listPlace]);
+      }
+    }
+    if (entity.type === "party") {
+      if (entity.detailedName) {
+        items.push(["detailedName", entity.detailedName]);
+      }
+      if (entity.website) {
+        items.push(["website", entity.website.toString()]);
+      }
+    }
+    setItems(items);
+  }, [entity]);
+
   if (!theses) {
     return null;
   }
@@ -74,27 +99,6 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
       return (bookmarks[election.id]?.candidates || []).includes(entity.id);
     } else {
       return (bookmarks[election.id]?.parties || []).includes(entity.id);
-    }
-  }
-
-  const items: Map<string, string> = new Map();
-  if (entity.type === "candidate") {
-    if (entity.partyName) {
-      items.set("party", entity.partyName);
-    }
-    if (entity.district) {
-      items.set("district", entity.district);
-    }
-    if (entity.listPlace) {
-      items.set("position", "#" + entity.listPlace);
-    }
-  }
-  if (entity.type === "party") {
-    if (entity.detailedName) {
-      items.set("detailedName", entity.detailedName);
-    }
-    if (entity.website) {
-      items.set("website", entity.website.toString());
     }
   }
 
@@ -126,7 +130,7 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
                   {entity.displayName}
                 </div>
                 <div className="text-xs truncate">
-                  {items.values().toArray().join(" | ")}
+                  {items.map(([, value]) => value).join(" | ")}
                 </div>
                 <MatchBar
                   color={result.entity.color}
@@ -193,25 +197,22 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
               />
             )}
             <div className="grid grid-cols-[minmax(0,auto)_minmax(0,1fr)] md:grid-cols-2 h-fit gap-x-2">
-              {items
-                .entries()
-                .toArray()
-                .map(([key, value]) => (
-                  <Fragment key={key}>
-                    <span className="font-bold text-sm">{t(key)}</span>
-                    {key === "website" ? (
-                      <Link
-                        href={value}
-                        target="_blank"
-                        className="text-sm hover:underline"
-                      >
-                        {value}
-                      </Link>
-                    ) : (
-                      <span className="text-sm">{value}</span>
-                    )}
-                  </Fragment>
-                ))}
+              {items.map(([key, value]) => (
+                <Fragment key={key}>
+                  <span className="font-bold text-sm">{t(key)}</span>
+                  {key === "website" ? (
+                    <Link
+                      href={value}
+                      target="_blank"
+                      className="text-sm hover:underline"
+                    >
+                      {value}
+                    </Link>
+                  ) : (
+                    <span className="text-sm">{value}</span>
+                  )}
+                </Fragment>
+              ))}
             </div>
           </div>
         </div>
