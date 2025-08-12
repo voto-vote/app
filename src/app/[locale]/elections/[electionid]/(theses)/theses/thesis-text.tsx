@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { type Thesis } from "@/types/theses";
+import { Fragment } from "react";
 
 export default function ThesisText({ thesis }: { thesis: Thesis }) {
   // Trim thesis text to avoid spaces at the start and end
@@ -40,19 +41,21 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
   for (const explanation of explanations) {
     if (explanation.startOffset > lastEnd) {
       segments.push({
-        text: thesis.text.slice(lastEnd, explanation.startOffset),
+        text: thesis.text.slice(lastEnd, explanation.startOffset).trim(),
         explanation: undefined,
       });
     }
     segments.push({
-      text: thesis.text.slice(explanation.startOffset, explanation.endOffset),
-      explanation: explanation.text,
+      text: thesis.text
+        .slice(explanation.startOffset, explanation.endOffset)
+        .trim(),
+      explanation: explanation.text.trim(),
     });
     lastEnd = explanation.endOffset;
   }
   if (lastEnd < textLength) {
     segments.push({
-      text: thesis.text.slice(lastEnd, textLength),
+      text: thesis.text.slice(lastEnd, textLength).trim(),
       explanation: undefined,
     });
   }
@@ -61,14 +64,22 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
     <p className="text-xl md:text-2xl font-bold">
       {segments.map((segment, index) => {
         if (!segment.explanation) {
-          return <span key={index}>{segment.text}</span>;
+          return (
+            <Fragment key={index}>
+              <span>{segment.text}</span>
+              {/**/ " "}
+            </Fragment>
+          );
         }
 
         return (
           <Popover key={index}>
             <PopoverTrigger asChild>
-              <span className="underline decoration-3 decoration-primary decoration-dashed cursor-pointer">
-                {segment.text}
+              <span>
+                <span className="underline decoration-3 decoration-primary decoration-dashed cursor-pointer">
+                  {segment.text}
+                </span>
+                {/**/ " "}
               </span>
             </PopoverTrigger>
             <PopoverContent
