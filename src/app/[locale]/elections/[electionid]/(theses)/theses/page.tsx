@@ -271,9 +271,13 @@ export default function ThesesPage() {
               <span className="col-start-1">
                 {t("ratingSystemExplanation")}
               </span>
-              {election.algorithm.decisions === 3 && (
-                <span className="col-start-2">{t("ratingSystemNeutral")}</span>
-              )}
+              <span
+                style={{
+                  gridColumnStart: Math.ceil(election.algorithm.decisions / 2),
+                }}
+              >
+                {t("ratingSystemNeutral")}
+              </span>
               <span style={{ gridColumnStart: election.algorithm.decisions }}>
                 {t("ratingSystemFullAgreement")}
               </span>
