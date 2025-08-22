@@ -9,10 +9,8 @@ import {
 } from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import Markdown from "@/components/markdown";
-import { useElection } from "@/contexts/election-context";
 import { useThesesStore } from "@/stores/theses-store";
 import Lottie from "lottie-react";
 
