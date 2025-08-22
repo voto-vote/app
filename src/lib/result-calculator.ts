@@ -30,6 +30,10 @@ export function calculateResults(
 
     for (const [thesisId, userRating] of Object.entries(userRatings)) {
       const entityRating = entityRatings[thesisId];
+
+      // If rating is -1, skip it
+      if (userRating.rating === -1) continue;
+
       // "Bugfix" if a rating is missing
       if (!entityRating) continue;
 
