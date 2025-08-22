@@ -33,7 +33,7 @@ interface CountdownTime {
 
 export default function Election() {
   const { election } = useElection();
-  const { introSeen } = useIntroStore();
+  const { thesesIntroSeen } = useIntroStore();
   const router = useRouter();
   const { setBackPath } = useBackButtonStore();
   const locale = useLocale();
@@ -139,10 +139,10 @@ export default function Election() {
   }
 
   function goToIntroOrTheses() {
-    if (introSeen) {
+    if (thesesIntroSeen) {
       router.push(`/elections/${election.id}/theses`);
     } else {
-      router.push(`/elections/${election.id}/intro`);
+      router.push(`/elections/${election.id}/theses/intro`);
     }
   }
 
@@ -343,10 +343,7 @@ export default function Election() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mt-4">
                   {election.sponsors.map((sponsor, i) => (
-                    <div
-                      className="flex flex-col"
-                      key={sponsor.name || i}
-                    >
+                    <div className="flex flex-col" key={sponsor.name || i}>
                       <Link
                         href={sponsor.url}
                         target="_blank"
