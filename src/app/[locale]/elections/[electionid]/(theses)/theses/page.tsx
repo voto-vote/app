@@ -24,6 +24,7 @@ import { useResultStore } from "@/stores/result-store";
 import { convertDecisionToRating } from "@/lib/result-calculator";
 import { EventsAPI } from "@/lib/api";
 import { useDataSharingStore } from "@/stores/data-sharing-store";
+import { useIntroStore } from "@/stores/intro-store";
 
 export default function ThesesPage() {
   const { election } = useElection();
@@ -37,6 +38,7 @@ export default function ThesesPage() {
   const [breakDrawerOpen, setBreakDrawerOpen] = useState(false);
   const { setSharingId, dataSharingEnabled } = useDataSharingStore();
   const { setBackPath } = useBackButtonStore();
+  const { resultIntroSeen } = useIntroStore();
   const t = useTranslations("ThesesPage");
   const count = theses?.length ?? 0;
   const router = useRouter();
@@ -114,7 +116,7 @@ export default function ThesesPage() {
   function goTo(index: number, skipBreak = false) {
     if (index >= count) {
       sendVotoFinishedEvent();
-      router.push(`/elections/${election!.id}/result`);
+      goToIntroOrResult();
       return;
     }
 
@@ -127,6 +129,14 @@ export default function ThesesPage() {
 
       api?.scrollTo(index);
     }, 200);
+  }
+
+  function goToIntroOrResult() {
+    if (resultIntroSeen) {
+      router.push(`/elections/${election.id}/result`);
+    } else {
+      router.push(`/elections/${election.id}/result/intro`);
+    }
   }
 
   return (
@@ -323,7 +333,7 @@ export default function ThesesPage() {
               setUserRating(election.id, theses[i].id, -1);
             }
           }
-          router.push(`/elections/${election.id}/result`);
+          goToIntroOrResult();
         }}
         completedTheses={currentThesisIndex}
         totalTheses={count}
