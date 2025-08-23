@@ -30,16 +30,25 @@
     "dataDisclaimer": "VOTO erhebt keine personenbezogenen Daten. Deine Bewertungen werden anonym gespeichert. Dies kannst du jederzeit im Seitenmenü ändern."
   },
   "Intro": {
-    "nextButton": "Weiter",
+    "nextButton": "Weiter"
+  },
+  "ThesesIntroPage": {
     "startVotoButton": "VOTO starten",
-    "introOneTitle": "Finde heraus, wer zu Dir passt!",
-    "introOneDescription": "Du kannst bis zu **{count, plural, =1 {# These} other {# Thesen}}** beantworten. So siehst Du, welche {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} bei der Wahl „{electionTitle} - {electionSubtitle}“ gut zu Dir passen. Die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} haben auch geantwortet.",
-    "introTwoTitle": "Was ist Dir besonders wichtig?",
-    "introTwoDescription": "Wenn Dir ein Thema sehr wichtig ist, markiere es mit einem Stern. Es zählt dann **doppelt so viel**.",
+    "introOneTitle": "Sag Deine Meinung!",
+    "introOneDescription": "Du kannst zu **{count, plural, =1 {# Aussage} other {# Aussagen}}** Deine Meinung abgeben.",
+    "introTwoTitle": "Was ist Dir wichtig?",
+    "introTwoDescription": "Wenn Dir ein Thema besonders wichtig ist, markiere es mit dem Stern. Es zählt dann **doppelt**.",
     "introThreeTitle": "Du hast Dich vertippt? Kein Problem.",
-    "introThreeDescription": "Mit der **Zeitleiste** kannst Du schnell zwischen den Aussagen wechseln. Deine Antwort wird im Kreis angezeigt. Wenn Du auf einen Kreis tippst, kannst Du Deine Antwort ändern.",
-    "introFourTitle": "Dein Ergebnis zur Wahl.",
-    "introFourDescription": "Wenn Du genug Aussagen beantwortet hast, siehst Du Dein Ergebnis. Du erfährst, {matchType, select, candidates {welcher Kandidierende} candidates_and_parties {welche Partei und welcher Kandidierende} other {welche Partei}} am besten zu Dir passt. Du kannst Dir auch alle Antworten und **Begründungen** der {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} ansehen."
+    "introThreeDescription": "Mit der **Zeitleiste** kannst Du schnell zwischen den Aussagen wechseln. Mit {pointer, select, coarse {Tippen} other {einem Klick}} auf einen Kreis kommst Du direkt dorthin."
+  },
+  "ResultIntroPage": {
+    "goToResultsButton": "Ergebnisse anzeigen",
+    "introOneTitle": "Deine Treffer.",
+    "introOneDescription": "Hier siehst Du, mit welchen Treffern Du am besten passt.",
+    "introTwoTitle": "Mehrere Treffer vergleichen.",
+    "introTwoDescription": "Setze ein **Lesezeichen** bei mehreren Treffern. Dann kannst Du die Antworten vergleichen.",
+    "introThreeTitle": "Mehr Infos?",
+    "introThreeDescription": "Klicke auf das **Profil** von einem Treffer. Dort findest Du mehr Informationen und die **Begründungen** zu den Antworten."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",

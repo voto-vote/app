@@ -27,7 +27,7 @@ export default function CandidatesOrPartiesList({
   filters,
   onClick,
 }: CandidatesOrPartiesListProps) {
-  const isCoarsePointer = usePointer();
+  const pointer = usePointer();
   const t = useTranslations("CandidatesOrPartiesList");
   const items = result
     .filter((r) => !filterBookmarked || bookmarked.includes(r.entity.id))
@@ -114,7 +114,7 @@ export default function CandidatesOrPartiesList({
       {items.length === 0 && bookmarked.length === 0 && filterBookmarked && (
         <div className="text-center text-xl pt-8">
           {t("noBookmarks", {
-            pointer: isCoarsePointer ? "coarse" : "fine",
+            pointer,
             matchType: election.algorithm.matchType,
           })}
         </div>

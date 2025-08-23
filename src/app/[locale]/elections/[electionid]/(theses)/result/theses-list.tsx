@@ -22,7 +22,7 @@ export default function ThesesList() {
   const { userRatings, setUserRating, setUserFavorite } = useUserRatingsStore();
   const { bookmarks } = useBookmarkStore();
   const [filteredEntities, setFilteredEntities] = useState<Entities>([]);
-  const isCoarsePointer = usePointer();
+  const pointer = usePointer();
   const t = useTranslations("ThesesList");
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function ThesesList() {
 
           <p className="text-sm">
             {t.rich("detailsInfo", {
-              pointer: isCoarsePointer ? "coarse" : "fine",
+              pointer,
               matchType: election.algorithm.matchType,
               details: (chunks) => <span className="font-bold">{chunks}</span>,
             })}
@@ -70,7 +70,7 @@ export default function ThesesList() {
 
           <p className="text-sm">
             {t.rich("changeOpinionInfo", {
-              pointer: isCoarsePointer ? "coarse" : "fine",
+              pointer,
               changeopinion: (chunks) => (
                 <span className="font-bold">{chunks}</span>
               ),

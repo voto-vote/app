@@ -30,16 +30,25 @@
     "dataDisclaimer": "VOTO erhebt keine personenbezogenen Daten. Deine Bewertungen werden anonym gespeichert. Dies kannst du jederzeit im Seitenmenü ändern."
   },
   "Intro": {
-    "nextButton": "Weiter",
+    "nextButton": "Weiter"
+  },
+  "ThesesIntroPage": {
     "startVotoButton": "VOTO starten",
-    "introOneTitle": "Lerne mehr über aktuelle Themen und entdecke, wer zu Dir passt!",
-    "introOneDescription": "Um herauszufinden, welche {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} zu Deiner Einstellung passen, kannst Du bis zu **{count, plural, =1 {# These} other {# Thesen}}** beantworten. Die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Kandidierenden und Parteien} other {Parteien}} der Wahl „{electionTitle} - {electionSubtitle}“ haben dies ebenfalls getan.",
+    "introOneTitle": "Bilde dir deine Meinung!",
+    "introOneDescription": "Du kannst Deine Meinung zu **{count, plural, =1 {# These} other {# Thesen}}** abgeben.",
     "introTwoTitle": "Wofür brennst Du?",
-    "introTwoDescription": "Liegt Dir ein Thema besonders am Herzen, kannst Du dieses mit dem Stern-Symbol markieren. Diese These wird **doppelt so stark bewertet**.",
+    "introTwoDescription": "Liegt Dir ein Thema besonders am Herzen, kannst Du dieses mit dem Stern-Symbol markieren. Diese These wird **doppelt so stark gezählt**.",
     "introThreeTitle": "Vertippt? Keine Sorge.",
-    "introThreeDescription": "Über die **Timeline** kannst Du schnell durch die Thesen **navigieren**. Bei von Dir bereits beantworteten Thesen siehst Du Deine Antwort innerhalb des Kreises. Durch einen Tap auf einen der Kreise navigierst Du zur jeweiligen These, um sie erneut zu bewerten.",
-    "introFourTitle": "Deine Matches zur anstehenden Wahl.",
-    "introFourDescription": "Hast Du genug Thesen beantwortet, siehst Du Dein Ergebnis. Hier kannst Du sehen, mit {matchType, select, candidates {welchem Kandidierenden} candidates_and_parties {welcher Partei und welchem Kandidierenden} other {welcher Partei}} Du am meisten **übereinstimmst**. Außerdem kannst Du Dir einen Überblick über alle {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} verschaffen und Dir **Begründungen** zu den einzelnen Thesen durchlesen."
+    "introThreeDescription": "Über die **Timeline** kannst Du schnell durch die Thesen **navigieren**. Durch einen {pointer, select, coarse {Tap} other {Klick}} auf einen der Kreise kommst Du zur jeweiligen These."
+  },
+  "ResultIntroPage": {
+    "goToResultsButton": "Ergebnisse ansehen",
+    "introOneTitle": "Deine Matches.",
+    "introOneDescription": "Hier kannst Du sehen, mit welchen Matches Du am meisten **übereinstimmst**.",
+    "introTwoTitle": "Vergleichen mehre Matches.",
+    "introTwoDescription": "**Markiere** mehrere Matches (Lesezeichen) für deine **Merkliste**. Dann kannst Du die Antworten von verschiedenen Matches für jede Frage vergleichen.",
+    "introThreeTitle": "Du willst mehr Infos?",
+    "introThreeDescription": "Klicke auf das **Profil** von einem Match. Dort bekommst Du weitere Informationen. Und kannst die **Begründungen** zu den einzelnen Antworten durchlesen."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",

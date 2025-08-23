@@ -30,16 +30,25 @@
     "dataDisclaimer": "VOTO does not collect personal data. Your ratings are stored anonymously. You can change this at any time in the site menu."
   },
   "Intro": {
-    "nextButton": "Next",
+    "nextButton": "Next"
+  },
+  "ThesesIntroPage": {
     "startVotoButton": "Start VOTO",
-    "introOneTitle": "Learn more about current topics and discover who suits you best!",
-    "introOneDescription": "To find out which {matchType, select, candidates {candidates} candidates_and_parties {candidates and parties} other {parties}} align with your views, you can answer up to **{count, plural, =1 {# statement} other {# statements}}**. The {matchType, select, candidates {candidates} candidates_and_parties {candidates and parties} other {parties}} in the election \"{electionTitle} - {electionSubtitle}\" have done so as well.",
-    "introTwoTitle": "What are you passionate about?",
-    "introTwoDescription": "If a topic is especially important to you, you can mark it with the star symbol. This statement will be **counted twice as much**.",
-    "introThreeTitle": "Made a mistake? No worries.",
-    "introThreeDescription": "Using the **timeline**, you can easily **navigate** through the statements. For the ones you've already answered, your response will appear inside the circle. Tapping on a circle takes you to the respective statement so you can re-evaluate it.",
-    "introFourTitle": "Your matches for the upcoming election.",
-    "introFourDescription": "Once you've answered enough statements, you'll see your results. Here you can find out which {matchType, select, candidates {candidate} candidates_and_parties {party and candidate} other {party}} you **agree with the most**. You can also get an overview of all {matchType, select, candidates {candidates} candidates_and_parties {parties and candidates} other {parties}} and read their **explanations** for each statement."
+    "introOneTitle": "Form your opinion!",
+    "introOneDescription": "You can give your opinion on **{count, plural, =1 {# statement} other {# statements}}**.",
+    "introTwoTitle": "What do you care about most?",
+    "introTwoDescription": "If a topic is particularly important to you, you can mark it with the star symbol. This statement will be **counted twice as much**.",
+    "introThreeTitle": "Made a mistake? Don't worry.",
+    "introThreeDescription": "Using the **timeline**, you can quickly **navigate** through the statements. By {pointer, select, coarse {tapping} other {clicking}} on one of the circles, you'll jump to the respective statement."
+  },
+  "ResultIntroPage": {
+    "goToResultsButton": "View results",
+    "introOneTitle": "Your matches.",
+    "introOneDescription": "Here you can see which matches you **align with** the most.",
+    "introTwoTitle": "Compare multiple matches.",
+    "introTwoDescription": "**Bookmark** multiple matches to your **watchlist**. Then you can compare the answers from different matches for each question.",
+    "introThreeTitle": "Want more info?",
+    "introThreeDescription": "Click on a match's **profile** to get more details. There you can also read the **explanations** for each answer."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",
