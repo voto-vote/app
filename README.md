@@ -1,4 +1,4 @@
-# VOTO - Vote advising application
+# VOTO - Vote advise application
 
 <p align="center">
   <a href="https://voto.vote">
