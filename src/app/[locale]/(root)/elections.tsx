@@ -15,9 +15,16 @@ export default function Elections({
   const locale = useLocale();
   const t = useTranslations("Elections");
 
-  const groupedElectionSummaries = Object.groupBy(
-    electionSummaries,
-    (e) => e.electionDate.toDateString()
+  const groupedElectionSummaries = electionSummaries.reduce(
+    (groups, election) => {
+      const date = election.electionDate.toDateString();
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(election);
+      return groups;
+    },
+    {} as Record<string, ElectionSummary[]>
   );
 
   return (
