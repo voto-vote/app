@@ -11,7 +11,6 @@
   ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
   ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
   ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-  ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)
 
 This project contains the offical VOTO web app based on Next.js and Tailwind CSS. To learn more about VOTO, we kindly refer to our [documentation repository](https://github.com/voto-vote/.github/tree/main/profile).
 
