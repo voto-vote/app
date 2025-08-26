@@ -8,17 +8,35 @@
   <h3 align="center">Voting made easy</h3>
 </p>
 
+  ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+  ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+  ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+  ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)
+
 This project contains the offical VOTO web app based on Next.js and Tailwind CSS. To learn more about VOTO, we kindly refer to our [documentation repository](https://github.com/voto-vote/voto).
 
 ## Development
 
-First, copy the `.env.example` to `.env` and fill out the parameters.
+**Clone the repository**
+   ```bash
+   git clone https://github.com/voto-vote/app.git
+   cd app
+   ```
+
+**Install dependencies**
+   ```bash
+   npm install
+   ```
+
+**Set up environment variables**
+
+Copy the `.env.example` to `.env` and fill out the parameters.
 
 > [!IMPORTANT]  
 > Right now this app depends on the not-yet-open-sourced VOTO-portal.
 > We intend to integrate the portal into this app in the future.
 
-After that, run the development server:
+**Run the development server**
 
 ```bash
 npm run dev
