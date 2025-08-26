@@ -72,5 +72,5 @@ Found a bug? Please [open an issue](https://github.com/voto-vote/app/issues) wit
 <div align="center">
   Made with ❤️ by the VOTO team
   <br />
-  ⭐ Star us on GitHub if this project helped you!
+  ⭐ Star this project if VOTO helped you!
 </div>
