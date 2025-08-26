@@ -52,3 +52,25 @@ To learn more about our framework and dependencies, take a look at the following
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs) - learn about Tailwind CSS concepts and classes.
 - [Motion Documentation](https://motion.dev/docs) - learn about Motion's animation features
 - [Zustand](zustand.docs.pmnd.rs) - learn about Zustand's state management
+
+## Bug Reports
+
+Found a bug? Please [open an issue](https://github.com/voto-vote/app/issues) with:
+- Clear description of the problem
+- Steps to reproduce
+- Expected vs actual behavior
+- Screenshots (if applicable)
+
+
+## Support
+
+- 📧 Email: info@voto.vote
+- 🐛 Issues: [GitHub Issues](https://github.com/voto-vote/app/issues)
+
+---
+
+<div align="center">
+  Made with ❤️ by the VOTO team
+  <br />
+  ⭐ Star us on GitHub if this project helped you!
+</div>
