@@ -22,6 +22,7 @@ import {
   Home,
   Info,
   Languages,
+  Star,
   Shield,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -49,6 +50,7 @@ export default function NavigationSheet({
   const navigationItems = [
     { label: t("home"), icon: Home, href: "/" },
     { label: t("votoPortal"), icon: Globe, href: "https://portal.voto.vote/" },
+    { label: "GitHub", icon: Star, href: "https://github.com/voto-vote/app" }
   ];
 
   const aboutItems = [
