@@ -11,6 +11,7 @@
     "i18n:check": "i18n-check -s en -l messages -f next-intl -u src"
   },
   "dependencies": {
+    "@icons-pack/react-simple-icons": "^13.7.0",
     "@radix-ui/react-collapsible": "^1.1.11",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-separator": "^1.1.7",
@@ -33,7 +34,6 @@
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.1",
     "remark-html": "^16.0.1",
-    "simple-icons": "^15.12.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2",

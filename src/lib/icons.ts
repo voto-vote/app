@@ -1,5 +1,4 @@
 import { createLucideIcon } from "lucide-react";
-import { siGithub } from "simple-icons";
 
 export const Bookmark = createLucideIcon("bookmark", [
   [
@@ -9,8 +8,4 @@ export const Bookmark = createLucideIcon("bookmark", [
       key: "8gv6c4",
     },
   ],
-]);
-
-export const GitHub = createLucideIcon(siGithub.slug, [
-  ["path", { d: siGithub.path }],
 ]);
