@@ -44,6 +44,7 @@ export default function NavigationSheet({
   const pathname = usePathname();
   const params = useParams();
   const t = useTranslations("NavigationSheet");
+
   const { dataSharingEnabled, disableDataSharing, enableDataSharing } =
     useDataSharingStore();
 
