@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useElection } from "@/contexts/election-context";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import ThesesList from "./theses-list";
-import { Bookmark } from "@/components/icons/bookmark";
+import { Bookmark } from "@/lib/icons";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
 import SurveyDialog from "@/app/[locale]/elections/[electionid]/survey-dialog";

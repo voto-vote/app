@@ -7,7 +7,7 @@ import { useThesesStore } from "@/stores/theses-store";
 import { useUserRatingsStore } from "@/stores/user-ratings-store";
 import { useElection } from "@/contexts/election-context";
 import ThesesResultCarousel from "../thesis-result-carousel";
-import { Bookmark } from "@/components/icons/bookmark";
+import { Bookmark } from "@/lib/icons";
 import LegendBottomBar from "../legend-bottom-bar";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import { motion, AnimatePresence } from "framer-motion";

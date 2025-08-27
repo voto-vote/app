@@ -11,6 +11,7 @@
     "i18n:check": "i18n-check -s en -l messages -f next-intl -u src"
   },
   "dependencies": {
+    "@icons-pack/react-simple-icons": "^13.7.0",
     "@radix-ui/react-collapsible": "^1.1.11",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-separator": "^1.1.7",

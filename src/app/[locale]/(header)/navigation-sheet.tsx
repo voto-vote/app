@@ -28,6 +28,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useDataSharingStore } from "@/stores/data-sharing-store";
 import { Label } from "@/components/ui/label";
+import { SiGithub } from "@icons-pack/react-simple-icons";
 
 interface NavigationSheetProps {
   open: boolean;
@@ -47,8 +48,19 @@ export default function NavigationSheet({
     useDataSharingStore();
 
   const navigationItems = [
-    { label: t("home"), icon: Home, href: "/" },
-    { label: t("votoPortal"), icon: Globe, href: "https://portal.voto.vote/" },
+    { label: t("home"), icon: Home, href: "/", target: "_self" },
+    {
+      label: t("votoPortal"),
+      icon: Globe,
+      href: "https://portal.voto.vote/",
+      target: "_blank",
+    },
+    {
+      label: "GitHub",
+      icon: SiGithub,
+      href: "https://github.com/voto-vote/app",
+      target: "_blank",
+    },
   ];
 
   const aboutItems = [
@@ -56,8 +68,14 @@ export default function NavigationSheet({
       label: t("frequentQuestions"),
       icon: HelpCircle,
       href: "https://www.voto.vote/faq",
+      target: "_blank",
     },
-    { label: t("whatIsVoto"), icon: Info, href: "https://www.voto.vote/" },
+    {
+      label: t("whatIsVoto"),
+      icon: Info,
+      href: "https://www.voto.vote/",
+      target: "_blank",
+    },
   ];
 
   const legalItems = [
@@ -65,11 +83,13 @@ export default function NavigationSheet({
       label: t("dataPrivacy"),
       icon: Shield,
       href: "https://www.voto.vote/datenschutz",
+      target: "_blank",
     },
     {
       label: t("imprint"),
       icon: FileText,
       href: "https://www.voto.vote/impressum",
+      target: "_blank",
     },
   ];
 
@@ -102,7 +122,7 @@ export default function NavigationSheet({
                 onClick={() => onOpenChange(false)}
                 asChild
               >
-                <Link href={item.href}>
+                <Link href={item.href} target={item.target}>
                   <item.icon className="mr-3 size-5" />
                   {item.label}
                   <ChevronRight className="ml-auto size-4 opacity-50" />
@@ -126,7 +146,7 @@ export default function NavigationSheet({
                 onClick={() => onOpenChange(false)}
                 asChild
               >
-                <Link href={item.href}>
+                <Link href={item.href} target={item.target}>
                   <item.icon className="mr-3 size-4" />
                   {item.label}
                   <ChevronRight className="ml-auto size-4 opacity-50" />
@@ -150,11 +170,7 @@ export default function NavigationSheet({
                 onClick={() => onOpenChange(false)}
                 asChild
               >
-                <Link
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <Link href={item.href} target={item.target}>
                   <item.icon className="mr-3 size-4" />
                   {item.label}
                   <ChevronRight className="ml-auto size-4 opacity-50" />
