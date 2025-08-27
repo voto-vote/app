@@ -1,6 +1,6 @@
 import { Result } from "@/types/result";
 import MatchBar from "./match-bar";
-import { Bookmark } from "@/components/icons/bookmark";
+import { Bookmark } from "@/lib/icons";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";

@@ -22,13 +22,13 @@ import {
   Home,
   Info,
   Languages,
-  Star,
   Shield,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useDataSharingStore } from "@/stores/data-sharing-store";
 import { Label } from "@/components/ui/label";
+import { GitHub } from "@/lib/icons";
 
 interface NavigationSheetProps {
   open: boolean;
@@ -50,7 +50,7 @@ export default function NavigationSheet({
   const navigationItems = [
     { label: t("home"), icon: Home, href: "/" },
     { label: t("votoPortal"), icon: Globe, href: "https://portal.voto.vote/" },
-    { label: "GitHub", icon: Star, href: "https://github.com/voto-vote/app" }
+    { label: "GitHub", icon: GitHub, href: "https://github.com/voto-vote/app" },
   ];
 
   const aboutItems = [
