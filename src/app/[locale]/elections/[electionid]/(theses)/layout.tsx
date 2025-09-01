@@ -17,9 +17,7 @@ import { useEntityFilterStore } from "@/stores/entity-filter-store";
 
 export default function ElectionLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: LayoutProps<"/[locale]/elections/[electionid]">) {
   const { election } = useElection();
   const { setTheses, clearTheses } = useThesesStore();
   const { userRatings } = useUserRatingsStore();

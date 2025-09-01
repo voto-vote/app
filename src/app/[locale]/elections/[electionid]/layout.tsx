@@ -6,9 +6,7 @@ import { Metadata } from "next";
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ electionid: string }>;
-}): Promise<Metadata> {
+}: LayoutProps<"/[locale]/elections/[electionid]">): Promise<Metadata> {
   const { electionid } = await params;
   const election = await getElection(electionid);
   if (!election) {
@@ -29,10 +27,7 @@ export async function generateMetadata({
 export default async function ElectionLayout({
   children,
   params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ electionid: string }>;
-}) {
+}: LayoutProps<"/[locale]/elections/[electionid]">) {
   const { electionid } = await params;
   const election = await getElection(electionid);
   if (!election) {
