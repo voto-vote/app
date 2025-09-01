@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix",
     "test": "vitest run",
     "i18n:check": "i18n-check -s en -l messages -f next-intl -u src"
   },
