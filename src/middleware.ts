@@ -3,8 +3,6 @@ import { routing } from "./i18n/routing";
 import { NextRequest } from "next/server";
 import { getElection } from "./actions/election-action";
 
-export const runtime = "nodejs";
-
 // If an election does not support the requested locale, we redirect to the default locale
 export default async function middleware(request: NextRequest) {
   const [, ...segments] = request.nextUrl.pathname.split("/");
@@ -43,7 +41,9 @@ export default async function middleware(request: NextRequest) {
       if (electionsPathIndex > 0) {
         const locale = segments[electionsPathIndex - 1];
         if (
-          !supportedElectionLocales.includes(locale as (typeof routing.locales)[number])
+          !supportedElectionLocales.includes(
+            locale as (typeof routing.locales)[number]
+          )
         ) {
           request.nextUrl.pathname =
             "/" + segments.slice(electionsPathIndex).join("/");
@@ -60,4 +60,5 @@ export const config = {
   // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
   // - … the ones containing a dot (e.g. `favicon.ico`)
   matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
+  runtime: "nodejs",
 };

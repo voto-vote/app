@@ -18,12 +18,13 @@ const nextConfig: NextConfig = {
     "[fd00:*]",
     "localhost",
   ],
+  typedRoutes: true,
   // TODO: Remove this when the redirect is no longer needed
   async redirects() {
     return [
       {
-        source: '/:locale/app/:id',
-        destination: '/:locale/elections/:id',
+        source: "/:locale/app/:id",
+        destination: "/:locale/elections/:id",
         permanent: true, // 301 redirect
       },
     ];
