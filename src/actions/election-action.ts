@@ -158,8 +158,16 @@ function convertMatchType(
 function convertSurvey(configuration: any): Election["survey"] {
   return {
     beforeTheses: configuration.presurvey?.enabled
-      ? configuration.presurvey
+      ? {
+          ...configuration.presurvey,
+          embedType: configuration.presurvey.embedType || "link", // default to "link"
+        }
       : false,
-    afterTheses: configuration.survey?.enabled ? configuration.survey : false,
+    afterTheses: configuration.survey?.enabled
+      ? {
+          ...configuration.survey,
+          embedType: configuration.survey.embedType || "link", // default to "link"
+        }
+      : false,
   };
 }
