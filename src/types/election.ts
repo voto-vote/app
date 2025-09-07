@@ -55,7 +55,7 @@ export type SurveyContent =
   | {
       enabled: true;
       endpoint: string;
-      embedType: "iframe" | "link";
+      displayType: "embedded" | "link";
       frequency: number;
       title: string;
       description: string;

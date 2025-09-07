@@ -160,13 +160,13 @@ function convertSurvey(configuration: any): Election["survey"] {
     beforeTheses: configuration.presurvey?.enabled
       ? {
           ...configuration.presurvey,
-          embedType: configuration.presurvey.embedType || "link", // default to "link"
+          displayType: configuration.presurvey.displayType || "link", // default to "link"
         }
       : false,
     afterTheses: configuration.survey?.enabled
       ? {
           ...configuration.survey,
-          embedType: configuration.survey.embedType || "link", // default to "link"
+          displayType: configuration.survey.displayType || "link", // default to "link"
         }
       : false,
   };

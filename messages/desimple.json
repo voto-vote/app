@@ -171,7 +171,8 @@
     "backToHome": "Zurück zur Startseite"
   },
   "SurveyDialog": {
-    "surveyTitle": "Umfrage"
+    "surveyTitle": "Umfrage",
+    "close": "Schließen"
   },
   "Error": {
     "errorOccured": "Ein Fehler ist aufgetreten",

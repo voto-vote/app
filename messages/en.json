@@ -171,7 +171,8 @@
     "backToHome": "Back to Home"
   },
   "SurveyDialog": {
-    "surveyTitle": "Survey"
+    "surveyTitle": "Survey",
+    "close": "Close"
   },
   "Error": {
     "errorOccured": "An error occured",
