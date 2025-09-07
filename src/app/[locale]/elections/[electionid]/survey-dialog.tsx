@@ -45,6 +45,7 @@ export default function SurveyDialog({ type }: SurveyDialogProps) {
     if (surveyContent && !isSurveySeen) {
       const timer = setTimeout(() => {
         setSurveyDialogOpen(true);
+
         // Mark as seen when showing
         if (type === "beforeTheses") {
           setSurveyBeforeThesesSeen(election.id, true);
@@ -86,17 +87,43 @@ export default function SurveyDialog({ type }: SurveyDialogProps) {
       open={isSurveyDialogOpen}
       onOpenChange={setSurveyDialogOpen}
       title={surveyContent.title || t("surveyTitle")}
+      className={
+        surveyContent.displayType === "embedded"
+          ? "max-w-full h-screen"
+          : undefined
+      }
     >
-      <div className="flex flex-col gap-4">
-        <p className="text-lg text-center mb-4">{surveyContent.description}</p>
-        <Button onClick={() => setSurveyDialogOpen(false)} asChild>
-          <Link href={surveyUrl} target="_blank" rel="noopener noreferrer">
-            {surveyContent.yes}
-          </Link>
-        </Button>
-        <Button variant="ghost" onClick={() => setSurveyDialogOpen(false)}>
-          {surveyContent.no}
-        </Button>
+      <div className="flex flex-col gap-4 h-full">
+        {surveyContent.displayType === "embedded" ? (
+          <>
+            <div className="flex-1 min-h-0">
+              <iframe
+                src={surveyUrl}
+                className="size-full border-0 rounded"
+                title={surveyContent.title || t("surveyTitle")}
+              />
+            </div>
+            <div className="flex justify-center">
+              <Button onClick={() => setSurveyDialogOpen(false)}>
+                {t("close")}
+              </Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p className="text-lg text-center mb-4">
+              {surveyContent.description}
+            </p>
+            <Button onClick={() => setSurveyDialogOpen(false)} asChild>
+              <Link href={surveyUrl} target="_blank" rel="noopener noreferrer">
+                {surveyContent.yes}
+              </Link>
+            </Button>
+            <Button variant="ghost" onClick={() => setSurveyDialogOpen(false)}>
+              {surveyContent.no}
+            </Button>
+          </>
+        )}
       </div>
     </ResponsiveDialog>
   );
