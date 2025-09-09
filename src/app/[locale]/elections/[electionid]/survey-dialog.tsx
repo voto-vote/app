@@ -12,6 +12,9 @@ interface SurveyDialogProps {
   type: keyof Survey;
 }
 
+// Defines the time, after which the survey dialog is shown (in ms)
+const SURVEY_TIMEOUT = 5000;
+
 export default function SurveyDialog({ type }: SurveyDialogProps) {
   const { election } = useElection();
   const [isSurveyDialogOpen, setSurveyDialogOpen] = useState(false);
@@ -52,7 +55,7 @@ export default function SurveyDialog({ type }: SurveyDialogProps) {
         } else {
           setSurveyAfterThesesSeen(election.id, true);
         }
-      }, 10000);
+      }, SURVEY_TIMEOUT);
 
       return () => clearTimeout(timer);
     }
