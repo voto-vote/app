@@ -82,6 +82,7 @@ export async function getElection(id: string): Promise<Election | null> {
       ) ?? "",
     locales: locales,
     description: i.description,
+    sponsorsTitle: configuration?.introduction?.sponsor_text ?? "",
     sponsors: convertSponsors(
       configuration?.sponsors ?? [],
       configurationUrlOrigin
