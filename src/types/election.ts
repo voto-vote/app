@@ -6,6 +6,7 @@ export type Election = {
   image: string;
   locales: string[];
   description: string;
+  sponsorsTitle: string;
   sponsors: Sponsor[];
   launchDate: string;
   status: Status;
