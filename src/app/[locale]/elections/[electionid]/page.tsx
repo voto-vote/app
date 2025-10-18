@@ -338,7 +338,7 @@ export default function Election() {
             {election.sponsors.length > 0 && (
               <>
                 <div className="font-bold text-xl mb-2">
-                  {t("sponsorsTitle")}
+                  {election.sponsorsTitle || t("sponsorsTitle")}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mt-4">
