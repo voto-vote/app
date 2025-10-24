@@ -27,7 +27,7 @@
     "startVotoButtonDisabled": "VOTO startet bald",
     "informationsTitle": "Infos",
     "sponsorsTitle": "Partner & Unterstützer",
-    "dataDisclaimer": "VOTO erhebt keine personenbezogenen Daten. Deine Bewertungen werden anonym gespeichert. Dies kannst du jederzeit im Seitenmenü ändern."
+    "dataDisclaimer": "VOTO erhebt keine personenbezogenen Daten. Deine Bewertungen werden anonym gespeichert. Dies kannst Du jederzeit im Seitenmenü ändern."
   },
   "Intro": {
     "nextButton": "Weiter"
@@ -113,7 +113,7 @@
     "changeOpinionInfo": "{pointer, select, coarse {Tippe} other {Klicke}} auf <changeopinion>Meinung ändern</changeopinion>, um Deine Antwort zu ändern."
   },
   "ResultList": {
-    "explanation": "Das Ergebnis basiert auf deinen Antworten zu {count, plural, =1 {Deiner # These} other {Deinen # Thesen}}.",
+    "explanation": "Das Ergebnis basiert auf Deinen Antworten zu {count, plural, =1 {Deiner # These} other {Deinen # Thesen}}.",
     "candidatesTab": "Kandidierende",
     "partiesTab": "Parteien",
     "filterButton": "Filter ({count})",

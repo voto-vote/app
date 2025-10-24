@@ -27,14 +27,14 @@
     "startVotoButtonDisabled": "VOTO startet bald",
     "informationsTitle": "Informationen",
     "sponsorsTitle": "Kooperationspartner & Sponsoren",
-    "dataDisclaimer": "VOTO erhebt keine personenbezogenen Daten. Deine Bewertungen werden anonym gespeichert. Dies kannst du jederzeit im Seitenmenü ändern."
+    "dataDisclaimer": "VOTO erhebt keine personenbezogenen Daten. Deine Bewertungen werden anonym gespeichert. Dies kannst Du jederzeit im Seitenmenü ändern."
   },
   "Intro": {
     "nextButton": "Weiter"
   },
   "ThesesIntroPage": {
     "startVotoButton": "VOTO starten",
-    "introOneTitle": "Bilde dir deine Meinung!",
+    "introOneTitle": "Bilde Dir Deine Meinung!",
     "introOneDescription": "Du kannst Deine Meinung zu **{count, plural, =1 {# These} other {# Thesen}}** abgeben.",
     "introTwoTitle": "Wofür brennst Du?",
     "introTwoDescription": "Liegt Dir ein Thema besonders am Herzen, kannst Du dieses mit dem Stern-Symbol markieren. Diese These wird **doppelt so stark gezählt**.",
@@ -45,8 +45,8 @@
     "goToResultsButton": "Ergebnisse ansehen",
     "introOneTitle": "Deine Matches.",
     "introOneDescription": "Hier kannst Du sehen, mit welchen Matches Du am meisten **übereinstimmst**.",
-    "introTwoTitle": "Vergleichen mehre Matches.",
-    "introTwoDescription": "**Markiere** mehrere Matches (Lesezeichen) für deine **Merkliste**. Dann kannst Du die Antworten von verschiedenen Matches für jede Frage vergleichen.",
+    "introTwoTitle": "Vergleiche mehrere Matches.",
+    "introTwoDescription": "**Markiere** mehrere Matches (Lesezeichen) für Deine **Merkliste**. Dann kannst Du die Antworten von verschiedenen Matches für jede Frage vergleichen.",
     "introThreeTitle": "Du willst mehr Infos?",
     "introThreeDescription": "Klicke auf das **Profil** von einem Match. Dort bekommst Du weitere Informationen. Und kannst die **Begründungen** zu den einzelnen Antworten durchlesen."
   },
