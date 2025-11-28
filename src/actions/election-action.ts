@@ -106,7 +106,7 @@ export async function getElection(id: string): Promise<Election | null> {
       primary: configuration?.theming?.primary ?? "oklch(44.7038% 0.24 331.12)",
     },
     faqs: [],
-  disableLiveVotes: !(configuration?.algorithm?.liveMatchesVisible ?? true),
+    disableLiveVotes: !(configuration?.algorithm?.liveMatchesVisible ?? true),
   };
 
   return election;

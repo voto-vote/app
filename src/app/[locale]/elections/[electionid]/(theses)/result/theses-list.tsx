@@ -14,7 +14,11 @@ import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useEffect, useState } from "react";
 import { Entities } from "@/types/entity";
 
-export default function ThesesList() {
+export default function ThesesList({
+  disableBookmarks = false,
+}: {
+  disableBookmarks?: boolean;
+}) {
   const { election } = useElection();
   const { theses } = useThesesStore();
   const { candidates } = useCandidatesStore();
@@ -28,17 +32,20 @@ export default function ThesesList() {
   useEffect(() => {
     const bookmarksThisElection = bookmarks[election.id] || {};
 
-    const filteredParties = (parties ?? []).filter((p) =>
-      (bookmarksThisElection.parties ?? []).includes(p.id)
+    const filteredParties = (parties ?? []).filter(
+      (p) =>
+        disableBookmarks || (bookmarksThisElection.parties ?? []).includes(p.id)
     );
-    const filteredCandidates = (candidates ?? []).filter((c) =>
-      (bookmarksThisElection.candidates ?? []).includes(c.id)
+    const filteredCandidates = (candidates ?? []).filter(
+      (c) =>
+        disableBookmarks ||
+        (bookmarksThisElection.candidates ?? []).includes(c.id)
     );
 
     const entities: Entities = [...filteredCandidates, ...filteredParties];
 
     setFilteredEntities(entities);
-  }, [bookmarks, candidates, parties, election.id]);
+  }, [bookmarks, candidates, parties, election.id, disableBookmarks]);
 
   if (!theses) {
     return null;
@@ -55,9 +62,14 @@ export default function ThesesList() {
           className="space-y-2"
         >
           <p className="font-bold">
-            {t("explanation", {
-              matchType: election.algorithm.matchType,
-            })}
+            {!disableBookmarks &&
+              t("explanation", {
+                matchType: election.algorithm.matchType,
+              })}
+            {disableBookmarks &&
+              t("explanationNoBookmarks", {
+                matchType: election.algorithm.matchType,
+              })}
           </p>
 
           <p className="text-sm">

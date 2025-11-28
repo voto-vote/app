@@ -16,6 +16,7 @@ interface CandidatesOrPartiesListProps {
   filterBookmarked?: boolean;
   filters: ((entity: Entity) => boolean)[];
   onClick: (id: number) => void;
+  disableBookmarks?: boolean;
 }
 
 export default function CandidatesOrPartiesList({
@@ -26,6 +27,7 @@ export default function CandidatesOrPartiesList({
   filterBookmarked,
   filters,
   onClick,
+  disableBookmarks = false,
 }: CandidatesOrPartiesListProps) {
   const pointer = usePointer();
   const t = useTranslations("CandidatesOrPartiesList");
@@ -90,18 +92,20 @@ export default function CandidatesOrPartiesList({
                   />
                 </div>
                 <div className="text-primary flex items-center">
-                  <button
-                    className="cursor-pointer"
-                    onClick={(e) => {
-                      onBookmarkToggle(r.entity.id);
-                      e.stopPropagation();
-                    }}
-                    aria-label={t("bookmark")}
-                  >
-                    <Bookmark
-                      className={`size-8 transition stroke-1 ${bookmarked.includes(r.entity.id) ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
-                    />
-                  </button>
+                  {!disableBookmarks && (
+                    <button
+                      className="cursor-pointer"
+                      onClick={(e) => {
+                        onBookmarkToggle(r.entity.id);
+                        e.stopPropagation();
+                      }}
+                      aria-label={t("bookmark")}
+                    >
+                      <Bookmark
+                        className={`size-8 transition stroke-1 ${bookmarked.includes(r.entity.id) ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
+                      />
+                    </button>
+                  )}
                   <button className="cursor-pointer">
                     <ChevronRight className="size-10" />
                   </button>

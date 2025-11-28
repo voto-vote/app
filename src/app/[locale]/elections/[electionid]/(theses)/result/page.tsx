@@ -56,12 +56,15 @@ export default function ResultPage() {
           <ResultList
             filterBookmarked={filterBookmarked}
             setFilterBookmarked={setFilterBookmarked}
+            disableBookmarks={results.length <= 2}
           />
-          {results.length <= 2 && <ThesesList />}
+          {results.length <= 2 && <ThesesList disableBookmarks />}
         </TabsContent>
-        <TabsContent value="theses">
-          <ThesesList />
-        </TabsContent>
+        {results.length > 2 && (
+          <TabsContent value="theses">
+            <ThesesList />
+          </TabsContent>
+        )}
       </Tabs>
 
       <SurveyDialog type="afterTheses" />

@@ -109,6 +109,7 @@
   },
   "ThesesList": {
     "explanation": "This is how you and the {matchType, select, candidates {candidates} candidates_and_parties {parties and candidates} other {parties}} on your watchlist responded.",
+    "explanationNoBookmarks": "This is how you and the {matchType, select, candidates {candidates} candidates_and_parties {parties and candidates} other {parties}} responded.",
     "detailsInfo": "{pointer, select, coarse {Tap} other {Click}} on <details>Details</details> to see the reason {matchType, select, candidates {of the respective candidate} candidates_and_parties {of the respective party or candidate} other {of the respective party}}.",
     "changeOpinionInfo": "{pointer, select, coarse {Tap} other {Click}} on <changeopinion>Change opinion</changeopinion> to change your answer."
   },

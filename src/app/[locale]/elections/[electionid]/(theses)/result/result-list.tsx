@@ -20,11 +20,13 @@ import { useEntityFilterStore } from "@/stores/entity-filter-store";
 interface ResultListProps {
   filterBookmarked: boolean;
   setFilterBookmarked: (value: boolean) => void;
+  disableBookmarks?: boolean;
 }
 
 export default function ResultList({
   filterBookmarked,
   setFilterBookmarked,
+  disableBookmarks = false,
 }: ResultListProps) {
   const { election } = useElection();
   const [tab, setTab] = useState<"candidates" | "parties">(
@@ -100,6 +102,7 @@ export default function ResultList({
               onClick={(id) =>
                 router.push(`/elections/${election.id}/result/candidates/${id}`)
               }
+              disableBookmarks={disableBookmarks}
             />
           )}
           {tab === "parties" && (
@@ -117,6 +120,7 @@ export default function ResultList({
               onClick={(id) =>
                 router.push(`/elections/${election.id}/result/parties/${id}`)
               }
+              disableBookmarks={disableBookmarks}
             />
           )}
         </div>
