@@ -108,6 +108,7 @@ export async function getElection(id: string): Promise<Election | null> {
     faqs: [],
   disableLiveVotes: !(configuration?.algorithm?.liveMatchesVisible ?? true),
   };
+
   return election;
 }
 
