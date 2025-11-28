@@ -21,7 +21,6 @@ export default function ResultPage() {
   const t = useTranslations("ResultPage");
   const { results } = useResultStore();
 
-
   useEffect(() => {
     if (election?.id) {
       setBackPath(`/elections/${election?.id}/theses`);
@@ -38,29 +37,27 @@ export default function ResultPage() {
           <TabTrigger value="result" currentValue={tab}>
             {t("resultTab")}
           </TabTrigger>
-          { results.length > 2 && ( 
-          <TabTrigger value="theses" currentValue={tab}>
-            {t("thesesTab")}
-            <div className="absolute -top-2 max-sm:right-0 sm:left-[calc(50%_+_3rem)] size-12">
-              <div className="size-full relative">
-                <Bookmark className="absolute inset-0 stroke-0 fill-primary size-full" />
-                <div className="absolute inset-0 text-primary-foreground text-sm font-semibold grid place-items-center mb-2">
-                  {(bookmarks[election.id]?.parties?.length ?? 0) +
-                    (bookmarks[election.id]?.candidates?.length ?? 0)}
+          {results.length > 2 && (
+            <TabTrigger value="theses" currentValue={tab}>
+              {t("thesesTab")}
+              <div className="absolute -top-2 max-sm:right-0 sm:left-[calc(50%_+_3rem)] size-12">
+                <div className="size-full relative">
+                  <Bookmark className="absolute inset-0 stroke-0 fill-primary size-full" />
+                  <div className="absolute inset-0 text-primary-foreground text-sm font-semibold grid place-items-center mb-2">
+                    {(bookmarks[election.id]?.parties?.length ?? 0) +
+                      (bookmarks[election.id]?.candidates?.length ?? 0)}
+                  </div>
                 </div>
               </div>
-            </div>
-          </TabTrigger>
-           )}
+            </TabTrigger>
+          )}
         </TabsList>
         <TabsContent value="result">
           <ResultList
             filterBookmarked={filterBookmarked}
             setFilterBookmarked={setFilterBookmarked}
           />
-          {
-            results.length <= 2 && ( <ThesesList /> )
-          }
+          {results.length <= 2 && <ThesesList />}
         </TabsContent>
         <TabsContent value="theses">
           <ThesesList />
