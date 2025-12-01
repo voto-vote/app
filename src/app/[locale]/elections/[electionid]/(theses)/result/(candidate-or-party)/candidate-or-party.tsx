@@ -18,9 +18,13 @@ import { Result } from "@/types/result";
 
 interface CandidateOrPartyProps {
   result: Result;
+  disableBookmarks?: boolean;
 }
 
-export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
+export default function CandidateOrParty({
+  result,
+  disableBookmarks = false,
+}: CandidateOrPartyProps) {
   const { bookmarks, toggleCandidate, toggleParty } = useBookmarkStore();
   const [showTopBar, setShowTopBar] = useState(false);
   const { election } = useElection();
@@ -138,11 +142,13 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
                   size="sm"
                 />
               </div>
-              <button aria-label={t("bookmark")} onClick={toggleBookmark}>
-                <Bookmark
-                  className={`size-7 transition stroke-1 ${isBookmarked() ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
-                />
-              </button>
+              {!disableBookmarks && (
+                <button aria-label={t("bookmark")} onClick={toggleBookmark}>
+                  <Bookmark
+                    className={`size-7 transition stroke-1 ${isBookmarked() ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
+                  />
+                </button>
+              )}
             </div>
           </motion.div>
         )}
@@ -173,15 +179,17 @@ export default function CandidateOrParty({ result }: CandidateOrPartyProps) {
                 className="grow"
               />
             )}
-            <button
-              onClick={toggleBookmark}
-              className="ml-4"
-              aria-label={t("bookmark")}
-            >
-              <Bookmark
-                className={`size-8 transition stroke-1 ${isBookmarked() ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
-              />
-            </button>
+            {!disableBookmarks && (
+              <button
+                onClick={toggleBookmark}
+                className="ml-4"
+                aria-label={t("bookmark")}
+              >
+                <Bookmark
+                  className={`size-8 transition stroke-1 ${isBookmarked() ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
+                />
+              </button>
+            )}
           </div>
         </div>
 

@@ -109,6 +109,7 @@
   },
   "ThesesList": {
     "explanation": "So haben Du und die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} Deiner Merkliste geantwortet.",
+    "explanationNoBookmarks": "So haben Du und die {matchType, select, candidates {Kandidierenden} candidates_and_parties {Parteien und Kandidierenden} other {Parteien}} geantwortet.",
     "detailsInfo": "{pointer, select, coarse {Tippe} other {Klicke}} auf <details>Details</details>, um die Begründung {matchType, select, candidates {des jeweiligen Kandidierenden} candidates_and_parties {der jeweiligen Partei bzw. des jeweiligen Kandidierenden} other {der jeweiligen Partei}} zu sehen.",
     "changeOpinionInfo": "{pointer, select, coarse {Tippe} other {Klicke}} auf <changeopinion>Meinung ändern</changeopinion>, um Deine Antwort anzupassen."
   },

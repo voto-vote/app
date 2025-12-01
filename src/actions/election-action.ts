@@ -105,8 +105,8 @@ export async function getElection(id: string): Promise<Election | null> {
       logo: configuration?.theming?.logo ?? "/logo-white.svg",
       primary: configuration?.theming?.primary ?? "oklch(44.7038% 0.24 331.12)",
     },
-    faqs: [], //TODO
-    disableLiveVotes: false, //TODO
+    faqs: [],
+    disableLiveVotes: !(configuration?.algorithm?.liveMatchesVisible ?? true),
   };
 
   return election;

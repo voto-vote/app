@@ -10,6 +10,7 @@ import { Bookmark } from "@/lib/icons";
 import { useBookmarkStore } from "@/stores/bookmark-store";
 import { useTranslations } from "next-intl";
 import SurveyDialog from "@/app/[locale]/elections/[electionid]/survey-dialog";
+import { useResultStore } from "@/stores/result-store";
 
 export default function ResultPage() {
   const { election } = useElection();
@@ -18,6 +19,7 @@ export default function ResultPage() {
   const [tab, setTab] = useState<"result" | "theses">("result");
   const [filterBookmarked, setFilterBookmarked] = useState(false);
   const t = useTranslations("ResultPage");
+  const { results } = useResultStore();
 
   useEffect(() => {
     if (election?.id) {
@@ -35,28 +37,34 @@ export default function ResultPage() {
           <TabTrigger value="result" currentValue={tab}>
             {t("resultTab")}
           </TabTrigger>
-          <TabTrigger value="theses" currentValue={tab}>
-            {t("thesesTab")}
-            <div className="absolute -top-2 max-sm:right-0 sm:left-[calc(50%_+_3rem)] size-12">
-              <div className="size-full relative">
-                <Bookmark className="absolute inset-0 stroke-0 fill-primary size-full" />
-                <div className="absolute inset-0 text-primary-foreground text-sm font-semibold grid place-items-center mb-2">
-                  {(bookmarks[election.id]?.parties?.length ?? 0) +
-                    (bookmarks[election.id]?.candidates?.length ?? 0)}
+          {results.length > 2 && (
+            <TabTrigger value="theses" currentValue={tab}>
+              {t("thesesTab")}
+              <div className="absolute -top-2 max-sm:right-0 sm:left-[calc(50%_+_3rem)] size-12">
+                <div className="size-full relative">
+                  <Bookmark className="absolute inset-0 stroke-0 fill-primary size-full" />
+                  <div className="absolute inset-0 text-primary-foreground text-sm font-semibold grid place-items-center mb-2">
+                    {(bookmarks[election.id]?.parties?.length ?? 0) +
+                      (bookmarks[election.id]?.candidates?.length ?? 0)}
+                  </div>
                 </div>
               </div>
-            </div>
-          </TabTrigger>
+            </TabTrigger>
+          )}
         </TabsList>
         <TabsContent value="result">
           <ResultList
             filterBookmarked={filterBookmarked}
             setFilterBookmarked={setFilterBookmarked}
+            disableBookmarks={results.length <= 2}
           />
+          {results.length <= 2 && <ThesesList disableBookmarks />}
         </TabsContent>
-        <TabsContent value="theses">
-          <ThesesList />
-        </TabsContent>
+        {results.length > 2 && (
+          <TabsContent value="theses">
+            <ThesesList />
+          </TabsContent>
+        )}
       </Tabs>
 
       <SurveyDialog type="afterTheses" />

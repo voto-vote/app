@@ -17,5 +17,7 @@ export default function PartyPage() {
     return null;
   }
 
-  return <CandidateOrParty result={result} />;
+  return (
+    <CandidateOrParty result={result} disableBookmarks={results.length <= 2} />
+  );
 }
