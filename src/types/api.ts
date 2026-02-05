@@ -2,8 +2,20 @@ import { Election } from "./election";
 import { Ratings } from "./ratings";
 
 // Event types
-export interface CreateEventRequest {
+interface BaseEventRequest {
   electionId: Election["id"];
-  eventType: "voto_started" | "voto_finished";
-  ratings?: Ratings;
 }
+
+interface VotoStartedEvent extends BaseEventRequest {
+  eventType: "voto_started";
+}
+
+interface VotoFinishedEvent extends BaseEventRequest {
+  eventType: "voto_finished";
+  ratings?: Ratings;
+  metadata: {
+    skippedToResult: boolean;
+  };
+}
+
+export type CreateEventRequest = VotoStartedEvent | VotoFinishedEvent;
