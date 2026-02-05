@@ -14,7 +14,7 @@ interface VotoFinishedEvent extends BaseEventRequest {
   eventType: "voto_finished";
   ratings?: Ratings;
   metadata: {
-    shortcut: boolean;
+    skippedToResult: boolean;
   };
 }
 

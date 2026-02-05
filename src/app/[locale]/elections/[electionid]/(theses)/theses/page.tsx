@@ -110,7 +110,7 @@ export default function ThesesPage() {
         eventType: "voto_finished",
         ratings: userRatings[election.id] ?? {},
         metadata: {
-          shortcut: skippedToResult,
+          skippedToResult: skippedToResult,
         },
       }).then((data) => data && setSharingId(data));
     }
