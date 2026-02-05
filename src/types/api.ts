@@ -6,4 +6,7 @@ export interface CreateEventRequest {
   electionId: Election["id"];
   eventType: "voto_started" | "voto_finished";
   ratings?: Ratings;
+  metadata: {
+    shortcut: boolean;
+  }
 }

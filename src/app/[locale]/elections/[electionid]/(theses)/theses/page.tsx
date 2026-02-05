@@ -103,19 +103,22 @@ export default function ThesesPage() {
     return null;
   }
 
-  function sendVotoFinishedEvent() {
+  function sendVotoFinishedEvent(skippedToResult: boolean) {
     if (dataSharingEnabled) {
       EventsAPI.createEvent({
         electionId: election.id,
         eventType: "voto_finished",
         ratings: userRatings[election.id] ?? {},
+        metadata: {
+          shortcut: skippedToResult,
+        },
       }).then((data) => data && setSharingId(data));
     }
   }
 
   function goTo(index: number, skipBreak = false) {
     if (index >= count) {
-      sendVotoFinishedEvent();
+      sendVotoFinishedEvent(false);
       goToIntroOrResult();
       return;
     }
@@ -333,6 +336,7 @@ export default function ThesesPage() {
               setUserRating(election.id, theses[i].id, -1);
             }
           }
+          sendVotoFinishedEvent(true);
           goToIntroOrResult();
         }}
         completedTheses={currentThesisIndex}
