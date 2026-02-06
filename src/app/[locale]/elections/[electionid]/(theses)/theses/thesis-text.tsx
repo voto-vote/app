@@ -25,13 +25,13 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
     explanation.startOffset = clamp(
       Math.max(explanation.startOffset, lastEndOffset),
       0,
-      textLength
+      textLength,
     );
     // Ensure endOffset is not before startOffset and within text bounds
     explanation.endOffset = clamp(
       Math.max(explanation.endOffset, explanation.startOffset),
       0,
-      textLength
+      textLength,
     );
     lastEndOffset = explanation.endOffset;
   }

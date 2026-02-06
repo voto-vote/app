@@ -14,7 +14,7 @@ function getMinOfMatrix(matrix: number[][]): number {
 export function calculateResults(
   matrix: number[][],
   entities: Entities,
-  userRatings: Ratings
+  userRatings: Ratings,
 ): Result[] {
   const results: Result[] = [];
   const min = getMinOfMatrix(matrix);

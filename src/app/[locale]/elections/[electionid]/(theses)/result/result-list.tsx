@@ -30,7 +30,7 @@ export default function ResultList({
 }: ResultListProps) {
   const { election } = useElection();
   const [tab, setTab] = useState<"candidates" | "parties">(
-    election.algorithm.matchType === "parties" ? "parties" : "candidates"
+    election.algorithm.matchType === "parties" ? "parties" : "candidates",
   );
   const [filterOpen, setFilterOpen] = useState(false);
   const { theses } = useThesesStore();
@@ -57,7 +57,7 @@ export default function ResultList({
           <p className="text-semibold mt-4">
             {t("explanation", {
               count: Object.values(userRatings[election.id] ?? {}).filter(
-                (r) => (r.rating ?? -2) >= 0
+                (r) => (r.rating ?? -2) >= 0,
               ).length,
             })}
           </p>

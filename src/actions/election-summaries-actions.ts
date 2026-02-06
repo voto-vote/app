@@ -7,12 +7,12 @@ import { ElectionSummary } from "@/types/election-summary";
 
 export async function getElectionSummaries(
   limit: number = 100,
-  offset: number = 0
+  offset: number = 0,
 ): Promise<ElectionSummary[]> {
   const objectStorageUrl = process.env.OBJECT_STORAGE_URL;
   if (!objectStorageUrl) {
     throw new Error(
-      "OBJECT_STORAGE_URL is not defined in the environment variables."
+      "OBJECT_STORAGE_URL is not defined in the environment variables.",
     );
   }
 
@@ -48,7 +48,7 @@ export async function getElectionSummaries(
             electionDate: new Date(i.electionDate ?? "1970-01-01"),
             image: config?.introduction?.background?.replace(
               "voto://",
-              configurationUrlOrigin + "/"
+              configurationUrlOrigin + "/",
             ),
           };
         } catch (error) {
@@ -56,7 +56,7 @@ export async function getElectionSummaries(
           console.warn(`Skipping election instance ${i.id}: ` + error);
           return null;
         }
-      })
+      }),
     )
   ).filter((d) => d !== null);
 

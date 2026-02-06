@@ -99,7 +99,7 @@ export default function NavigationSheet({
       // are used in combination with a given `pathname`. Since the two will
       // always match for the current route, we can skip runtime checks.
       { pathname, params },
-      { locale: newLocale }
+      { locale: newLocale },
     );
   }
 

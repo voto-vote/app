@@ -19,13 +19,13 @@ export default function LiveMatches({
 }: LiveMatchesProps) {
   const isDesktop = useBreakpoint("md");
   const filteredResults = results.filter(
-    (result) => result.entity.type === entityType
+    (result) => result.entity.type === entityType,
   );
   if (filteredResults.length === 0) {
     return null; // No results to display
   }
   const sortedResults = filteredResults.sort(
-    (a, b) => b.matchPercentage - a.matchPercentage
+    (a, b) => b.matchPercentage - a.matchPercentage,
   );
   const topFourResults = sortedResults.slice(0, 4);
 

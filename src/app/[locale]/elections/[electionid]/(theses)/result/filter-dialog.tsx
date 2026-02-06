@@ -62,7 +62,7 @@ export default function FilterDialog({
   function setTmpFilter(
     id: string,
     title: string,
-    condition: (e: Entity) => boolean
+    condition: (e: Entity) => boolean,
   ) {
     const newFilters = { ...tmpFilters };
     newFilters[id] = { title, condition };
@@ -106,7 +106,7 @@ export default function FilterDialog({
             removeTmpFilter("search");
           } else {
             setTmpFilter("search", truncateText(text), (e) =>
-              e.displayName.toLowerCase().includes(text.toLowerCase())
+              e.displayName.toLowerCase().includes(text.toLowerCase()),
             );
           }
         }}
@@ -127,7 +127,7 @@ export default function FilterDialog({
                 truncateText(value),
                 (entity) =>
                   entity.type === "candidate" &&
-                  entity.partyId.toString() === key
+                  entity.partyId.toString() === key,
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("party-" + k)}
@@ -148,7 +148,7 @@ export default function FilterDialog({
                 truncateText(value),
                 (entity) =>
                   entity.type === "candidate" &&
-                  entity.listPlace?.toString() === key
+                  entity.listPlace?.toString() === key,
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("list-" + k)}
@@ -168,7 +168,7 @@ export default function FilterDialog({
                 "district-" + key,
                 truncateText(value),
                 (entity) =>
-                  entity.type === "candidate" && entity.district === key
+                  entity.type === "candidate" && entity.district === key,
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("district-" + k)}
@@ -190,7 +190,7 @@ export default function FilterDialog({
                 truncateText(value),
                 (entity) =>
                   entity.type === "candidate" &&
-                  getAgeGroup(entity.dateOfBirth) === key
+                  getAgeGroup(entity.dateOfBirth) === key,
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("age-" + k)}
@@ -212,7 +212,8 @@ export default function FilterDialog({
               setTmpFilter(
                 "gender-" + key,
                 truncateText(value),
-                (entity) => entity.type === "candidate" && entity.gender === key
+                (entity) =>
+                  entity.type === "candidate" && entity.gender === key,
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("gender-" + k)}
@@ -239,7 +240,7 @@ export default function FilterDialog({
             truncateText(value),
             (entity) =>
               entity.type === "candidate" &&
-              entity.ratings[key]?.rating === userRatings[key]?.rating
+              entity.ratings[key]?.rating === userRatings[key]?.rating,
           )
         }
         onFilterRemoval={(k) => removeTmpFilter("thesis-" + k)}
@@ -318,7 +319,7 @@ function DropdownInput({
           variant="outline"
           className={cn(
             "w-full text-left px-3 py-1 font-[400] justify-between",
-            className
+            className,
           )}
         >
           {`${label} (${Object.keys(items).filter((k) => tmpFilters[tmpFiltersKeyPrefix + k]).length})`}
@@ -370,7 +371,7 @@ function getAgeGroup(birthDate: Date | string): string {
   const birth = typeof birthDate === "string" ? new Date(birthDate) : birthDate;
 
   const age = Math.floor(
-    (currentDate.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24 * 365.25)
+    (currentDate.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24 * 365.25),
   );
 
   for (const [groupName, range] of Object.entries(ageGroups)) {

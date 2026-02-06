@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 import { getElection } from "./actions/election-action";
 
 // If an election does not support the requested locale, we redirect to the default locale
-export default async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const [, ...segments] = request.nextUrl.pathname.split("/");
   let handleI18nRouting = createMiddleware(routing);
 
@@ -19,13 +19,13 @@ export default async function middleware(request: NextRequest) {
         election.locales.map((l) => l.split("-")[0]) || [];
       // Intersection of the static locales and the election's locales
       const supportedElectionLocales = supportedLocales.filter((l) =>
-        electionLocales.includes(l)
+        electionLocales.includes(l),
       );
       if (supportedElectionLocales.length === 0) {
         throw new Error(
           `The election ${election.title} - ${election.subtitle} (${electionId}) has unsupported locales. Supported locales: [${supportedLocales.join(
-            ", "
-          )}]. Election locales: [${electionLocales.join(", ")}].`
+            ", ",
+          )}]. Election locales: [${electionLocales.join(", ")}].`,
         );
       }
 
@@ -42,7 +42,7 @@ export default async function middleware(request: NextRequest) {
         const locale = segments[electionsPathIndex - 1];
         if (
           !supportedElectionLocales.includes(
-            locale as (typeof routing.locales)[number]
+            locale as (typeof routing.locales)[number],
           )
         ) {
           request.nextUrl.pathname =
@@ -60,5 +60,4 @@ export const config = {
   // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
   // - … the ones containing a dot (e.g. `favicon.ico`)
   matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
-  runtime: "nodejs",
 };

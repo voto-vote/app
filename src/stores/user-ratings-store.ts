@@ -14,12 +14,12 @@ type Action = {
   setUserRating: (
     electionId: Election["id"],
     thesisId: Thesis["id"],
-    rating: number
+    rating: number,
   ) => void;
   setUserFavorite: (
     electionId: Election["id"],
     thesisId: Thesis["id"],
-    favorite: boolean
+    favorite: boolean,
   ) => void;
 };
 
@@ -65,6 +65,6 @@ export const useUserRatingsStore = create<State & Action>()(
           };
         }),
     }),
-    { name: "voto-ratings", storage: createJSONStorage(() => localStorage) }
-  )
+    { name: "voto-ratings", storage: createJSONStorage(() => localStorage) },
+  ),
 );

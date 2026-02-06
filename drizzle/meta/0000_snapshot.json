@@ -43,12 +43,8 @@
           "tableFrom": "statements",
           "tableTo": "instances",
           "schemaTo": "public",
-          "columnsFrom": [
-            "instance_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["instance_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -115,12 +111,8 @@
           "tableFrom": "exp_theses_translation",
           "tableTo": "exp_theses",
           "schemaTo": "public",
-          "columnsFrom": [
-            "these_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["these_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -244,12 +236,8 @@
           "tableFrom": "exp_app_theses",
           "tableTo": "instances",
           "schemaTo": "public",
-          "columnsFrom": [
-            "instance_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["instance_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -258,12 +246,8 @@
           "tableFrom": "exp_app_theses",
           "tableTo": "exp_theses",
           "schemaTo": "public",
-          "columnsFrom": [
-            "these_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["these_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -337,12 +321,8 @@
           "tableFrom": "statement_translations",
           "tableTo": "instances",
           "schemaTo": "public",
-          "columnsFrom": [
-            "instance_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["instance_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -351,12 +331,8 @@
           "tableFrom": "statement_translations",
           "tableTo": "statements",
           "schemaTo": "public",
-          "columnsFrom": [
-            "statement_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["statement_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -365,12 +341,8 @@
           "tableFrom": "statement_translations",
           "tableTo": "statements",
           "schemaTo": "public",
-          "columnsFrom": [
-            "statement_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["statement_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -456,12 +428,8 @@
           "tableFrom": "notifications",
           "tableTo": "elections",
           "schemaTo": "public",
-          "columnsFrom": [
-            "election_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["election_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -529,12 +497,8 @@
           "tableFrom": "candidates_light",
           "tableTo": "genders",
           "schemaTo": "public",
-          "columnsFrom": [
-            "gender_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["gender_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -543,12 +507,8 @@
           "tableFrom": "candidates_light",
           "tableTo": "parties",
           "schemaTo": "public",
-          "columnsFrom": [
-            "party_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["party_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -557,12 +517,8 @@
           "tableFrom": "candidates_light",
           "tableTo": "genders",
           "schemaTo": "public",
-          "columnsFrom": [
-            "gender_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["gender_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -571,12 +527,8 @@
           "tableFrom": "candidates_light",
           "tableTo": "parties",
           "schemaTo": "public",
-          "columnsFrom": [
-            "party_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["party_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -585,12 +537,8 @@
           "tableFrom": "candidates_light",
           "tableTo": "genders",
           "schemaTo": "public",
-          "columnsFrom": [
-            "gender_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["gender_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -599,12 +547,8 @@
           "tableFrom": "candidates_light",
           "tableTo": "parties",
           "schemaTo": "public",
-          "columnsFrom": [
-            "party_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["party_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -708,12 +652,8 @@
           "tableFrom": "party_votes",
           "tableTo": "instances",
           "schemaTo": "public",
-          "columnsFrom": [
-            "instance_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["instance_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -722,12 +662,8 @@
           "tableFrom": "party_votes",
           "tableTo": "parties",
           "schemaTo": "public",
-          "columnsFrom": [
-            "party_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["party_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -736,12 +672,8 @@
           "tableFrom": "party_votes",
           "tableTo": "statements",
           "schemaTo": "public",
-          "columnsFrom": [
-            "statement_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["statement_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -845,12 +777,8 @@
           "tableFrom": "candidate_votes",
           "tableTo": "statements",
           "schemaTo": "public",
-          "columnsFrom": [
-            "statement_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["statement_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -859,12 +787,8 @@
           "tableFrom": "candidate_votes",
           "tableTo": "instances",
           "schemaTo": "public",
-          "columnsFrom": [
-            "instance_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["instance_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -873,12 +797,8 @@
           "tableFrom": "candidate_votes",
           "tableTo": "candidates",
           "schemaTo": "public",
-          "columnsFrom": [
-            "candidate_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["candidate_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -887,12 +807,8 @@
           "tableFrom": "candidate_votes",
           "tableTo": "candidates",
           "schemaTo": "public",
-          "columnsFrom": [
-            "candidate_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["candidate_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -901,12 +817,8 @@
           "tableFrom": "candidate_votes",
           "tableTo": "candidates",
           "schemaTo": "public",
-          "columnsFrom": [
-            "candidate_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["candidate_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1004,12 +916,8 @@
           "tableFrom": "parties",
           "tableTo": "parties",
           "schemaTo": "public",
-          "columnsFrom": [
-            "parent_party_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_party_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1171,12 +1079,8 @@
           "tableFrom": "users",
           "tableTo": "genders",
           "schemaTo": "public",
-          "columnsFrom": [
-            "gender_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["gender_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1232,12 +1136,8 @@
           "tableFrom": "admins",
           "tableTo": "users",
           "schemaTo": "public",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1357,12 +1257,8 @@
           "tableFrom": "creators",
           "tableTo": "users",
           "schemaTo": "public",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1430,12 +1326,8 @@
           "tableFrom": "party_agents",
           "tableTo": "users",
           "schemaTo": "public",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1444,12 +1336,8 @@
           "tableFrom": "party_agents",
           "tableTo": "parties",
           "schemaTo": "public",
-          "columnsFrom": [
-            "party_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["party_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1457,10 +1345,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "uq_partyagents": {
-          "columns": [
-            "user_id",
-            "instance_id"
-          ],
+          "columns": ["user_id", "instance_id"],
           "nullsNotDistinct": false,
           "name": "uq_partyagents"
         }
@@ -1556,12 +1441,8 @@
           "tableFrom": "instances",
           "tableTo": "elections",
           "schemaTo": "public",
-          "columnsFrom": [
-            "election_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["election_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1665,12 +1546,8 @@
           "tableFrom": "candidates",
           "tableTo": "users",
           "schemaTo": "public",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1679,12 +1556,8 @@
           "tableFrom": "candidates",
           "tableTo": "parties",
           "schemaTo": "public",
-          "columnsFrom": [
-            "party_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["party_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1692,10 +1565,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "uq_candidates": {
-          "columns": [
-            "user_id",
-            "instance_id"
-          ],
+          "columns": ["user_id", "instance_id"],
           "nullsNotDistinct": false,
           "name": "uq_candidates"
         }

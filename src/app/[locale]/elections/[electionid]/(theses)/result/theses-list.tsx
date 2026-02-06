@@ -34,12 +34,13 @@ export default function ThesesList({
 
     const filteredParties = (parties ?? []).filter(
       (p) =>
-        disableBookmarks || (bookmarksThisElection.parties ?? []).includes(p.id)
+        disableBookmarks ||
+        (bookmarksThisElection.parties ?? []).includes(p.id),
     );
     const filteredCandidates = (candidates ?? []).filter(
       (c) =>
         disableBookmarks ||
-        (bookmarksThisElection.candidates ?? []).includes(c.id)
+        (bookmarksThisElection.candidates ?? []).includes(c.id),
     );
 
     const entities: Entities = [...filteredCandidates, ...filteredParties];
