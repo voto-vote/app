@@ -41,6 +41,10 @@ export default function FilterDialog({
   const [tmpFilters, setTmpFilters] = useState<EntityFilters>(entityFilters);
   const t = useTranslations("FilterDialog");
 
+  function resetTmpFilters() {
+    setTmpFilters({});
+  }
+
   useEffect(() => {
     if (open) {
       setTmpFilters(entityFilters);
@@ -53,10 +57,6 @@ export default function FilterDialog({
     const newFilters = { ...tmpFilters };
     delete newFilters[id];
     setTmpFilters(newFilters);
-  }
-
-  function resetTmpFilters() {
-    setTmpFilters({});
   }
 
   function setTmpFilter(
