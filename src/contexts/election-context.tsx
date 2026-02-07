@@ -8,7 +8,7 @@ interface ElectionContextType {
 }
 
 const ElectionContext = createContext<ElectionContextType | undefined>(
-  undefined
+  undefined,
 );
 
 interface ElectionProviderProps {

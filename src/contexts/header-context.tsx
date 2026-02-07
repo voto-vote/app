@@ -23,7 +23,7 @@ interface HeaderProviderProps {
 
 export function HeaderProvider({ children }: HeaderProviderProps) {
   const [headerDetails, setHeaderDetails] = useState<HeaderDetails | null>(
-    null
+    null,
   );
 
   return (

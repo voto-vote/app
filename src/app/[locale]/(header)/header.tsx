@@ -20,7 +20,7 @@ export default function Header() {
   const isDesktop = useBreakpoint("md");
   const { headerDetails } = useHeader();
   const [logoUrl, setLogoUrl] = useState(
-    headerDetails?.logo ?? "/logo-white.svg"
+    headerDetails?.logo ?? "/logo-white.svg",
   );
   const locale = useLocale();
 
@@ -64,7 +64,7 @@ export default function Header() {
                     <div>
                       <div className="font-bold text-lg leading-tight">
                         {new Date(
-                          headerDetails.electionDate
+                          headerDetails.electionDate,
                         ).toLocaleDateString(locale, {
                           day: "2-digit",
                           month: "2-digit",
@@ -72,7 +72,7 @@ export default function Header() {
                       </div>
                       <div className="text-sm leading-tight">
                         {new Date(
-                          headerDetails.electionDate
+                          headerDetails.electionDate,
                         ).toLocaleDateString(locale, {
                           year: "numeric",
                         })}
@@ -133,7 +133,7 @@ export default function Header() {
                           year: "numeric",
                           month: "2-digit",
                           day: "2-digit",
-                        }
+                        },
                       )}
                     </div>
                     <p className="text-xs leading-tight line-clamp-2">

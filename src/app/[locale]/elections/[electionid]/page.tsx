@@ -71,7 +71,7 @@ export default function Election() {
 
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
       );
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
@@ -95,7 +95,7 @@ export default function Election() {
       // are used in combination with a given `pathname`. Since the two will
       // always match for the current route, we can skip runtime checks.
       { pathname, params },
-      { locale: newLocale }
+      { locale: newLocale },
     );
   }
 
@@ -126,7 +126,7 @@ export default function Election() {
 
   const electionDate = new Date(election.electionDate);
   const [imageSrc, setImageSrc] = useState(
-    election.image || "/placeholder.svg"
+    election.image || "/placeholder.svg",
   );
 
   function sendVotoStartedEvent() {

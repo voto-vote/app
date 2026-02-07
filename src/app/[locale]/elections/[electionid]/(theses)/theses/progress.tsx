@@ -32,7 +32,7 @@ export default function Progress({
   const isDesktop = useBreakpoint("md");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mobileOpenTooltipId, setMobileOpenTooltipId] = useState<string | null>(
-    null
+    null,
   );
 
   const total = theses.length;
@@ -84,7 +84,7 @@ export default function Progress({
           } else if (rating.rating !== undefined) {
             ratingDisplayValue = convertRatingToDecision(
               rating.rating,
-              election.algorithm.decisions
+              election.algorithm.decisions,
             ).toString();
           }
 

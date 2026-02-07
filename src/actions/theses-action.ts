@@ -9,7 +9,7 @@ export async function getTheses(
   instanceId: number,
   locale: string,
   electionTitle: string,
-  electionSubtitle: string
+  electionSubtitle: string,
 ): Promise<Theses> {
   const result = await db
     .select({
@@ -25,8 +25,8 @@ export async function getTheses(
     .where(
       and(
         eq(statementTranslations.languageCode, locale),
-        eq(statements.instanceId, instanceId)
-      )
+        eq(statements.instanceId, instanceId),
+      ),
     );
 
   // Transform the result into the desired format
@@ -35,7 +35,7 @@ export async function getTheses(
     const { text, explanations } = await parseThesisText(
       row.text,
       electionTitle,
-      electionSubtitle
+      electionSubtitle,
     );
     theses.push({
       id: row.statementId.toString(),
@@ -52,7 +52,7 @@ export async function getTheses(
 export async function parseThesisText(
   text: string,
   electionTitle: string,
-  electionSubtitle: string
+  electionSubtitle: string,
 ): Promise<Pick<Thesis, "text" | "explanations">> {
   text = text
     .replaceAll("{title}", electionTitle)

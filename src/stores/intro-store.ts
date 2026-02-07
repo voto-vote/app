@@ -22,6 +22,6 @@ export const useIntroStore = create<State & Action>()(
     {
       name: "voto-intro-seen",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );

@@ -35,7 +35,7 @@ export default function ElectionLayout({
       (theses) => {
         const shuffledTheses = shuffle(theses, random);
         setTheses(shuffledTheses);
-      }
+      },
     );
 
     if (
@@ -81,7 +81,7 @@ export default function ElectionLayout({
     const results = calculateResults(
       election.algorithm.matrix,
       [...(parties ?? []), ...(candidates ?? [])],
-      electionRatings
+      electionRatings,
     );
 
     setResults(results);
@@ -122,7 +122,7 @@ function createSeededRandom(seed: number): () => number {
 
 function shuffle<T>(
   array: Array<T>,
-  random: () => number = Math.random
+  random: () => number = Math.random,
 ): Array<T> {
   let currentIndex = array.length;
   const newArray = [...array];

@@ -27,7 +27,7 @@ export default function SurveyDialog({ type }: SurveyDialogProps) {
   const { sharingId } = useDataSharingStore();
   const [surveyUrl, setSurveyUrl] = useState<string>("");
   const [surveyContent, setSurveyContent] = useState<SurveyContent | false>(
-    false
+    false,
   );
   const t = useTranslations("SurveyDialog");
 

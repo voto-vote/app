@@ -14,8 +14,8 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
     .where(
       and(
         eq(parties.instanceId, instanceId),
-        eq(parties.status, 2) // 2 corresponds to "voted" status
-      )
+        eq(parties.status, 2), // 2 corresponds to "voted" status
+      ),
     );
 
   const partyVotesPromise = db
@@ -37,7 +37,7 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
   const objectStorageUrl = process.env.OBJECT_STORAGE_URL;
   if (!objectStorageUrl) {
     throw new Error(
-      "OBJECT_STORAGE_URL is not defined in the environment variables."
+      "OBJECT_STORAGE_URL is not defined in the environment variables.",
     );
   }
 

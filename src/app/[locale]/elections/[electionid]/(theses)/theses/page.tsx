@@ -64,7 +64,7 @@ export default function ThesesPage() {
   useEffect(() => {
     const electionRatings = userRatings[election.id] ?? {};
     const hasRatings = Object.values(electionRatings).some(
-      (r) => r.rating !== undefined
+      (r) => r.rating !== undefined,
     );
     const previousLiveMatchesAvailable = liveMatchesAvailable;
 
@@ -210,7 +210,7 @@ export default function ThesesPage() {
                       election.algorithm.weightedVotesLimit !== false &&
                       Object.values(userRatings[election.id] ?? {}).reduce(
                         (n, t) => (t.favorite === true ? n + 1 : n),
-                        0
+                        0,
                       ) >= election.algorithm.weightedVotesLimit
                     }
                     starred={userRatings[election.id]?.[thesis.id]?.favorite}
@@ -249,7 +249,7 @@ export default function ThesesPage() {
                 .map((decision, index) => {
                   const ratingValue = convertDecisionToRating(
                     decision,
-                    election.algorithm.decisions
+                    election.algorithm.decisions,
                   );
                   return (
                     <button
@@ -258,7 +258,7 @@ export default function ThesesPage() {
                         setUserRating(
                           election.id,
                           theses[currentThesisIndex]?.id,
-                          ratingValue
+                          ratingValue,
                         );
                         goTo(currentThesisIndex + 1);
                       }}
@@ -311,7 +311,7 @@ export default function ThesesPage() {
                 setUserFavorite(
                   election.id,
                   theses[currentThesisIndex]?.id,
-                  false
+                  false,
                 );
                 goTo(currentThesisIndex + 1);
               }}

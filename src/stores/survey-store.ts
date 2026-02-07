@@ -51,6 +51,6 @@ export const useSurveyStore = create<State & Action>()(
     {
       name: "voto-survey-seen",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );

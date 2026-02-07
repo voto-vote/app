@@ -19,7 +19,7 @@ export default function ShareDrawer({ open, onOpenChange }: ShareDrawerProps) {
 
   useEffect(() => {
     setUrl(
-      `${window.location.origin}/elections/${params.electionid}/theses/result`
+      `${window.location.origin}/elections/${params.electionid}/theses/result`,
     );
   }, [params.electionid]);
 

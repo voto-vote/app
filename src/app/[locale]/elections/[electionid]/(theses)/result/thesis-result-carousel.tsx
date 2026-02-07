@@ -40,7 +40,7 @@ export default function ThesesResultCarousel({
   const [api, setApi] = useState<CarouselApi>();
   const [currentThesisIndex, setCurrentThesisIndex] = useState(0);
   const [thesesSorting, setThesesSorting] = useState<"random" | "category">(
-    "category"
+    "category",
   );
   const isDesktop = useBreakpoint("sm");
   const t = useTranslations("ThesesResultCarousel");
@@ -63,7 +63,7 @@ export default function ThesesResultCarousel({
     }
     if (thesesSorting === "category") {
       setSortedTheses(
-        [...theses].sort((a, b) => a.category.localeCompare(b.category))
+        [...theses].sort((a, b) => a.category.localeCompare(b.category)),
       );
     } else {
       setSortedTheses(theses);
@@ -82,7 +82,7 @@ export default function ThesesResultCarousel({
           className="text-primary p-0 h-fit max-w-full justify-start whitespace-normal text-start"
           onClick={() =>
             setThesesSorting(
-              thesesSorting === "category" ? "random" : "category"
+              thesesSorting === "category" ? "random" : "category",
             )
           }
         >
@@ -254,7 +254,7 @@ function ThesesProgress({
     <div
       className={cn(
         "flex flex-col justify-center items-center gap-1",
-        className
+        className,
       )}
     >
       <div className="text-sm text-muted-foreground text-center">
@@ -267,7 +267,7 @@ function ThesesProgress({
           .filter((t) =>
             thesesSorting === "category"
               ? t.category === sortedTheses[currentThesisIndex]?.category
-              : true
+              : true,
           )
           .map((t) => (
             <div

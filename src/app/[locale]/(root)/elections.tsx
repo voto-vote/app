@@ -24,7 +24,7 @@ export default function Elections({
       groups[date].push(election);
       return groups;
     },
-    {} as Record<string, ElectionSummary[]>
+    {} as Record<string, ElectionSummary[]>,
   );
 
   return (
@@ -92,7 +92,7 @@ export default function Elections({
                 </div>
               </motion.div>
             );
-          }
+          },
         )}
       </div>
     </div>

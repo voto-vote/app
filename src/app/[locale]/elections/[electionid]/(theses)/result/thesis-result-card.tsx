@@ -227,7 +227,7 @@ function RatingVisualization({
   if (rating.rating !== undefined && rating.rating !== -1) {
     decision = convertRatingToDecision(
       rating.rating,
-      election.algorithm.decisions
+      election.algorithm.decisions,
     );
   }
 

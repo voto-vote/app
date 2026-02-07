@@ -33,10 +33,10 @@ export default function ChangeRatingDialog({
 }: ChangeRatingDialogProps) {
   const t = useTranslations("ChangeRatingDialog");
   const [newRating, setNewRating] = useState<number>(
-    userRatings[thesis.id]?.rating ?? -1
+    userRatings[thesis.id]?.rating ?? -1,
   );
   const [newFavorite, setNewFavorite] = useState<boolean>(
-    userRatings[thesis.id]?.favorite ?? false
+    userRatings[thesis.id]?.favorite ?? false,
   );
 
   // Reset rating and favorite when dialog opens
@@ -65,7 +65,7 @@ export default function ChangeRatingDialog({
                 election.algorithm.weightedVotesLimit !== false &&
                 Object.values(userRatings).reduce(
                   (n, t) => (t.favorite === true ? n + 1 : n),
-                  0
+                  0,
                 ) >= election.algorithm.weightedVotesLimit
               }
               starred={newFavorite}
@@ -79,7 +79,7 @@ export default function ChangeRatingDialog({
                   .map((decision, index) => {
                     const ratingValue = convertDecisionToRating(
                       decision,
-                      election.algorithm.decisions
+                      election.algorithm.decisions,
                     );
                     return (
                       <button

@@ -29,8 +29,8 @@ export const useRandomStore = create<State & Action>()(
           state.createSeed();
         }
       },
-    }
-  )
+    },
+  ),
 );
 
 function generateSeed(): number {
