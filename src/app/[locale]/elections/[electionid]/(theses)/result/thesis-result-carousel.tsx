@@ -118,13 +118,13 @@ export default function ThesesResultCarousel({
                 numberOfTheses={sortedTheses.length}
                 ownRating={
                   userRatings?.[thesis.id] ?? {
-                    value: undefined,
+                    value: "unrated",
                     isFavorite: false,
                   }
                 }
                 entityRatings={entities.map((entity) => {
                   const rating = entity.ratings[thesis.id] ?? {
-                    value: undefined,
+                    value: "unrated",
                     isFavorite: false,
                   };
                   return { entity, rating };

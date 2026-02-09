@@ -314,7 +314,7 @@ export default function ThesesPage() {
                 setUserRatingValue(
                   election.id,
                   theses[currentThesisIndex]?.id,
-                  -1,
+                  "skipped",
                 );
                 setUserRatingFavorite(
                   election.id,
