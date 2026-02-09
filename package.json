@@ -11,7 +11,7 @@
     "lint": "prettier --check . && eslint  --max-warnings=0 . && i18n-check -s en -l messages -f next-intl -u src",
     "format": "prettier --write .",
     "test": "vitest run",
-    "db:generate": "drizzle-kit generate",
+    "db:generate": "npx @better-auth/cli generate --yes --output src/db/schemas/auth.ts && drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-switch": "^1.2.6",
+    "better-auth": "^1.4.18",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.1",
