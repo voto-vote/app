@@ -9,10 +9,10 @@ import type { Thesis } from "@/types/theses";
 import ThesisCard from "../thesis-card";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Election } from "@/types/election";
-import { Rating, Ratings } from "@/types/ratings";
-import { convertDecisionToRating } from "@/lib/result-calculator";
+import { Rating, Ratings, RatingValue } from "@/types/ratings";
+import { scaleValueToNormalized } from "@/lib/result-calculator";
 
 interface ChangeRatingDialogProps {
   election: Election;
@@ -32,18 +32,12 @@ export default function ChangeRatingDialog({
   onRatingChange,
 }: ChangeRatingDialogProps) {
   const t = useTranslations("ChangeRatingDialog");
-  const [newRating, setNewRating] = useState<number>(
-    userRatings[thesis.id]?.rating ?? -1,
+  const [newRating, setNewRating] = useState<RatingValue>(
+    userRatings[thesis.id]?.value ?? "skipped",
   );
   const [newFavorite, setNewFavorite] = useState<boolean>(
-    userRatings[thesis.id]?.favorite ?? false,
+    userRatings[thesis.id]?.isFavorite ?? false,
   );
-
-  // Reset rating and favorite when dialog opens
-  useEffect(() => {
-    setNewRating(userRatings[thesis.id]?.rating ?? -1);
-    setNewFavorite(userRatings[thesis.id]?.favorite ?? false);
-  }, [userRatings, thesis.id, open]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -64,7 +58,7 @@ export default function ChangeRatingDialog({
               starDisabled={
                 election.algorithm.weightedVotesLimit !== false &&
                 Object.values(userRatings).reduce(
-                  (n, t) => (t.favorite === true ? n + 1 : n),
+                  (n, t) => (t.isFavorite === true ? n + 1 : n),
                   0,
                 ) >= election.algorithm.weightedVotesLimit
               }
@@ -77,7 +71,7 @@ export default function ChangeRatingDialog({
                 {[1, 2, 3, 4, 5]
                   .slice(0, election.algorithm.decisions)
                   .map((decision, index) => {
-                    const ratingValue = convertDecisionToRating(
+                    const ratingValue = scaleValueToNormalized(
                       decision,
                       election.algorithm.decisions,
                     );
@@ -90,7 +84,7 @@ export default function ChangeRatingDialog({
                             ? "bg-primary text-white shadow-lg scale-105"
                             : "bg-primary/5 text-primary hover:bg-primary/10"
                         } ${
-                          userRatings[thesis.id]?.rating === ratingValue
+                          userRatings[thesis.id]?.value === ratingValue
                             ? "border-2 border-primary"
                             : ""
                         }`}
@@ -109,12 +103,12 @@ export default function ChangeRatingDialog({
             <Button
               className="md:w-96 mx-4 md:mx-auto"
               onClick={() => {
-                onRatingChange({ rating: newRating, favorite: newFavorite });
+                onRatingChange({ value: newRating, isFavorite: newFavorite });
                 onOpenChange(false);
               }}
             >
-              {newRating === userRatings[thesis.id]?.rating &&
-              newFavorite === userRatings[thesis.id]?.favorite
+              {newRating === userRatings[thesis.id]?.value &&
+              newFavorite === userRatings[thesis.id]?.isFavorite
                 ? t("dontChangeOpinion")
                 : t("changeOpinion")}
             </Button>

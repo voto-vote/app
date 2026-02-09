@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/popover";
 import type { Theses } from "@/types/theses";
 import { ChevronLeft, ChevronRight, CircleQuestionMark } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import ThesisResultCard from "./thesis-result-card";
 import type { Election } from "@/types/election";
 import type { Rating, Ratings } from "@/types/ratings";
@@ -36,7 +36,6 @@ export default function ThesesResultCarousel({
   entities,
   onRatingChange,
 }: ThesesResultCarouselProps) {
-  const [sortedTheses, setSortedTheses] = useState<Theses>([]);
   const [api, setApi] = useState<CarouselApi>();
   const [currentThesisIndex, setCurrentThesisIndex] = useState(0);
   const [thesesSorting, setThesesSorting] = useState<"random" | "category">(
@@ -45,30 +44,29 @@ export default function ThesesResultCarousel({
   const isDesktop = useBreakpoint("sm");
   const t = useTranslations("ThesesResultCarousel");
 
-  useEffect(() => {
+  const sortedTheses = useMemo(() => {
+    if (!theses) {
+      return [];
+    }
+    if (thesesSorting === "category") {
+      return [...theses].sort((a, b) => a.category.localeCompare(b.category));
+    }
+    return theses;
+  }, [theses, thesesSorting]);
+
+  const handleSetApi = (api: CarouselApi) => {
     if (!api) {
       return;
     }
 
+    setApi(api);
     setCurrentThesisIndex(api.selectedScrollSnap());
 
     api.on("select", () => {
       setCurrentThesisIndex(api.selectedScrollSnap());
     });
-  }, [api]);
+  };
 
-  useEffect(() => {
-    if (!theses) {
-      return;
-    }
-    if (thesesSorting === "category") {
-      setSortedTheses(
-        [...theses].sort((a, b) => a.category.localeCompare(b.category)),
-      );
-    } else {
-      setSortedTheses(theses);
-    }
-  }, [theses, thesesSorting]);
   return (
     <>
       <div className="flex flex-wrap items-center text-sm">
@@ -106,7 +104,7 @@ export default function ThesesResultCarousel({
       </div>
 
       <Carousel
-        setApi={setApi}
+        setApi={handleSetApi}
         className="-mx-2 md:mx-0 md:[&>div]:overflow-visible select-none"
       >
         <CarouselContent className="md:gap-x-32">
@@ -120,14 +118,14 @@ export default function ThesesResultCarousel({
                 numberOfTheses={sortedTheses.length}
                 ownRating={
                   userRatings?.[thesis.id] ?? {
-                    rating: undefined,
-                    favorite: false,
+                    value: undefined,
+                    isFavorite: false,
                   }
                 }
                 entityRatings={entities.map((entity) => {
                   const rating = entity.ratings[thesis.id] ?? {
-                    rating: undefined,
-                    favorite: false,
+                    value: undefined,
+                    isFavorite: false,
                   };
                   return { entity, rating };
                 })}

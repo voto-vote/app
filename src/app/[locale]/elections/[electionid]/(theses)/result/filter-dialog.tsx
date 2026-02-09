@@ -18,7 +18,7 @@ import { Ratings } from "@/types/ratings";
 import { Theses } from "@/types/theses";
 import { ChevronDown, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface FilterProps {
   election: Election;
@@ -45,14 +45,6 @@ export default function FilterDialog({
     setTmpFilters({});
   }
 
-  useEffect(() => {
-    if (open) {
-      setTmpFilters(entityFilters);
-    } else {
-      resetTmpFilters();
-    }
-  }, [entityFilters, open]);
-
   function removeTmpFilter(id: string) {
     const newFilters = { ...tmpFilters };
     delete newFilters[id];
@@ -69,6 +61,13 @@ export default function FilterDialog({
     setTmpFilters(newFilters);
   }
 
+  const genderTranslations: Record<string, string> = {
+    male: t("male"),
+    female: t("female"),
+    other: t("other"),
+    "prefer-not-to-say": t("prefer-not-to-say"),
+  };
+
   return (
     <ResponsiveDialog
       open={open}
@@ -81,7 +80,7 @@ export default function FilterDialog({
           <Badge asChild variant="secondary">
             <button
               onClick={resetTmpFilters}
-              className="transition-colors hover:bg-accent-foreground/10 !rounded !py-0.5 !px-1.5"
+              className="transition-colors hover:bg-accent-foreground/10 rounded! py-0.5! px-1.5!"
             >
               {t("resetFilters")}
             </button>
@@ -200,12 +199,8 @@ export default function FilterDialog({
           <DropdownInput
             label={t("gender")}
             items={candidates.reduce<Record<string, string>>((acc, c) => {
-              // All possible translations are listed here to make the i18n-check linter happy (no-unused-keys).
-              // t("male")
-              // t("female")
-              // t("other")
-              // t("prefer-not-to-say")
-              acc[c.gender] = t(c.gender);
+              const genderTranslation = genderTranslations[c.gender];
+              acc[c.gender] = genderTranslation ?? c.gender;
               return acc;
             }, {})}
             onFilterAddition={(key, value) =>
@@ -240,7 +235,7 @@ export default function FilterDialog({
             truncateText(value),
             (entity) =>
               entity.type === "candidate" &&
-              entity.ratings[key]?.rating === userRatings[key]?.rating,
+              entity.ratings[key]?.value === userRatings[key]?.value,
           )
         }
         onFilterRemoval={(k) => removeTmpFilter("thesis-" + k)}
@@ -318,7 +313,7 @@ function DropdownInput({
         <Button
           variant="outline"
           className={cn(
-            "w-full text-left px-3 py-1 font-[400] justify-between",
+            "w-full text-left px-3 py-1 font-normal justify-between",
             className,
           )}
         >

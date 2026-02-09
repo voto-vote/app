@@ -57,7 +57,7 @@ export default function ResultList({
           <p className="text-semibold mt-4">
             {t("explanation", {
               count: Object.values(userRatings[election.id] ?? {}).filter(
-                (r) => (r.rating ?? -2) >= 0,
+                (r) => r.value !== "skipped" && r.value !== "unrated",
               ).length,
             })}
           </p>
@@ -137,7 +137,7 @@ export default function ResultList({
           variant="ghost"
           className={
             filterBookmarked
-              ? "!bg-primary !text-primary-foreground !hover:text-primary-foreground"
+              ? "bg-primary! text-primary-foreground! !hover:text-primary-foreground"
               : ""
           }
           onClick={() => setFilterBookmarked(!filterBookmarked)}

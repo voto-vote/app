@@ -100,8 +100,8 @@ export async function getVotedCandidates(
       .filter((vote) => vote.candidateId === candidate.id)
       .reduce<Ratings>((r, vote) => {
         r[String(vote.statementId)] = {
-          rating: vote.value,
-          favorite: false,
+          value: vote.value,
+          isFavorite: false,
           explanation: vote.explanation,
         };
         return r;

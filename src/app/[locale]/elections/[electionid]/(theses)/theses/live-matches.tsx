@@ -31,11 +31,14 @@ export default function LiveMatches({
 
   return (
     <div
-      className={`grid grid-cols-4 gap-2 transition-all duration-300 ease-in-out overflow-hidden md:max-w-3xl md:mx-auto ${
+      className={`grid gap-2 transition-all duration-300 ease-in-out overflow-hidden md:max-w-3xl md:mx-auto ${
         liveMatchesVisible
           ? "p-4 pt-2 border-b opacity-100 max-h-24"
           : "opacity-0 max-h-0 p-0 border-b-0"
       }`}
+      style={{
+        gridTemplateColumns: `repeat(${topFourResults.length}, minmax(0, 1fr))`,
+      }}
     >
       {topFourResults.map((result) => (
         <motion.div key={result.entity.id} className="space-y-1" layout>

@@ -21,7 +21,7 @@ import { motion } from "framer-motion";
 import { useElection } from "@/contexts/election-context";
 import LiveMatches from "./live-matches";
 import { useResultStore } from "@/stores/result-store";
-import { convertDecisionToRating } from "@/lib/result-calculator";
+import { scaleValueToNormalized } from "@/lib/result-calculator";
 import { EventsAPI } from "@/lib/api";
 import { useDataSharingStore } from "@/stores/data-sharing-store";
 import { useIntroStore } from "@/stores/intro-store";
@@ -30,7 +30,8 @@ export default function ThesesPage() {
   const { election } = useElection();
   const { results } = useResultStore();
   const { theses } = useThesesStore();
-  const { userRatings, setUserRating, setUserFavorite } = useUserRatingsStore();
+  const { userRatings, setUserRatingValue, setUserRatingFavorite } =
+    useUserRatingsStore();
   const [api, setApi] = useState<CarouselApi>();
   const [currentThesisIndex, setCurrentThesisIndex] = useState(0);
   const [liveMatchesAvailable, setLiveMatchesAvailable] = useState(false);
@@ -52,19 +53,9 @@ export default function ThesesPage() {
   }, [election?.id, setBackPath]);
 
   useEffect(() => {
-    if (!api) {
-      return;
-    }
-    setCurrentThesisIndex(api.selectedScrollSnap());
-    api.on("select", () => {
-      setCurrentThesisIndex(api.selectedScrollSnap());
-    });
-  }, [api]);
-
-  useEffect(() => {
     const electionRatings = userRatings[election.id] ?? {};
     const hasRatings = Object.values(electionRatings).some(
-      (r) => r.rating !== undefined,
+      (r) => r.value !== "unrated",
     );
     const previousLiveMatchesAvailable = liveMatchesAvailable;
 
@@ -102,6 +93,19 @@ export default function ThesesPage() {
   if (!theses) {
     return null;
   }
+
+  const handleSetApi = (api: CarouselApi) => {
+    if (!api) {
+      return;
+    }
+
+    setApi(api);
+    setCurrentThesisIndex(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrentThesisIndex(api.selectedScrollSnap());
+    });
+  };
 
   function sendVotoFinishedEvent(skippedToResult: boolean) {
     if (dataSharingEnabled) {
@@ -190,7 +194,7 @@ export default function ThesesPage() {
         transition={{ delay: 0.3, duration: 0.4 }}
       >
         <Carousel
-          setApi={setApi}
+          setApi={handleSetApi}
           className="grow md:grow-0 md:h-1/2"
           style={{ containerType: "size" }}
           opts={{
@@ -204,16 +208,16 @@ export default function ThesesPage() {
                   <ThesisCard
                     thesis={thesis}
                     onStarredChange={(starred) =>
-                      setUserFavorite(election.id, thesis.id, starred)
+                      setUserRatingFavorite(election.id, thesis.id, starred)
                     }
                     starDisabled={
                       election.algorithm.weightedVotesLimit !== false &&
                       Object.values(userRatings[election.id] ?? {}).reduce(
-                        (n, t) => (t.favorite === true ? n + 1 : n),
+                        (n, t) => (t.isFavorite === true ? n + 1 : n),
                         0,
                       ) >= election.algorithm.weightedVotesLimit
                     }
-                    starred={userRatings[election.id]?.[thesis.id]?.favorite}
+                    starred={userRatings[election.id]?.[thesis.id]?.isFavorite}
                   />
                 </div>
               </CarouselItem>
@@ -247,7 +251,7 @@ export default function ThesesPage() {
               {[1, 2, 3, 4, 5]
                 .slice(0, election.algorithm.decisions)
                 .map((decision, index) => {
-                  const ratingValue = convertDecisionToRating(
+                  const ratingValue = scaleValueToNormalized(
                     decision,
                     election.algorithm.decisions,
                   );
@@ -255,7 +259,7 @@ export default function ThesesPage() {
                     <button
                       key={index}
                       onClick={() => {
-                        setUserRating(
+                        setUserRatingValue(
                           election.id,
                           theses[currentThesisIndex]?.id,
                           ratingValue,
@@ -265,7 +269,7 @@ export default function ThesesPage() {
                       className={`size-16 sm:size-22 rounded-lg font-bold text-2xl transition-all transform hover:scale-105 ${
                         userRatings[election.id]?.[
                           theses[currentThesisIndex]?.id
-                        ]?.rating === ratingValue
+                        ]?.value === ratingValue
                           ? "bg-primary text-white shadow-lg scale-105"
                           : "bg-primary/5 text-primary hover:bg-primary/10"
                       }`}
@@ -307,8 +311,12 @@ export default function ThesesPage() {
               variant="link"
               className="w-full text-primary"
               onClick={() => {
-                setUserRating(election.id, theses[currentThesisIndex]?.id, -1);
-                setUserFavorite(
+                setUserRatingValue(
+                  election.id,
+                  theses[currentThesisIndex]?.id,
+                  -1,
+                );
+                setUserRatingFavorite(
                   election.id,
                   theses[currentThesisIndex]?.id,
                   false,
@@ -330,10 +338,8 @@ export default function ThesesPage() {
           setBreakDrawerOpen(false);
           // Mark all missed theses as skipped
           for (let i = 0; i < theses.length; i++) {
-            if (
-              userRatings[election.id]?.[theses[i].id]?.rating === undefined
-            ) {
-              setUserRating(election.id, theses[i].id, -1);
+            if (userRatings[election.id]?.[theses[i].id]?.value === "unrated") {
+              setUserRatingValue(election.id, theses[i].id, "skipped");
             }
           }
           sendVotoFinishedEvent(true);
