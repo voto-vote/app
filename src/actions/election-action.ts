@@ -14,7 +14,7 @@ export async function getElection(id: string): Promise<Election | null> {
   const objectStorageUrl = process.env.OBJECT_STORAGE_URL;
   if (!objectStorageUrl) {
     throw new Error(
-      "OBJECT_STORAGE_URL is not defined in the environment variables."
+      "OBJECT_STORAGE_URL is not defined in the environment variables.",
     );
   }
 
@@ -45,9 +45,7 @@ export async function getElection(id: string): Promise<Election | null> {
   const configurationUrl =
     objectStorageUrl + "/configuration/" + id + "/configuration.json";
   const configurationUrlOrigin = new URL(configurationUrl).origin;
-  const configurationPromise = fetch(configurationUrl, {
-    cache: "no-store",
-  }).then((r) => r.json());
+  const configurationPromise = fetch(configurationUrl).then((r) => r.json());
 
   let availableLanguages, numberOfTheses, instance, configuration;
   try {
@@ -78,14 +76,14 @@ export async function getElection(id: string): Promise<Election | null> {
     image:
       configuration?.introduction?.background?.replace(
         "voto://",
-        configurationUrlOrigin + "/"
+        configurationUrlOrigin + "/",
       ) ?? "",
     locales: locales,
     description: i.description,
     sponsorsTitle: configuration?.introduction?.sponsor_text ?? "",
     sponsors: convertSponsors(
       configuration?.sponsors ?? [],
-      configurationUrlOrigin
+      configurationUrlOrigin,
     ),
     launchDate: i.launchDate,
     status: convertStatus(i.status),
@@ -131,7 +129,7 @@ function convertStatus(status: number): Status {
 
 function convertSponsors(
   sponsors: unknown,
-  configurationUrlOrigin: string
+  configurationUrlOrigin: string,
 ): Sponsor[] {
   if (!Array.isArray(sponsors)) return [];
   return sponsors.map((s) => ({
@@ -142,7 +140,7 @@ function convertSponsors(
 }
 
 function convertMatchType(
-  matchType: number
+  matchType: number,
 ): Election["algorithm"]["matchType"] {
   switch (matchType) {
     case 0:

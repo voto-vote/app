@@ -17,7 +17,7 @@ type Action = {
   toggleParty: (electionId: Election["id"], partyId: Party["id"]) => void;
   toggleCandidate: (
     electionId: Election["id"],
-    candidateId: Candidate["id"]
+    candidateId: Candidate["id"],
   ) => void;
 };
 
@@ -33,10 +33,10 @@ export const useBookmarkStore = create<State & Action>()(
             [electionId]: {
               ...state.bookmarks[electionId],
               parties: (state.bookmarks[electionId]?.parties ?? []).includes(
-                partyId
+                partyId,
               )
                 ? (state.bookmarks[electionId].parties ?? []).filter(
-                    (id) => id !== partyId
+                    (id) => id !== partyId,
                   )
                 : [...(state.bookmarks[electionId]?.parties ?? []), partyId],
             },
@@ -53,7 +53,7 @@ export const useBookmarkStore = create<State & Action>()(
                 state.bookmarks[electionId]?.candidates ?? []
               ).includes(candidateId)
                 ? (state.bookmarks[electionId].candidates ?? []).filter(
-                    (id) => id !== candidateId
+                    (id) => id !== candidateId,
                   )
                 : [
                     ...(state.bookmarks[electionId]?.candidates ?? []),
@@ -63,6 +63,6 @@ export const useBookmarkStore = create<State & Action>()(
           },
         })),
     }),
-    { name: "voto-bookmarks", storage: createJSONStorage(() => localStorage) }
-  )
+    { name: "voto-bookmarks", storage: createJSONStorage(() => localStorage) },
+  ),
 );

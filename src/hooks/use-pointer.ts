@@ -1,24 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 
 export type Pointer = "coarse" | "fine";
 
+function subscribe(callback: () => void) {
+  const mediaQuery = window.matchMedia("(pointer: coarse)");
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+}
+
+function getSnapshot(): Pointer {
+  return window.matchMedia("(pointer: coarse)").matches ? "coarse" : "fine";
+}
+
+function getServerSnapshot(): Pointer {
+  return "fine";
+}
+
 export function usePointer(): Pointer {
-  const [isCoarse, setIsCoarse] = useState<Pointer>("fine");
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(pointer: coarse)");
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsCoarse(e.matches ? "coarse" : "fine");
-    };
-
-    setIsCoarse(mediaQuery.matches ? "coarse" : "fine");
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
-
-  return isCoarse;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

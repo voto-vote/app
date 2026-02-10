@@ -1,17 +1,13 @@
 "use client";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { ResponsiveTooltip } from "@/components/responsive-tooltip";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
-import { convertRatingToDecision } from "@/lib/result-calculator";
-import { Election } from "@/types/election";
-import type { Ratings } from "@/types/ratings";
+import { normalizedToScaleValue } from "@/lib/result-calculator";
+import { Algorithm, Election } from "@/types/election";
+import type { Rating, Ratings } from "@/types/ratings";
 import type { Theses } from "@/types/theses";
 import { Circle, Star } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Fragment, useMemo } from "react";
 
 interface ProgressProps {
   election: Election;
@@ -28,39 +24,26 @@ export default function Progress({
   currentId,
   onCurrentIdChange,
 }: ProgressProps) {
-  const [leftDistance, setLeftDistance] = useState(0);
   const isDesktop = useBreakpoint("md");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [mobileOpenTooltipId, setMobileOpenTooltipId] = useState<string | null>(
-    null
-  );
 
   const total = theses.length;
   const dotWidth = isDesktop ? 22 : 20; // Width of a dot in pixels
   const dotSpacing = 6; // Spacing between dots in pixels
   const totalWidth = total * (dotWidth + dotSpacing) - dotSpacing;
 
-  // Set the current index based on the currentId
-  useEffect(() => {
-    const index = theses.findIndex((t) => t.id === currentId);
-    setCurrentIndex(index);
-  }, [currentId, theses]);
+  const currentIndex = useMemo(
+    () => theses.findIndex((t) => t.id === currentId),
+    [currentId, theses],
+  );
 
-  // Watch for changes in current values and apply the translation
-  useEffect(() => {
-    // Center the progress dots
-    // lastIndex = total - 1
-    // middleIndex = lastIndex / 2
-    // translationX = middleIndex - currentIndex * (width of a dot + dot spacing)
-    setLeftDistance(((total - 1) / 2 - currentIndex) * (dotWidth + dotSpacing));
-  }, [total, currentId, dotWidth, theses, currentIndex]);
-
-  // Close any open mobile tooltip when the current thesis changes
-  useEffect(() => {
-    if (!isDesktop) {
-      setMobileOpenTooltipId(null);
-    }
-  }, [currentId, isDesktop]);
+  // Center the progress dots
+  // lastIndex = total - 1
+  // middleIndex = lastIndex / 2
+  // translationX = middleIndex - currentIndex * (width of a dot + dot spacing)
+  const leftDistance = useMemo(
+    () => ((total - 1) / 2 - currentIndex) * (dotWidth + dotSpacing),
+    [total, currentIndex, dotWidth],
+  );
 
   return (
     <div className="h-10 space-y-2">
@@ -73,80 +56,39 @@ export default function Progress({
         }}
       >
         {theses.map((t) => {
-          const rating = userRatings[t.id] || {
-            rating: undefined,
-            favorite: false,
+          const rating: Rating = userRatings[t.id] || {
+            value: "unrated",
+            isFavorite: false,
           };
 
-          let ratingDisplayValue = "";
-          if (rating.rating === -1) {
-            ratingDisplayValue = "-";
-          } else if (rating.rating !== undefined) {
-            ratingDisplayValue = convertRatingToDecision(
-              rating.rating,
-              election.algorithm.decisions
-            ).toString();
+          const progressDot = (
+            <ProgressDot
+              rating={rating}
+              algorithm={election.algorithm}
+              size={dotWidth}
+              isSelected={t.id === currentId}
+            />
+          );
+
+          if (rating.value === "unrated") {
+            return <Fragment key={t.id}>{progressDot}</Fragment>;
           }
 
           return (
-            <div
+            <ResponsiveTooltip
               key={t.id}
-              style={{
-                width: `${dotWidth}px`,
-                height: `${dotWidth}px`,
-                lineHeight: `${dotWidth}px`,
-              }}
-              onClick={() => {
-                if (rating.rating === undefined) return;
-
-                if (!isDesktop) {
-                  // First tap shows tooltip; second tap navigates
-                  if (mobileOpenTooltipId !== t.id) {
-                    setMobileOpenTooltipId(t.id);
-                    return;
-                  }
-                }
-
-                onCurrentIdChange(t.id);
-              }}
-              className={`relative font-semibold text-xs text-center align-middle transition ${rating.rating !== undefined ? "text-primary hover:scale-125 cursor-pointer" : "text-accent"} ${t.id === currentId ? "scale-125 [&_svg]:stroke-1 [&_svg]:stroke-primary" : ""}`}
+              trigger={
+                <ProgressDot
+                  rating={rating}
+                  algorithm={election.algorithm}
+                  size={dotWidth}
+                  isSelected={t.id === currentId}
+                />
+              }
+              onClick={() => onCurrentIdChange(t.id)}
             >
-              <Tooltip
-                delayDuration={isDesktop ? 500 : 0}
-                open={
-                  rating.rating !== undefined
-                    ? isDesktop
-                      ? undefined
-                      : mobileOpenTooltipId === t.id
-                    : false
-                }
-                onOpenChange={(open) => {
-                  if (!isDesktop) {
-                    setMobileOpenTooltipId(open ? t.id : null);
-                  }
-                }}
-              >
-                <TooltipTrigger>
-                  {rating.favorite ? (
-                    <Star
-                      className="absolute inset-0 fill-current"
-                      size={dotWidth}
-                    />
-                  ) : (
-                    <Circle
-                      className="m-[1px] absolute inset-0 fill-current"
-                      size={dotWidth - 2}
-                    />
-                  )}
-                  <span className="relative text-primary-foreground">
-                    {ratingDisplayValue}
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-screen">
-                  <p className="text-wrap">{t.text}</p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
+              <p className="text-wrap cursor-pointer">{t.text}</p>
+            </ResponsiveTooltip>
           );
         })}
       </div>
@@ -157,6 +99,49 @@ export default function Progress({
       >
         {currentIndex + 1} / {total}
       </p>
+    </div>
+  );
+}
+
+function ProgressDot({
+  rating,
+  algorithm,
+  size,
+  isSelected,
+}: {
+  rating: Rating;
+  algorithm: Algorithm;
+  size: number;
+  isSelected: boolean;
+}) {
+  let ratingDisplayValue: string;
+  switch (rating.value) {
+    case "skipped":
+      ratingDisplayValue = "-";
+      break;
+    case "unrated":
+      ratingDisplayValue = "";
+      break;
+    default:
+      ratingDisplayValue = normalizedToScaleValue(
+        rating.value,
+        algorithm.decisions,
+      ).toString();
+  }
+
+  return (
+    <div
+      className={`grid place-items-center *:[grid-area:1/1] transition ${rating.value !== "unrated" ? "text-primary hover:scale-125 cursor-pointer" : "text-accent"} ${isSelected ? "scale-125 [&_svg]:stroke-1 [&_svg]:stroke-primary" : ""}`}
+      style={{ width: size, height: size }}
+    >
+      {rating.isFavorite ? (
+        <Star className="fill-current" size={size} />
+      ) : (
+        <Circle className="fill-current" size={size - 2} />
+      )}
+      <span className="font-semibold text-xs text-primary-foreground">
+        {ratingDisplayValue}
+      </span>
     </div>
   );
 }

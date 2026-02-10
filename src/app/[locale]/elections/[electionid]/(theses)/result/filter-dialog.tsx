@@ -18,7 +18,7 @@ import { Ratings } from "@/types/ratings";
 import { Theses } from "@/types/theses";
 import { ChevronDown, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface FilterProps {
   election: Election;
@@ -41,13 +41,9 @@ export default function FilterDialog({
   const [tmpFilters, setTmpFilters] = useState<EntityFilters>(entityFilters);
   const t = useTranslations("FilterDialog");
 
-  useEffect(() => {
-    if (open) {
-      setTmpFilters(entityFilters);
-    } else {
-      resetTmpFilters();
-    }
-  }, [entityFilters, open]);
+  function resetTmpFilters() {
+    setTmpFilters({});
+  }
 
   function removeTmpFilter(id: string) {
     const newFilters = { ...tmpFilters };
@@ -55,19 +51,22 @@ export default function FilterDialog({
     setTmpFilters(newFilters);
   }
 
-  function resetTmpFilters() {
-    setTmpFilters({});
-  }
-
   function setTmpFilter(
     id: string,
     title: string,
-    condition: (e: Entity) => boolean
+    condition: (e: Entity) => boolean,
   ) {
     const newFilters = { ...tmpFilters };
     newFilters[id] = { title, condition };
     setTmpFilters(newFilters);
   }
+
+  const genderTranslations: Record<string, string> = {
+    male: t("male"),
+    female: t("female"),
+    other: t("other"),
+    "prefer-not-to-say": t("prefer-not-to-say"),
+  };
 
   return (
     <ResponsiveDialog
@@ -81,7 +80,7 @@ export default function FilterDialog({
           <Badge asChild variant="secondary">
             <button
               onClick={resetTmpFilters}
-              className="transition-colors hover:bg-accent-foreground/10 !rounded !py-0.5 !px-1.5"
+              className="transition-colors hover:bg-accent-foreground/10 rounded! py-0.5! px-1.5!"
             >
               {t("resetFilters")}
             </button>
@@ -106,7 +105,7 @@ export default function FilterDialog({
             removeTmpFilter("search");
           } else {
             setTmpFilter("search", truncateText(text), (e) =>
-              e.displayName.toLowerCase().includes(text.toLowerCase())
+              e.displayName.toLowerCase().includes(text.toLowerCase()),
             );
           }
         }}
@@ -127,7 +126,7 @@ export default function FilterDialog({
                 truncateText(value),
                 (entity) =>
                   entity.type === "candidate" &&
-                  entity.partyId.toString() === key
+                  entity.partyId.toString() === key,
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("party-" + k)}
@@ -148,7 +147,7 @@ export default function FilterDialog({
                 truncateText(value),
                 (entity) =>
                   entity.type === "candidate" &&
-                  entity.listPlace?.toString() === key
+                  entity.listPlace?.toString() === key,
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("list-" + k)}
@@ -168,7 +167,7 @@ export default function FilterDialog({
                 "district-" + key,
                 truncateText(value),
                 (entity) =>
-                  entity.type === "candidate" && entity.district === key
+                  entity.type === "candidate" && entity.district === key,
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("district-" + k)}
@@ -190,7 +189,7 @@ export default function FilterDialog({
                 truncateText(value),
                 (entity) =>
                   entity.type === "candidate" &&
-                  getAgeGroup(entity.dateOfBirth) === key
+                  getAgeGroup(entity.dateOfBirth) === key,
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("age-" + k)}
@@ -200,19 +199,16 @@ export default function FilterDialog({
           <DropdownInput
             label={t("gender")}
             items={candidates.reduce<Record<string, string>>((acc, c) => {
-              // All possible translations are listed here to make the i18n-check linter happy (no-unused-keys).
-              // t("male")
-              // t("female")
-              // t("other")
-              // t("prefer-not-to-say")
-              acc[c.gender] = t(c.gender);
+              const genderTranslation = genderTranslations[c.gender];
+              acc[c.gender] = genderTranslation ?? c.gender;
               return acc;
             }, {})}
             onFilterAddition={(key, value) =>
               setTmpFilter(
                 "gender-" + key,
                 truncateText(value),
-                (entity) => entity.type === "candidate" && entity.gender === key
+                (entity) =>
+                  entity.type === "candidate" && entity.gender === key,
               )
             }
             onFilterRemoval={(k) => removeTmpFilter("gender-" + k)}
@@ -239,7 +235,7 @@ export default function FilterDialog({
             truncateText(value),
             (entity) =>
               entity.type === "candidate" &&
-              entity.ratings[key]?.rating === userRatings[key]?.rating
+              entity.ratings[key]?.value === userRatings[key]?.value,
           )
         }
         onFilterRemoval={(k) => removeTmpFilter("thesis-" + k)}
@@ -317,8 +313,8 @@ function DropdownInput({
         <Button
           variant="outline"
           className={cn(
-            "w-full text-left px-3 py-1 font-[400] justify-between",
-            className
+            "w-full text-left px-3 py-1 font-normal justify-between",
+            className,
           )}
         >
           {`${label} (${Object.keys(items).filter((k) => tmpFilters[tmpFiltersKeyPrefix + k]).length})`}
@@ -370,7 +366,7 @@ function getAgeGroup(birthDate: Date | string): string {
   const birth = typeof birthDate === "string" ? new Date(birthDate) : birthDate;
 
   const age = Math.floor(
-    (currentDate.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24 * 365.25)
+    (currentDate.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24 * 365.25),
   );
 
   for (const [groupName, range] of Object.entries(ageGroups)) {

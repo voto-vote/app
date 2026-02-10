@@ -18,7 +18,7 @@ import {
 } from "@/components/animated-collapsible";
 import ChangeRatingDialog from "./change-rating-dialog";
 import { Entity } from "@/types/entity";
-import { convertRatingToDecision } from "@/lib/result-calculator";
+import { normalizedToScaleValue } from "@/lib/result-calculator";
 import { abbreviateName } from "@/lib/entity-utils";
 
 type EntityRating = {
@@ -155,7 +155,7 @@ export default function ThesisResultCard({
                     <Button
                       size={isDesktop ? "default" : "sm"}
                       variant="link"
-                      className="!p-0 max-h-6 sm:max-h-none whitespace-normal"
+                      className="p-0! max-h-6 sm:max-h-none whitespace-normal"
                       onClick={() => {
                         const newSet = new Set(expandedParticipantExplanations);
                         if (expandedParticipantExplanations.has(er.entity.id)) {
@@ -224,25 +224,25 @@ function RatingVisualization({
   foregroundColor?: string;
 }) {
   let decision = undefined;
-  if (rating.rating !== undefined && rating.rating !== -1) {
-    decision = convertRatingToDecision(
-      rating.rating,
-      election.algorithm.decisions
+  if (rating.value !== "unrated" && rating.value !== "skipped") {
+    decision = normalizedToScaleValue(
+      rating.value,
+      election.algorithm.decisions,
     );
   }
 
   let ratingDisplayValue = "";
-  if (rating.rating === -1) {
+  if (rating.value === "skipped") {
     ratingDisplayValue = "-";
-  } else if (rating.rating !== undefined) {
+  } else if (rating.value !== "unrated") {
     ratingDisplayValue = decision?.toString() ?? "";
   }
 
   return (
     <div
-      className={`h-6 md:h-8 flex justify-between items-center ${rating.rating === -1 ? "justify-center" : "justify-between"}`}
+      className={`h-6 md:h-8 flex justify-between items-center ${rating.value === "skipped" ? "justify-center" : "justify-between"}`}
     >
-      {rating.rating !== -1 &&
+      {rating.value !== "skipped" &&
         Array.from({ length: election.algorithm.decisions }, (_, i) => {
           return (
             <div
@@ -255,7 +255,7 @@ function RatingVisualization({
               }}
               className="relative size-6 md:size-8"
             >
-              {rating.favorite && decision === i + 1 ? (
+              {rating.isFavorite && decision === i + 1 ? (
                 <Star className="absolute inset-0 fill-current size-full" />
               ) : (
                 <Square className="absolute inset-0 fill-current size-full" />
@@ -269,7 +269,7 @@ function RatingVisualization({
             </div>
           );
         })}
-      {rating.rating === -1 && (
+      {rating.value === "skipped" && (
         <div
           style={{
             color: backgroundColor,
