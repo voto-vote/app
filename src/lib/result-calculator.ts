@@ -1,6 +1,7 @@
 import { Entities } from "@/types/entity";
 import { Ratings } from "@/types/ratings";
 import { Result } from "@/types/result";
+import { Algorithm } from "@/types/election";
 
 function getMaxOfMatrix(matrix: number[][]): number {
   const flattened = matrix.flat();
@@ -30,21 +31,26 @@ export function calculateResults(
 
     for (const [thesisId, userRating] of Object.entries(userRatings)) {
       const entityRating = entityRatings[thesisId];
+      // If an rating by the entity is not given, skip this thesis in the calculation
+      if (
+        !entityRating || // TODO remove once validated in the backend
+        entityRating.value === "skipped" ||
+        entityRating.value === "unrated"
+      )
+        continue;
 
-      // If rating is -1, skip it
-      if (userRating.rating === -1) continue;
-
-      // "Bugfix" if a rating is missing
-      if (!entityRating) continue;
+      // If an rating by the user is not given, skip this thesis in the calculation
+      if (userRating.value === "skipped" || userRating.value === "unrated")
+        continue;
 
       // Get value 2 if favorite is set in oneliner
-      const userFavorite = userRating.favorite ? 2 : 1;
-      const addMaxPoints = userRating.favorite ? 2 : 1 * max;
-      const addMaxMinusPoints = userRating.favorite ? 2 : 1 * min;
+      const userFavorite = userRating.isFavorite ? 2 : 1;
+      const addMaxPoints = userRating.isFavorite ? 2 : 1 * max;
+      const addMaxMinusPoints = userRating.isFavorite ? 2 : 1 * min;
       maxPoints += addMaxPoints;
       maxMinusPoints += addMaxMinusPoints;
-      const matchIndex = Math.round((entityRating.rating || 0) / divider);
-      const userIndex = Math.round((userRating.rating || 0) / divider);
+      const matchIndex = Math.round((entityRating.value || 0) / divider);
+      const userIndex = Math.round((userRating.value || 0) / divider);
       const addPoints = matrix[matchIndex][userIndex] * userFavorite;
       points += addPoints;
     }
@@ -69,24 +75,36 @@ export function calculateResults(
   return results.sort((a, b) => b.matchPercentage - a.matchPercentage);
 }
 
-// Converts a decision key to a percentage based rating on a scale
-// For example, if the scale is 5 and the key is 3, it returns 50
-// If the scale is 3 and the key is 2, it returns 50
-export function convertDecisionToRating(key: number, scale: number): number {
-  if (scale <= 1) {
-    return 0;
-  }
-
-  return Math.max(0, Math.min(100, ((key - 1) / (scale - 1)) * 100));
+/**
+ * Converts a rating from a discrete scale value to a normalized 0.0 - 1.0 ratio.
+ * For example, if the scale is 5 and the value is 3, it returns 0.5
+ * If the scale is 3 and the value is 2, it returns 0.5
+ *
+ * @param scaleValue - The value on the original scale to be converted (1-based).
+ * @param scaleSize - The maximum number of decisions (scale points) defined by the algorithm.
+ * @returns A normalized rating between 0.0 and 1.0 (both inclusive).
+ */
+export function scaleValueToNormalized(
+  scaleValue: number,
+  scaleSize: Algorithm["decisions"],
+): number {
+  const clamped = Math.max(1, Math.min(scaleValue, scaleSize));
+  return (clamped - 1) / (scaleSize - 1);
 }
 
-// Converts a rating to a decision key based on the scale
-// For example, if the scale is 5 and the rating is 50, it returns 3
-export function convertRatingToDecision(rating: number, scale: number): number {
-  if (scale <= 1) {
-    return 1;
-  }
-
-  const key = Math.round((rating / 100) * (scale - 1) + 1);
-  return Math.max(1, Math.min(scale, key));
+/**
+ * Converts a normalized 0.0 - 1.0 ratio back to a discrete scale value.
+ * For example, if the normalized value is 0.5 and the scale is 5, it returns 3
+ * If the normalized value is 0.5 and the scale is 3, it returns 2
+ *
+ * @param normalizedValue - The normalized rating between 0.0 and 1.0 (both inclusive) to be converted.
+ * @param scaleSize - The maximum number of decisions (scale points) defined by the algorithm.
+ * @returns The corresponding value on the original scale (1-based), rounded to the nearest integer.
+ */
+export function normalizedToScaleValue(
+  normalizedValue: number,
+  scaleSize: Algorithm["decisions"],
+): number {
+  const clamped = Math.max(0, Math.min(normalizedValue, 1));
+  return Math.round(clamped * (scaleSize - 1) + 1);
 }

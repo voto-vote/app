@@ -3,15 +3,6 @@
     "title": "VOTO - Wählen einfach machen",
     "description": "Bewerte die Wahlprogramme und finde heraus, welche Partei am besten zu Dir passt."
   },
-  "ShareDrawer": {
-    "systemModalDescription": "Bewerte die Wahlprogramme und finde heraus, welche Partei am besten zu Dir passt.",
-    "screenReaderTitle": "Teilen",
-    "title": "Dein persönlicher VOTO-Link",
-    "description": "Deine Bewertungen sind über den obigen QR-Code abrufbar. Du kannst Dir den Link zu den Bewertungen über den „Teilen“-Knopf speichern und Dir Dein Ergebnis erneut ansehen.",
-    "shareButton": "Teilen",
-    "closeButton": "Schließen",
-    "sharingNotSupported": "Der Link wurde in die Zwischenablage kopiert."
-  },
   "Elections": {
     "tagline": "Wählen einfach machen",
     "openElectionsButton": "VOTO öffnen"
@@ -48,7 +39,7 @@
     "introTwoTitle": "Vergleiche mehrere Matches.",
     "introTwoDescription": "**Markiere** mehrere Matches (Lesezeichen) für Deine **Merkliste**. Dann kannst Du die Antworten von verschiedenen Matches für jede Frage vergleichen.",
     "introThreeTitle": "Du willst mehr Infos?",
-    "introThreeDescription": "Klicke auf das **Profil** von einem Match. Dort bekommst Du weitere Informationen. Und kannst die **Begründungen** zu den einzelnen Antworten durchlesen."
+    "introThreeDescription": "{pointer, select, coarse {Tippe} other {Klicke}} auf das **Profil** von einem Match. Dort bekommst Du weitere Informationen. Und kannst die **Begründungen** zu den einzelnen Antworten durchlesen."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",

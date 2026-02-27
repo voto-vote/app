@@ -67,7 +67,7 @@ export default function ResultPage() {
         )}
       </Tabs>
 
-      <SurveyDialog type="afterTheses" />
+      <SurveyDialog placement="afterTheses" />
     </>
   );
 }

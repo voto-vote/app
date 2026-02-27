@@ -1,7 +1,7 @@
 "use client";
 
 import MatchBar from "@/app/[locale]/elections/[electionid]/(theses)/result/match-bar";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { useBackButtonStore } from "@/stores/back-button-store";
 import { useThesesStore } from "@/stores/theses-store";
 import { useUserRatingsStore } from "@/stores/user-ratings-store";
@@ -29,9 +29,9 @@ export default function CandidateOrParty({
   const [showTopBar, setShowTopBar] = useState(false);
   const { election } = useElection();
   const { theses } = useThesesStore();
-  const { userRatings, setUserRating, setUserFavorite } = useUserRatingsStore();
+  const { userRatings, setUserRatingValue, setUserRatingFavorite } =
+    useUserRatingsStore();
   const { setBackPath } = useBackButtonStore();
-  const [items, setItems] = useState<string[][]>([]);
   const isDesktop = useBreakpoint("md");
   const entity = result.entity;
   const t = useTranslations("CandidateOrParty");
@@ -62,28 +62,28 @@ export default function CandidateOrParty({
     };
   }, []);
 
-  useEffect(() => {
-    const items: string[][] = [];
+  const items = useMemo(() => {
+    const result: string[][] = [];
     if (entity.type === "candidate") {
       if (entity.partyName) {
-        items.push(["party", entity.partyName]);
+        result.push(["party", entity.partyName]);
       }
       if (entity.district) {
-        items.push(["district", entity.district]);
+        result.push(["district", entity.district]);
       }
       if (entity.listPlace) {
-        items.push(["position", "#" + entity.listPlace]);
+        result.push(["position", "#" + entity.listPlace]);
       }
     }
     if (entity.type === "party") {
       if (entity.detailedName) {
-        items.push(["detailedName", entity.detailedName]);
+        result.push(["detailedName", entity.detailedName]);
       }
       if (entity.website) {
-        items.push(["website", entity.website.toString()]);
+        result.push(["website", entity.website.toString()]);
       }
     }
-    setItems(items);
+    return result;
   }, [entity]);
 
   if (!theses) {
@@ -129,7 +129,7 @@ export default function CandidateOrParty({
                   className="object-contain h-full"
                 />
               </div>
-              <div className="min-w-0 grow space-y-[0.125rem]">
+              <div className="min-w-0 grow space-y-0.5">
                 <div className="font-bold text-base leading-none">
                   {entity.displayName}
                 </div>
@@ -237,10 +237,12 @@ export default function CandidateOrParty({
             userRatings={userRatings[election.id] ?? {}}
             entities={[entity]}
             onRatingChange={(thesisId, newRating) => {
-              if (newRating.rating !== undefined) {
-                setUserRating(election.id, thesisId, newRating.rating);
-              }
-              setUserFavorite(election.id, thesisId, newRating.favorite);
+              setUserRatingValue(election.id, thesisId, newRating.value);
+              setUserRatingFavorite(
+                election.id,
+                thesisId,
+                newRating.isFavorite,
+              );
             }}
           />
         </div>

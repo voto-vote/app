@@ -4,18 +4,18 @@ import { useElection } from "@/contexts/election-context";
 import { Link } from "@/i18n/navigation";
 import { useDataSharingStore } from "@/stores/data-sharing-store";
 import { useSurveyStore } from "@/stores/survey-store";
-import { Survey, SurveyContent } from "@/types/election";
+import { SurveyContent } from "@/types/election";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 interface SurveyDialogProps {
-  type: keyof Survey;
+  placement: "beforeTheses" | "afterTheses";
 }
 
 // Defines the time, after which the survey dialog is shown (in ms)
 const SURVEY_TIMEOUT = 5000;
 
-export default function SurveyDialog({ type }: SurveyDialogProps) {
+export default function SurveyDialog({ placement }: SurveyDialogProps) {
   const { election } = useElection();
   const [isSurveyDialogOpen, setSurveyDialogOpen] = useState(false);
   const {
@@ -25,23 +25,16 @@ export default function SurveyDialog({ type }: SurveyDialogProps) {
     setSurveyAfterThesesSeen,
   } = useSurveyStore();
   const { sharingId } = useDataSharingStore();
-  const [surveyUrl, setSurveyUrl] = useState<string>("");
-  const [surveyContent, setSurveyContent] = useState<SurveyContent | false>(
-    false,
-  );
   const t = useTranslations("SurveyDialog");
 
-  useEffect(() => {
-    if (type === "beforeTheses") {
-      setSurveyContent(election.survey.beforeTheses);
-    } else if (type === "afterTheses") {
-      setSurveyContent(election.survey.afterTheses);
-    }
-  }, [type, election.survey]);
+  const surveyContent: SurveyContent =
+    placement === "beforeTheses"
+      ? election.survey.beforeTheses
+      : election.survey.afterTheses;
 
   useEffect(() => {
     const isSurveySeen =
-      type === "beforeTheses"
+      placement === "beforeTheses"
         ? isSurveyBeforeThesesSeen(election.id)
         : isSurveyAfterThesesSeen(election.id);
 
@@ -50,7 +43,7 @@ export default function SurveyDialog({ type }: SurveyDialogProps) {
         setSurveyDialogOpen(true);
 
         // Mark as seen when showing
-        if (type === "beforeTheses") {
+        if (placement === "beforeTheses") {
           setSurveyBeforeThesesSeen(election.id, true);
         } else {
           setSurveyAfterThesesSeen(election.id, true);
@@ -66,23 +59,20 @@ export default function SurveyDialog({ type }: SurveyDialogProps) {
     isSurveyBeforeThesesSeen,
     setSurveyAfterThesesSeen,
     setSurveyBeforeThesesSeen,
-    type,
+    placement,
   ]);
-
-  useEffect(() => {
-    if (surveyContent) {
-      try {
-        const url = new URL(surveyContent.endpoint);
-        url.searchParams.set("voteID", sharingId || "");
-        setSurveyUrl(url.toString());
-      } catch (e) {
-        throw new Error("Invalid survey URL: " + e);
-      }
-    }
-  }, [surveyContent, sharingId]);
 
   if (!surveyContent) {
     return null;
+  }
+
+  let surveyUrl = "";
+  try {
+    const url = new URL(surveyContent.endpoint);
+    url.searchParams.set("voteID", sharingId || "");
+    surveyUrl = url.toString();
+  } catch (e) {
+    throw new Error("Invalid survey URL: " + e); // TODO remove try catch once proper error handling in the backend
   }
 
   return (

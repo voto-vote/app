@@ -387,7 +387,7 @@ export default function Election() {
         </div>
       </div>
 
-      <SurveyDialog type="beforeTheses" />
+      <SurveyDialog placement="beforeTheses" />
     </motion.div>
   );
 }

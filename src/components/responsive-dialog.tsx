@@ -1,3 +1,5 @@
+"use client";
+
 import { useBreakpoint } from "@/hooks/use-breakpoint";
 import {
   Dialog,

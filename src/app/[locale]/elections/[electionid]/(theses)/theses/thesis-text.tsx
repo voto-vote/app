@@ -1,17 +1,12 @@
 "use client";
 
-import Markdown from "@/components/markdown";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { ResponsiveTooltip } from "@/components/responsive-tooltip";
 import { type Thesis } from "@/types/theses";
 import { Fragment } from "react";
 
 export default function ThesisText({ thesis }: { thesis: Thesis }) {
-  // Trim thesis text to avoid spaces at the start and end
-  thesis.text = thesis.text.trim();
+  // Trim thesis text to avoid spaces at the start and end TODO remove once validated in the backend
+  const thesisText = thesis.text.trim();
 
   // Sort explanations by startOffset
   const explanations =
@@ -19,7 +14,7 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
 
   // Check explanations for overlapping or overflowing segments
   let lastEndOffset = 0;
-  const textLength = thesis.text.length;
+  const textLength = thesisText.length;
   for (const explanation of explanations) {
     // Ensure startOffset is not before lastEndOffset and within text bounds
     explanation.startOffset = clamp(
@@ -41,21 +36,19 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
   for (const explanation of explanations) {
     if (explanation.startOffset > lastEnd) {
       segments.push({
-        text: thesis.text.slice(lastEnd, explanation.startOffset).trim(),
+        text: thesisText.slice(lastEnd, explanation.startOffset),
         explanation: undefined,
       });
     }
     segments.push({
-      text: thesis.text
-        .slice(explanation.startOffset, explanation.endOffset)
-        .trim(),
+      text: thesisText.slice(explanation.startOffset, explanation.endOffset),
       explanation: explanation.text.trim(),
     });
     lastEnd = explanation.endOffset;
   }
   if (lastEnd < textLength) {
     segments.push({
-      text: thesis.text.slice(lastEnd, textLength).trim(),
+      text: thesisText.slice(lastEnd, textLength),
       explanation: undefined,
     });
   }
@@ -67,31 +60,22 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
           return (
             <Fragment key={index}>
               <span>{segment.text}</span>
-              {/**/ " "}
             </Fragment>
           );
         }
 
         return (
-          <Popover key={index}>
-            <PopoverTrigger asChild>
-              <span>
-                <span className="underline decoration-3 decoration-primary decoration-dashed cursor-pointer">
-                  {segment.text}
-                </span>
-                {/**/ " "}
+          <ResponsiveTooltip
+            key={index}
+            trigger={
+              <span className="underline decoration-3 decoration-primary decoration-dashed cursor-pointer">
+                {segment.text}
               </span>
-            </PopoverTrigger>
-            <PopoverContent
-              className="bg-primary py-1 px-2 border-primary"
-              side="top"
-            >
-              <Markdown
-                content={segment.explanation}
-                className="prose-sm bg-primary text-primary-foreground"
-              ></Markdown>
-            </PopoverContent>
-          </Popover>
+            }
+            className="text-base text-wrap"
+          >
+            {segment.explanation}
+          </ResponsiveTooltip>
         );
       })}
     </p>

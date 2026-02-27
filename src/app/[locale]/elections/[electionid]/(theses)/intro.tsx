@@ -7,7 +7,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Markdown from "@/components/markdown";
@@ -34,17 +34,18 @@ export default function Intro({
   const { theses } = useThesesStore();
   const t = useTranslations("Intro");
 
-  useEffect(() => {
+  const handleSetApi = (api: CarouselApi) => {
     if (!api) {
       return;
     }
 
+    setApi(api);
     setCurrentPage(api.selectedScrollSnap());
 
     api.on("select", () => {
       setCurrentPage(api.selectedScrollSnap());
     });
-  }, [api]);
+  };
 
   function goToNextPage() {
     if (currentPage >= entries.length - 1) {
@@ -59,10 +60,10 @@ export default function Intro({
   }
 
   return (
-    <div className="container mx-auto flex flex-col h-full max-h-full bg-gradient-to-b from-background to-background/80">
+    <div className="container mx-auto flex flex-col h-full max-h-full bg-linear-to-b from-background to-background/80">
       {/* Carousel */}
       <Carousel
-        setApi={setApi}
+        setApi={handleSetApi}
         className="flex-1 overflow-y-auto md:pt-8"
         opts={{
           loop: false,
