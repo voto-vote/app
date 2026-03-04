@@ -54,7 +54,7 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
   }
 
   return (
-    <p className="text-xl md:text-2xl font-bold">
+    <p className="text-xl md:text-2xl font-bold leading-snug">
       {segments.map((segment, index) => {
         if (!segment.explanation) {
           return (

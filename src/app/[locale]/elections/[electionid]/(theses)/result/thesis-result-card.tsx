@@ -99,7 +99,10 @@ export default function ThesisResultCard({
                   transition={{ duration: 0.3 }}
                 >
                   <div className="p-2 rounded-lg text-sm text-gray-700 space-y-2">
-                    <Markdown content={thesis.additionalInfos} />
+                    <Markdown
+                      content={thesis.additionalInfos}
+                      className="leading-snug"
+                    />
                   </div>
                 </motion.div>
               )}

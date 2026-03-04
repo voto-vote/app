@@ -64,7 +64,7 @@ export default function Intro({
       {/* Carousel */}
       <Carousel
         setApi={handleSetApi}
-        className="flex-1 overflow-y-auto md:pt-8"
+        className="grow overflow-y-auto pt-6 md:pt-8 **:data-[slot=carousel-content]:h-full"
         opts={{
           loop: false,
           align: "center",
@@ -73,9 +73,9 @@ export default function Intro({
         <CarouselContent className="h-full">
           <AnimatePresence>
             {entries.map((e, index) => (
-              <CarouselItem key={index} className="h-full">
+              <CarouselItem key={index}>
                 <motion.div
-                  className="flex flex-col h-full p-4 md:p-8 space-y-4 md:space-y-6"
+                  className="flex flex-col p-4 md:p-8 space-y-4 md:space-y-6"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -113,7 +113,10 @@ export default function Intro({
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.4, duration: 0.5 }}
                     >
-                      <Markdown content={e.description} />
+                      <Markdown
+                        content={e.description}
+                        className="leading-snug"
+                      />
                     </motion.div>
                   </div>
                 </motion.div>
@@ -125,7 +128,7 @@ export default function Intro({
 
       {/* Footer */}
       <motion.div
-        className="p-4 md:p-8 space-y-4 border-t border-border/30 bg-background/80 backdrop-blur-sm"
+        className="p-4 md:p-8 space-y-4 bg-background/80 backdrop-blur-sm"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}

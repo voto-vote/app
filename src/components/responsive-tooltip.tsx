@@ -37,7 +37,10 @@ export function ResponsiveTooltip({
     <Tooltip open={open} onOpenChange={setOpen}>
       <TooltipTrigger onClick={handleTriggerClick}>{trigger}</TooltipTrigger>
       <TooltipContent
-        className={cn("max-w-[min(calc(100vw-1rem),50rem)]", className)}
+        className={cn(
+          "max-w-[min(calc(100vw-1rem),50rem)] bg-primary **:[svg]:bg-primary **:[svg]:fill-primary",
+          className,
+        )}
         side={side}
         collisionPadding={8}
         onClick={onClick}
