@@ -42,7 +42,7 @@ export default function ChangeRatingDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogPortal data-slot="dialog-portal">
-        <DialogOverlay className="bg-accent/50 backdrop-blur-md" />
+        <DialogOverlay className="bg-white/65 backdrop-blur-md" />
         <DialogPrimitive.Content
           data-slot="dialog-content"
           className={
@@ -94,7 +94,7 @@ export default function ChangeRatingDialog({
                     );
                   })}
               </div>
-              <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 px-2">
+              <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
                 <span>{t("ratingSystemExplanation")}</span>
                 <span>{t("ratingSystemFullAgreement")}</span>
               </div>

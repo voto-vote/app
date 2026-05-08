@@ -33,14 +33,14 @@ export default function ResultPage() {
     <>
       {/* Tabs */}
       <Tabs value={tab} onValueChange={(val) => setTab(val as typeof tab)}>
-        <TabsList className="w-full rounded-none p-0 h-16 border-0">
+        <TabsList className="w-full p-0 h-16!">
           <TabTrigger value="result" currentValue={tab}>
             {t("resultTab")}
           </TabTrigger>
           {results.length > 2 && (
             <TabTrigger value="theses" currentValue={tab}>
               {t("thesesTab")}
-              <div className="absolute -top-2 max-sm:right-0 sm:left-[calc(50%_+_3rem)] size-12">
+              <div className="absolute -top-2 max-sm:right-0 sm:left-[calc(50%+3rem)] size-12">
                 <div className="size-full relative">
                   <Bookmark className="absolute inset-0 stroke-0 fill-primary size-full" />
                   <div className="absolute inset-0 text-primary-foreground text-sm font-semibold grid place-items-center mb-2">
@@ -84,7 +84,7 @@ function TabTrigger({
   return (
     <TabsTrigger
       value={value}
-      className={`text-xl transition-all data-[state=active]:shadow-none h-full rounded-none text-primary relative
+      className={`text-xl transition-all data-[state=active]:shadow-none! h-full text-primary relative
             ${value === currentValue ? "font-bold" : "text-primary/70"}`}
       style={
         value !== currentValue

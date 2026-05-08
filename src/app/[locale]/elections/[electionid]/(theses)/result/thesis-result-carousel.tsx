@@ -104,6 +104,7 @@ export default function ThesesResultCarousel({
       </div>
 
       <Carousel
+        opts={{ watchFocus: false }}
         setApi={handleSetApi}
         className="-mx-2 md:mx-0 md:[&>div]:overflow-visible select-none"
       >

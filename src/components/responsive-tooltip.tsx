@@ -35,7 +35,9 @@ export function ResponsiveTooltip({
 
   return (
     <Tooltip open={open} onOpenChange={setOpen}>
-      <TooltipTrigger onClick={handleTriggerClick}>{trigger}</TooltipTrigger>
+      <TooltipTrigger onClick={handleTriggerClick} asChild>
+        {trigger}
+      </TooltipTrigger>
       <TooltipContent
         className={cn(
           "max-w-[min(calc(100vw-1rem),50rem)] bg-primary **:[svg]:bg-primary **:[svg]:fill-primary",

@@ -76,7 +76,7 @@ export default function CandidatesOrPartiesList({
                     className="rounded-full object-cover size-16 border"
                   />
                 )}
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 *:leading-tight">
                   <div className="font-bold md:text-lg truncate">
                     {r.entity.displayName}
                   </div>
@@ -102,7 +102,7 @@ export default function CandidatesOrPartiesList({
                       aria-label={t("bookmark")}
                     >
                       <Bookmark
-                        className={`size-8 transition stroke-1 ${bookmarked.includes(r.entity.id) ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
+                        className={`size-8 transition stroke-0 ${bookmarked.includes(r.entity.id) ? "fill-primary" : "fill-muted-foreground/35 hover:fill-muted-foreground/45"}`}
                       />
                     </button>
                   )}

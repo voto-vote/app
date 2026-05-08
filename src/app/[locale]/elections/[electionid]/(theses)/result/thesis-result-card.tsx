@@ -189,7 +189,7 @@ export default function ThesisResultCard({
                             color: foregroundColor,
                           }}
                         >
-                          <div className="px-2 py-1 text-sm sm:text-base">
+                          <div className="px-2 py-1 text-sm sm:text-base leading-snug hyphens-auto">
                             {er.rating.explanation}
                           </div>
                         </div>

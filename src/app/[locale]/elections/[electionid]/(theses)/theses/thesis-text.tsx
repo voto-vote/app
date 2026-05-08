@@ -68,11 +68,11 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
           <ResponsiveTooltip
             key={index}
             trigger={
-              <span className="underline decoration-3 decoration-primary decoration-dashed cursor-pointer">
+              <span className="underline decoration-2 decoration-primary decoration-dashed cursor-pointer">
                 {segment.text}
               </span>
             }
-            className="text-base text-wrap"
+            className="text-base text-wrap leading-snug"
           >
             {segment.explanation}
           </ResponsiveTooltip>

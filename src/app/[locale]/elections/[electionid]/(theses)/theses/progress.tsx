@@ -78,12 +78,14 @@ export default function Progress({
             <ResponsiveTooltip
               key={t.id}
               trigger={
-                <ProgressDot
-                  rating={rating}
-                  algorithm={election.algorithm}
-                  size={dotWidth}
-                  isSelected={t.id === currentId}
-                />
+                <button>
+                  <ProgressDot
+                    rating={rating}
+                    algorithm={election.algorithm}
+                    size={dotWidth}
+                    isSelected={t.id === currentId}
+                  />
+                </button>
               }
               onClick={() => onCurrentIdChange(t.id)}
             >
