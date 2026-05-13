@@ -99,7 +99,10 @@ export default function ThesisResultCard({
                   transition={{ duration: 0.3 }}
                 >
                   <div className="p-2 rounded-lg text-sm text-gray-700 space-y-2">
-                    <Markdown content={thesis.additionalInfos} />
+                    <Markdown
+                      content={thesis.additionalInfos}
+                      className="leading-snug"
+                    />
                   </div>
                 </motion.div>
               )}
@@ -186,7 +189,7 @@ export default function ThesisResultCard({
                             color: foregroundColor,
                           }}
                         >
-                          <div className="px-2 py-1 text-sm sm:text-base">
+                          <div className="px-2 py-1 text-sm sm:text-base leading-snug hyphens-auto">
                             {er.rating.explanation}
                           </div>
                         </div>

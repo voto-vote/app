@@ -116,7 +116,7 @@ export default function CandidateOrParty({
             animate={{ y: 0 }}
             exit={{ y: -65 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed top-14 left-0 right-0 z-30 backdrop-blur-md bg-accent/50 border-b border-zinc-300 flex items-center p-2"
+            className="fixed top-14 left-0 right-0 z-30 backdrop-blur-md bg-white/65 border-b border-zinc-300 flex items-center p-2"
           >
             <div className="flex items-center gap-3 w-full max-w-3xl mx-auto">
               <div
@@ -145,7 +145,7 @@ export default function CandidateOrParty({
               {!disableBookmarks && (
                 <button aria-label={t("bookmark")} onClick={toggleBookmark}>
                   <Bookmark
-                    className={`size-7 transition stroke-1 ${isBookmarked() ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
+                    className={`size-7 transition stroke-[0.5px] ${isBookmarked() ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
                   />
                 </button>
               )}
@@ -186,7 +186,7 @@ export default function CandidateOrParty({
                 aria-label={t("bookmark")}
               >
                 <Bookmark
-                  className={`size-8 transition stroke-1 ${isBookmarked() ? "fill-primary stroke-primary" : "fill-muted stroke-muted-foreground/25 hover:fill-muted-foreground/15"}`}
+                  className={`size-8 transition stroke-0 ${isBookmarked() ? "fill-primary" : "fill-muted-foreground/35 hover:fill-muted-foreground/45"}`}
                 />
               </button>
             )}
@@ -195,16 +195,18 @@ export default function CandidateOrParty({
 
         {/* Candidate Info */}
         <div>
-          <h1 className="text-xl font-bold">{entity.displayName}</h1>
+          <h1 className="text-xl font-bold mb-2">{entity.displayName}</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="md:col-span-2 text-lg">{entity.description}</div>
+            <div className="md:col-span-2 text-lg leading-snug">
+              {entity.description}
+            </div>
             {!isDesktop && (
               <MatchBar
                 color={result.entity.color}
                 value={result.matchPercentage}
               />
             )}
-            <div className="grid grid-cols-[minmax(0,auto)_minmax(0,1fr)] md:grid-cols-2 h-fit gap-x-2">
+            <div className="grid grid-cols-[minmax(0,auto)_minmax(0,1fr)] md:grid-cols-2 h-fit gap-x-8">
               {items.map(([key, value]) => (
                 <Fragment key={key}>
                   <span className="font-bold text-sm">{t(key)}</span>

@@ -245,7 +245,7 @@ export default function FilterDialog({
 
       <div className="flex gap-2 mt-4">
         <Button
-          className="flex-auto"
+          className="flex-1"
           onClick={() => {
             setEntityFilters(tmpFilters);
             onOpenChange(false);
@@ -254,7 +254,7 @@ export default function FilterDialog({
           {t("filterButton", { count: Object.keys(tmpFilters).length })}
         </Button>
         <Button
-          className="flex-auto"
+          className="flex-1"
           variant="secondary"
           onClick={() => {
             resetTmpFilters();
@@ -321,7 +321,11 @@ function DropdownInput({
           <ChevronDown className="size-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-fit max-w-screen" align="start">
+      <DropdownMenuContent
+        className="w-fit max-w-[calc(100vw-2rem)]"
+        align="center"
+        collisionPadding={16}
+      >
         {Object.entries(items).map(([key, value], i) => (
           <DropdownMenuCheckboxItem
             key={i}

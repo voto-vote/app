@@ -54,7 +54,7 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
   }
 
   return (
-    <p className="text-xl md:text-2xl font-bold">
+    <p className="text-xl md:text-2xl font-bold leading-snug">
       {segments.map((segment, index) => {
         if (!segment.explanation) {
           return (
@@ -68,11 +68,11 @@ export default function ThesisText({ thesis }: { thesis: Thesis }) {
           <ResponsiveTooltip
             key={index}
             trigger={
-              <span className="underline decoration-3 decoration-primary decoration-dashed cursor-pointer">
+              <span className="underline decoration-2 decoration-primary decoration-dashed cursor-pointer">
                 {segment.text}
               </span>
             }
-            className="text-base text-wrap"
+            className="text-base text-wrap leading-snug"
           >
             {segment.explanation}
           </ResponsiveTooltip>

@@ -22,7 +22,7 @@ function CollapsibleContent({
       data-slot="collapsible-content"
       className={cn(
         animate &&
-          "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down",
+          "overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down",
         className,
       )}
       {...props}

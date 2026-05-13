@@ -151,11 +151,11 @@ export default function Election() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="container mx-auto max-w-screen-xl"
+      className="container mx-auto max-w-7xl"
     >
       {/* Main Image with Countdown Overlay */}
       <motion.div
-        className="relative w-full h-64 md:h-96"
+        className="relative w-full aspect-4/3 sm:aspect-auto sm:h-96"
         initial={{ opacity: 0, scale: 1.05 }}
         animate={{
           opacity: 1,
@@ -201,10 +201,10 @@ export default function Election() {
       </motion.div>
 
       <div className="p-4 md:p-8">
-        <div className="grid grid-cols-[minmax(0,_1fr)_minmax(0,_3fr)] md:grid-cols-12 gap-4">
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,3fr)] md:grid-cols-12 gap-4">
           {/* Date and Title */}
           <motion.div
-            className="flex flex-col leading-tight md:col-span-2 lg:col-span-1"
+            className="flex flex-col leading-tight md:col-span-2 lg:col-span-1 max-md:mb-4"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{
               opacity: 1,
@@ -229,7 +229,7 @@ export default function Election() {
           </motion.div>
 
           <motion.div
-            className="flex flex-col leading-tight justify-center md:col-span-5 lg:col-span-6"
+            className="flex flex-col leading-tight justify-center md:col-span-5 lg:col-span-6 max-md:mb-4"
             variants={itemVariants}
           >
             <div className="text-xl md:text-2xl font-bold">
@@ -251,7 +251,7 @@ export default function Election() {
             variants={itemVariants}
           >
             <Select value={locale} onValueChange={changeLanguage}>
-              <SelectTrigger>
+              <SelectTrigger className="w-48">
                 <SelectValue placeholder={t("placeholderLanguageSelect")} />
               </SelectTrigger>
               <SelectContent>
@@ -284,7 +284,7 @@ export default function Election() {
             >
               <Button
                 size={"lg"}
-                className="w-full text-lg transition"
+                className="w-full text-lg font-semibold transition"
                 onClick={() => {
                   sendVotoStartedEvent();
                   goToIntroOrTheses();
@@ -326,7 +326,7 @@ export default function Election() {
             </div>
             <Markdown
               content={election.description}
-              className="prose-sm [&_img]:max-w-xl [&_img]:w-full"
+              className="prose-sm [&_img]:max-w-xl [&_img]:w-full leading-snug hyphens-auto"
             />
           </motion.div>
 
@@ -343,42 +343,46 @@ export default function Election() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mt-4">
                   {election.sponsors.map((sponsor, i) => (
-                    <div className="flex flex-col" key={sponsor.name || i}>
+                    <motion.div
+                      custom={0}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        transition: {
+                          delay: 0.5 + i * 0.1,
+                          duration: 0.5,
+                          ease: "easeOut",
+                        },
+                      }}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex flex-col gap-6"
+                      key={sponsor.name || i}
+                    >
                       <Link
                         href={sponsor.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="w-full text-xl underline block mb-6 font-normal grow"
+                        className="w-full text-xl underline block font-normal"
                       >
                         {sponsor.name}
                       </Link>
-                      <motion.a
-                        custom={0}
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{
-                          opacity: 1,
-                          y: 0,
-                          transition: {
-                            delay: 0.5 + i * 0.1,
-                            duration: 0.5,
-                            ease: "easeOut",
-                          },
-                        }}
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
+                      <a
                         href={sponsor.url}
                         target="_blank"
                         rel="noreferrer"
+                        className="grow grid place-items-center"
                       >
                         <Image
                           src={sponsor.image || "/placeholder.svg"}
                           alt={sponsor.name}
                           width={1000}
                           height={1000}
-                          className="w-full"
+                          className="w-2/3"
                         />
-                      </motion.a>
-                    </div>
+                      </a>
+                    </motion.div>
                   ))}
                 </div>
               </>
