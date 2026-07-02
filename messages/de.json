@@ -97,6 +97,45 @@
     "sendAnonymousData": "Anonyme Daten teilen",
     "footer": "© {year} VOTO. Alle Rechte vorbehalten."
   },
+  "FAQPage": {
+    "eyebrow": "FAQ",
+    "title": "Häufige Fragen",
+    "description": "Antworten auf die wichtigsten Fragen zur Nutzung von VOTO und zur Einordnung Deines Ergebnisses.",
+    "aiSearch": {
+      "title": "Frag den VOTO-Chatbot",
+      "description": "Durchsuche unseren FAQ-Assistenten, bevor Du die Fragen unten durchgehst.",
+      "disclaimer": "Dieser Chat ist automatisiert. Es ist kein Mensch am Gespräch beteiligt. Die Antworten basieren auf den meistgestellten Fragen aus unserer Unternehmenshistorie.",
+      "placeholder": "Hier suchen",
+      "notConfigured": "Der Chatbot ist noch nicht konfiguriert. Hinterlege die Google Search Widget Configuration ID, um ihn zu aktivieren.",
+      "tokenError": "Der Chatbot konnte kein Autorisierungstoken erhalten. Bitte versuche es später erneut."
+    },
+    "questions": {
+      "whatIsVoto": {
+        "question": "Was ist VOTO?",
+        "answer": "VOTO ist eine Wahlhilfe. Du beantwortest politische Thesen und kannst Deine Antworten mit den veröffentlichten Antworten von Parteien oder Kandidierenden vergleichen."
+      },
+      "howItWorks": {
+        "question": "Wie berechnet VOTO mein Ergebnis?",
+        "answer": "VOTO vergleicht Deine Bewertungen mit den Bewertungen der verfügbaren Parteien oder Kandidierenden. Thesen, die Du als besonders wichtig markierst, zählen stärker."
+      },
+      "isRecommendation": {
+        "question": "Ist mein Ergebnis eine Wahlempfehlung?",
+        "answer": "Nein. Dein Ergebnis zeigt Übereinstimmungen auf Basis der Thesen im ausgewählten VOTO. Es ist ein Ausgangspunkt für Deine eigene Meinungsbildung, keine Empfehlung."
+      },
+      "personalData": {
+        "question": "Erhebt VOTO personenbezogene Daten?",
+        "answer": "VOTO erhebt keine personenbezogenen Daten. Deine Bewertungen werden anonym gespeichert, und die anonyme Datenweitergabe kannst Du im Seitenmenü ändern."
+      },
+      "changeAnswers": {
+        "question": "Kann ich meine Antworten ändern?",
+        "answer": "Ja. Beim Beantworten kannst Du zurücknavigieren und in der Ergebnisansicht einzelne Bewertungen ändern."
+      },
+      "randomOrder": {
+        "question": "Warum erscheinen die Thesen in zufälliger Reihenfolge?",
+        "answer": "Die Thesen werden beim Beantworten zufällig sortiert, damit Dich eine feste Reihenfolge nicht beeinflusst."
+      }
+    }
+  },
   "ResultPage": {
     "resultTab": "Ergebnis",
     "thesesTab": "Thesen"

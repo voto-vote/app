@@ -97,6 +97,45 @@
     "sendAnonymousData": "Anonyme Daten teilen",
     "footer": "© {year} VOTO. Alle Rechte vorbehalten."
   },
+  "FAQPage": {
+    "eyebrow": "FAQ",
+    "title": "Häufige Fragen",
+    "description": "Hier findest Du Antworten auf wichtige Fragen zu VOTO und Deinem Ergebnis.",
+    "aiSearch": {
+      "title": "Frag den VOTO-Chatbot",
+      "description": "Du kannst zuerst unseren FAQ-Assistenten fragen.",
+      "disclaimer": "Dieser Chat ist automatisch. Es schreibt kein Mensch mit. Die Antworten basieren auf Fragen, die unserem Unternehmen besonders oft gestellt wurden.",
+      "placeholder": "Hier suchen",
+      "notConfigured": "Der Chatbot ist noch nicht eingerichtet. Trage die Google Search Widget Configuration ID ein, damit er funktioniert.",
+      "tokenError": "Der Chatbot konnte kein Autorisierungstoken bekommen. Bitte versuche es später noch einmal."
+    },
+    "questions": {
+      "whatIsVoto": {
+        "question": "Was ist VOTO?",
+        "answer": "VOTO ist eine Wahlhilfe. Du beantwortest Aussagen zu politischen Themen. Danach siehst Du, welche Parteien oder Kandidierenden ähnlich geantwortet haben."
+      },
+      "howItWorks": {
+        "question": "Wie berechnet VOTO mein Ergebnis?",
+        "answer": "VOTO vergleicht Deine Antworten mit den Antworten der Parteien oder Kandidierenden. Aussagen mit Stern zählen stärker."
+      },
+      "isRecommendation": {
+        "question": "Ist mein Ergebnis eine Wahlempfehlung?",
+        "answer": "Nein. Dein Ergebnis zeigt nur, wo es Übereinstimmungen gibt. Es hilft Dir, Dir selbst eine Meinung zu bilden."
+      },
+      "personalData": {
+        "question": "Sammelt VOTO persönliche Daten?",
+        "answer": "VOTO sammelt keine persönlichen Daten. Deine Bewertungen werden anonym gespeichert. Du kannst im Menü einstellen, ob Du anonyme Daten teilen willst."
+      },
+      "changeAnswers": {
+        "question": "Kann ich meine Antworten ändern?",
+        "answer": "Ja. Du kannst beim Beantworten zurückgehen. Auf der Ergebnisseite kannst Du einzelne Antworten ändern."
+      },
+      "randomOrder": {
+        "question": "Warum sind die Aussagen zufällig sortiert?",
+        "answer": "Die Aussagen sind zufällig sortiert. So soll die Reihenfolge Deine Antworten nicht beeinflussen."
+      }
+    }
+  },
   "ResultPage": {
     "resultTab": "Ergebnis",
     "thesesTab": "Thesen"
