@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import FAQAccordion from "./faq-accordion";
-import FAQSearchWidget from "./faq-search-widget";
+import FAQSearchLauncher from "./faq-search-launcher";
 
 const faqKeys = [
   "whatIsVoto",
@@ -30,13 +30,12 @@ export default async function FAQPage() {
         </p>
       </div>
 
-      <FAQSearchWidget
+      <FAQSearchLauncher
         title={t("aiSearch.title")}
         description={t("aiSearch.description")}
         disclaimer={t("aiSearch.disclaimer")}
-        placeholder={t("aiSearch.placeholder")}
+        openInNewTab={t("aiSearch.openInNewTab")}
         notConfigured={t("aiSearch.notConfigured")}
-        tokenError={t("aiSearch.tokenError")}
       />
 
       <FAQAccordion items={items} />

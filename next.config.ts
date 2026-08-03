@@ -1,8 +1,13 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
+const appRoot = new URL(".", import.meta.url).pathname;
+
 const nextConfig: NextConfig = {
   output: "standalone",
+  turbopack: {
+    root: appRoot,
+  },
   images: {
     remotePatterns: [
       {

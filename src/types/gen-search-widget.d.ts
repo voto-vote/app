@@ -10,6 +10,7 @@ declare module "react" {
         anchorsTarget?: "_blank" | "_parent" | "_self" | "_top";
         alwaysOpened?: string;
         configId?: string;
+        location?: string;
         placeholder?: string;
       };
     }

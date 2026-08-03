@@ -9,30 +9,26 @@ type GenSearchWidgetElement = HTMLElement & {
 };
 
 interface FAQSearchWidgetProps {
-  description: string;
-  disclaimer: string;
   notConfigured: string;
   placeholder: string;
-  title: string;
   tokenError: string;
 }
 
-const configId = "bf6c14db-11c5-4221-84f0-ebdacef2ae55";
+const configId = process.env.NEXT_PUBLIC_GOOGLE_SEARCH_WIDGET_CONFIG_ID;
 const tokenEndpoint =
   process.env.NEXT_PUBLIC_GOOGLE_SEARCH_WIDGET_TOKEN_ENDPOINT;
 
 export default function FAQSearchWidget({
-  description,
-  disclaimer,
   notConfigured,
   placeholder,
-  title,
   tokenError,
 }: FAQSearchWidgetProps) {
   const locale = useLocale();
   const widgetRef = useRef<GenSearchWidgetElement | null>(null);
+  const [authToken, setAuthTokenValue] = useState<string | null>(null);
   const [hasTokenError, setHasTokenError] = useState(false);
   const widgetLocale = locale === "de" || locale === "desimple" ? "de" : "en";
+  const canRenderWidget = Boolean(configId) && (!tokenEndpoint || authToken);
 
   useEffect(() => {
     if (!tokenEndpoint) {
@@ -63,8 +59,8 @@ export default function FAQSearchWidget({
           throw new Error("Search widget token response did not include token.");
         }
 
-        if (!cancelled && widgetRef.current) {
-          widgetRef.current.authToken = authToken;
+        if (!cancelled) {
+          setAuthTokenValue(authToken);
         }
       } catch {
         if (!cancelled) {
@@ -80,46 +76,48 @@ export default function FAQSearchWidget({
     };
   }, []);
 
+  useEffect(() => {
+    if (widgetRef.current && authToken) {
+      widgetRef.current.authToken = authToken;
+    }
+  }, [authToken]);
+
   return (
-    <section className="mb-8 overflow-hidden rounded-lg border bg-card shadow-sm">
+    <div className="min-h-[calc(100vh-3.5rem)] bg-[#F7F7F8]">
       <Script
         src={`https://cloud.google.com/ai/gen-app-builder/client?hl=${widgetLocale}`}
         strategy="afterInteractive"
       />
 
-      <div className="border-b px-5 py-5 md:px-6">
-        <h2 className="text-xl font-bold tracking-tight">{title}</h2>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground md:text-base">
-          {description}
-        </p>
-        <p className="mt-4 border-l-4 border-primary/40 pl-4 text-sm leading-6 text-muted-foreground">
-          {disclaimer}
-        </p>
-      </div>
+      {canRenderWidget ? (
+        <gen-search-widget
+          ref={(node) => {
+            const widget = node as GenSearchWidgetElement | null;
+            widgetRef.current = widget;
 
-      <div className="px-5 py-5 md:px-6">
-        {configId ? (
-          <gen-search-widget
-            ref={(node) => {
-              widgetRef.current = node as GenSearchWidgetElement | null;
-            }}
-            configId="bf6c14db-11c5-4221-84f0-ebdacef2ae55"
-            placeholder={placeholder}
-            
-            alwaysOpened="false"
-          />
-        ) : (
-          <div className="rounded-md bg-muted px-4 py-3 text-sm leading-6 text-muted-foreground">
+            if (widget && authToken) {
+              widget.authToken = authToken;
+            }
+          }}
+          configId={configId}
+          location="eu"
+          anchorsTarget="_self"
+          placeholder={placeholder}
+          alwaysOpened=""
+        />
+      ) : (
+        <div className="mx-auto flex min-h-[calc(100vh-3.5rem)] max-w-screen-sm items-center px-4">
+          <p className="w-full border border-[#D9DCE3] bg-white px-5 py-4 text-sm leading-6 text-[#5A606C]">
             {notConfigured}
-          </div>
-        )}
-
-        {hasTokenError && (
-          <p className="mt-3 text-sm leading-6 text-destructive">
-            {tokenError}
           </p>
-        )}
-      </div>
-    </section>
+        </div>
+      )}
+
+      {hasTokenError && (
+        <p className="fixed right-4 bottom-4 left-4 z-50 border border-destructive bg-white px-4 py-3 text-sm leading-6 text-destructive">
+          {tokenError}
+        </p>
+      )}
+    </div>
   );
 }

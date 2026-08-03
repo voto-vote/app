@@ -105,6 +105,7 @@
       "title": "Frag den VOTO-Chatbot",
       "description": "Durchsuche unseren FAQ-Assistenten, bevor Du die Fragen unten durchgehst.",
       "disclaimer": "Dieser Chat ist automatisiert. Es ist kein Mensch am Gespräch beteiligt. Die Antworten basieren auf den meistgestellten Fragen aus unserer Unternehmenshistorie.",
+      "openInNewTab": "Chatbot in neuem Tab öffnen",
       "placeholder": "Hier suchen",
       "notConfigured": "Der Chatbot ist noch nicht konfiguriert. Hinterlege die Google Search Widget Configuration ID, um ihn zu aktivieren.",
       "tokenError": "Der Chatbot konnte kein Autorisierungstoken erhalten. Bitte versuche es später erneut."
