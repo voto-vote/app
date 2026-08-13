@@ -67,8 +67,8 @@ export default function NavigationSheet({
     {
       label: t("frequentQuestions"),
       icon: HelpCircle,
-      href: "https://www.voto.vote/faq",
-      target: "_blank",
+      href: "/faq",
+      target: "_self",
     },
     {
       label: t("whatIsVoto"),
