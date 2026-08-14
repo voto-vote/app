@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { ArrowUpRight } from "lucide-react";
 
 interface FAQSearchLauncherProps {
+  configId?: string;
   description: string;
   disclaimer: string;
   notConfigured: string;
@@ -10,9 +11,8 @@ interface FAQSearchLauncherProps {
   title: string;
 }
 
-const configId = process.env.NEXT_PUBLIC_GOOGLE_SEARCH_WIDGET_CONFIG_ID;
-
 export default function FAQSearchLauncher({
+  configId,
   description,
   disclaimer,
   notConfigured,
