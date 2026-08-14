@@ -5,9 +5,12 @@ export async function POST(request: Request) {
 
   const dataSharingEndpoint = process.env.DATA_SHARING_ENDPOINT;
   if (!dataSharingEndpoint) {
-    return new Response(`Environment variable DATA_SHARING_ENDPOINT not set, skipping event creation`, {
-      status: 200,
-    });
+    return new Response(
+      `Environment variable DATA_SHARING_ENDPOINT not set, skipping event creation`,
+      {
+        status: 200,
+      },
+    );
   }
 
   const eventData = await request.text();

@@ -1,9 +1,8 @@
 "use client";
 
 import { ChevronLeft, Menu } from "lucide-react";
-import ShareDrawer from "./share-drawer";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavigationSheet from "./navigation-sheet";
 import { AnimatePresence, motion } from "framer-motion";
 import { useBreakpoint } from "@/hooks/use-breakpoint";
@@ -14,27 +13,17 @@ import { useHeader } from "@/contexts/header-context";
 
 export default function Header() {
   const { backPath } = useBackButtonStore();
-  const [shareDrawerOpen, setShareDrawerOpen] = useState(false);
   const [navigationSheetOpen, setNavigationSheetOpen] = useState(false);
   const router = useRouter();
   const isDesktop = useBreakpoint("md");
   const { headerDetails } = useHeader();
-  const [logoUrl, setLogoUrl] = useState(
-    headerDetails?.logo ?? "/logo-white.svg"
-  );
   const locale = useLocale();
 
-  useEffect(() => {
-    if (headerDetails?.logo) {
-      setLogoUrl(headerDetails.logo);
-    } else {
-      setLogoUrl("/logo-white.svg");
-    }
-  }, [headerDetails?.logo]);
+  const logoUrl = headerDetails?.logo ?? "/logo-white.svg";
 
   return (
-    <header className="bg-brand text-white transition-colors duration-[500ms] z-40">
-      <div className="container mx-auto max-w-screen-xl p-2 grid grid-cols-[minmax(0,6rem)_minmax(0,auto)_minmax(0,6rem)] items-center overflow-hidden h-14">
+    <header className="bg-brand text-white transition-colors duration-500 z-40">
+      <div className="container mx-auto max-w-7xl p-2 grid grid-cols-[minmax(0,6rem)_minmax(0,auto)_minmax(0,6rem)] items-center overflow-hidden h-14">
         <div className="justify-self-start">
           <button className="p-2 rounded-full hover:bg-primary/50 transition-colors">
             <ChevronLeft
@@ -64,7 +53,7 @@ export default function Header() {
                     <div>
                       <div className="font-bold text-lg leading-tight">
                         {new Date(
-                          headerDetails.electionDate
+                          headerDetails.electionDate,
                         ).toLocaleDateString(locale, {
                           day: "2-digit",
                           month: "2-digit",
@@ -72,7 +61,7 @@ export default function Header() {
                       </div>
                       <div className="text-sm leading-tight">
                         {new Date(
-                          headerDetails.electionDate
+                          headerDetails.electionDate,
                         ).toLocaleDateString(locale, {
                           year: "numeric",
                         })}
@@ -104,7 +93,7 @@ export default function Header() {
                     width={128}
                     height={24}
                     alt="logo"
-                    className={`absolute inset-0 size-full object-contain brightness-0 invert transition-all duration-[500ms] ${headerDetails ? "object-right" : "object-center"}`}
+                    className={`absolute inset-0 size-full object-contain brightness-0 invert transition-all duration-500 ${headerDetails ? "object-right" : "object-center"}`}
                   />
                 </Link>
               </motion.div>
@@ -133,7 +122,7 @@ export default function Header() {
                           year: "numeric",
                           month: "2-digit",
                           day: "2-digit",
-                        }
+                        },
                       )}
                     </div>
                     <p className="text-xs leading-tight line-clamp-2">
@@ -169,24 +158,7 @@ export default function Header() {
             </AnimatePresence>
           </div>
         )}
-        <div className="flex gap-1 justify-self-end">
-          {/*<AnimatePresence mode="wait">
-            {pathname.match(/\/elections\/.+?\/result.*/
-          /*) && (
-              <motion.button
-                className="p-2 rounded-full hover:bg-primary/50 transition-colors"
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -10, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Share2
-                  className="size-6"
-                  onClick={() => setShareDrawerOpen(true)}
-                />
-              </motion.button>
-            )}
-          </AnimatePresence>*/}
+        <div className="justify-self-end">
           <button className="p-2 rounded-full hover:bg-primary/50 transition-colors">
             <Menu
               className="size-6"
@@ -195,7 +167,6 @@ export default function Header() {
           </button>
         </div>
       </div>
-      <ShareDrawer open={shareDrawerOpen} onOpenChange={setShareDrawerOpen} />
       <NavigationSheet
         open={navigationSheetOpen}
         onOpenChange={setNavigationSheetOpen}

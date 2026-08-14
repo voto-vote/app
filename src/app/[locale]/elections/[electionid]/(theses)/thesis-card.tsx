@@ -64,11 +64,16 @@ export default function ThesisCard({
                 aria-label={t("starTooltip")}
               >
                 <Star
-                  className={`size-8 transition stroke-1 hover:scale-110 ${starred ? "fill-primary stroke-primary" : "fill-muted-foreground/35 stroke-muted-foreground/25 hover:fill-muted-foreground/45"}`}
+                  className={`size-8 stroke-0 transition hover:scale-110 ${starred ? "fill-primary" : "fill-muted-foreground/35 hover:fill-muted-foreground/45"}`}
                 />
               </button>
             </TooltipTrigger>
-            <TooltipContent side="top">{t("starTooltip")}</TooltipContent>
+            <TooltipContent
+              className="bg-primary **:[svg]:bg-primary **:[svg]:fill-primary"
+              side="top"
+            >
+              {t("starTooltip")}
+            </TooltipContent>
           </Tooltip>
         )}
       </div>
@@ -105,7 +110,10 @@ export default function ThesisCard({
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-2 rounded-lg text-sm text-gray-700 space-y-2">
-                  <Markdown content={thesis.additionalInfos} />
+                  <Markdown
+                    content={thesis.additionalInfos}
+                    className="leading-snug"
+                  />
                 </div>
               </motion.div>
             )}

@@ -7,9 +7,10 @@ import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { HeaderProvider } from "@/contexts/header-context";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
-const inter = localFont({
-  src: "../inter.ttf",
+const montserrat = localFont({
+  src: "../montserrat.ttf",
   display: "swap",
 });
 
@@ -42,13 +43,15 @@ export default async function RootLayout({
         <meta name="apple-mobile-web-app-title" content="VOTO" />
       </head>
       <body
-        className={`${inter.className} h-full antialiased overflow-hidden flex flex-col selection:bg-(--primary) selection:text-(--primary-foreground)`}
+        className={`${montserrat.className} h-full antialiased overflow-hidden flex flex-col selection:bg-primary selection:text-primary-foreground`}
       >
         <NextIntlClientProvider>
-          <HeaderProvider>
-            <Header />
-            <main className="grow overflow-y-scroll">{children}</main>
-          </HeaderProvider>
+          <TooltipProvider>
+            <HeaderProvider>
+              <Header />
+              <main className="grow overflow-y-scroll">{children}</main>
+            </HeaderProvider>
+          </TooltipProvider>
         </NextIntlClientProvider>
       </body>
     </html>

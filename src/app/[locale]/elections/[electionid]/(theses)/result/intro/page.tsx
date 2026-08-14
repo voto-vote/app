@@ -11,6 +11,7 @@ import entityProfilesAnimation from "./entity-profiles-animation.json";
 import { useIntroStore } from "@/stores/intro-store";
 import Intro from "../../intro";
 import { useRouter } from "@/i18n/navigation";
+import { usePointer } from "@/hooks/use-pointer";
 
 export default function ResultIntroPage() {
   const { election } = useElection();
@@ -19,6 +20,7 @@ export default function ResultIntroPage() {
   const { theses } = useThesesStore();
   const router = useRouter();
   const t = useTranslations("ResultIntroPage");
+  const pointer = usePointer();
 
   useEffect(() => {
     if (election?.id) {
@@ -48,7 +50,7 @@ export default function ResultIntroPage() {
     {
       animation: entityProfilesAnimation,
       title: t("introThreeTitle"),
-      description: t("introThreeDescription"),
+      description: t("introThreeDescription", { pointer }),
     },
   ];
 

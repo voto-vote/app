@@ -7,7 +7,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Markdown from "@/components/markdown";
@@ -34,17 +34,18 @@ export default function Intro({
   const { theses } = useThesesStore();
   const t = useTranslations("Intro");
 
-  useEffect(() => {
+  const handleSetApi = (api: CarouselApi) => {
     if (!api) {
       return;
     }
 
+    setApi(api);
     setCurrentPage(api.selectedScrollSnap());
 
     api.on("select", () => {
       setCurrentPage(api.selectedScrollSnap());
     });
-  }, [api]);
+  };
 
   function goToNextPage() {
     if (currentPage >= entries.length - 1) {
@@ -59,11 +60,11 @@ export default function Intro({
   }
 
   return (
-    <div className="container mx-auto flex flex-col h-full max-h-full bg-gradient-to-b from-background to-background/80">
+    <div className="container mx-auto flex flex-col h-full max-h-full bg-linear-to-b from-background to-background/80">
       {/* Carousel */}
       <Carousel
-        setApi={setApi}
-        className="flex-1 overflow-y-auto md:pt-8"
+        setApi={handleSetApi}
+        className="grow overflow-y-auto pt-6 md:pt-8 **:data-[slot=carousel-content]:h-full"
         opts={{
           loop: false,
           align: "center",
@@ -72,9 +73,9 @@ export default function Intro({
         <CarouselContent className="h-full">
           <AnimatePresence>
             {entries.map((e, index) => (
-              <CarouselItem key={index} className="h-full">
+              <CarouselItem key={index}>
                 <motion.div
-                  className="flex flex-col h-full p-4 md:p-8 space-y-4 md:space-y-6"
+                  className="flex flex-col p-4 md:p-8 space-y-4 md:space-y-6"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -112,7 +113,10 @@ export default function Intro({
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.4, duration: 0.5 }}
                     >
-                      <Markdown content={e.description} />
+                      <Markdown
+                        content={e.description}
+                        className="leading-snug"
+                      />
                     </motion.div>
                   </div>
                 </motion.div>
@@ -124,7 +128,7 @@ export default function Intro({
 
       {/* Footer */}
       <motion.div
-        className="p-4 md:p-8 space-y-4 border-t border-border/30 bg-background/80 backdrop-blur-sm"
+        className="p-4 md:p-8 space-y-4 bg-background/80 backdrop-blur-sm"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}

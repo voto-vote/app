@@ -1,9 +1,14 @@
 import { type Thesis } from "@/types/theses";
 
+/**
+ * 0-1 normalized rating value, or special values "unrated" or "skipped"
+ */
+export type RatingValue = number | "unrated" | "skipped";
+
 export type Rating = {
-  rating: number | undefined; // undefined means no rating given yet, -1 means skipped, 0 - 100
-  favorite: boolean;
-  timestamp?: number; // timestamp of when the rating was given
+  value: RatingValue;
+  isFavorite: boolean;
+  ratedAt?: number;
   explanation?: string;
 };
 

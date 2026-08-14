@@ -37,14 +37,14 @@ export default function MatchBar({
         className={cn(
           sizeClassesProgress[size],
           '[&_[data-slot="progress-indicator"]]:bg-(--progress-indicator) bg-(--progress-indicator)/20',
-          needsBorder && 'border [&_[data-slot="progress-indicator"]]:border-r'
+          needsBorder && 'border [&_[data-slot="progress-indicator"]]:border-r',
         )}
         style={{ "--progress-indicator": backgroundColor } as CSSProperties}
       />
       <div
         className={cn(
           "absolute inset-y-0 font-semibold pr-0.5 flex items-center",
-          sizeClassesText[size]
+          sizeClassesText[size],
         )}
         style={{
           right: value >= 10 ? 100 - value + "%" : "auto",

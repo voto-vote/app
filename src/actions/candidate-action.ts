@@ -14,7 +14,7 @@ import { Ratings } from "@/types/ratings";
 import { safeParseUrl } from "@/lib/url-utils";
 
 export async function getVotedCandidates(
-  instanceId: number
+  instanceId: number,
 ): Promise<Candidates> {
   const candidatesPromise = db
     .select({
@@ -44,8 +44,8 @@ export async function getVotedCandidates(
     .where(
       and(
         eq(candidates.instanceId, instanceId),
-        eq(candidates.status, 3) // 3 corresponds to "voted" status
-      )
+        eq(candidates.status, 3), // 3 corresponds to "voted" status
+      ),
     );
 
   const candidateVotesPromise = db
@@ -60,7 +60,7 @@ export async function getVotedCandidates(
     .from(candidateVotes)
     .innerJoin(candidates, eq(candidateVotes.candidateId, candidates.id))
     .where(
-      and(eq(candidates.instanceId, instanceId), eq(candidates.status, 3))
+      and(eq(candidates.instanceId, instanceId), eq(candidates.status, 3)),
     );
 
   const [candidatesResult, candidateVotesResult] = await Promise.all([
@@ -71,7 +71,7 @@ export async function getVotedCandidates(
   const objectStorageUrl = process.env.OBJECT_STORAGE_URL;
   if (!objectStorageUrl) {
     throw new Error(
-      "OBJECT_STORAGE_URL is not defined in the environment variables."
+      "OBJECT_STORAGE_URL is not defined in the environment variables.",
     );
   }
 
@@ -100,8 +100,8 @@ export async function getVotedCandidates(
       .filter((vote) => vote.candidateId === candidate.id)
       .reduce<Ratings>((r, vote) => {
         r[String(vote.statementId)] = {
-          rating: vote.value,
-          favorite: false,
+          value: vote.value,
+          isFavorite: false,
           explanation: vote.explanation,
         };
         return r;

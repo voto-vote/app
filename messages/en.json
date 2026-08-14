@@ -3,15 +3,6 @@
     "title": "VOTO - Voting made easy",
     "description": "Evaluate the election manifestos and find out which party suits you best."
   },
-  "ShareDrawer": {
-    "systemModalDescription": "Evaluate the election manifestos and find out which party suits you best.",
-    "screenReaderTitle": "Share",
-    "title": "Your personal VOTO link",
-    "description": "Your ratings can be accessed using the QR code above. You can save the link to the ratings by using the \"Share\" button below and view your results again.",
-    "shareButton": "Share",
-    "closeButton": "Close",
-    "sharingNotSupported": "The link has been copied to the clipboard."
-  },
   "Elections": {
     "tagline": "Voting made easy",
     "openElectionsButton": "Open VOTO"
@@ -48,7 +39,7 @@
     "introTwoTitle": "Compare multiple matches.",
     "introTwoDescription": "**Bookmark** multiple matches to your **watchlist**. Then you can compare the answers from different matches for each question.",
     "introThreeTitle": "Want more info?",
-    "introThreeDescription": "Click on a match's **profile** to get more details. There you can also read the **explanations** for each answer."
+    "introThreeDescription": "{pointer, select, coarse {Tap} other {Click}} on a match's **profile** to get more details. There you can also read the **explanations** for each answer."
   },
   "ThesesPage": {
     "liveMatchesToggle": "LIVE",
@@ -96,6 +87,46 @@
     "settings": "Settings",
     "sendAnonymousData": "Share anonymous data",
     "footer": "© {year} VOTO. All rights reserved."
+  },
+  "FAQPage": {
+    "eyebrow": "FAQ",
+    "title": "Frequently Asked Questions",
+    "description": "Answers to the most common questions about using VOTO and reading your result.",
+    "aiSearch": {
+      "title": "Ask the VOTO chatbot",
+      "description": "Search our FAQ assistant before browsing the questions below.",
+      "disclaimer": "This chat is automated. No human joins the conversation. Its answers are based on the most frequently requested questions from our company history.",
+      "openInNewTab": "Open chatbot in a new tab",
+      "placeholder": "Search here",
+      "notConfigured": "The chatbot is not configured yet. Add the Google search widget configuration ID to enable it.",
+      "tokenError": "The chatbot could not receive an authorization token. Please try again later."
+    },
+    "questions": {
+      "whatIsVoto": {
+        "question": "What is VOTO?",
+        "answer": "VOTO is a voting aid. You answer political theses and can compare your answers with the published answers of parties or candidates."
+      },
+      "howItWorks": {
+        "question": "How does VOTO calculate my result?",
+        "answer": "VOTO compares your ratings with the ratings from the available parties or candidates. Theses that you mark as especially important count more strongly."
+      },
+      "isRecommendation": {
+        "question": "Is my result a voting recommendation?",
+        "answer": "No. Your result shows similarities based on the theses in the selected VOTO. It is a starting point for your own opinion, not a recommendation."
+      },
+      "personalData": {
+        "question": "Does VOTO collect personal data?",
+        "answer": "VOTO does not collect personal data. Your ratings are stored anonymously, and you can change anonymous data sharing in the site menu."
+      },
+      "changeAnswers": {
+        "question": "Can I change my answers?",
+        "answer": "Yes. You can navigate back while answering and can also change individual ratings from the result view."
+      },
+      "randomOrder": {
+        "question": "Why are theses shown in a random order?",
+        "answer": "The theses are randomly sorted while you answer them to avoid influencing you through a fixed order."
+      }
+    }
   },
   "ResultPage": {
     "resultTab": "Result",

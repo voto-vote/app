@@ -11,7 +11,7 @@ import { usePointer } from "@/hooks/use-pointer";
 import { useCandidatesStore } from "@/stores/candidate-store";
 import { usePartiesStore } from "@/stores/party-store";
 import { useBookmarkStore } from "@/stores/bookmark-store";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { Entities } from "@/types/entity";
 
 export default function ThesesList({
@@ -23,28 +23,27 @@ export default function ThesesList({
   const { theses } = useThesesStore();
   const { candidates } = useCandidatesStore();
   const { parties } = usePartiesStore();
-  const { userRatings, setUserRating, setUserFavorite } = useUserRatingsStore();
+  const { userRatings, setUserRatingValue, setUserRatingFavorite } =
+    useUserRatingsStore();
   const { bookmarks } = useBookmarkStore();
-  const [filteredEntities, setFilteredEntities] = useState<Entities>([]);
   const pointer = usePointer();
   const t = useTranslations("ThesesList");
 
-  useEffect(() => {
+  const filteredEntities = useMemo<Entities>(() => {
     const bookmarksThisElection = bookmarks[election.id] || {};
 
     const filteredParties = (parties ?? []).filter(
       (p) =>
-        disableBookmarks || (bookmarksThisElection.parties ?? []).includes(p.id)
+        disableBookmarks ||
+        (bookmarksThisElection.parties ?? []).includes(p.id),
     );
     const filteredCandidates = (candidates ?? []).filter(
       (c) =>
         disableBookmarks ||
-        (bookmarksThisElection.candidates ?? []).includes(c.id)
+        (bookmarksThisElection.candidates ?? []).includes(c.id),
     );
 
-    const entities: Entities = [...filteredCandidates, ...filteredParties];
-
-    setFilteredEntities(entities);
+    return [...filteredCandidates, ...filteredParties];
   }, [bookmarks, candidates, parties, election.id, disableBookmarks]);
 
   if (!theses) {
@@ -98,10 +97,12 @@ export default function ThesesList({
             userRatings={userRatings[election.id] ?? {}}
             entities={filteredEntities}
             onRatingChange={(thesisId, newRating) => {
-              if (newRating.rating !== undefined) {
-                setUserRating(election.id, thesisId, newRating.rating);
-              }
-              setUserFavorite(election.id, thesisId, newRating.favorite);
+              setUserRatingValue(election.id, thesisId, newRating.value);
+              setUserRatingFavorite(
+                election.id,
+                thesisId,
+                newRating.isFavorite,
+              );
             }}
           />
         </div>

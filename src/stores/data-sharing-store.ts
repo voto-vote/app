@@ -26,6 +26,6 @@ export const useDataSharingStore = create<State & Action>()(
     {
       name: "voto-data-sharing",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );

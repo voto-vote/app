@@ -5,7 +5,7 @@ export function translateLocale(code: string, locale: string | undefined) {
     const localeWithoutDialect = code.replace("simple", "");
     const language =
       new Intl.DisplayNames(locale, { type: "language" }).of(
-        localeWithoutDialect
+        localeWithoutDialect,
       ) ?? "";
     if (language.endsWith(")")) {
       return `${language.replace(/\)$/, "")}, Einfach)`;

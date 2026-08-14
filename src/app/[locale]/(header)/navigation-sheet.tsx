@@ -67,8 +67,8 @@ export default function NavigationSheet({
     {
       label: t("frequentQuestions"),
       icon: HelpCircle,
-      href: "https://www.voto.vote/faq",
-      target: "_blank",
+      href: "/faq",
+      target: "_self",
     },
     {
       label: t("whatIsVoto"),
@@ -99,7 +99,7 @@ export default function NavigationSheet({
       // are used in combination with a given `pathname`. Since the two will
       // always match for the current route, we can skip runtime checks.
       { pathname, params },
-      { locale: newLocale }
+      { locale: newLocale },
     );
   }
 
