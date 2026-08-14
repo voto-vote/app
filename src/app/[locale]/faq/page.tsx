@@ -2,6 +2,8 @@ import { getTranslations } from "next-intl/server";
 import FAQAccordion from "./faq-accordion";
 import FAQSearchLauncher from "./faq-search-launcher";
 
+export const dynamic = "force-dynamic";
+
 const faqKeys = [
   "whatIsVoto",
   "howItWorks",
@@ -13,6 +15,7 @@ const faqKeys = [
 
 export default async function FAQPage() {
   const t = await getTranslations("FAQPage");
+  const runtimeEnv = process.env;
   const items = faqKeys.map((key) => ({
     question: t(`questions.${key}.question`),
     answer: t(`questions.${key}.answer`),
@@ -31,6 +34,7 @@ export default async function FAQPage() {
       </div>
 
       <FAQSearchLauncher
+        configId={runtimeEnv.GOOGLE_SEARCH_WIDGET_CONFIG_ID}
         title={t("aiSearch.title")}
         description={t("aiSearch.description")}
         disclaimer={t("aiSearch.disclaimer")}

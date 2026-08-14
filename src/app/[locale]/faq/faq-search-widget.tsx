@@ -9,18 +9,18 @@ type GenSearchWidgetElement = HTMLElement & {
 };
 
 interface FAQSearchWidgetProps {
+  configId?: string;
   notConfigured: string;
   placeholder: string;
+  tokenEndpoint?: string;
   tokenError: string;
 }
 
-const configId = process.env.NEXT_PUBLIC_GOOGLE_SEARCH_WIDGET_CONFIG_ID;
-const tokenEndpoint =
-  process.env.NEXT_PUBLIC_GOOGLE_SEARCH_WIDGET_TOKEN_ENDPOINT;
-
 export default function FAQSearchWidget({
+  configId,
   notConfigured,
   placeholder,
+  tokenEndpoint,
   tokenError,
 }: FAQSearchWidgetProps) {
   const locale = useLocale();
@@ -74,7 +74,7 @@ export default function FAQSearchWidget({
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [tokenEndpoint]);
 
   useEffect(() => {
     if (widgetRef.current && authToken) {
