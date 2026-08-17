@@ -32,11 +32,7 @@ export default function FAQSearchLauncher({
         <div className="shrink-0">
           {configId ? (
             <Button asChild size="lg" className="w-full md:w-auto">
-              <Link
-                href="/faq/chat"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link href="/faq/chat" target="_blank" rel="noopener noreferrer">
                 {openInNewTab}
                 <ArrowUpRight aria-hidden="true" />
               </Link>
