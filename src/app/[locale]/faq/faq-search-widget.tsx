@@ -56,7 +56,9 @@ export default function FAQSearchWidget({
         const authToken = data.authToken ?? data.token ?? data.access_token;
 
         if (!authToken) {
-          throw new Error("Search widget token response did not include token.");
+          throw new Error(
+            "Search widget token response did not include token.",
+          );
         }
 
         if (!cancelled) {

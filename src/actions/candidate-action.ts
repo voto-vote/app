@@ -10,7 +10,7 @@ import {
   genders,
 } from "@/db/schema";
 import { Candidate, Candidates, Status } from "@/types/candidate";
-import { Ratings } from "@/types/ratings";
+import { Ratings, RatingValue } from "@/types/ratings";
 import { safeParseUrl } from "@/lib/url-utils";
 
 export async function getVotedCandidates(
@@ -100,7 +100,7 @@ export async function getVotedCandidates(
       .filter((vote) => vote.candidateId === candidate.id)
       .reduce<Ratings>((r, vote) => {
         r[String(vote.statementId)] = {
-          value: Math.max(0, Math.min(vote.value, 100)) / 100,
+          value: convertRatingValue(vote.value),
           isFavorite: false,
           explanation: vote.explanation,
         };
@@ -133,4 +133,9 @@ function convertGender(genderId: number): Candidate["gender"] {
     default:
       return "prefer-not-to-say";
   }
+}
+
+function convertRatingValue(value: number): RatingValue {
+  if (value < 0) return "skipped";
+  return Math.max(0, Math.min(value, 100)) / 100;
 }

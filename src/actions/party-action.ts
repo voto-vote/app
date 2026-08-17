@@ -4,7 +4,7 @@ import { eq, and } from "drizzle-orm";
 import { db } from "@/db/drizzle";
 import { parties, partyVotes } from "@/db/schema";
 import { Parties, Status } from "@/types/party";
-import { Ratings } from "@/types/ratings";
+import { Ratings, RatingValue } from "@/types/ratings";
 import { safeParseUrl } from "@/lib/url-utils";
 
 export async function getVotedParties(instanceId: number): Promise<Parties> {
@@ -56,7 +56,7 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
       .filter((vote) => vote.partyId === party.id)
       .reduce<Ratings>((r, vote) => {
         r[String(vote.statementId)] = {
-          value: Math.max(0, Math.min(vote.value, 100)) / 100,
+          value: convertRatingValue(vote.value),
           isFavorite: false,
           explanation: vote.explanation,
         };
@@ -75,4 +75,9 @@ function getStatusFromNumber(statusNum: number): Status {
   };
 
   return statusMap[statusNum] || "created";
+}
+
+function convertRatingValue(value: number): RatingValue {
+  if (value < 0) return "skipped";
+  return Math.max(0, Math.min(value, 100)) / 100;
 }
