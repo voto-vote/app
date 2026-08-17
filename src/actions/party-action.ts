@@ -56,7 +56,7 @@ export async function getVotedParties(instanceId: number): Promise<Parties> {
       .filter((vote) => vote.partyId === party.id)
       .reduce<Ratings>((r, vote) => {
         r[String(vote.statementId)] = {
-          value: vote.value,
+          value: Math.max(0, Math.min(vote.value, 100)) / 100,
           isFavorite: false,
           explanation: vote.explanation,
         };

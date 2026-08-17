@@ -12,6 +12,14 @@ function getMinOfMatrix(matrix: number[][]): number {
   return Math.min(...flattened);
 }
 
+function normalizedRatingToMatrixIndex(
+  rating: number,
+  matrixSize: number,
+): number {
+  const normalizedRating = Math.max(0, Math.min(rating, 1));
+  return Math.round(normalizedRating * (matrixSize - 1));
+}
+
 export function calculateResults(
   matrix: number[][],
   entities: Entities,
@@ -20,12 +28,10 @@ export function calculateResults(
   const results: Result[] = [];
   const min = getMinOfMatrix(matrix);
   const max = getMaxOfMatrix(matrix);
-  const divider = 100 / (matrix.length - 1);
 
   // Calculate matches for parties and candidates
   for (const entity of entities) {
     let maxPoints = 0;
-    let maxMinusPoints = 0;
     let points = 0.0;
     const entityRatings = entity.ratings || [];
 
@@ -43,26 +49,25 @@ export function calculateResults(
       if (userRating.value === "skipped" || userRating.value === "unrated")
         continue;
 
-      // Get value 2 if favorite is set in oneliner
-      const userFavorite = userRating.isFavorite ? 2 : 1;
-      const addMaxPoints = userRating.isFavorite ? 2 : 1 * max;
-      const addMaxMinusPoints = userRating.isFavorite ? 2 : 1 * min;
-      maxPoints += addMaxPoints;
-      maxMinusPoints += addMaxMinusPoints;
-      const matchIndex = Math.round((entityRating.value || 0) / divider);
-      const userIndex = Math.round((userRating.value || 0) / divider);
-      const addPoints = matrix[matchIndex][userIndex] * userFavorite;
-      points += addPoints;
+      const weight = userRating.isFavorite ? 2 : 1;
+      const entityIndex = normalizedRatingToMatrixIndex(
+        entityRating.value,
+        matrix.length,
+      );
+      const userIndex = normalizedRatingToMatrixIndex(
+        userRating.value,
+        matrix.length,
+      );
+      const matrixPoints = matrix[entityIndex]?.[userIndex];
+
+      if (matrixPoints === undefined) continue;
+
+      points += (matrixPoints - min) * weight;
+      maxPoints += (max - min) * weight;
     }
 
-    maxPoints += Math.abs(maxMinusPoints);
-    points += Math.abs(maxMinusPoints);
-    let match = Math.round((points / maxPoints) * 1000) / 10;
-
-    // If no ratings have been given yet by the user, set match to 0
-    if (maxPoints === 0) {
-      match = 0;
-    }
+    const match =
+      maxPoints === 0 ? 0 : Math.round((points / maxPoints) * 1000) / 10;
 
     const result: Result = {
       entity,
