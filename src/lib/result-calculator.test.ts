@@ -1,6 +1,116 @@
 import { describe, it, expect } from "vitest";
-import { scaleValueToNormalized } from "./result-calculator";
-import { normalizedToScaleValue } from "./result-calculator";
+import {
+  calculateResults,
+  normalizedToScaleValue,
+  scaleValueToNormalized,
+} from "./result-calculator";
+import type { Party } from "@/types/party";
+import type { Ratings } from "@/types/ratings";
+
+const matrix = [
+  [1, 0, -1],
+  [0, 0.5, 0],
+  [-1, 0, 1],
+];
+
+function createParty(ratings: Ratings): Party {
+  return {
+    id: 1,
+    type: "party",
+    parentPartyId: 1,
+    electionId: 1,
+    displayName: "Test party",
+    detailedName: "Test party",
+    image: "",
+    description: "",
+    website: undefined,
+    status: "voted",
+    color: "#000000",
+    ratings,
+  };
+}
+
+function rating(value: number, isFavorite = false): Ratings[string] {
+  return { value, isFavorite };
+}
+
+describe("calculateResults", () => {
+  it("uses each normalized user answer as a distinct matrix position", () => {
+    const party = createParty({ thesis: rating(0) });
+
+    expect(
+      calculateResults(matrix, [party], { thesis: rating(0) })[0]
+        .matchPercentage,
+    ).toBe(100);
+    expect(
+      calculateResults(matrix, [party], { thesis: rating(0.5) })[0]
+        .matchPercentage,
+    ).toBe(50);
+    expect(
+      calculateResults(matrix, [party], { thesis: rating(1) })[0]
+        .matchPercentage,
+    ).toBe(0);
+  });
+
+  it("returns different results when the user changes an answer", () => {
+    const party = createParty({
+      first: rating(0),
+      second: rating(1),
+    });
+
+    const agreeingResult = calculateResults(matrix, [party], {
+      first: rating(0),
+      second: rating(1),
+    })[0];
+    const opposingResult = calculateResults(matrix, [party], {
+      first: rating(1),
+      second: rating(0),
+    })[0];
+
+    expect(agreeingResult.matchPercentage).toBe(100);
+    expect(opposingResult.matchPercentage).toBe(0);
+  });
+
+  it("weights favorite theses exactly twice", () => {
+    const party = createParty({
+      matching: rating(0),
+      opposing: rating(1),
+    });
+
+    const result = calculateResults(matrix, [party], {
+      matching: rating(0, true),
+      opposing: rating(0),
+    })[0];
+
+    expect(result.matchPercentage).toBe(66.7);
+  });
+
+  it("excludes skipped and unrated theses", () => {
+    const party = createParty({
+      included: rating(0),
+      skipped: rating(1),
+      unrated: rating(1),
+    });
+
+    const result = calculateResults(matrix, [party], {
+      included: rating(0),
+      skipped: { value: "skipped", isFavorite: false },
+      unrated: { value: "unrated", isFavorite: false },
+    })[0];
+
+    expect(result.matchPercentage).toBe(100);
+  });
+
+  it("preserves the configured partial score for neutral agreement", () => {
+    const party = createParty({ thesis: rating(0.5) });
+
+    const result = calculateResults(matrix, [party], {
+      thesis: rating(0.5),
+    })[0];
+
+    expect(result.matchPercentage).toBe(75);
+  });
+});
 
 describe("convertDecision", () => {
   describe("scaleValueToNormalized", () => {
