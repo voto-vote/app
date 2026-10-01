@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     return new Response(
       `Environment variable DATA_SHARING_ENDPOINT not set, skipping event creation`,
       {
-        status: 200,
+        status: 503,
       },
     );
   }
@@ -21,5 +21,5 @@ export async function POST(request: Request) {
   });
 
   const data = await response.text();
-  return new Response(data);
+  return new Response(data, { status: response.status });
 }

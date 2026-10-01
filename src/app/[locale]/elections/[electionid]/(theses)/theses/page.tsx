@@ -25,6 +25,7 @@ import { scaleValueToNormalized } from "@/lib/result-calculator";
 import { EventsAPI } from "@/lib/api";
 import { useDataSharingStore } from "@/stores/data-sharing-store";
 import { useIntroStore } from "@/stores/intro-store";
+import { getFinishedEvent, skipUnratedTheses } from "@/lib/events";
 
 export default function ThesesPage() {
   const { election } = useElection();
@@ -109,14 +110,9 @@ export default function ThesesPage() {
 
   function sendVotoFinishedEvent(skippedToResult: boolean) {
     if (dataSharingEnabled) {
-      EventsAPI.createEvent({
-        electionId: election.id,
-        eventType: "voto_finished",
-        ratings: userRatings[election.id] ?? {},
-        metadata: {
-          skippedToResult: skippedToResult,
-        },
-      }).then((data) => data && setSharingId(data));
+      EventsAPI.createEvent(
+        getFinishedEvent(election.id, skippedToResult),
+      ).then((data) => data && setSharingId(data));
     }
   }
 
@@ -337,11 +333,10 @@ export default function ThesesPage() {
         onSkipToResult={() => {
           setBreakDrawerOpen(false);
           // Mark all missed theses as skipped
-          for (let i = 0; i < theses.length; i++) {
-            if (userRatings[election.id]?.[theses[i].id]?.value === "unrated") {
-              setUserRatingValue(election.id, theses[i].id, "skipped");
-            }
-          }
+          skipUnratedTheses(
+            election.id,
+            theses.map((thesis) => thesis.id),
+          );
           sendVotoFinishedEvent(true);
           goToIntroOrResult();
         }}
