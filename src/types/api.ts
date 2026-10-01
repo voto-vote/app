@@ -12,7 +12,7 @@ interface VotoStartedEvent extends BaseEventRequest {
 
 interface VotoFinishedEvent extends BaseEventRequest {
   eventType: "voto_finished";
-  ratings?: Ratings;
+  ratings: Ratings;
   metadata: {
     skippedToResult: boolean;
   };
